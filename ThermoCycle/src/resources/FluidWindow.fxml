@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.media.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="101.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="gui.FluidWindowController">
+   <children>
+      <Text layoutX="131.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fluid type:" />
+      <ChoiceBox layoutX="233.0" layoutY="34.0" prefWidth="150.0">
+         <tooltip>
+            <Tooltip text="Select fluid type" />
+         </tooltip>
+      </ChoiceBox>
+   </children>
+</AnchorPane>

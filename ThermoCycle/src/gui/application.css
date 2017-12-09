@@ -1,0 +1,94 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 28-Oct-2017, 20:58:40
+    Author     : Chris
+*/
+
+.chart-series-line {
+    -fx-stroke-width: 2px;;
+    -fx-stroke: blue;
+    -fx-effect: null;
+}
+.chart-line-symbol { 
+    -fx-background-color: transparent, transparent; 
+}
+.axis-tick-mark {
+    -fx-stroke: #637040;
+    -fx-stroke-width: 3; 
+}
+.axis-minor-tick-mark {
+    -fx-stroke: #859656;
+}
+.chart-plot-background {
+    -fx-background-color: #e2ecfe;
+}
+
+.dragicon {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-background-color: linear-gradient(to bottom right, #bfbfff, #ededfc);
+    -fx-border-color: black;
+    -fx-stroke-width: 5;
+}
+
+.icon-compressor {
+    -fx-background-image: url("/images/compressor.png");
+    -fx-background-size: cover;
+}
+
+.icon-turbine {
+    -fx-background-image: url("/images/turbine.png");
+    -fx-background-size: cover;
+}
+
+.icon-heatsink {
+    -fx-background-image: url("/images/heat_sink.png");
+    -fx-background-size: cover;
+}
+
+.icon-heatexchanger {
+    -fx-background-image: url("/images/heat_exchanger.png");
+    -fx-background-size: cover;
+}
+
+.icon-combustor {
+    -fx-background-image: url("/images/combustor.png");
+    -fx-background-size: cover;
+}
+
+.icon-cv_combustor {
+    -fx-background-image: url("/images/cv_combustor.png");
+    -fx-background-size: cover;
+}
+
+.icon-generic {
+    -fx-background-image: url("/images/generic.png");
+    -fx-background-size: cover;
+}
+
+.node {
+    -fx-stroke-width: 1;
+    -fx-stroke: black;
+    -fx-fill: white;
+}
+
+.node-flow {
+    -fx-fill: lightskyblue;
+}
+
+.node-heat {
+    -fx-fill: red;
+}
+
+.node-work {
+    -fx-fill: yellow;
+}
+
+
+.connection {
+    -fx-stroke: green;
+}
