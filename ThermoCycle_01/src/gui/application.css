@@ -1,0 +1,150 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 28-Oct-2017, 20:58:40
+    Author     : Chris
+*/
+
+.chart-series-line {
+    -fx-stroke-width: 2px;;
+    -fx-stroke: blue;
+    -fx-effect: null;
+}
+.chart-line-symbol { 
+    -fx-background-color: transparent, transparent; 
+}
+.axis-tick-mark {
+    -fx-stroke: #637040;
+    -fx-stroke-width: 3; 
+}
+.axis-minor-tick-mark {
+    -fx-stroke: #859656;
+}
+.chart-plot-background {
+    -fx-background-color: #e2ecfe;
+}
+
+.path-heat {
+    -fx-stroke-width: 5;
+    -fx-stroke: red;
+}
+.path-heat:hover {
+    -fx-effect: dropshadow(gaussian,red,5,0.5,0,0)
+}
+.path-work {
+    -fx-stroke-width: 5;
+    -fx-stroke: yellow;
+}
+.path-work:hover {
+    -fx-effect: dropshadow(gaussian,yellow,5,0.5,0,0)
+}
+.path-flow {
+    -fx-stroke-width: 5;
+    -fx-stroke: lightskyblue;
+}
+.path-flow:hover {
+    -fx-effect: dropshadow(gaussian,lightskyblue,5,0.5,0,0)
+}
+
+.icon {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: black;
+    -fx-stroke-width: 5;
+}
+.icon:disabled {
+    -fx-background_color: grey;
+    -fx-opacity: 0.5;
+}
+.icon-toolbox {
+    -fx-background-color: linear-gradient(to bottom right, #bfbfff, #ededfc);
+}
+.icon-toolbox:hover {
+    -fx-background-color: red;
+}
+.icon-component {
+    -fx-background-color: linear-gradient(to bottom right, green, yellow);
+}
+.icon-component:hover {
+    -fx-background-color: pink;
+}
+.icon-compressor {
+    -fx-background-image: url("/images/ic_comp_compressor.png");
+    -fx-background-size: cover;
+}
+.icon-turbine {
+    -fx-background-image: url("/images/ic_comp_turbine.png");
+    -fx-background-size: cover;
+}
+.icon-heatsink {
+    -fx-background-image: url("/images/ic_comp_heat_sink.png");
+    -fx-background-size: cover;
+}
+.icon-heatexchanger {
+    -fx-background-image: url("/images/ic_comp_heat_exchanger.png");
+    -fx-background-size: cover;
+}
+.icon-combustor {
+    -fx-background-image: url("/images/ic_comp_combustor.png");
+    -fx-background-size: cover;
+}
+.icon-cv_combustor {
+    -fx-background-image: url("/images/ic_comp_cv_combustor.png");
+    -fx-background-size: cover;
+}
+.icon-generic {
+    -fx-background-image: url("/images/generic.png");
+    -fx-background-size: cover;
+}
+
+.node {
+    -fx-stroke-width: 1;
+    -fx-stroke: black;
+    -fx-fill: white;
+}
+.node:disabled {
+    -fx-fill: grey;
+    -fx-opacity: 0.5;
+}
+.node-flow {
+    -fx-fill: lightskyblue;
+}
+.node-flow:hover {
+    -fx-effect: dropshadow(gaussian,lightskyblue,10,0.5,0,0)
+}
+.node-heat {
+    -fx-fill: red;
+}
+.node-heat:hover {
+    -fx-effect: dropshadow(gaussian,red,10,0.5,0,0)
+}
+.node-work {
+    -fx-fill: yellow;
+}
+.node-work:hover {
+    -fx-effect: dropshadow(gaussian,yellow,10,0.5,0,0)
+}
+.disable {
+    -fx-fill: grey;
+}
+
+
+.console{
+    -fx-background-color: #fff, #fff;
+}
+
+.console .content {
+    -fx-background-color: #fff;
+}
+
+.console:focused .content {
+    -fx-background-color: #fff;
+}
+
+
+.canvas {
+    -fx-background-color: white;
+}

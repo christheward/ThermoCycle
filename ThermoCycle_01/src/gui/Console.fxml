@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextArea fx:id="output" editable="false" minHeight="90.0" scrollTop="1.0" style="-fx-faint-focus-color: transparent; -fx-focus-color: rgba(255,0,0,0); -fx-border-color: rgba(255,0,0,0); -fx-border-width: 0;" wrapText="true" VBox.vgrow="ALWAYS" />
+      <TextField fx:id="input" prefHeight="30.0" promptText="&gt;&gt;" style="-fx-faint-focus-color: transparent; -fx-focus-color: rgba(255,0,0,0); -fx-border-color: rgba(255,0,0,0); -fx-border-width: 0;" VBox.vgrow="NEVER" />
+   </children>
+</fx:root>

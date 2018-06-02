@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<fx:root prefHeight="600.0" prefWidth="900.0" type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <MenuBar VBox.vgrow="NEVER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <ToolBar fx:id="toolbar" />
+      <HBox VBox.vgrow="ALWAYS">
+         <children>
+            <SplitPane dividerPositions="0.75" orientation="VERTICAL" HBox.hgrow="ALWAYS" SplitPane.resizableWithParent="false">
+               <items>
+                  <AnchorPane id="AnchorPane" fx:id="canvas" prefHeight="500.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXDrawer fx:id="toolbox" layoutY="96.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="consolePane" minHeight="100.0" prefHeight="100.0" SplitPane.resizableWithParent="false" />
+               </items>
+            </SplitPane>
+            <StackPane minWidth="250.0" HBox.hgrow="NEVER">
+               <children>
+                  <AnchorPane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="250.0" />
+                  <AnchorPane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="250.0" />
+                  <AnchorPane fx:id="flowNodeInfobox" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="250.0">
+                     <children>
+                        <VBox spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label text="Flow Node Information" underline="true" VBox.vgrow="NEVER" />
+                              <GridPane vgap="10.0" VBox.vgrow="NEVER">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="NEVER" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
+                                    <ColumnConstraints hgrow="ALWAYS" maxWidth="105.0" minWidth="10.0" prefWidth="55.0" />
+                                  <ColumnConstraints hgrow="NEVER" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints />
+                                  <RowConstraints vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Fluid type:">
+                                       <GridPane.margin>
+                                          <Insets left="5.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <ChoiceBox prefWidth="120.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" />
+                                    <Label text="Mass Flow Rate:" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="5.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="kg/s" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="5.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </GridPane>
+                              <TableView VBox.vgrow="NEVER">
+                                <columns>
+                                  <TableColumn editable="false" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" resizable="false" text="Property" />
+                                  <TableColumn maxWidth="90.0" minWidth="90.0" prefWidth="90.0" sortable="false" text="Value" />
+                                    <TableColumn editable="false" maxWidth="-1.0" minWidth="60.0" prefWidth="-1.0" resizable="false" sortable="false" text="Units" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </StackPane>
+         </children>
+      </HBox>
+   </children>
+</fx:root>
