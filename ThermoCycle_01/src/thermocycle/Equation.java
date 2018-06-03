@@ -8,7 +8,7 @@ package thermocycle;
 import java.util.List;
 import java.io.Serializable;
 import java.util.Map;
-import java.util.OptionalDouble;
+//import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 /**
@@ -35,7 +35,7 @@ abstract class Equation implements Serializable {
      * @param calculatedValue The calculated value.
      * @return Returns True if the two values are equal to within the tolerance.
      */
-    protected static boolean withinTolerance(OptionalDouble knownValue, OptionalDouble calculatedValue) {
+    protected static boolean withinTolerance(ParametricDouble knownValue, ParametricDouble calculatedValue) {
         if (knownValue.isPresent() & calculatedValue.isPresent()) {
             if (knownValue.getAsDouble() == 0) {
                 return (calculatedValue.getAsDouble() == 0);
@@ -58,14 +58,14 @@ abstract class Equation implements Serializable {
      * Gets a map of all the equation variables.
      * @return Returns a map of the equation variables, which uses variable names as the keys.
      */
-    protected abstract Map<String, OptionalDouble> getVariables();
+    protected abstract Map<String, ParametricDouble> getVariables();
     
     /**
      * Tries to solves the equation for a particular variable.
      * @param varaible The variable to try and solve for.
      * @return Returns the variable value.
      */
-    protected abstract OptionalDouble solveVariable(String varaible);
+    protected abstract ParametricDouble solveVariable(String varaible);
     
     /**
      * Saves the equation variable
@@ -73,7 +73,7 @@ abstract class Equation implements Serializable {
      * @param value
      * @return 
      */
-    protected abstract Node saveVariable(String variable, OptionalDouble value);
+    protected abstract Node saveVariable(String variable, ParametricDouble value);
     
     /**
      * Gets the equation compatibility.
@@ -97,7 +97,7 @@ abstract class Equation implements Serializable {
     */
     private boolean compatible() {
         if (unknowns().size() == 0) {
-            Map<String,OptionalDouble> variables = getVariables();
+            Map<String,ParametricDouble> variables = getVariables();
             return variables.keySet().stream().filter(name -> solveVariable(name).isPresent()).allMatch(name -> Equation.withinTolerance(variables.get(name), solveVariable(name)));
         }
         return false;
@@ -140,8 +140,15 @@ abstract class Equation implements Serializable {
      * @return Returns a list of the unknown variables in the equation.
      */
     private List<String> unknowns() {
-        Map<String,OptionalDouble> variables = getVariables();
+        Map<String,ParametricDouble> variables = getVariables();
         return variables.keySet().stream().filter(name -> !variables.get(name).isPresent()).collect(Collectors.toList());
+    }
+    
+    /**
+     * Resets the equation's state to unsolved, for use with parametric studies.
+     */
+    protected void reset() {
+        state = STATE.UNSOLVED;
     }
     
     @Override

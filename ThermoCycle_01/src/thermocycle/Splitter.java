@@ -76,8 +76,8 @@ final class Splitter extends Component {
         private Eqn_Mass() {}
         
         @Override
-        protected Map<String, OptionalDouble> getVariables() {
-            Map<String, OptionalDouble> variables = new HashMap();
+        protected Map<String, ParametricDouble> getVariables() {
+            Map<String, ParametricDouble> variables = new HashMap();
             variables.put("m in", Splitter.this.getInlet().getMass());
             variables.put("m out 1", Splitter.this.getOutlet1().getMass());
             variables.put("m out 2", Splitter.this.getOutlet2().getMass());
@@ -85,19 +85,19 @@ final class Splitter extends Component {
         }
                 
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
+        protected ParametricDouble solveVariable(String variable) {
+            ParametricDouble value = ParametricDouble.empty();
             switch (variable) {
                 case "m in": {
-                    value = OptionalDouble.of(Splitter.this.getOutlet1().getMass().getAsDouble() + Splitter.this.getOutlet2().getMass().getAsDouble());
+                    value = ParametricDouble.of(Splitter.this.getOutlet1().getMass().getAsDouble() + Splitter.this.getOutlet2().getMass().getAsDouble());
                     break;
                 }
                 case "m out 1": {
-                    value = OptionalDouble.of(Splitter.this.getInlet().getMass().getAsDouble() - Splitter.this.getOutlet2().getMass().getAsDouble());
+                    value = ParametricDouble.of(Splitter.this.getInlet().getMass().getAsDouble() - Splitter.this.getOutlet2().getMass().getAsDouble());
                     break;
                 }
                 case "m out 2": {
-                    value = OptionalDouble.of(Splitter.this.getInlet().getMass().getAsDouble() - Splitter.this.getOutlet1().getMass().getAsDouble());
+                    value = ParametricDouble.of(Splitter.this.getInlet().getMass().getAsDouble() - Splitter.this.getOutlet1().getMass().getAsDouble());
                     break;
                 }
             }
@@ -105,7 +105,7 @@ final class Splitter extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, ParametricDouble value) {
             switch (variable) {
                 case "m in": {
                     Splitter.this.getInlet().setMass(value);
@@ -134,8 +134,8 @@ final class Splitter extends Component {
         private Eqn_Split1() {}
         
         @Override
-        protected Map<String, OptionalDouble> getVariables() {
-            Map<String, OptionalDouble> variables = new HashMap();
+        protected Map<String, ParametricDouble> getVariables() {
+            Map<String, ParametricDouble> variables = new HashMap();
             variables.put("split", Splitter.this.getAttribute(SPLIT));
             variables.put("m in", Splitter.this.getInlet().getMass());
             variables.put("m out 1", Splitter.this.getOutlet1().getMass());
@@ -143,18 +143,18 @@ final class Splitter extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
+        protected ParametricDouble solveVariable(String variable) {
+            ParametricDouble value = ParametricDouble.empty();
             switch (variable) {
                 case "split": {
-                    value = OptionalDouble.of(Splitter.this.getOutlet1().getMass().getAsDouble() / Splitter.this.getInlet().getMass().getAsDouble());
+                    value = ParametricDouble.of(Splitter.this.getOutlet1().getMass().getAsDouble() / Splitter.this.getInlet().getMass().getAsDouble());
                     break;}
                 case "m in": {
-                    value = OptionalDouble.of(Splitter.this.getOutlet1().getMass().getAsDouble() / Splitter.this.getAttribute(SPLIT).getAsDouble());
+                    value = ParametricDouble.of(Splitter.this.getOutlet1().getMass().getAsDouble() / Splitter.this.getAttribute(SPLIT).getAsDouble());
                     break;
                 }
                 case "m out 1": {
-                    value = OptionalDouble.of(Splitter.this.getInlet().getMass().getAsDouble() * Splitter.this.getAttribute(SPLIT).getAsDouble());
+                    value = ParametricDouble.of(Splitter.this.getInlet().getMass().getAsDouble() * Splitter.this.getAttribute(SPLIT).getAsDouble());
                     break;
                 }
             }
@@ -162,7 +162,7 @@ final class Splitter extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, ParametricDouble value) {
             switch (variable) {
                 case "split": {
                     Splitter.this.setAttribute(SPLIT, value);
@@ -192,8 +192,8 @@ final class Splitter extends Component {
         private Eqn_Split2() {}
         
         @Override
-        protected Map<String, OptionalDouble> getVariables() {
-            Map<String, OptionalDouble> variables = new HashMap();
+        protected Map<String, ParametricDouble> getVariables() {
+            Map<String, ParametricDouble> variables = new HashMap();
             variables.put("split", Splitter.this.getAttribute(SPLIT));
             variables.put("m in", Splitter.this.getInlet().getMass());
             variables.put("m out 2", Splitter.this.getOutlet2().getMass());
@@ -201,26 +201,26 @@ final class Splitter extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
+        protected ParametricDouble solveVariable(String variable) {
+            ParametricDouble value = ParametricDouble.empty();
             switch (variable) {
                 case "split": {
-                    value = OptionalDouble.of((1 - Splitter.this.getOutlet2().getMass().getAsDouble()) / Splitter.this.getInlet().getMass().getAsDouble());
+                    value = ParametricDouble.of((1 - Splitter.this.getOutlet2().getMass().getAsDouble()) / Splitter.this.getInlet().getMass().getAsDouble());
                     break;
                 }
                 case "m in": {
-                    value = OptionalDouble.of(Splitter.this.getOutlet2().getMass().getAsDouble()  / (1 - Splitter.this.getAttribute(SPLIT).getAsDouble()));
+                    value = ParametricDouble.of(Splitter.this.getOutlet2().getMass().getAsDouble()  / (1 - Splitter.this.getAttribute(SPLIT).getAsDouble()));
                     break;
                 }
                 case "mc out 2": {
-                    value = OptionalDouble.of(Splitter.this.getInlet().getMass().getAsDouble() * (1 - Splitter.this.getAttribute(SPLIT).getAsDouble()));
+                    value = ParametricDouble.of(Splitter.this.getInlet().getMass().getAsDouble() * (1 - Splitter.this.getAttribute(SPLIT).getAsDouble()));
                     break;}
             }
             return value;
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, ParametricDouble value) {
             switch (variable) {
                 case "split": {
                     Splitter.this.setAttribute(SPLIT, value);

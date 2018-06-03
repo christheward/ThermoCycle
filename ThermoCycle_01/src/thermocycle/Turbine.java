@@ -81,23 +81,23 @@ public final class Turbine extends Component {
         private Mass_Balance() {}
         
         @Override
-        protected Map<String, OptionalDouble> getVariables() {
-            Map<String, OptionalDouble> variables = new HashMap();
+        protected Map<String, ParametricDouble> getVariables() {
+            Map<String, ParametricDouble> variables = new HashMap();
             variables.put("m in", Turbine.this.getInlet().getMass());
             variables.put("m out", Turbine.this.getOutlet().getMass());
             return variables;
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
+        protected ParametricDouble solveVariable(String variable) {
+            ParametricDouble value = ParametricDouble.empty();
             switch (variable) {
                 case "m in": {
-                    value = OptionalDouble.of(Turbine.this.getOutlet().getMass().getAsDouble());
+                    value = ParametricDouble.of(Turbine.this.getOutlet().getMass().getAsDouble());
                     break;
                 }
                 case "m out": {
-                    value = OptionalDouble.of(Turbine.this.getInlet().getMass().getAsDouble());
+                    value = ParametricDouble.of(Turbine.this.getInlet().getMass().getAsDouble());
                     break;
                 }
             }
@@ -105,7 +105,7 @@ public final class Turbine extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, ParametricDouble value) {
             switch (variable) {
                 case "m in": {
                     Turbine.this.getInlet().setMass(value);
@@ -131,8 +131,8 @@ public final class Turbine extends Component {
         private Energy_Balance() {}
         
         @Override
-        protected Map<String, OptionalDouble> getVariables() {
-            Map<String, OptionalDouble> variables = new HashMap();
+        protected Map<String, ParametricDouble> getVariables() {
+            Map<String, ParametricDouble> variables = new HashMap();
             variables.put("W", Turbine.this.getShaft().getWork());
             variables.put("m", Turbine.this.getInlet().getMass());
             variables.put("h in", Turbine.this.getInlet().getState(ENTHALPY));
@@ -141,23 +141,23 @@ public final class Turbine extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
+        protected ParametricDouble solveVariable(String variable) {
+            ParametricDouble value = ParametricDouble.empty();
             switch (variable) {
                 case "W": {
-                    value = OptionalDouble.of(Turbine.this.getInlet().getMass().getAsDouble() * (Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - Turbine.this.getOutlet().getState(ENTHALPY).getAsDouble()));
+                    value = ParametricDouble.of(Turbine.this.getInlet().getMass().getAsDouble() * (Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - Turbine.this.getOutlet().getState(ENTHALPY).getAsDouble()));
                     break;
                 }
                 case "m": {
-                    value = OptionalDouble.of(Turbine.this.getShaft().getWork().getAsDouble() / (Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - Turbine.this.getOutlet().getState(ENTHALPY).getAsDouble()));
+                    value = ParametricDouble.of(Turbine.this.getShaft().getWork().getAsDouble() / (Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - Turbine.this.getOutlet().getState(ENTHALPY).getAsDouble()));
                     break;
                 }
                 case "h in": {
-                    value = OptionalDouble.of(Turbine.this.getOutlet().getState(ENTHALPY).getAsDouble() + (Turbine.this.getShaft().getWork().getAsDouble() / Turbine.this.getInlet().getMass().getAsDouble()));
+                    value = ParametricDouble.of(Turbine.this.getOutlet().getState(ENTHALPY).getAsDouble() + (Turbine.this.getShaft().getWork().getAsDouble() / Turbine.this.getInlet().getMass().getAsDouble()));
                     break;
                 }
                 case "h out": {
-                    value = OptionalDouble.of(Turbine.this.getInlet().getState(ENTHALPY).getAsDouble()  - (Turbine.this.getShaft().getWork().getAsDouble() / Turbine.this.getInlet().getMass().getAsDouble()));
+                    value = ParametricDouble.of(Turbine.this.getInlet().getState(ENTHALPY).getAsDouble()  - (Turbine.this.getShaft().getWork().getAsDouble() / Turbine.this.getInlet().getMass().getAsDouble()));
                     break;
                 }
             }
@@ -165,7 +165,7 @@ public final class Turbine extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, ParametricDouble value) {
             switch (variable) {
                 case "W": {
                     Turbine.this.getShaft().setWork(value);
@@ -199,8 +199,8 @@ public final class Turbine extends Component {
         private Pressure_Ratio() {}
         
         @Override
-        protected Map<String, OptionalDouble> getVariables() {
-            Map<String, OptionalDouble> variables = new HashMap();
+        protected Map<String, ParametricDouble> getVariables() {
+            Map<String, ParametricDouble> variables = new HashMap();
             variables.put("pr", Turbine.this.getAttribute(PRATIO));
             variables.put("p in", Turbine.this.getInlet().getState(PRESSURE));
             variables.put("p out", Turbine.this.getOutlet().getState(PRESSURE));
@@ -208,19 +208,19 @@ public final class Turbine extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
+        protected ParametricDouble solveVariable(String variable) {
+            ParametricDouble value = ParametricDouble.empty();
             switch (variable) {
                 case "pr": {
-                    value = OptionalDouble.of(Turbine.this.getInlet().getState(PRESSURE).getAsDouble() / Turbine.this.getOutlet().getState(PRESSURE).getAsDouble());
+                    value = ParametricDouble.of(Turbine.this.getInlet().getState(PRESSURE).getAsDouble() / Turbine.this.getOutlet().getState(PRESSURE).getAsDouble());
                     break;
                 }
                 case "p in": {
-                    value = OptionalDouble.of(Turbine.this.getOutlet().getState(PRESSURE).getAsDouble() * Turbine.this.getAttribute(PRATIO).getAsDouble());
+                    value = ParametricDouble.of(Turbine.this.getOutlet().getState(PRESSURE).getAsDouble() * Turbine.this.getAttribute(PRATIO).getAsDouble());
                     break;
                 }
                 case "p out": {
-                    value = OptionalDouble.of(Turbine.this.getInlet().getState(PRESSURE).getAsDouble() / Turbine.this.getAttribute(PRATIO).getAsDouble());
+                    value = ParametricDouble.of(Turbine.this.getInlet().getState(PRESSURE).getAsDouble() / Turbine.this.getAttribute(PRATIO).getAsDouble());
                     break;
                 }
             }
@@ -228,7 +228,7 @@ public final class Turbine extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, ParametricDouble value) {
             switch (variable) {
                 case "pr": {
                     Turbine.this.setAttribute(PRATIO, value);
@@ -258,8 +258,8 @@ public final class Turbine extends Component {
         private Efficicnecy() {}
         
         @Override
-        protected Map<String, OptionalDouble> getVariables() {
-            Map<String, OptionalDouble> variables = new HashMap();
+        protected Map<String, ParametricDouble> getVariables() {
+            Map<String, ParametricDouble> variables = new HashMap();
             variables.put("W", Turbine.this.getShaft().getWork());
             variables.put("n", Turbine.this.getAttribute(EFFICIENCY));
             variables.put("m", Turbine.this.getInlet().getMass());
@@ -270,8 +270,8 @@ public final class Turbine extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
+        protected ParametricDouble solveVariable(String variable) {
+            ParametricDouble value = ParametricDouble.empty();
             FlowNode isen = new FlowNode(INTERNAL);
             isen.setFluid(Turbine.this.getInlet().getFluid());
             if (variable.equals("h in") || variable.equals("W") || variable.equals("n")) {
@@ -279,33 +279,33 @@ public final class Turbine extends Component {
                 isen.setState(PRESSURE, Turbine.this.getOutlet().getState(PRESSURE));
             }
             else {
-                isen.setState(ENTHALPY, OptionalDouble.of(Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - (Turbine.this.getShaft().getWork().getAsDouble() / (Turbine.this.getAttribute(EFFICIENCY).getAsDouble() * Turbine.this.getInlet().getMass().getAsDouble()))));
+                isen.setState(ENTHALPY, ParametricDouble.of(Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - (Turbine.this.getShaft().getWork().getAsDouble() / (Turbine.this.getAttribute(EFFICIENCY).getAsDouble() * Turbine.this.getInlet().getMass().getAsDouble()))));
             }
             switch (variable) {
                 case "W": {
-                    value = OptionalDouble.of(Turbine.this.getAttribute(EFFICIENCY).getAsDouble() * Turbine.this.getInlet().getMass().getAsDouble() * (Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - (isen.getState(ENTHALPY).getAsDouble())));
+                    value = ParametricDouble.of(Turbine.this.getAttribute(EFFICIENCY).getAsDouble() * Turbine.this.getInlet().getMass().getAsDouble() * (Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - (isen.getState(ENTHALPY).getAsDouble())));
                     break;
                 }
                 case "n": {
-                    value = OptionalDouble.of(Turbine.this.getShaft().getWork().getAsDouble() / (Turbine.this.getInlet().getMass().getAsDouble() * (Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - (isen.getState(ENTHALPY).getAsDouble()))));
+                    value = ParametricDouble.of(Turbine.this.getShaft().getWork().getAsDouble() / (Turbine.this.getInlet().getMass().getAsDouble() * (Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - (isen.getState(ENTHALPY).getAsDouble()))));
                     break;
                 }
                 case "m": {
-                    value = OptionalDouble.of(Turbine.this.getShaft().getWork().getAsDouble() / (Turbine.this.getAttribute(EFFICIENCY).getAsDouble() * (Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - (isen.getState(ENTHALPY).getAsDouble()))));
+                    value = ParametricDouble.of(Turbine.this.getShaft().getWork().getAsDouble() / (Turbine.this.getAttribute(EFFICIENCY).getAsDouble() * (Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - (isen.getState(ENTHALPY).getAsDouble()))));
                     break;
                 }
                 case "h in": {
-                    value = OptionalDouble.of(isen.getState(ENTHALPY).getAsDouble() + (Turbine.this.getShaft().getWork().getAsDouble() / (Turbine.this.getAttribute(EFFICIENCY).getAsDouble() * (Turbine.this.getInlet().getMass().getAsDouble()))));
+                    value = ParametricDouble.of(isen.getState(ENTHALPY).getAsDouble() + (Turbine.this.getShaft().getWork().getAsDouble() / (Turbine.this.getAttribute(EFFICIENCY).getAsDouble() * (Turbine.this.getInlet().getMass().getAsDouble()))));
                     break;
                 }
                 case "s in": {
                     isen.setState(PRESSURE, Turbine.this.getOutlet().getState(PRESSURE));
-                    value = OptionalDouble.of(isen.getState(ENTROPY).getAsDouble());
+                    value = ParametricDouble.of(isen.getState(ENTROPY).getAsDouble());
                     break;
                 }
                 case "p out": {
                     isen.setState(ENTROPY, Turbine.this.getInlet().getState(ENTROPY));
-                    value = OptionalDouble.of(isen.getState(PRESSURE).getAsDouble());
+                    value = ParametricDouble.of(isen.getState(PRESSURE).getAsDouble());
                     break;
                 }
             }
@@ -313,7 +313,7 @@ public final class Turbine extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, ParametricDouble value) {
             switch (variable) {
                 case "W": {
                     Turbine.this.getShaft().setWork(value);

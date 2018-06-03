@@ -5,8 +5,6 @@
  */
 package thermocycle;
 
-import java.util.OptionalDouble;
-
 /**
  *
  * @author Chris
@@ -16,7 +14,7 @@ public final class HeatNode extends Node {
     /**
      * The node heat value.
      */
-    private OptionalDouble heat;
+    private ParametricDouble heat;
     
     /**
      * Constructor.
@@ -24,23 +22,23 @@ public final class HeatNode extends Node {
      */
     protected HeatNode(Port port) {
         super(port);
-        heat = OptionalDouble.empty();
+        heat = ParametricDouble.empty();
     }
     
     @Override
     protected void clear() {
-        setHeat(OptionalDouble.empty());
+        setHeat(ParametricDouble.empty());
     }
     
     /**
      * Gets the nodes heat value.
      * @return Returns the node's heat value.
      */
-    protected OptionalDouble getHeat() {
+    protected ParametricDouble getHeat() {
         if (heat.isPresent()) {
-            return OptionalDouble.of(heat.getAsDouble());
+            return ParametricDouble.of(heat.getAsDouble());
         }
-        return OptionalDouble.empty();
+        return ParametricDouble.empty();
     }
     
     /**
@@ -48,8 +46,8 @@ public final class HeatNode extends Node {
      * @param value The value to set the heat flux to.
      * @throws IllegalArgumentException Thrown if the value is not present.
      */
-    protected void setHeat(OptionalDouble value) {
-        heat = OptionalDouble.of(value.getAsDouble());
+    protected void setHeat(ParametricDouble value) {
+        heat = ParametricDouble.of(value.getAsDouble());
     }
     
     @Override
@@ -63,7 +61,7 @@ public final class HeatNode extends Node {
             HeatNode hn = (HeatNode) n;
             if (!heat.isPresent()) {
                 if (hn.heat.isPresent()) {
-                    heat = OptionalDouble.of(hn.heat.getAsDouble());
+                    heat = ParametricDouble.of(hn.heat.getAsDouble());
                     return true;
                 }
             }

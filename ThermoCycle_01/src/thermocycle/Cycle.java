@@ -57,7 +57,8 @@ public class Cycle extends Observable implements Properties, Serializable {
     public final ObservableList<Component> componentsReadOnly;
     public final ObservableList<Fluid> fluidsReadOnly;
     public final ObservableList<Set<FlowNode>> pathsReadOnly;
-    private final History setValues;
+    //private final History setValues;
+    private final ObservableList<Map<String, ParametricDouble>> results;
     
     /**
      * Constructor
@@ -74,9 +75,10 @@ public class Cycle extends Observable implements Properties, Serializable {
         componentsReadOnly = FXCollections.unmodifiableObservableList(components);
         fluidsReadOnly = FXCollections.unmodifiableObservableList(fluids);
         pathsReadOnly = FXCollections.unmodifiableObservableList(paths);
-        ambient.putIfAbsent(PRESSURE, OptionalDouble.of(101325));
-        ambient.putIfAbsent(TEMPERATURE, OptionalDouble.of(300));
-        setValues = new History();
+        ambient.putIfAbsent(PRESSURE, ParametricDouble.of(101325.0));
+        ambient.putIfAbsent(TEMPERATURE, ParametricDouble.of(300.0));
+        results = FXCollections.observableList(new ArrayList<>());
+        //setValues = new History();
     }
     
     /**
@@ -84,7 +86,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param property The ambient state property to get.
      * @return Returns the ambient state property value.
      */
-    public OptionalDouble getAmbient(Property property) {
+    public ParametricDouble getAmbient(Property property) {
         return ambient.get(property);
     }
     
@@ -159,8 +161,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param temperature  The ambient temperature
      */
     public void setAmbient(double pressure, double temperature) {
-        ambient.put(PRESSURE, OptionalDouble.of(pressure));
-        ambient.put(TEMPERATURE, OptionalDouble.of(temperature));
+        ambient.put(PRESSURE, ParametricDouble.of(pressure));
+        ambient.put(TEMPERATURE, ParametricDouble.of(temperature));
     }
     
     /**
@@ -202,8 +204,9 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param node The work node.
      * @param value The work value.
      */
-    public void setWork(WorkNode node, OptionalDouble value) {
+    public void setWork(WorkNode node, ParametricDouble value) {
         node.setWork(value);
+        /**
         try {
             Object[] args = {node, value};
             setValues.add(this.getClass().getMethod("setWork", WorkNode.class, OptionalDouble.class), args);
@@ -212,6 +215,7 @@ public class Cycle extends Observable implements Properties, Serializable {
         } catch (SecurityException ex) {
             Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }
 
     /**
@@ -219,8 +223,9 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param node The heat node.
      * @param value The heat value.
      */
-    public void setHeat(HeatNode node, OptionalDouble value) {
+    public void setHeat(HeatNode node, ParametricDouble value) {
         node.setHeat(value);
+        /**
         try {
             Object[] args = {node, value};
             setValues.add(this.getClass().getMethod("setHeat", HeatNode.class, OptionalDouble.class), args);
@@ -229,6 +234,7 @@ public class Cycle extends Observable implements Properties, Serializable {
         } catch (SecurityException ex) {
             Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }
     
     /**
@@ -236,8 +242,9 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param node The flow node.
      * @param value The mass value.
      */
-    public void setMass(FlowNode node, OptionalDouble value) {
+    public void setMass(FlowNode node, ParametricDouble value) {
         node.setMass(value);
+        /**
         try {
             Object[] args = {node, value};
             setValues.add(this.getClass().getMethod("setMAss", FlowNode.class, OptionalDouble.class), args);
@@ -246,6 +253,7 @@ public class Cycle extends Observable implements Properties, Serializable {
         } catch (SecurityException ex) {
             Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }
     
     /**
@@ -254,8 +262,9 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param property The state property to set.
      * @param value The property value.
      */
-    public void setState(FlowNode node, Property property, OptionalDouble value) {
+    public void setState(FlowNode node, Property property, ParametricDouble value) {
         node.setState(property, value);
+        /**
         try {
             Object[] args = {node, value};
             setValues.add(this.getClass().getMethod("setState", FlowNode.class, Property.class, OptionalDouble.class), args);
@@ -264,6 +273,7 @@ public class Cycle extends Observable implements Properties, Serializable {
         } catch (SecurityException ex) {
             Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }
     
     /**
@@ -272,8 +282,9 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param attribute The attribute to set.
      * @param value The value to set thee component attribute to.
      */
-    public void setAttribute(Component component, Attribute attribute, OptionalDouble value) {
+    public void setAttribute(Component component, Attribute attribute, ParametricDouble value) {
         component.setAttribute(attribute, value);
+        /**
         try {
             Object[] args = {component, attribute, value};
             setValues.add(this.getClass().getMethod("setAttribute", Component.class, Attribute.class , OptionalDouble.class), args);
@@ -282,6 +293,7 @@ public class Cycle extends Observable implements Properties, Serializable {
         } catch (SecurityException ex) {
             Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }
     
     /**
@@ -351,7 +363,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public IdealGas createIdealGas(String name, Double ga, Double r) {
         fluids.add(new IdealGas(name,ga,r));
-        return (IdealGas)fluids.get(fluids.size());
+        return (IdealGas)fluids.get(fluids.size()-1);
     }
 
     /**
@@ -369,6 +381,7 @@ public class Cycle extends Observable implements Properties, Serializable {
         }  // check n2 is not currently connected to other nodes
         Connection connection = new Connection(node1,node2);
         connections.add(connection);
+        pathFinder();
         return connection;
     }
         
@@ -441,6 +454,74 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     
     /**
+     * Updates all the variables for the net parametric sweep. If these are parametric their values are updated, if this are of type 'Solve' their values are cleared.
+     */
+    private void parametricUpdate() {
+        
+        getVariables();
+        // get parametric varaibles
+        // filter out set values
+        // clear all SOLVE values to empty
+        // itterate through
+        
+    }
+    
+    /**
+     * 
+     */
+    public void parametricSolve() {
+        // Itterate around every combination of parametric variables
+        getVariables().values().stream().forEach(v -> {
+            // solve until entire sweep is complete.
+            // Solve system
+            solve();
+            // Record values
+            results.add(getVariables()); // TODO: Check that this doesn't link to the origional OptionalDouble objects - need to make copies.
+        });
+    }
+    
+    /**
+     * Gets a list of all the variables names and values.
+     * @return Returns a HashMap of all the variables and unique names.
+     */
+    private Map<String, ParametricDouble> getVariables() {
+        Map variables = new HashMap<String, ParametricDouble>();
+        
+        // Ambient state values
+        variables.put("Ambient pressure", ambient.get(PRESSURE));
+        variables.put("Ambient temperature", ambient.get(TEMPERATURE));
+        
+        // Loop over all componanets
+        this.components.stream().forEach(c -> {
+            // Loop over flow nodes
+            c.flowNodes.stream().forEach(n -> {
+                // Get mass flow rates
+                variables.put(c.name + "Mass" + c.flowNodes.indexOf(n), n.getMass());
+                // Get state properties
+                n.getFluid().fluidState().stream().forEach(s -> {
+                    variables.put(c.name + s.name() + c.flowNodes.indexOf(n), n.getState(s));    // Need to make sure component name is unique
+                });
+            });
+            // Loop over heat nodes
+            c.heatNodes.stream().forEach(n -> {
+                // Get heat values
+                variables.put(c.name + "Heat" + c.heatNodes.indexOf(n), n.getHeat());
+            });
+            // Loop over work nodes
+            c.workNodes.stream().forEach(n -> {
+                // Get work values
+                variables.put(c.name + "Work" + c.workNodes.indexOf(n), n.getWork());
+            });
+            // Loop over component attributes
+            c.attributes.keySet().stream().forEach(a -> {
+                // Get attribute values
+                variables.put(c.name + a.name(), c.attributes.get(a));
+            });
+        });
+        return variables;
+    }
+    
+    /**
      * Solves the current cycle
      * @return Returns true if a solution is achieved.
      */
@@ -493,7 +574,6 @@ public class Cycle extends Observable implements Properties, Serializable {
         }
         return false;
     }
-    
     
     /**
      * Calculate the thermal efficiency of the cycle
@@ -586,6 +666,7 @@ public class Cycle extends Observable implements Properties, Serializable {
     /**
      * Reset the cycle to it's state prior to solving.
      */
+    /**
     private final void reset() {
         // remove all values
         components.stream().forEach(c -> {
@@ -594,6 +675,8 @@ public class Cycle extends Observable implements Properties, Serializable {
         // reset values
         setValues.invoke(this);
     }
+    */
+    
     
     // reporting methods
     public final void reportExergyAnalysis() {

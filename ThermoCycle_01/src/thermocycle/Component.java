@@ -62,7 +62,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
     /**
      * A map of all this components attributes.
      */
-    public final Map<Attribute, OptionalDouble> attributes;
+    public final Map<Attribute, ParametricDouble> attributes;
     
     /**
      * Constructor
@@ -81,8 +81,9 @@ public abstract class Component implements Attributes, Properties, Serializable 
     }
     
     /**
-     * Clears all thee values in the attribute and state values for the component.
+     * Clears all the values in the attribute and state values for the component.
      */
+    /**
     protected final void clear() {
         attributes.keySet().stream().forEach(a -> {
             attributes.put(a, OptionalDouble.empty());
@@ -91,13 +92,23 @@ public abstract class Component implements Attributes, Properties, Serializable 
             n.clear();
         });
     }
+    */
+    
+    /**
+     * Resets all the component's equations to unsolved for you with parametric studies.
+     */
+    protected final void reset() {
+        equations.stream().forEach(e -> {
+            e.reset();
+        });
+    }
     
     /**
      * Gets the ambient state property for this component.
      * @param property The property to get.
      * @return Returns the value of the property.
      */
-    protected final OptionalDouble getAmbient(Property property) {
+    protected final ParametricDouble getAmbient(Property property) {
         return ambient.get(property);
     }
     
@@ -166,7 +177,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @param name The name of the required attribute.
      * @return Returns the value of the attribute.
      */
-    protected final OptionalDouble getAttribute(Attribute name) {
+    protected final ParametricDouble getAttribute(Attribute name) {
         return attributes.get(name);
     }
     
@@ -183,7 +194,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @param name The name of the attribute to create.
      */
     protected final void createAttribute(Attribute name) {
-        attributes.put(name, OptionalDouble.empty());
+        attributes.put(name, ParametricDouble.empty());
     };
     
     /**
@@ -193,7 +204,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @throws IllegalArgumentException if thee attribute is not valid.
      * @throws IllegalStateException if thee attribute has already been set.
      */
-    protected final void setAttribute(Attribute name, OptionalDouble value) {
+    protected final void setAttribute(Attribute name, ParametricDouble value) {
         if (!attributes.containsKey(name)) {
             throw new IllegalArgumentException(name + " is not a valid attribute for component type " + this.getClass().getSimpleName());
         }
@@ -391,8 +402,8 @@ public abstract class Component implements Attributes, Properties, Serializable 
             node.setFluid(start.getFluid());
             process.add(node);
             process.get(i).setMass(start.getMass());
-            process.get(i).setState(x, OptionalDouble.of(start.getState(x).getAsDouble() + (i * (end.getState(x).getAsDouble() - start.getState(x).getAsDouble()) / (Component.nIntStates-1))));
-            process.get(i).setState(y, OptionalDouble.of(start.getState(y).getAsDouble() + (i * (end.getState(y).getAsDouble() - start.getState(y).getAsDouble()) / (Component.nIntStates-1))));
+            process.get(i).setState(x, ParametricDouble.of(start.getState(x).getAsDouble() + (i * (end.getState(x).getAsDouble() - start.getState(x).getAsDouble()) / (Component.nIntStates-1))));
+            process.get(i).setState(y, ParametricDouble.of(start.getState(y).getAsDouble() + (i * (end.getState(y).getAsDouble() - start.getState(y).getAsDouble()) / (Component.nIntStates-1))));
         }
         return process;
     }

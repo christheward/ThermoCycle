@@ -17,7 +17,7 @@ final class State implements Properties, Serializable {
     /**
      * Property map.
      */
-    private final EnumMap<Property, OptionalDouble> state;
+    private final EnumMap<Property, ParametricDouble> state;
     
     /**
      * Constructor.
@@ -57,11 +57,11 @@ final class State implements Properties, Serializable {
      * @param property The specified property.
      * @return If the property exists in the state returns the values of the specified property, else returns empty.
      */
-    protected OptionalDouble get(Property property) {
+    protected ParametricDouble get(Property property) {
         if (state.containsKey(property)) {
-            return OptionalDouble.of(state.get(property).getAsDouble());
+            return ParametricDouble.of(state.get(property).getAsDouble());
         }
-        return OptionalDouble.empty();
+        return ParametricDouble.empty();
     }
     
     /**
@@ -77,7 +77,7 @@ final class State implements Properties, Serializable {
      * @param property The property to be set.
      * @param value The values to set the property to. 
      */
-    protected void putIfAbsent(Property property, OptionalDouble value) {
+    protected void putIfAbsent(Property property, ParametricDouble value) {
         // Check state does not already contain property
         if (state.containsKey(property)) {
             throw new IllegalArgumentException("Property already exists in the state.");
@@ -91,7 +91,7 @@ final class State implements Properties, Serializable {
      * @param property The property to be set.
      * @param value The values to set the property to. 
      */
-    protected void put(Property property, OptionalDouble value) {
+    protected void put(Property property, ParametricDouble value) {
         // Check value is present
         if (!value.isPresent()) {
             throw new IllegalArgumentException("Value must not be empty.");
@@ -104,7 +104,7 @@ final class State implements Properties, Serializable {
             throw new IllegalArgumentException("Value is less than allowable minimum.");
         }
         // Put property in state
-        state.put(property, OptionalDouble.of(value.getAsDouble()));
+        state.put(property, ParametricDouble.of(value.getAsDouble()));
     }
     
     /**

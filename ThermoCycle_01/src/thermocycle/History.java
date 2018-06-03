@@ -43,8 +43,8 @@ public class History {
                     List<Object> args2 = Arrays.asList(historyArguments.get(currentIndex));
                     
                     // remove OptionalDoubles
-                    args1.removeIf(a -> a instanceof OptionalDouble.class);
-                    args2.removeIf(a -> a instanceof OptionalDouble.class);
+                    //args1.removeIf(a -> a instanceof OptionalDouble.class);
+                    //args2.removeIf(a -> a instanceof OptionalDouble.class);
                     
                     ListIterator argumentIterator = args1.listIterator();
                     while (argumentIterator.hasNext()) {
@@ -56,6 +56,7 @@ public class History {
                     removeIdx.add(currentIndex);
                 }
             }
+        }
     }
     
     /**
@@ -84,12 +85,9 @@ public class History {
             Logger.getLogger(History.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    
-    
-    
-    public boolean (history h) {
+        
+    /**
+    public boolean incudes(history h) {
             if (method.equals(h.method)) {
                 List args1 = Arrays.asList(arguments);
                 List args2 = Arrays.asList(h.arguments);
@@ -107,7 +105,6 @@ public class History {
             }
             return false;
         }
-    
-    
-    
+    }
+    */
 }
