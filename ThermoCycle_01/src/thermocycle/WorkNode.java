@@ -5,6 +5,8 @@
  */
 package thermocycle;
 
+import java.util.OptionalDouble;
+
 /**
  *
  * @author Chris
@@ -14,7 +16,7 @@ public final class WorkNode extends Node {
     /**
      * The node work value.
      */
-    private ParametricDouble work;
+    private OptionalDouble work;
     
     /**
      * Constructor.
@@ -22,23 +24,23 @@ public final class WorkNode extends Node {
      */
     protected WorkNode(Port port) {
         super(port);
-        work = ParametricDouble.empty();
+        work = OptionalDouble.empty();
     }
     
     @Override
     protected void clear() {
-        setWork(ParametricDouble.empty());
+        setWork(OptionalDouble.empty());
     }
     
     /**
      * Gets the node work values
      * @return Returns the node work value.
      */
-    protected ParametricDouble getWork() {
+    protected OptionalDouble getWork() {
         if (work.isPresent()) {
-            return ParametricDouble.of(work.getAsDouble());
+            return OptionalDouble.of(work.getAsDouble());
         }
-        return ParametricDouble.empty();
+        return OptionalDouble.empty();
     }
     
     /**
@@ -46,8 +48,8 @@ public final class WorkNode extends Node {
      * @param value The value to set the heat flux to.
      * @throws IllegalArgumentException Thrown if the value is not present.
      */
-    void setWork(ParametricDouble value) {
-        work = ParametricDouble.of(value.getAsDouble());
+    void setWork(OptionalDouble value) {
+        work = OptionalDouble.of(value.getAsDouble());
     }
     
     @Override
@@ -61,7 +63,7 @@ public final class WorkNode extends Node {
             WorkNode wn = (WorkNode) n;
             if (!work.isPresent()) {
                 if (wn.work.isPresent()) {
-                    work = ParametricDouble.of(wn.work.getAsDouble());
+                    work = OptionalDouble.of(wn.work.getAsDouble());
                     return true;
                 }
             }

@@ -79,23 +79,23 @@ public final class Compressor extends Component {
         private Mass_Balance() {}
         
         @Override
-        protected Map<String, ParametricDouble> getVariables() {
-            Map<String, ParametricDouble> variables = new HashMap();
+        protected Map<String, OptionalDouble> getVariables() {
+            Map<String, OptionalDouble> variables = new HashMap();
             variables.put("m in", Compressor.this.getInlet().getMass());
             variables.put("m out", Compressor.this.getOutlet().getMass());
             return variables;
         }
         
         @Override
-        protected ParametricDouble solveVariable(String variable) {
-            ParametricDouble value = ParametricDouble.empty();
+        protected OptionalDouble solveVariable(String variable) {
+            OptionalDouble value = OptionalDouble.empty();
             switch (variable) {
                 case "m in": {
-                    value = ParametricDouble.of(Compressor.this.getOutlet().getMass().getAsDouble());
+                    value = OptionalDouble.of(Compressor.this.getOutlet().getMass().getAsDouble());
                     break;
                 }
                 case "m out": {
-                    value = ParametricDouble.of(Compressor.this.getInlet().getMass().getAsDouble());
+                    value = OptionalDouble.of(Compressor.this.getInlet().getMass().getAsDouble());
                     break;
                 }
             }
@@ -103,7 +103,7 @@ public final class Compressor extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, ParametricDouble value) {
+        protected Node saveVariable(String variable, OptionalDouble value) {
             switch (variable) {
                 case "m in": {
                     Compressor.this.getInlet().setMass(value);
@@ -129,8 +129,8 @@ public final class Compressor extends Component {
         private Energy_Balance() {}
         
         @Override
-        protected Map<String, ParametricDouble> getVariables() {
-            Map<String, ParametricDouble> variables = new HashMap();
+        protected Map<String, OptionalDouble> getVariables() {
+            Map<String, OptionalDouble> variables = new HashMap();
             variables.put("W", Compressor.this.getShaft().getWork());
             variables.put("m", Compressor.this.getInlet().getMass());
             variables.put("h in", Compressor.this.getInlet().getState(ENTHALPY));
@@ -139,23 +139,23 @@ public final class Compressor extends Component {
         }
         
         @Override
-        protected ParametricDouble solveVariable(String variable) {
-            ParametricDouble value = ParametricDouble.empty();
+        protected OptionalDouble solveVariable(String variable) {
+            OptionalDouble value = OptionalDouble.empty();
             switch (variable) {
                 case "W": {
-                    value = ParametricDouble.of(Compressor.this.getInlet().getMass().getAsDouble() * (Compressor.this.getOutlet().getState(ENTHALPY).getAsDouble() - Compressor.this.getInlet().getState(ENTHALPY).getAsDouble()));
+                    value = OptionalDouble.of(Compressor.this.getInlet().getMass().getAsDouble() * (Compressor.this.getOutlet().getState(ENTHALPY).getAsDouble() - Compressor.this.getInlet().getState(ENTHALPY).getAsDouble()));
                     break;
                 }
                 case "m": {
-                    value = ParametricDouble.of(Compressor.this.getShaft().getWork().getAsDouble() / (Compressor.this.getOutlet().getState(ENTHALPY).getAsDouble() - Compressor.this.getInlet().getState(ENTHALPY).getAsDouble()));
+                    value = OptionalDouble.of(Compressor.this.getShaft().getWork().getAsDouble() / (Compressor.this.getOutlet().getState(ENTHALPY).getAsDouble() - Compressor.this.getInlet().getState(ENTHALPY).getAsDouble()));
                     break;
                 }
                 case "h in": {
-                    value = ParametricDouble.of(Compressor.this.getOutlet().getState(ENTHALPY).getAsDouble() - (Compressor.this.getShaft().getWork().getAsDouble() / (Compressor.this.getInlet().getMass().getAsDouble())));
+                    value = OptionalDouble.of(Compressor.this.getOutlet().getState(ENTHALPY).getAsDouble() - (Compressor.this.getShaft().getWork().getAsDouble() / (Compressor.this.getInlet().getMass().getAsDouble())));
                     break;
                 }
                 case "h out": {
-                    value = ParametricDouble.of(Compressor.this.getInlet().getState(ENTHALPY).getAsDouble() + (Compressor.this.getShaft().getWork().getAsDouble() / Compressor.this.getInlet().getMass().getAsDouble()));
+                    value = OptionalDouble.of(Compressor.this.getInlet().getState(ENTHALPY).getAsDouble() + (Compressor.this.getShaft().getWork().getAsDouble() / Compressor.this.getInlet().getMass().getAsDouble()));
                     break;
                 }
             }
@@ -163,7 +163,7 @@ public final class Compressor extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, ParametricDouble value) {
+        protected Node saveVariable(String variable, OptionalDouble value) {
             switch (variable) {
                 case "W": {
                     Compressor.this.getShaft().setWork(value);
@@ -197,8 +197,8 @@ public final class Compressor extends Component {
         private Pressure_Ratio() {}
         
         @Override
-        protected Map<String, ParametricDouble> getVariables() {
-            Map<String, ParametricDouble> variables = new HashMap();
+        protected Map<String, OptionalDouble> getVariables() {
+            Map<String, OptionalDouble> variables = new HashMap();
             variables.put("pr", Compressor.this.getAttribute(PRATIO));
             variables.put("p in", Compressor.this.getInlet().getState(PRESSURE));
             variables.put("p out", Compressor.this.getOutlet().getState(PRESSURE));
@@ -206,19 +206,19 @@ public final class Compressor extends Component {
         }
         
         @Override
-        protected ParametricDouble solveVariable(String variable) {
-            ParametricDouble value = ParametricDouble.empty();
+        protected OptionalDouble solveVariable(String variable) {
+            OptionalDouble value = OptionalDouble.empty();
             switch (variable) {
                 case "pr": {
-                    value = ParametricDouble.of(Compressor.this.getOutlet().getState(PRESSURE).getAsDouble() / Compressor.this.getInlet().getState(PRESSURE).getAsDouble());
+                    value = OptionalDouble.of(Compressor.this.getOutlet().getState(PRESSURE).getAsDouble() / Compressor.this.getInlet().getState(PRESSURE).getAsDouble());
                     break;
                 }
                 case "p in": {
-                    value = ParametricDouble.of(Compressor.this.getOutlet().getState(PRESSURE).getAsDouble() / (Compressor.this.getAttribute(PRATIO).getAsDouble()));
+                    value = OptionalDouble.of(Compressor.this.getOutlet().getState(PRESSURE).getAsDouble() / (Compressor.this.getAttribute(PRATIO).getAsDouble()));
                     break;
                 }
                 case "p out": {
-                    value = ParametricDouble.of(Compressor.this.getInlet().getState(PRESSURE).getAsDouble() * Compressor.this.getAttribute(PRATIO).getAsDouble());
+                    value = OptionalDouble.of(Compressor.this.getInlet().getState(PRESSURE).getAsDouble() * Compressor.this.getAttribute(PRATIO).getAsDouble());
                     break;
                 }
             }
@@ -226,7 +226,7 @@ public final class Compressor extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, ParametricDouble value) {
+        protected Node saveVariable(String variable, OptionalDouble value) {
             switch (variable) {
                 case "pr": {
                     Compressor.this.setAttribute(PRATIO, value);
@@ -256,8 +256,8 @@ public final class Compressor extends Component {
         private Efficiency() {}
         
         @Override
-        protected Map<String, ParametricDouble> getVariables() {
-            Map<String, ParametricDouble> variables = new HashMap();
+        protected Map<String, OptionalDouble> getVariables() {
+            Map<String, OptionalDouble> variables = new HashMap();
             variables.put("W", Compressor.this.getShaft().getWork());
             variables.put("n", Compressor.this.getAttribute(EFFICIENCY));
             variables.put("m", Compressor.this.getInlet().getMass());
@@ -268,8 +268,8 @@ public final class Compressor extends Component {
         }
         
         @Override
-        protected ParametricDouble solveVariable(String variable) {
-            ParametricDouble value = ParametricDouble.empty();
+        protected OptionalDouble solveVariable(String variable) {
+            OptionalDouble value = OptionalDouble.empty();
             FlowNode isen = new FlowNode(INTERNAL);
             isen.setFluid(Compressor.this.getInlet().getFluid());
             if (variable.equals("h in") | variable.equals("n") | variable.equals("W")) {
@@ -277,23 +277,23 @@ public final class Compressor extends Component {
                 isen.setState(PRESSURE, Compressor.this.getOutlet().getState(PRESSURE));
             }
             else {
-                isen.setState(ENTHALPY, ParametricDouble.of(Compressor.this.getInlet().getState(ENTHALPY).getAsDouble() + (Compressor.this.getShaft().getWork().getAsDouble() * Compressor.this.getAttribute(EFFICIENCY).getAsDouble() / (Compressor.this.getInlet().getMass().getAsDouble()))));
+                isen.setState(ENTHALPY, OptionalDouble.of(Compressor.this.getInlet().getState(ENTHALPY).getAsDouble() + (Compressor.this.getShaft().getWork().getAsDouble() * Compressor.this.getAttribute(EFFICIENCY).getAsDouble() / (Compressor.this.getInlet().getMass().getAsDouble()))));
             }
             switch (variable) {
                 case "W": {
-                    value = ParametricDouble.of(Compressor.this.getInlet().getMass().getAsDouble() * (isen.getState(ENTHALPY).getAsDouble() - Compressor.this.getInlet().getState(ENTHALPY).getAsDouble()) / Compressor.this.getAttribute(EFFICIENCY).getAsDouble());
+                    value = OptionalDouble.of(Compressor.this.getInlet().getMass().getAsDouble() * (isen.getState(ENTHALPY).getAsDouble() - Compressor.this.getInlet().getState(ENTHALPY).getAsDouble()) / Compressor.this.getAttribute(EFFICIENCY).getAsDouble());
                     break;
                 }
                 case "n": {
-                    value = ParametricDouble.of(Compressor.this.getInlet().getMass().getAsDouble() * (isen.getState(ENTHALPY).getAsDouble() - Compressor.this.getInlet().getState(ENTHALPY).getAsDouble()) / (Compressor.this.getShaft().getWork().getAsDouble()));
+                    value = OptionalDouble.of(Compressor.this.getInlet().getMass().getAsDouble() * (isen.getState(ENTHALPY).getAsDouble() - Compressor.this.getInlet().getState(ENTHALPY).getAsDouble()) / (Compressor.this.getShaft().getWork().getAsDouble()));
                     break;
                 }
                 case "m": {
-                    value = ParametricDouble.of(Compressor.this.getShaft().getWork().getAsDouble() * Compressor.this.getAttribute(EFFICIENCY).getAsDouble() / ((isen.getState(ENTHALPY).getAsDouble() - Compressor.this.getInlet().getState(ENTHALPY).getAsDouble())));
+                    value = OptionalDouble.of(Compressor.this.getShaft().getWork().getAsDouble() * Compressor.this.getAttribute(EFFICIENCY).getAsDouble() / ((isen.getState(ENTHALPY).getAsDouble() - Compressor.this.getInlet().getState(ENTHALPY).getAsDouble())));
                     break;
                 }
                 case "h in": {
-                    value = ParametricDouble.of(isen.getState(ENTHALPY).getAsDouble() - (Compressor.this.getShaft().getWork().getAsDouble() * Compressor.this.getAttribute(EFFICIENCY).getAsDouble() / Compressor.this.getInlet().getMass().getAsDouble()));
+                    value = OptionalDouble.of(isen.getState(ENTHALPY).getAsDouble() - (Compressor.this.getShaft().getWork().getAsDouble() * Compressor.this.getAttribute(EFFICIENCY).getAsDouble() / Compressor.this.getInlet().getMass().getAsDouble()));
                     break;
                 }
                 case "s in": {
@@ -311,7 +311,7 @@ public final class Compressor extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, ParametricDouble value) {
+        protected Node saveVariable(String variable, OptionalDouble value) {
             switch (variable) {
                 case "W": {
                     Compressor.this.getShaft().setWork(value);

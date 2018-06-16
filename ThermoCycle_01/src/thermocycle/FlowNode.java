@@ -5,6 +5,8 @@
  */
 package thermocycle;
 
+import java.util.OptionalDouble;
+
 
 /**
  *
@@ -25,7 +27,7 @@ public final class FlowNode extends Node implements Properties {
     /**
      * The mass flow rate at this node.
      */
-    private ParametricDouble mass;
+    private OptionalDouble mass;
     
     /**
      * Constructor.
@@ -34,12 +36,12 @@ public final class FlowNode extends Node implements Properties {
     protected FlowNode(Port port) {
         super(port);
         state = new State();
-        mass = ParametricDouble.empty();
+        mass = OptionalDouble.empty();
     }
     
     @Override
     protected void clear() {
-        setMass(ParametricDouble.empty());
+        setMass(OptionalDouble.empty());
         state.clear();
     }
     
@@ -55,11 +57,11 @@ public final class FlowNode extends Node implements Properties {
      * Gets the mass flow rate of this node.
      * @return Returns the mass flow rate.
      */
-    protected ParametricDouble getMass() {
+    protected OptionalDouble getMass() {
         if (mass.isPresent()) {
-            return ParametricDouble.of(mass.getAsDouble());
+            return OptionalDouble.of(mass.getAsDouble());
         }
-        return ParametricDouble.empty();
+        return OptionalDouble.empty();
     }
     
     /**
@@ -67,7 +69,7 @@ public final class FlowNode extends Node implements Properties {
      * @param property The property to get the value of.
      * @return Returns the value of the state property.
      */
-    protected ParametricDouble getState(Property property) {
+    protected OptionalDouble getState(Property property) {
         return state.get(property);
     }
     
@@ -84,8 +86,8 @@ public final class FlowNode extends Node implements Properties {
      * @param value The value to set the mass flow rate to.
      * @throws IllegalArgumentException Thrown if the value is not present.
      */
-    protected void setMass(ParametricDouble value) {
-        mass = ParametricDouble.of(value.getAsDouble());
+    protected void setMass(OptionalDouble value) {
+        mass = OptionalDouble.of(value.getAsDouble());
     }
     
     /**
@@ -93,7 +95,7 @@ public final class FlowNode extends Node implements Properties {
      * @param property The state property to set.
      * @param value The value to set the property to.
      */
-    protected void setState(Property property, ParametricDouble value) {
+    protected void setState(Property property, OptionalDouble value) {
         state.putIfAbsent(property, value);
         fluid.computeState(state);
     }
@@ -132,7 +134,7 @@ public final class FlowNode extends Node implements Properties {
             // Update the mass flow rate
             if (!mass.isPresent()) {
                 if (fn.mass.isPresent()) {
-                    mass = ParametricDouble.of(fn.mass.getAsDouble());
+                    mass = OptionalDouble.of(fn.mass.getAsDouble());
                     updated = true;
                 }
             }
