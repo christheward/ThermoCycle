@@ -7,8 +7,6 @@ package thermocycle;
 
 import static thermocycle.Properties.Property.*;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -57,7 +55,7 @@ public class Cycle extends Observable implements Properties, Serializable {
     public final ObservableList<Component> componentsReadOnly;
     public final ObservableList<Fluid> fluidsReadOnly;
     public final ObservableList<Set<FlowNode>> pathsReadOnly;
-    //private final History setValues;
+    private final History setValues;
     private final ObservableList<Map<String, OptionalDouble>> results;
     
     /**
@@ -78,7 +76,7 @@ public class Cycle extends Observable implements Properties, Serializable {
         ambient.putIfAbsent(PRESSURE, OptionalDouble.of(101325.0));
         ambient.putIfAbsent(TEMPERATURE, OptionalDouble.of(300.0));
         results = FXCollections.observableList(new ArrayList<>());
-        //setValues = new History();
+        setValues = new History();
     }
     
     /**
@@ -182,21 +180,25 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     
     /**
-     * Sets a component name ensuring uniqueness
+     * Sets a component name ensuring uniqueness.
      * @param component The component to set the name of.
      * @param name The new name.
-     * @param force Determines if a new name must be 
      */
-    public void setName(Component component, String name, Boolean force) {
-        // Use @ character to define automated name
-        if (name.charAt(0) != '@') {
-            // Ensure uniqueness of component name
-            if (!(components.stream().filter(c -> (!c.equals(component))).anyMatch(c -> c.name.equals(name)))) {
-                component.name = name;
-                return;
+    public void setName(Component component, String name) {
+        if (componentsReadOnly.stream().filter(c -> c.name.equals(name)).count() == 0) {
+            component.name = name;
+        }
+        else {
+            try {
+                String baseName = name.substring(1,name.length()-1);
+                String lastCharacter = name.substring(name.length()-1);
+                int newNumber = Integer.parseInt(lastCharacter) + 1;
+                setName(component, baseName + String.valueOf(newNumber));
+            }
+            catch (NumberFormatException e) {
+                setName(component, name + "_1");
             }
         }
-        // SOMETHING
     }
     
     /**
@@ -206,7 +208,6 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public void setWork(WorkNode node, OptionalDouble value) {
         node.setWork(value);
-        /**
         try {
             Object[] args = {node, value};
             setValues.add(this.getClass().getMethod("setWork", WorkNode.class, OptionalDouble.class), args);
@@ -215,7 +216,6 @@ public class Cycle extends Observable implements Properties, Serializable {
         } catch (SecurityException ex) {
             Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
     }
 
     /**
@@ -225,7 +225,6 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public void setHeat(HeatNode node, OptionalDouble value) {
         node.setHeat(value);
-        /**
         try {
             Object[] args = {node, value};
             setValues.add(this.getClass().getMethod("setHeat", HeatNode.class, OptionalDouble.class), args);
@@ -234,7 +233,6 @@ public class Cycle extends Observable implements Properties, Serializable {
         } catch (SecurityException ex) {
             Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
     }
     
     /**
@@ -244,7 +242,6 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public void setMass(FlowNode node, OptionalDouble value) {
         node.setMass(value);
-        /**
         try {
             Object[] args = {node, value};
             setValues.add(this.getClass().getMethod("setMAss", FlowNode.class, OptionalDouble.class), args);
@@ -253,7 +250,6 @@ public class Cycle extends Observable implements Properties, Serializable {
         } catch (SecurityException ex) {
             Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
     }
     
     /**
@@ -264,7 +260,6 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public void setState(FlowNode node, Property property, OptionalDouble value) {
         node.setState(property, value);
-        /**
         try {
             Object[] args = {node, value};
             setValues.add(this.getClass().getMethod("setState", FlowNode.class, Property.class, OptionalDouble.class), args);
@@ -273,7 +268,6 @@ public class Cycle extends Observable implements Properties, Serializable {
         } catch (SecurityException ex) {
             Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
     }
     
     /**
@@ -284,7 +278,6 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public void setAttribute(Component component, Attribute attribute, OptionalDouble value) {
         component.setAttribute(attribute, value);
-        /**
         try {
             Object[] args = {component, attribute, value};
             setValues.add(this.getClass().getMethod("setAttribute", Component.class, Attribute.class , OptionalDouble.class), args);
@@ -293,7 +286,6 @@ public class Cycle extends Observable implements Properties, Serializable {
         } catch (SecurityException ex) {
             Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
     }
     
     /**
@@ -306,7 +298,7 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     
     /**
-     * Creates a component
+     * Finds flow paths and notifies listeners of a change to the cycle 
      */
     private void cycleChange() {
         pathFinder();
@@ -346,7 +338,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public void removeComponent(Component component) {
         if (components.contains(component)) {
-            component.flowNodes.forEach(n -> removeConnection(n));
+            setValues.remove(component);                            // remove from history
+            component.flowNodes.forEach(n -> removeConnection(n));  
             component.heatNodes.forEach(n -> removeConnection(n));
             component.workNodes.forEach(n -> removeConnection(n));
             components.remove(component);
@@ -381,7 +374,8 @@ public class Cycle extends Observable implements Properties, Serializable {
         }  // check n2 is not currently connected to other nodes
         Connection connection = new Connection(node1,node2);
         connections.add(connection);
-        pathFinder();
+        //pathFinder();
+        cycleChange();
         return connection;
     }
         
@@ -391,6 +385,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public void removeConnection(Connection connection) {
         connections.remove(connection);
+        cycleChange();
     }
     
     /**
@@ -399,7 +394,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     private void removeConnection(Node node) {
         connections.removeAll(connections.stream().filter(c -> c.contains(node)).collect(Collectors.toSet()));  // only remove connections beloning to the cycle, not internal connections belonging to the component.
-        pathFinder();
+        cycleChange();
     }
     
     /**
@@ -454,30 +449,9 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     
     /**
-     * Updates all the variables for the net parametric sweep. If these are parametric their values are updated, if this are of type 'Solve' their values are cleared.
-     */
-    private void parametricUpdate() {
-        
-        getVariables();
-        // get parametric varaibles
-        // filter out set values
-        // clear all SOLVE values to empty
-        // itterate through
-        
-    }
-    
-    /**
      * 
      */
     public void parametricSolve() {
-        // Itterate around every combination of parametric variables
-        getVariables().values().stream().forEach(v -> {
-            // solve until entire sweep is complete.
-            // Solve system
-            solve();
-            // Record values
-            results.add(getVariables()); // TODO: Check that this doesn't link to the origional OptionalDouble objects - need to make copies.
-        });
     }
     
     /**
@@ -664,18 +638,16 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     
     /**
-     * Reset the cycle to it's state prior to solving.
+     * Reset the cycle to its state prior to solving.
      */
-    /**
     private final void reset() {
-        // remove all values
+        // clears all values from components
         components.stream().forEach(c -> {
             c.clear();
         });
         // reset values
-        setValues.invoke(this);
+        setValues.replay(this);
     }
-    */
     
     
     // reporting methods
@@ -734,4 +706,32 @@ public class Cycle extends Observable implements Properties, Serializable {
         }
         else {System.out.println("All components have been solved.");}
     }
+    
+    
+    
+    public class SetAttribute implements Command {
+        
+        private final Component component;
+        private final Attribute attribute;
+        private final OptionalDouble value;
+        
+        public SetAttribute(Component component, Attribute attribute, OptionalDouble value) {
+            this.component = component;
+            this.attribute = attribute;
+            this.value = value;
+        }
+        
+        @Override
+        public void execute() {
+            component.setAttribute(attribute, value);
+        }
+        
+        @Override
+        public void undo() {
+            component.setAttribute(attribute, OptionalDouble.empty());
+        }
+                
+}
+    
+    
 }
