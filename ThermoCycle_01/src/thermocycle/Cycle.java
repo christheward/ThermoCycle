@@ -29,7 +29,11 @@ public class Cycle extends Observable implements Properties, Serializable {
     static DecimalFormat percentageFormat = new DecimalFormat("##.#%");
     static Integer maxIterations = 100;
     
-    // static methods
+    /**
+     * Singleton Collector
+     * @param <T>
+     * @return 
+     */
     static <T> Collector<T, List <T>, T> singletonCollector() {
         return Collector.of(
                 ArrayList::new,
@@ -55,8 +59,8 @@ public class Cycle extends Observable implements Properties, Serializable {
     public final ObservableList<Component> componentsReadOnly;
     public final ObservableList<Fluid> fluidsReadOnly;
     public final ObservableList<Set<FlowNode>> pathsReadOnly;
-    private final History setValues;
-    private final ObservableList<Map<String, OptionalDouble>> results;
+    private final ArrayDeque<Condition> stack;
+    
     
     /**
      * Constructor
@@ -75,8 +79,8 @@ public class Cycle extends Observable implements Properties, Serializable {
         pathsReadOnly = FXCollections.unmodifiableObservableList(paths);
         ambient.putIfAbsent(PRESSURE, OptionalDouble.of(101325.0));
         ambient.putIfAbsent(TEMPERATURE, OptionalDouble.of(300.0));
-        results = FXCollections.observableList(new ArrayList<>());
-        setValues = new History();
+        //results = FXCollections.observableList(new ArrayList<>());
+        stack = new ArrayDeque();
     }
     
     /**
@@ -207,15 +211,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param value The work value.
      */
     public void setWork(WorkNode node, OptionalDouble value) {
-        node.setWork(value);
-        try {
-            Object[] args = {node, value};
-            setValues.add(this.getClass().getMethod("setWork", WorkNode.class, OptionalDouble.class), args);
-        } catch (NoSuchMethodException ex) {
-            Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
-            Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        stack.add(new SetWork(node, value));
+        stack.getLast().execute();
     }
 
     /**
@@ -224,15 +221,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param value The heat value.
      */
     public void setHeat(HeatNode node, OptionalDouble value) {
-        node.setHeat(value);
-        try {
-            Object[] args = {node, value};
-            setValues.add(this.getClass().getMethod("setHeat", HeatNode.class, OptionalDouble.class), args);
-        } catch (NoSuchMethodException ex) {
-            Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
-            Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        stack.add(new SetHeat(node, value));
+        stack.getLast().execute();
     }
     
     /**
@@ -241,15 +231,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param value The mass value.
      */
     public void setMass(FlowNode node, OptionalDouble value) {
-        node.setMass(value);
-        try {
-            Object[] args = {node, value};
-            setValues.add(this.getClass().getMethod("setMAss", FlowNode.class, OptionalDouble.class), args);
-        } catch (NoSuchMethodException ex) {
-            Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
-            Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        stack.add(new SetMass(node, value));
+        stack.getLast().execute();
     }
     
     /**
@@ -259,15 +242,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param value The property value.
      */
     public void setState(FlowNode node, Property property, OptionalDouble value) {
-        node.setState(property, value);
-        try {
-            Object[] args = {node, value};
-            setValues.add(this.getClass().getMethod("setState", FlowNode.class, Property.class, OptionalDouble.class), args);
-        } catch (NoSuchMethodException ex) {
-            Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
-            Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        stack.add(new SetState(node, property, value));
+        stack.getLast().execute();
     }
     
     /**
@@ -277,15 +253,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param value The value to set thee component attribute to.
      */
     public void setAttribute(Component component, Attribute attribute, OptionalDouble value) {
-        component.setAttribute(attribute, value);
-        try {
-            Object[] args = {component, attribute, value};
-            setValues.add(this.getClass().getMethod("setAttribute", Component.class, Attribute.class , OptionalDouble.class), args);
-        } catch (NoSuchMethodException ex) {
-            Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
-            Logger.getLogger(Cycle.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        stack.add(new SetAttribute(component, attribute, value));
+        stack.getLast().execute();
     }
     
     /**
@@ -294,7 +263,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param fluid The fluid to set.
      */
     public void setFluid(FlowNode node, Fluid fluid) {
-        paths.stream().filter(p -> p.contains(node)).collect(singletonCollector()).forEach(n -> n.setFluid(fluid));
+        stack.add(new SetFluid(node, fluid));
+        stack.getLast().execute();
     }
     
     /**
@@ -306,6 +276,9 @@ public class Cycle extends Observable implements Properties, Serializable {
         notifyObservers();
     }
     
+    /**
+     * Component creation methods
+     */
     public Combustor createCombustor(String name) {
         components.add(new Combustor(name, ambient));
         cycleChange();
@@ -338,13 +311,21 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public void removeComponent(Component component) {
         if (components.contains(component)) {
-            setValues.remove(component);                            // remove from history
+            //setValues.remove(component);                            // remove from history
             component.flowNodes.forEach(n -> removeConnection(n));  
             component.heatNodes.forEach(n -> removeConnection(n));
             component.workNodes.forEach(n -> removeConnection(n));
             components.remove(component);
             cycleChange();
+            cleanStack();
         }
+    }
+    
+    /**
+     * Cleans the stack so that and references to removed components are deleted.
+     */
+    private void cleanStack() {
+        stack.removeIf(c -> c.clean());
     }
     
     /**
@@ -449,9 +430,15 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     
     /**
-     * 
+     * Solve the cycle sweeping through the parameters
      */
     public void parametricSolve() {
+        // Loop
+        stack.forEach(c -> c.execute());    // Reset system.
+                                            // Set the parameteer value
+        solve();                            // Sole the system
+                                            // record values
+
     }
     
     /**
@@ -645,10 +632,14 @@ public class Cycle extends Observable implements Properties, Serializable {
         components.stream().forEach(c -> {
             c.clear();
         });
-        // reset values
-        setValues.replay(this);
     }
     
+    public final void solveParametric() {
+        // 
+        solve();
+        // save output
+        reset();
+    }
     
     // reporting methods
     public final void reportExergyAnalysis() {
@@ -707,9 +698,10 @@ public class Cycle extends Observable implements Properties, Serializable {
         else {System.out.println("All components have been solved.");}
     }
     
-    
-    
-    public class SetAttribute implements Command {
+    /**
+     * Command to set a component's attribute
+     */
+    public class SetAttribute extends Condition {
         
         private final Component component;
         private final Attribute attribute;
@@ -727,11 +719,167 @@ public class Cycle extends Observable implements Properties, Serializable {
         }
         
         @Override
-        public void undo() {
-            component.setAttribute(attribute, OptionalDouble.empty());
+        public boolean match(Condition cnd) {
+            if (cnd instanceof SetAttribute) {
+                if (this.component == (((SetAttribute) cnd).component)) {
+                    if (this.attribute == (((SetAttribute) cnd).attribute)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
-                
-}
+    }
     
+    /**
+     * Command to set the heat of a node
+     */
+    public class SetHeat extends Condition {
+        
+        private final HeatNode node;
+        private final OptionalDouble value;
+        
+        public SetHeat(HeatNode node, OptionalDouble value) {
+            this.node = node;
+            this.value = value;
+        }
+        
+        @Override
+        public void execute() {
+            node.setHeat(value);
+        }
+        
+        @Override
+        public boolean match(Condition cnd) {
+            if (cnd instanceof SetHeat) {
+                if (this.node == ((SetHeat) cnd).node) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+    
+    /**
+     * Command to set the work of a node
+     */
+    public class SetWork extends Condition {
+        
+        private final WorkNode node;
+        private final OptionalDouble value;
+        
+        public SetWork(WorkNode node, OptionalDouble value) {
+            this.node = node;
+            this.value = value;
+        }
+        
+        @Override
+        public void execute() {
+            node.setWork(value);
+        }
+        
+        @Override
+        public boolean match(Condition cnd) {
+            if (cnd instanceof SetWork) {
+                if (this.node == ((SetWork) cnd).node) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+    }
+    
+    /**
+     * Command to set the mass flow rate of a node
+     */
+    public class SetMass extends Condition {
+        
+        private final FlowNode node;
+        private final OptionalDouble value;
+        
+        public SetMass(FlowNode node, OptionalDouble value) {
+            this.node = node;
+            this.value = value;
+        }
+        
+        @Override
+        public void execute() {
+            node.setMass(value);
+        }
+        
+        @Override
+        public boolean match(Condition cnd) {
+            if (cnd instanceof SetMass) {
+                if (this.node == ((SetMass) cnd).node) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+    }
+    
+    /**
+     * Command to set the state of a node.
+     */
+    public class SetState extends Condition {
+        
+        private final FlowNode node;
+        private final Property property;
+        private final OptionalDouble value;
+        
+        public SetState(FlowNode node, Property property, OptionalDouble value) {
+            this.node = node;
+            this.property = property;
+            this.value = value;
+        }
+        
+        @Override
+        public void execute() {
+            node.setState(property, value);
+        }
+        
+        @Override
+        public boolean match(Condition cnd) {
+            if (cnd instanceof SetState) {
+                if (this.node == ((SetState) cnd).node) {
+                    if (this.property == ((SetState) cnd).property)
+                        return true;
+                }
+            }
+            return false;
+        }
+        
+    }
+    
+    /**
+     * Sets the fluid of a flow path
+     */
+    public class SetFluid extends Condition {
+        
+        private final FlowNode node;
+        private final Fluid fluid;
+        
+        public SetFluid(FlowNode node, Fluid fluid) {
+            this.node = node;
+            this.fluid = fluid;
+        }
+        
+        @Override
+        public void execute() {
+            paths.stream().filter(p -> p.contains(node)).collect(singletonCollector()).forEach(n -> n.setFluid(fluid));
+        }
+        
+        @Override
+        public boolean match(Condition cnd) {
+            if (cnd instanceof SetFluid) {
+                if (this.node == ((SetFluid) cnd).node) {
+                        return true;
+                }
+            }
+            return false;    
+        }
+    }
     
 }

@@ -9,7 +9,6 @@ import java.text.*;
 import java.util.*;
 import java.io.Serializable;
 import java.util.stream.Collectors;
-import javafx.collections.FXCollections;
 import static thermocycle.Properties.Property.*;
 import static thermocycle.Node.Port.*;
 
@@ -28,6 +27,11 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * The component name.
      */
     protected String name;
+    
+    /**
+     * The component unique reference number
+     */
+    public final UUID id;
     
     /**
      * The components ambient reference state. 
@@ -66,10 +70,11 @@ public abstract class Component implements Attributes, Properties, Serializable 
     
     /**
      * Constructor
-     * @param name The name of thee new component
-     * @param ambient The ambient state of thee component.s
+     * @param name The name of the new component.
+     * @param ambient The ambient state of thee components.
      */
     protected Component(String name, State ambient) {
+        id = UUID.randomUUID();
         this.name = name;
         this.ambient = ambient;
         flowNodes = new ArrayList();
@@ -81,25 +86,20 @@ public abstract class Component implements Attributes, Properties, Serializable 
     }
     
     /**
-     * Clears all the values in the attribute and state values for the component.
+     * Clears all the values of the component and resets all the component's equations to unsolved.
      */
-    /**
     protected final void clear() {
+        // clear attributes
         attributes.keySet().stream().forEach(a -> {
             attributes.put(a, OptionalDouble.empty());
         });
-        getNodes().stream().forEach(n -> {
-            n.clear();
-        });
-    }
-    */
-    
-    /**
-     * Resets all the component's equations to unsolved for you with parametric studies.
-     */
-    protected final void reset() {
+        // clear equations
         equations.stream().forEach(e -> {
             e.reset();
+        });
+        // clear noodes
+        getNodes().stream().forEach(n -> {
+            n.clear();
         });
     }
     
@@ -213,7 +213,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
         }
         attributes.put(name, value);
     }
-   
+    
     /**
      * Checks to see if the component is complete. A component is complete if all its nodes are complete and equations have been checked for compatibility.
      * @return Returns True if all Nodes associated with the component are complete.
