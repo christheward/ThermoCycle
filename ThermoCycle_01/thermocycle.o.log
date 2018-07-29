@@ -1,0 +1,571 @@
+2018-07-28 22:55:26.094 [main] INFO  DebugLog - Created Air (IdealGas)
+2018-07-28 22:55:26.125 [main] TRACE DebugLog - Cycle change notification.
+2018-07-28 22:55:26.125 [main] INFO  DebugLog - Created LP Compressor (Compressor)
+2018-07-28 22:55:26.141 [main] TRACE DebugLog - Cycle change notification.
+2018-07-28 22:55:26.141 [main] INFO  DebugLog - Created HP Compressor (Compressor)
+2018-07-28 22:55:26.141 [main] TRACE DebugLog - Cycle change notification.
+2018-07-28 22:55:26.141 [main] INFO  DebugLog - Created Intercooler (HeatSink)
+2018-07-28 22:55:26.141 [main] TRACE DebugLog - Cycle change notification.
+2018-07-28 22:55:26.141 [main] INFO  DebugLog - Created Combustor (Combustor)
+2018-07-28 22:55:26.141 [main] TRACE DebugLog - Cycle change notification.
+2018-07-28 22:55:26.141 [main] INFO  DebugLog - Created Reheat (Combustor)
+2018-07-28 22:55:26.157 [main] TRACE DebugLog - Cycle change notification.
+2018-07-28 22:55:26.157 [main] INFO  DebugLog - Created HP Turbine (Turbine)
+2018-07-28 22:55:26.157 [main] TRACE DebugLog - Cycle change notification.
+2018-07-28 22:55:26.157 [main] INFO  DebugLog - Created LP Turbine (Turbine)
+2018-07-28 22:55:26.157 [main] TRACE DebugLog - Cycle change notification.
+2018-07-28 22:55:26.157 [main] INFO  DebugLog - Created Heat Sink (HeatSink)
+2018-07-28 22:55:26.157 [main] TRACE DebugLog - Cycle change notification.
+2018-07-28 22:55:26.157 [main] TRACE DebugLog - Created connection
+2018-07-28 22:55:26.157 [main] TRACE DebugLog - Cycle change notification.
+2018-07-28 22:55:26.157 [main] TRACE DebugLog - Created connection
+2018-07-28 22:55:26.157 [main] TRACE DebugLog - Cycle change notification.
+2018-07-28 22:55:26.157 [main] TRACE DebugLog - Created connection
+2018-07-28 22:55:26.157 [main] TRACE DebugLog - Cycle change notification.
+2018-07-28 22:55:26.157 [main] TRACE DebugLog - Created connection
+2018-07-28 22:55:26.172 [main] TRACE DebugLog - Cycle change notification.
+2018-07-28 22:55:26.172 [main] TRACE DebugLog - Created connection
+2018-07-28 22:55:26.172 [main] TRACE DebugLog - Cycle change notification.
+2018-07-28 22:55:26.172 [main] TRACE DebugLog - Created connection
+2018-07-28 22:55:26.172 [main] TRACE DebugLog - Cycle change notification.
+2018-07-28 22:55:26.172 [main] TRACE DebugLog - Created connection
+2018-07-28 22:55:26.172 [main] TRACE DebugLog - Cycle change notification.
+2018-07-28 22:55:26.172 [main] TRACE DebugLog - Created connection
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Solving system
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Solving Compressor
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Solving equationEfficiency
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Unknowns: 4
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Solving equationEfficiency
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Unknowns: 4
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Solving HeatSink
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.188 [main] INFO  DebugLog - Solving equationPressure_Loss
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationPressure_Loss
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving Combustor
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationPressure_Loss
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationPressure_Loss
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving Turbine
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEfficicnecy
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEfficicnecy
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving HeatSink
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solve for: m in
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Variable is: 1.0
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationPressure_Loss
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solve for: p in
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Variable is: 106657.8947368421
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationPressure_Loss
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving Turbine
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEfficicnecy
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 4
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEfficicnecy
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 4
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving Compressor
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solve for: m out
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Variable is: 1.0
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solve for: p out
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Variable is: 506625.0
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEfficiency
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solve for: W
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Variable is: 195482.26566867728
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solve for: h out
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Variable is: 496832.2656686773
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Solving equationEfficiency
+2018-07-28 22:55:26.203 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving Combustor
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationPressure_Loss
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solve for: p out
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Variable is: 481293.75
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationPressure_Loss
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving Compressor
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationEfficiency
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 4
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationEfficiency
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 4
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving HeatSink
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solve for: m out
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Variable is: 1.0
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solve for: Q
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Variable is: 145257.26566867722
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationPressure_Loss
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solve for: p out
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Variable is: 481293.75
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationPressure_Loss
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving Combustor
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationPressure_Loss
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationPressure_Loss
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving Turbine
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationEfficicnecy
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationEfficicnecy
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving HeatSink
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving Turbine
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.219 [main] INFO  DebugLog - Solve for: m in
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Variable is: 1.0
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solve for: pr
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Variable is: 4.5125
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationEfficicnecy
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solve for: W
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Variable is: 433990.30998259305
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solve for: h out
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Variable is: 871859.6900174072
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationEfficicnecy
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving Compressor
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving Combustor
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving Compressor
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solve for: m out
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Variable is: 1.0
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solve for: p out
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Variable is: 1925175.0
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationEfficiency
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solve for: W
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Variable is: 189848.26911480405
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solve for: h out
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Variable is: 541423.2691148041
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationEfficiency
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving Combustor
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.235 [main] INFO  DebugLog - Solving equationPressure_Loss
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationPressure_Loss
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving Turbine
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEfficicnecy
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEfficicnecy
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 3
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving HeatSink
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solve for: Q
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Variable is: 570509.6900174071
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving Combustor
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solve for: m in
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Variable is: 1.0
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving Compressor
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving Combustor
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solve for: m out
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Variable is: 1.0
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solve for: Q
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Variable is: 764426.7308851961
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationPressure_Loss
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solve for: p out
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Variable is: 1828916.25
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationPressure_Loss
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving Turbine
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solve for: m in
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Variable is: 1.0
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEfficicnecy
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationMass_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEfficicnecy
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving Combustor
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving Turbine
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solve for: pr
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Variable is: 3.61
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEfficicnecy
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solve for: W
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Variable is: 380892.73501677543
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solve for: h out
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Variable is: 924957.2649832248
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationPressure_Ratio
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Solving equationEfficicnecy
+2018-07-28 22:55:26.250 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Solving Combustor
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Unknowns: 2
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Solving Combustor
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Unknowns: 1
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Solve for: Q
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Variable is: 380892.73501677555
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Solving equationEnergy_Balance
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Unknowns: 0
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Compatible
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - System solved
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - LP Compressor (Compressor): Compelte
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Mass in: 1.0
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Mass out: 1.0
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Work in: 195482.26566867728
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Work out: 0.0
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Heat in: 0.0
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Heat out: 0.0
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - HP Compressor (Compressor): Compelte
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Mass in: 1.0
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Mass out: 1.0
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Work in: 189848.26911480405
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Work out: 0.0
+2018-07-28 22:55:26.266 [main] INFO  DebugLog - Heat in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Intercooler (HeatSink): Compelte
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass in: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass out: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat out: 145257.26566867722
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Combustor (Combustor): Compelte
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass in: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass out: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat in: 764426.7308851961
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Reheat (Combustor): Compelte
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass in: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass out: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat in: 380892.73501677555
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - HP Turbine (Turbine): Compelte
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass in: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass out: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work out: 380892.73501677543
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - LP Turbine (Turbine): Compelte
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass in: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass out: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work out: 433990.30998259305
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat Sink (HeatSink): Compelte
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass in: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass out: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat out: 570509.6900174071
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - LP Compressor (Compressor): Compelte
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass in: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass out: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work in: 195482.26566867728
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - HP Compressor (Compressor): Compelte
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass in: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass out: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work in: 189848.26911480405
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Intercooler (HeatSink): Compelte
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass in: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass out: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat out: 145257.26566867722
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Combustor (Combustor): Compelte
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass in: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass out: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat in: 764426.7308851961
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Reheat (Combustor): Compelte
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass in: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass out: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat in: 380892.73501677555
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - HP Turbine (Turbine): Compelte
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass in: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass out: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work out: 380892.73501677543
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - LP Turbine (Turbine): Compelte
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass in: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass out: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work out: 433990.30998259305
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat Sink (HeatSink): Compelte
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass in: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Mass out: 1.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Work out: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat in: 0.0
+2018-07-28 22:55:26.282 [main] INFO  DebugLog - Heat out: 570509.6900174071

@@ -31,10 +31,16 @@ public abstract class Fluid implements Properties, Serializable {
     private String name;
     
     /**
+     * The component unique reference number
+     */
+    public final UUID id;
+    
+    /**
      * Constructor.
      * @param name The fluid name. 
      */
     protected Fluid(String name) {
+        id = UUID.randomUUID();
         this.name = name;
     }
         
@@ -62,7 +68,7 @@ public abstract class Fluid implements Properties, Serializable {
     
     /**
      * Computes absent state properties from existing state properties for this fluid.
-     * @param state The state to computre.
+     * @param state The state to compute.
      */
     protected abstract void computeState(State state);
     

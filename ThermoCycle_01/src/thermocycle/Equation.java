@@ -9,8 +9,9 @@ import java.util.List;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.OptionalDouble;
-//import java.util.OptionalDouble;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -18,7 +19,8 @@ import java.util.stream.Collectors;
  */
 abstract class Equation implements Serializable {
     
-        
+    static private final Logger logger = LogManager.getLogger("DebugLog");
+    
     /**
      * Compatibility flag. True if all equations are compatible.
      */
@@ -109,24 +111,24 @@ abstract class Equation implements Serializable {
      * @return Return the updated node else returns null.
      */
     protected Node solve() {
-        System.out.println(this.getClass().getSimpleName());
-        System.out.println(" - Unknowns: " + unknowns().size());
+        logger.info("Solving equation" + this.getClass().getSimpleName());
+        logger.info("Unknowns: " + unknowns().size());
         switch (unknowns().size()) {
             // if 0 unknows check compatability
             case 0: {
                 if (compatible()) {
                     state = STATE.COMPATIBLE;
-                    System.out.println(" - Compatible");
+                    logger.info("Compatible");
                 }
                 else {
                     state = state.INCOMPATIBLE;
-                    System.out.println(" - Not compatible");
+                    logger.info("Not Compatible");
                 }
                 return null;}
             // if 1 unknown solve for single unknown
             case 1: {
-                System.out.println(" - Solve for " + unknowns().get(0));
-                System.out.println(" - Variable is " + solveVariable(unknowns().get(0)));
+                logger.info("Solve for: " + unknowns().get(0));
+                logger.info("Variable is: " + solveVariable(unknowns().get(0)).getAsDouble());
                 return saveVariable(unknowns().get(0), solveVariable(unknowns().get(0)));
             }
             // if more than one unknown do nothing.
@@ -154,6 +156,6 @@ abstract class Equation implements Serializable {
     
     @Override
     public String toString() {
-        return (" \t " + getClass().getSimpleName() + ": \t" + state);
+        return (getClass().getSimpleName() + ": " + state);
     }
 }

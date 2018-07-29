@@ -5,10 +5,11 @@
  */
 package thermocycle;
 
-import java.text.*;
 import java.util.*;
 import java.io.Serializable;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import static thermocycle.Properties.Property.*;
 import static thermocycle.Node.Port.*;
 
@@ -17,6 +18,9 @@ import static thermocycle.Node.Port.*;
  * @author Chris
  */
 public abstract class Component implements Attributes, Properties, Serializable {
+    
+    
+    static private final Logger logger = LogManager.getLogger("DebugLog");
     
     /**
      * The number of internal states used for plotting and exergy calculations.
@@ -224,7 +228,6 @@ public abstract class Component implements Attributes, Properties, Serializable 
                 return true;
             }
         }
-        //return getNodes().stream().allMatch(n -> n.isComplete());
         return false;
     }
     
@@ -235,7 +238,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
     protected final boolean isCompatible() {
         equations.stream().forEach(equation -> {
             if (!equation.isCompatible()) {
-                System.out.println("Incompatible equation: " + equation.getClass().getSimpleName());
+                logger.error("Incompatible equation: " + equation.getClass().getSimpleName());
             }
         });
         return equations.stream().allMatch(equation -> equation.isCompatible());
@@ -246,7 +249,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @return Returns a list of all Nodes that are updated during the computation
      */
     protected final Set<Node> update() {
-        System.out.println("Solving " + this.getClass().getName());
+        logger.info("Solving " + this.getClass().getSimpleName());
         Set<Node> updatedNodes = new HashSet();
         while (updatedNodes.addAll(solve())) {}                          // keep computing until no nodes are updated
         return updatedNodes;
@@ -321,10 +324,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @return Returns the total heat input.
      */
     protected final double heatIn() {
-        double Q = 0;
-        for (HeatNode n : getHeatInlets()) {
-            Q = Q + n.getHeat().getAsDouble();}
-        return Q;
+        return getHeatInlets().stream().mapToDouble(n -> n.getHeat().getAsDouble()).sum();
     }
     
     /**
@@ -332,11 +332,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @return Returns the total heat output.
      */
     protected final double heatOut() {
-        double Q = 0;
-        for (HeatNode n : getHeatOutlets()) {
-            Q = Q + n.getHeat().getAsDouble();
-        }
-        return Q;
+        return getHeatOutlets().stream().mapToDouble(n -> n.getHeat().getAsDouble()).sum();
     }
     
     /**
@@ -344,11 +340,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @return Returns the total mass input.
      */
     private double massIn() {
-        double m = 0;
-        for (FlowNode n : getFlowInlets()) {
-            m = m + n.getMass().getAsDouble();
-        }
-        return m;
+        return getFlowInlets().stream().mapToDouble(n -> n.getMass().getAsDouble()).sum();
     }
     
     /**
@@ -356,11 +348,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @return Returns the total mass output.
      */
     private double massOut() {
-        double m = 0;
-        for (FlowNode n : getFlowOutlets()) {
-            m = m + n.getMass().getAsDouble();
-        }
-        return m;
+        return getFlowOutlets().stream().mapToDouble(n -> n.getMass().getAsDouble()).sum();
     }
     
     /**
@@ -368,11 +356,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @return Returns the total work input.
      */
     protected double workIn() {
-        double W = 0;
-        for (WorkNode n : getWorkInlets()) {
-            W = W + n.getWork().getAsDouble();
-        }
-        return W;
+        return getWorkInlets().stream().mapToDouble(n -> n.getWork().getAsDouble()).sum();
     }
     
     /**
@@ -380,15 +364,11 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @return Returns the total work output.
      */
     protected double workOut() {
-        double W = 0;
-        for (WorkNode n : getWorkOutlets()) {
-            W = W + n.getWork().getAsDouble();
-        }
-        return W;
+        return getWorkOutlets().stream().mapToDouble(n -> n.getWork().getAsDouble()).sum();
     }
     
     /**
-     * Creates a set of INTERNAL FlowNodes nodes that describe a the thermodynamic process between two states.
+     * Creates a set of INTERNAL FlowNodes nodes that describe a the thermodynamic process between two states. The two properties are specified as varying linearly between the start and end states.
      * @param start The FlowNode that defines the start of the thermodynamic process.
      * @param end The FlowNode that defines the end of the thermodynamic process.
      * @param x The first property
@@ -419,27 +399,27 @@ public abstract class Component implements Attributes, Properties, Serializable 
     }
     
     // reporting methods
-    protected final void reportSetup() {
-        System.out.println(name + "(" + getClass().getSimpleName() + ")");
-        if (getFlowInlets().size() > 0) {System.out.println("\t " + getFlowInlets().size() + " Flow Inlets  (" + getFlowInlets().stream().filter(n -> !n.isComplete()).collect(Collectors.toList()).size() + " incomplete)");}
-        if (getFlowOutlets().size() > 0) {System.out.println("\t " + getFlowOutlets().size() + " Flow Outlets (" + getFlowOutlets().stream().filter(n -> !n.isComplete()).collect(Collectors.toList()).size() + " incomplete)");}
-        if (getWorkInlets().size() > 0) {System.out.println("\t " + getWorkInlets().size() + " Work Inlets  (" + getWorkInlets().stream().filter(n -> !n.isComplete()).collect(Collectors.toList()).size() + " incomplete)");}
-        if (getWorkOutlets().size() > 0) {System.out.println("\t " + getWorkOutlets().size() + " Work Outlets (" + getWorkOutlets().stream().filter(n -> !n.isComplete()).collect(Collectors.toList()).size() + " incomplete)");}
-        if (getHeatInlets().size() > 0) {System.out.println("\t " + getHeatInlets().size() + " Heat Inlets  (" + getHeatInlets().stream().filter(n -> !n.isComplete()).collect(Collectors.toList()).size() + " incomplete)");}
-        if (getHeatOutlets().size() > 0) {System.out.println("\t " + getHeatOutlets().size() + " Heat Outlets (" + getHeatOutlets().stream().filter(n -> !n.isComplete()).collect(Collectors.toList()).size() + " incomplete)");}
-    }
-    protected final void reportResults(DecimalFormat df) {
-        System.out.println(name + "(" + getClass().getSimpleName() + ")");
-        equations.forEach(e -> {e.toString();});
+    protected final void status() {
+        logger.info(toString() + ((isComplete()) ? ": Compelte" : ": Not complete"));
         if (isComplete()) {
-            if (getFlowInlets().size() > 0) {System.out.println("\t Mass in: \t \t" + df.format(massIn()));}
-            if (getFlowOutlets().size() > 0) {System.out.println("\t Mass out: \t \t" + df.format(massOut()));}
-            if (getWorkInlets().size() > 0) {System.out.println("\t Work in: \t \t" + df.format(workIn()));}
-            if (getWorkOutlets().size() > 0) {System.out.println("\t Work out: \t \t" + df.format(workOut()));}
-            if (getHeatInlets().size() > 0) {System.out.println("\t Heat in: \t \t" + df.format(heatIn()));}
-            if (getHeatOutlets().size() > 0) {System.out.println("\t Heat out: \t \t" + df.format(heatOut()));}
+            logger.info("Mass in: " + massIn());
+            logger.info("Mass out: " + massOut());
+            logger.info("Work in: " + workIn());
+            logger.info("Work out: " + workOut());
+            logger.info("Heat in: " + heatIn());
+            logger.info("Heat out: " + heatOut());
         }
-        else {System.out.println("\t Component incomplete");}            
+        else {
+            logger.info(getFlowInlets().size() + " Flow Inlets  (" + getFlowInlets().stream().filter(n -> n.isComplete()).collect(Collectors.toList()).size() + " complete)");
+            logger.info(getFlowOutlets().size() + " Flow Outlets  (" + getFlowOutlets().stream().filter(n -> n.isComplete()).collect(Collectors.toList()).size() + " complete)");
+            logger.info(getWorkInlets().size() + " Work Inlets  (" + getWorkInlets().stream().filter(n -> n.isComplete()).collect(Collectors.toList()).size() + " complete)");
+            logger.info(getWorkOutlets().size() + " Work Outlets  (" + getWorkOutlets().stream().filter(n -> n.isComplete()).collect(Collectors.toList()).size() + " complete)");
+            logger.info(getHeatInlets().size() + " Heat Inlets  (" + getHeatInlets().stream().filter(n -> n.isComplete()).collect(Collectors.toList()).size() + " complete)");
+            logger.info(getHeatOutlets().size() + " Heat Outlets  (" + getHeatOutlets().stream().filter(n -> n.isComplete()).collect(Collectors.toList()).size() + " complete)");
+            equations.forEach(e -> {
+                logger.info(e.toString());
+            });
+        }
     }
     
     @Override

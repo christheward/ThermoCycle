@@ -12,10 +12,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalDouble;
 import static thermocycle.Attributes.Attribute.*;
 import thermocycle.Component;
 import thermocycle.Cycle;
-import thermocycle.ParametricDouble;
 import thermocycle.Properties.Property;
 
 /**
@@ -181,8 +181,8 @@ public class TextUserInterface {
      * @param string The string to to interpret
      * @return Returns an optional double with a value of that described by the string.
      */
-    private ParametricDouble valueOf(String string) {
-        return ParametricDouble.of(Double.parseDouble(string));
+    private OptionalDouble valueOf(String string) {
+        return OptionalDouble.of(Double.parseDouble(string));
     }
     
     /**
@@ -194,29 +194,29 @@ public class TextUserInterface {
             switch(commands.get(1)) {
                 case "COMPRESSOR": {
                     Component comp = model.createCompressor(commands.get(2));
-                    model.setAttribute(comp, EFFICIENCY, ParametricDouble.of(Double.parseDouble(commands.get(3))));
-                    model.setAttribute(comp, PRATIO, ParametricDouble.of(Double.parseDouble(commands.get(4))));
+                    model.setAttribute(comp, EFFICIENCY, OptionalDouble.of(Double.parseDouble(commands.get(3))));
+                    model.setAttribute(comp, PRATIO, OptionalDouble.of(Double.parseDouble(commands.get(4))));
                     break;
                 }
                 case "TURBINE": {
                     Component comp = model.createTurbine(commands.get(2));
-                    model.setAttribute(comp, EFFICIENCY, ParametricDouble.of(Double.parseDouble(commands.get(3))));
-                    model.setAttribute(comp, PRATIO, ParametricDouble.of(Double.parseDouble(commands.get(4))));
+                    model.setAttribute(comp, EFFICIENCY, OptionalDouble.of(Double.parseDouble(commands.get(3))));
+                    model.setAttribute(comp, PRATIO, OptionalDouble.of(Double.parseDouble(commands.get(4))));
                     break;
                 }
                 case "COMBUSTOR": {
                     Component comp = model.createCombustor(commands.get(2));
-                    model.setAttribute(comp, PRATIO, ParametricDouble.of(Double.parseDouble(commands.get(3))));
+                    model.setAttribute(comp, PRATIO, OptionalDouble.of(Double.parseDouble(commands.get(3))));
                     break;
                 }
                 case "HEAT_SINK": {
                     Component comp = model.createHeatSink(commands.get(2));
-                    model.setAttribute(comp, PRATIO, ParametricDouble.of(Double.parseDouble(commands.get(3))));
+                    model.setAttribute(comp, PRATIO, OptionalDouble.of(Double.parseDouble(commands.get(3))));
                     break;
                 }
                 case "HEAT_EXCHANGER": {
                     Component comp = model.createHeatExchanger(commands.get(2));
-                    model.setAttribute(comp, EFFECTIVENESS, ParametricDouble.of(Double.parseDouble(commands.get(3))));
+                    model.setAttribute(comp, EFFECTIVENESS, OptionalDouble.of(Double.parseDouble(commands.get(3))));
                     break;
                 }
                 default: {
@@ -266,19 +266,19 @@ public class TextUserInterface {
         try {
             switch (commands.get(1)) {
                 case "WORK": {
-                    model.setWork(model.getComponent(commands.get(2)).workNodes.get(Integer.parseInt(commands.get(3))), ParametricDouble.of(Double.parseDouble(commands.get(4))));
+                    model.setWork(model.getComponent(commands.get(2)).workNodes.get(Integer.parseInt(commands.get(3))), Double.parseDouble(commands.get(4)));
                     break;
                 }
                 case "HEAT": {
-                    model.setHeat(model.getComponent(commands.get(2)).heatNodes.get(Integer.parseInt(commands.get(3))), ParametricDouble.of(Double.parseDouble(commands.get(4))));
+                    model.setHeat(model.getComponent(commands.get(2)).heatNodes.get(Integer.parseInt(commands.get(3))), Double.parseDouble(commands.get(4)));
                     break;
                 }
                 case "MASS": {
-                    model.setMass(model.getComponent(commands.get(2)).flowNodes.get(Integer.parseInt(commands.get(3))), ParametricDouble.of(Double.parseDouble(commands.get(4))));
+                    model.setMass(model.getComponent(commands.get(2)).flowNodes.get(Integer.parseInt(commands.get(3))), Double.parseDouble(commands.get(4)));
                     break;
                 }
                 case "STATE": {
-                    model.setState(model.getComponent(commands.get(2)).flowNodes.get(Integer.parseInt(commands.get(3))), Property.valueOf(commands.get(4)), ParametricDouble.of(Double.parseDouble(commands.get(5))));
+                    model.setState(model.getComponent(commands.get(2)).flowNodes.get(Integer.parseInt(commands.get(3))), Property.valueOf(commands.get(4)), OptionalDouble.of(Double.parseDouble(commands.get(5))));
                     break;
                 }
                 case "FLUID": {

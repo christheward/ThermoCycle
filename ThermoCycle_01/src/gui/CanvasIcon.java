@@ -227,7 +227,7 @@ public class CanvasIcon extends ToolboxIcon{
                         name.setText(input.getText());
                         input.setVisible(false);
                         name.setVisible(true);
-                        canvas.model.setName(component, name.getText(), false);
+                        canvas.model.setName(component, name.getText());
                     }
                     
                 });

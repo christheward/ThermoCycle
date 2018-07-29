@@ -22,7 +22,6 @@ public interface Attributes {
         EFFECTIVENESS ("Effectiveness", "epsilon", "-", 0.0, 1.0),
         AHEATTRANSFER("Actual Heat Transfer","Q_Actual","W",0.0,Double.POSITIVE_INFINITY),
         IHEATTRANSFER("Ideal Heat Transfer","Q_Ideal","W",0.0,Double.POSITIVE_INFINITY),
-        
         SPLIT("Split","x","-",0.0,1.0);
         
         protected final String fullName;
@@ -45,6 +44,11 @@ public interface Attributes {
             this.units = units;
             this.max = max;
             this.min = min;
+        }
+        
+        @Override
+        public String toString() {
+            return fullName;
         }
     }
 }

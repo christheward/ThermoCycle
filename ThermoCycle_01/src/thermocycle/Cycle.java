@@ -9,12 +9,12 @@ import static thermocycle.Properties.Property.*;
 import java.io.Serializable;
 import java.text.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import thermocycle.Attributes.Attribute;
 import thermocycle.Node.Port;
 
@@ -25,9 +25,11 @@ import thermocycle.Node.Port;
 public class Cycle extends Observable implements Properties, Serializable {
     
     // static variables
-    static DecimalFormat doubleFormat = new DecimalFormat("#.#E0#");
-    static DecimalFormat percentageFormat = new DecimalFormat("##.#%");
-    static Integer maxIterations = 100;
+    static private DecimalFormat doubleFormat = new DecimalFormat("#.#E0#");
+    static private DecimalFormat percentageFormat = new DecimalFormat("##.#%");
+    static private Integer maxIterations = 100;
+    static private final Logger logger = LogManager.getLogger("DebugLog");
+    static private final Logger report = LogManager.getLogger("ReportLog");
     
     /**
      * Singleton Collector
@@ -60,8 +62,7 @@ public class Cycle extends Observable implements Properties, Serializable {
     public final ObservableList<Fluid> fluidsReadOnly;
     public final ObservableList<Set<FlowNode>> pathsReadOnly;
     private final ArrayDeque<Condition> stack;
-    
-    
+        
     /**
      * Constructor
      * @param name The name of the new cycle. 
@@ -79,7 +80,6 @@ public class Cycle extends Observable implements Properties, Serializable {
         pathsReadOnly = FXCollections.unmodifiableObservableList(paths);
         ambient.putIfAbsent(PRESSURE, OptionalDouble.of(101325.0));
         ambient.putIfAbsent(TEMPERATURE, OptionalDouble.of(300.0));
-        //results = FXCollections.observableList(new ArrayList<>());
         stack = new ArrayDeque();
     }
     
@@ -88,8 +88,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param property The ambient state property to get.
      * @return Returns the ambient state property value.
      */
-    public OptionalDouble getAmbient(Property property) {
-        return ambient.get(property);
+    public double getAmbient(Property property) {
+        return ambient.get(property).getAsDouble();
     }
     
     /**
@@ -128,6 +128,26 @@ public class Cycle extends Observable implements Properties, Serializable {
     private Set<FlowNode> getFlowNodes() {
         Set<FlowNode> nodes = new HashSet<>();
         components.forEach(c -> nodes.addAll(c.flowNodes));
+        return nodes;
+    }
+    
+    /**
+     * Gets all the component work nodes in the cycle.
+     * @return Returns a set of the component work nodes in the cycle.
+     */
+    private Set<WorkNode> getWorkNodes() {
+        Set<WorkNode> nodes = new HashSet<>();
+        components.forEach(c -> nodes.addAll(c.workNodes));
+        return nodes;
+    }
+    
+    /**
+     * Gets all the component flow nodes in the cycle.
+     * @return Returns a set of the component flow nodes in the cycle.
+     */
+    private Set<HeatNode> getHeatNodes() {
+        Set<HeatNode> nodes = new HashSet<>();
+        components.forEach(c -> nodes.addAll(c.heatNodes));
         return nodes;
     }
     
@@ -173,6 +193,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public void setMaxIterations(int iterations) {
         Cycle.maxIterations = iterations;
+        logger.info("Maximum number of iterations set to %", Integer.toString(Cycle.maxIterations));
     }
     
     /**
@@ -210,8 +231,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param node The work node.
      * @param value The work value.
      */
-    public void setWork(WorkNode node, OptionalDouble value) {
-        stack.add(new SetWork(node, value));
+    public void setWork(WorkNode node, double value) {
+        stack.add(new SetWork(node, OptionalDouble.of(value)));
         stack.getLast().execute();
     }
 
@@ -220,8 +241,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param node The heat node.
      * @param value The heat value.
      */
-    public void setHeat(HeatNode node, OptionalDouble value) {
-        stack.add(new SetHeat(node, value));
+    public void setHeat(HeatNode node, double value) {
+        stack.add(new SetHeat(node, OptionalDouble.of(value)));
         stack.getLast().execute();
     }
     
@@ -230,8 +251,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param node The flow node.
      * @param value The mass value.
      */
-    public void setMass(FlowNode node, OptionalDouble value) {
-        stack.add(new SetMass(node, value));
+    public void setMass(FlowNode node, double value) {
+        stack.add(new SetMass(node, OptionalDouble.of(value)));
         stack.getLast().execute();
     }
     
@@ -255,6 +276,7 @@ public class Cycle extends Observable implements Properties, Serializable {
     public void setAttribute(Component component, Attribute attribute, OptionalDouble value) {
         stack.add(new SetAttribute(component, attribute, value));
         stack.getLast().execute();
+        logger.info(component + " " + attribute + " set to " + value);
     }
     
     /**
@@ -274,6 +296,7 @@ public class Cycle extends Observable implements Properties, Serializable {
         pathFinder();
         setChanged();
         notifyObservers();
+        logger.trace("Cycle change notification.");
     }
     
     /**
@@ -282,26 +305,31 @@ public class Cycle extends Observable implements Properties, Serializable {
     public Combustor createCombustor(String name) {
         components.add(new Combustor(name, ambient));
         cycleChange();
+        logger.info("Created " + components.get(components.size()-1));
         return (Combustor)components.get(components.size() - 1);
     }
     public Compressor createCompressor(String name) {
         components.add(new Compressor(name, ambient));
         cycleChange();
+        logger.info("Created " + components.get(components.size()-1));
         return (Compressor)components.get(components.size() - 1);
     }
     public HeatExchanger createHeatExchanger(String name) {
         components.add(new HeatExchanger(name, ambient));
         cycleChange();
+        logger.info("Created " + components.get(components.size()-1));
         return (HeatExchanger)components.get(components.size() - 1);
     }
     public HeatSink createHeatSink(String name) {
         components.add(new HeatSink(name, ambient));
         cycleChange();
+        logger.info("Created " + components.get(components.size()-1));
         return (HeatSink)components.get(components.size() - 1);
     }
     public Turbine createTurbine(String name) {
         components.add(new Turbine(name, ambient));
         cycleChange();
+        logger.info("Created " + components.get(components.size()-1));
         return (Turbine)components.get(components.size() - 1);
     }
     
@@ -311,13 +339,13 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public void removeComponent(Component component) {
         if (components.contains(component)) {
-            //setValues.remove(component);                            // remove from history
             component.flowNodes.forEach(n -> removeConnection(n));  
             component.heatNodes.forEach(n -> removeConnection(n));
             component.workNodes.forEach(n -> removeConnection(n));
             components.remove(component);
             cycleChange();
             cleanStack();
+            logger.info("Removed " + component);
         }
     }
     
@@ -326,6 +354,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     private void cleanStack() {
         stack.removeIf(c -> c.clean());
+        logger.trace("Stack cleaned.");
     }
     
     /**
@@ -337,6 +366,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public IdealGas createIdealGas(String name, Double ga, Double r) {
         fluids.add(new IdealGas(name,ga,r));
+        logger.info("Created " + fluids.get(fluids.size()-1));
         return (IdealGas)fluids.get(fluids.size()-1);
     }
 
@@ -347,16 +377,20 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @return Returns the connection object.
      */
     public Connection createConnection(Node node1, Node node2) {
+        // check n1 is not currently connected to other nodes
         if (connections.stream().anyMatch(c -> c.contains(node1))) {
+            logger.warn("Cannot create connection - Node 1 is already connected.");
             throw new IllegalStateException("Node is already connected.");
-        }  // check n1 is not currently connected to other nodes
+        }
+        // check n2 is not currently connected to other nodes
         if (connections.stream().anyMatch(c -> c.contains(node2))) {
+            logger.warn("Cannot create connection - Node 2 is already connected.");
             throw new IllegalStateException("Node is already connected.");
-        }  // check n2 is not currently connected to other nodes
+        }
         Connection connection = new Connection(node1,node2);
         connections.add(connection);
-        //pathFinder();
         cycleChange();
+        logger.trace("Created connection");
         return connection;
     }
         
@@ -367,6 +401,7 @@ public class Cycle extends Observable implements Properties, Serializable {
     public void removeConnection(Connection connection) {
         connections.remove(connection);
         cycleChange();
+        logger.trace("Removed connection");
     }
     
     /**
@@ -376,6 +411,7 @@ public class Cycle extends Observable implements Properties, Serializable {
     private void removeConnection(Node node) {
         connections.removeAll(connections.stream().filter(c -> c.contains(node)).collect(Collectors.toSet()));  // only remove connections beloning to the cycle, not internal connections belonging to the component.
         cycleChange();
+        logger.trace("Removed connection");
     }
     
     /**
@@ -437,8 +473,6 @@ public class Cycle extends Observable implements Properties, Serializable {
         stack.forEach(c -> c.execute());    // Reset system.
                                             // Set the parameteer value
         solve();                            // Sole the system
-                                            // record values
-
     }
     
     /**
@@ -487,6 +521,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @return Returns true if a solution is achieved.
      */
     public boolean solve() {
+        logger.info("Solving system");
         try {
             getFlowNodes().forEach(n -> {n.computeState();});                                              // update all flow node states (ensures all nodes states are internally compatible first).
             connections.stream().forEach(x -> {x.update();});                                              // update all node connections (ensures state values are transfered between nodes, checks for inconsistencies).
@@ -512,9 +547,9 @@ public class Cycle extends Observable implements Properties, Serializable {
             // Note that connection compatibility os checked during x.update()
             components.stream().forEach(comp -> {
                 if (!comp.isCompatible()) {
-                    System.out.println("Incompatible component: " + comp.name);
+                    logger.error("Incompatible component: " + comp.name);
                     comp.attributes.keySet().forEach(at -> {
-                        System.out.println(at.name() + " = " + comp.getAttribute(at));
+                        logger.error(at.name() + " = " + comp.getAttribute(at));
                     });
                     throw new IllegalStateException("Components are incompatible!!!");
                 }
@@ -522,14 +557,15 @@ public class Cycle extends Observable implements Properties, Serializable {
             // Notify listeners
             setChanged();
             notifyObservers();
+            logger.info("System solved");
             return unsolved.isEmpty();
         }
         catch (Exception exc) {
-            System.out.println();
-            System.out.println("ERROR REPORT");
-            System.out.println("============");
-            System.out.println(exc.getClass());
-            System.out.println(exc.getMessage());
+            report.info("");
+            report.info("ERROR REPORT");
+            report.info("============");
+            report.info(exc.getClass());
+            report.info(exc.getMessage());
             exc.printStackTrace();
             reportSolver();
         }
@@ -550,30 +586,6 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     private double efficiencyRational() {
         return (workOut() - workIn()) / heatExergyIn();
-    }
-    
-    /**
-     * Calculate the heat input to the cycle
-     * @return Returns the total heat input
-     */
-    private double heatIn() {
-        double Q = 0;
-        for (Component c : components) {
-            Q = Q + c.heatIn();
-        }
-        return Q;
-    }
-    
-    /**
-     * Calculate the heat output from the cycle
-     * @return Returns the total heat output
-     */
-    private double heatOut() {
-        double Q = 0;
-        for (Component c : components) {
-            Q = Q + c.heatOut();
-        }
-        return Q;
     }
     
     /**
@@ -601,27 +613,44 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     
     /**
-     * Calculate the work input to the cycle
+     * Calculate the work input to the cycle using connections. This assumes that all optionalDoubles are complete.
      * @return Returns the total work input
      */
-    private double workIn() {
-        double W = 0;
-        for (Component c : components) {
-            W = W + c.workIn();
-        }
-        return W;
+    public double workIn() {
+        return getWorkNodes().stream().filter(n -> notConnected(n)).filter(n -> n.port.equals(Port.INLET)).mapToDouble(n -> n.getWork().getAsDouble()).sum();
     }
     
     /**
-     * Calculate the work output from the cycle
-     * @return Returns the total work output
+     * Calculate the work output from the cycle using connections. This assumes that all optionalDoubles are complete.
+     * @return Returns the total work input
      */
-    private double workOut() {
-        double W = 0;
-        for (Component c : components) {
-            W = W + c.workOut();
-        }
-        return W;
+    public double workOut() {
+        return getWorkNodes().stream().filter(n -> notConnected(n)).filter(n -> n.port.equals(Port.OUTLET)).mapToDouble(n -> n.getWork().getAsDouble()).sum();
+    }
+    
+    /**
+     * Calculate the heat input to the cycle using connections. This assumes that all optionalDoubles are complete.
+     * @return Returns the total work input
+     */
+    public double heatIn() {
+        return getHeatNodes().stream().filter(n -> notConnected(n)).filter(n -> n.port.equals(Port.INLET)).mapToDouble(n -> n.getHeat().getAsDouble()).sum();
+    }
+    
+    /**
+     * Calculate the heat output from the cycle using connections. This assumes that all optionalDoubles are complete.
+     * @return Returns the total work input
+     */
+    public double heatOut() {
+        return getHeatNodes().stream().filter(n -> notConnected(n)).filter(n -> n.port.equals(Port.OUTLET)).mapToDouble(n -> n.getHeat().getAsDouble()).sum();
+    }
+    
+    /**
+     * Determines in the node is connected to another node in the system.
+     * @param n The node of interest.
+     * @return Returns true if the node is connected to another node.
+     */
+    private boolean notConnected(Node n) {
+        return connectionsReadOnly.filtered(c -> c.contains(n)).isEmpty();
     }
     
     /**
@@ -634,68 +663,67 @@ public class Cycle extends Observable implements Properties, Serializable {
         });
     }
     
-    public final void solveParametric() {
-        // 
-        solve();
-        // save output
-        reset();
-    }
-    
     // reporting methods
     public final void reportExergyAnalysis() {
-        System.out.println();
-        System.out.println("Exergy Analysis");
-        System.out.println("===============");
-        System.out.println();
     }
     public final void reportResults() {
-        System.out.println();
-        System.out.println("RESULTS REPORT");
-        System.out.println("==============");
-        System.out.println();
-        System.out.println("COMPONENT REPORT");
-        System.out.println("----------------");
-        components.forEach(c -> {c.reportResults(Cycle.doubleFormat);});
-        System.out.println();
-        System.out.println("CYCLE PERFORMANCE");
-        System.out.println("-----------------");
-        System.out.println("Thermal Efficiency: \t \t " + Cycle.percentageFormat.format(efficiencyThermal()) + "%");
-        System.out.println("Rational Efficiency: \t \t " + Cycle.percentageFormat.format(efficiencyRational()) + "%");
-        System.out.println("Net Work: \t \t \t " + Cycle.doubleFormat.format(workOut() - workIn()) + "W");
+        report.info("");
+        report.info("Results Report");
+        report.info("==============");
+        report.info("");
+        report.info("Component Report");
+        report.info("----------------");
+        report.info("");
+        components.forEach(c -> {c.status();});
+        report.info("");
+        report.info("Cycle Report");
+        report.info("------------");
+        report.info("");
+        report.info("Thermal Efficiency: \t \t " + Cycle.percentageFormat.format(efficiencyThermal()) + "%");
+        report.info("Rational Efficiency: \t \t " + Cycle.percentageFormat.format(efficiencyRational()) + "%");
+        report.info("Net Work: \t \t \t " + Cycle.doubleFormat.format(workOut() - workIn()) + "W");
     }
     public final void reportSetup() {
-        System.out.println();
-        System.out.println("SETUP REPORT");
-        System.out.println("============");
-        System.out.println();
-        System.out.println("ENVIRONMENT REPORT");
-        System.out.println("----------------");
-        System.out.println("Ambient pressure and temperature are: " + ambient.get(Property.PRESSURE) + " Pa and " + ambient.get(Property.TEMPERATURE)+ " K");
-        System.out.println("System contains: " + fluids.size() + " Fluids");
-        fluids.forEach(f -> {System.out.println(f);});
-        System.out.println();
-        System.out.println("COMPONENT REPORT");
-        System.out.println("----------------");
-        System.out.println("System contains: " + components.size() + " Components");
-        components.forEach(c -> {c.reportSetup();});
-        System.out.println();
-        System.out.println("PATH REPORT");
-        System.out.println("-----------");
-        System.out.println("System contains: " + paths.size() + " Paths");
+        report.info("");
+        report.info("SETUP REPORT");
+        report.info("============");
+        report.info("");
+        report.info("ENVIRONMENT REPORT");
+        report.info("----------------");
+        report.info("Ambient pressure and temperature are: " + ambient.get(Property.PRESSURE) + " Pa and " + ambient.get(Property.TEMPERATURE)+ " K");
+        report.info("System contains: " + fluids.size() + " Fluids");
+        fluids.forEach(f -> {report.info(f);});
+        report.info("");
+        report.info("COMPONENT REPORT");
+        report.info("----------------");
+        report.info("System contains: " + components.size() + " Components");
+        components.forEach(c -> {c.status();});
+        report.info("");
+        report.info("PATH REPORT");
+        report.info("-----------");
+        report.info("System contains: " + paths.size() + " Paths");
     }
     public final void  reportSolver() {
-        System.out.println();
-        System.out.println("Solver Report");
-        System.out.println("=============");
-        System.out.println();
-        if (iteration.equals(Cycle.maxIterations)) {System.out.println("Maximum number of itterations reached: " + iteration + ". Solution is not complete.");}
-        else {System.out.println("Solution achieved in " + iteration + " itterations.");}
+        report.info("");
+        report.info("Solver Report");
+        report.info("=============");
+        report.info("");
+        if (iteration.equals(Cycle.maxIterations)) {
+            report.info("Maximum number of itterations reached: " + iteration + ". Solution is not complete.");
+        }
+        else {
+            report.info("Solution achieved in " + iteration + " itterations.");
+        }
         Set<Component> unsolved = new HashSet<>(components.stream().filter(c -> !c.isComplete()).collect(Collectors.toSet()));
         if (unsolved.size() > 0) {
-            System.out.println("The following components are unsolved:");
-            components.stream().filter(c -> !c.isComplete()).forEach(c -> {System.out.println(c.name);});
+            report.info("The following components are unsolved:");
+            components.stream().filter(c -> !c.isComplete()).forEach(c -> {
+                report.info(c.name);
+            });
         }
-        else {System.out.println("All components have been solved.");}
+        else {
+            report.info("All components have been solved.");
+        }
     }
     
     /**
