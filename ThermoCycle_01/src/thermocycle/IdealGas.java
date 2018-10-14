@@ -85,7 +85,7 @@ public final class IdealGas extends Fluid {
     }
     
     @Override
-    protected final Set<Property> fluidState() {
+    public final Set<Property> fluidState() {
         Set<Property> fluidState = new HashSet<>();
         fluidState.add(PRESSURE);
         fluidState.add(TEMPERATURE);

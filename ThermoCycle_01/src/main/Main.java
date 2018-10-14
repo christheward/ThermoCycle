@@ -26,7 +26,8 @@ public class Main extends Application {
         launch(args);
     }
     
-    @Override public void start(Stage primaryStage) throws IOException, InterruptedException {
+    @Override
+    public void start(Stage primaryStage) throws IOException, InterruptedException {
         stage = primaryStage;
         Launcher();
     }
@@ -42,8 +43,8 @@ public class Main extends Application {
         } catch(Exception e) {
             e.printStackTrace();
         }
-        //root.setCenter(new RootLayout());
         root.setCenter(new Canvas());
+        
     }
     
     private void ChartTest() throws IOException, InterruptedException {

@@ -13,6 +13,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -85,8 +86,6 @@ public class CanvasPath extends ToolboxPath {
     public CanvasPath(Canvas canvas) {
         super();
         this.canvas = canvas;
-        buildContextMenu();
-        buildClickHandlers();
     }
         
     /**
@@ -121,6 +120,9 @@ public class CanvasPath extends ToolboxPath {
         });
         // Create conection in model
         connection = canvas.model.createConnection(start.node, end.node);
+        // Creat context menu
+        buildContextMenu();
+        buildClickHandlers();
     }
     
     /**
@@ -140,6 +142,11 @@ public class CanvasPath extends ToolboxPath {
         ((LineTo)last()).setX(point.getX());
         ((LineTo)last()).setY(point.getY());
     }
+    
+    /**
+     * Test to see if this is a flow connection. This needs to be it's own function because the node type is not known when creating the context menu.
+     * 
+     */
     
     /**
      * Builds the mouse click handlers for the connection.
@@ -162,6 +169,21 @@ public class CanvasPath extends ToolboxPath {
      */
     private void buildContextMenu() {
         menu = new ContextMenu();
+        if (start.node instanceof thermocycle.FlowNode) {
+            Menu submenu = new Menu("Set fluid");
+            canvas.model.fluidsReadOnly.forEach(f -> {
+                MenuItem fluidItem = new MenuItem(f.toString());
+                submenu.getItems().add(fluidItem);
+                fluidItem.setOnAction(new EventHandler() {
+                    @Override
+                    public void handle(Event event) {
+                        canvas.model.setFluid((thermocycle.FlowNode)start.node, f);
+                        event.consume();
+                    }
+                });
+            });
+            menu.getItems().add(submenu);
+        }
         MenuItem item = new MenuItem("Remove connection");
         item.setOnAction(new EventHandler() {
             @Override

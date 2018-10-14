@@ -35,6 +35,7 @@ public class Toolbox extends StackPane{
      * Constructor
      */
     public Toolbox(Canvas canvas) {
+        
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Toolbox.fxml"));
         fxmlLoader.setRoot(this);
@@ -45,6 +46,7 @@ public class Toolbox extends StackPane{
             throw new RuntimeException(exception);
         }
         this.canvas = canvas;
+        
     }
     
     /**

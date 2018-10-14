@@ -30,8 +30,9 @@ public class ThermoCycle implements Properties {
        //GT_Test();
        //GT_Test_InterCool();
        //GT_Test_Reheat();
-       GT_Test_ReheatInterCool();
+       //GT_Test_ReheatInterCool();
        //GT_Test_WHRU();
+       Refrigeration_Test();
     }
     
     public static void Turbine_Test() throws InterruptedException, ExecutionException {
@@ -56,15 +57,8 @@ public class ThermoCycle implements Properties {
         turb.getOutlet().setState(PRESSURE, OptionalDouble.of(gasTurb.getAmbient(PRESSURE)));
         turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
         
-        // report pre-solve
-        gasTurb.reportSetup();
-        
         // solve
         gasTurb.solve();
-        
-        // reports post solve
-        gasTurb.reportSolver();
-        gasTurb.reportResults();
         
     }
     
@@ -90,15 +84,8 @@ public class ThermoCycle implements Properties {
         comp.getInlet().setState(PRESSURE, OptionalDouble.of(gasTurb.getAmbient(PRESSURE)));
         comp.getInlet().setState(TEMPERATURE, OptionalDouble.of(gasTurb.getAmbient(TEMPERATURE)));
         
-        // report pre-solve
-        gasTurb.reportSetup();
-        
         // solve
         gasTurb.solve();
-        
-        // reports post solve
-        gasTurb.reportSolver();
-        gasTurb.reportResults();
         
     }
     
@@ -124,16 +111,9 @@ public class ThermoCycle implements Properties {
         comb.getInlet().setState(TEMPERATURE, OptionalDouble.of(gasTurb.getAmbient(TEMPERATURE)));
         comb.getSupply().setHeat(OptionalDouble.of(2000));
         
-        // report pre-solve
-        gasTurb.reportSetup();
-        
         // solve
         gasTurb.solve();
         
-        // reports post solve
-        gasTurb.reportSolver();
-        gasTurb.reportResults();
-     
     }
     
     public static void HeatSink_Test() throws InterruptedException, ExecutionException {
@@ -158,15 +138,8 @@ public class ThermoCycle implements Properties {
         sink.getInlet().setState(TEMPERATURE, OptionalDouble.of(500));
         sink.setAttribute(PLOSS,OptionalDouble.of(0.05));
         
-        // report pre-solve
-        gasTurb.reportSetup();
-        
         // solve
         gasTurb.solve();
-        
-        // reports post solve
-        gasTurb.reportSolver();
-        gasTurb.reportResults();
      
     }
     
@@ -195,15 +168,8 @@ public class ThermoCycle implements Properties {
         whru.getInletHot().setState(TEMPERATURE, OptionalDouble.of(500));
         whru.getInletHot().setState(PRESSURE, OptionalDouble.of(3e5));
         
-        // report pre-solve
-        gasTurb.reportSetup();
-        
         // solve
         gasTurb.solve();
-        
-        // reports post solve
-        gasTurb.reportSolver();
-        gasTurb.reportResults();
      
    }
     
@@ -241,16 +207,9 @@ public class ThermoCycle implements Properties {
         comb.setAttribute(PLOSS, OptionalDouble.of(0.05));
         turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
         sink.setAttribute(PLOSS, OptionalDouble.of(0.05));
-        
-        // report pre-solve
-        gasTurb.reportSetup();
                 
         // solve
         gasTurb.solve();
-        
-        // reports post solve
-        gasTurb.reportSolver();
-        gasTurb.reportResults();
         
     }
     
@@ -298,15 +257,8 @@ public class ThermoCycle implements Properties {
         cool.setAttribute(PLOSS, OptionalDouble.of(0.05));
         sink.setAttribute(PLOSS, OptionalDouble.of(0.05));
         
-        // reports pre-solve
-        gasTurbCool.reportSetup();
-        
         // solve
         gasTurbCool.solve();
-        
-        // reports post-solve
-        gasTurbCool.reportSolver();
-        gasTurbCool.reportResults();
         
     }
     
@@ -353,16 +305,9 @@ public class ThermoCycle implements Properties {
         lp_turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
         hp_turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
         sink.setAttribute(PLOSS, OptionalDouble.of(0.05));
-        
-        // Report pre-solve
-        gasTurbHeat.reportSetup();
                 
         // solve
         gasTurbHeat.solve();
-        
-        // reports post-solve
-        gasTurbHeat.reportSolver();
-        gasTurbHeat.reportResults();
         
     }
     
@@ -420,11 +365,6 @@ public class ThermoCycle implements Properties {
         // solve
         gasTurb.solve();
         
-        // reports post solve
-        gasTurb.reportSetup();
-        gasTurb.reportSolver();
-        gasTurb.reportResults();
-        
     }
     
     public static void GT_Test_WHRU() throws InterruptedException, ExecutionException {
@@ -467,15 +407,50 @@ public class ThermoCycle implements Properties {
         comb.setAttribute(PLOSS, OptionalDouble.of(0.05));
         sink.setAttribute(PLOSS, OptionalDouble.of(0.0));
         
-        // reports pre-solve
-        gasTurb.reportSetup();
-        
         // solve
         gasTurb.solve();
         
-        // reports post solve
-        gasTurb.reportSolver();
-        gasTurb.reportResults();
+    }
+    
+    public static void Refrigeration_Test() throws InterruptedException, ExecutionException {
+        
+        // create cycle
+        Cycle refridge = new Cycle("Refrigertion cycle");
+        refridge.setAmbient(101325,300);
+        
+        // create fluids
+        IdealGas air = refridge.createIdealGas("Air", 1.4, 287.0);
+        
+        // create components
+        Compressor comp = refridge.createCompressor("Compressor");
+        Combustor comb = refridge.createCombustor("Evapourator");
+        Turbine turb = refridge.createTurbine("Turbine");
+        HeatSink sink = refridge.createHeatSink("Condensor");
+        
+        // create connections
+        refridge.createConnection(comp.getOutlet(), sink.getInlet());
+        refridge.createConnection(sink.getOutlet(), turb.getInlet());
+        refridge.createConnection(turb.getOutlet(), comb.getInlet());
+        refridge.createConnection(comb.getOutlet(), comp.getInlet());
+
+        // set fluid
+        refridge.setFluid(comp.getInlet(), air);
+        
+        //  set initial properties
+        comp.getInlet().setMass(OptionalDouble.of(1));
+        comp.getInlet().setState(PRESSURE, OptionalDouble.of(refridge.getAmbient(PRESSURE)));
+        comp.getInlet().setState(TEMPERATURE, OptionalDouble.of(253.0));
+        
+        sink.getOutlet().setState(TEMPERATURE, OptionalDouble.of(257.0));
+        
+        turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
+        comp.setAttribute(PRATIO, OptionalDouble.of(10));
+        comp.setAttribute(EFFICIENCY, OptionalDouble.of(0.9));
+        comb.setAttribute(PLOSS, OptionalDouble.of(0.0));
+        sink.setAttribute(PLOSS, OptionalDouble.of(0.0));
+        
+        // solve
+        refridge.solve();
         
     }    
 }

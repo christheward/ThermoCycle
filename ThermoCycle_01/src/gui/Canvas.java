@@ -7,7 +7,12 @@ package gui;
 
 import com.jfoenix.controls.JFXDrawer;
 import gui.DragContainer;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Set;
 import java.util.function.Function;
@@ -28,7 +33,10 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  *
@@ -39,8 +47,11 @@ public class Canvas extends VBox implements Serializable {
     // FXML variables
     @FXML private AnchorPane canvas;
     @FXML private JFXDrawer toolbox;
-    @FXML private AnchorPane infobox;
+    @FXML private StackPane infobox;
     @FXML private AnchorPane consolePane;
+    @FXML private MenuItem fileOpen;
+    @FXML private MenuItem fileSave;
+    @FXML private MenuItem fileSaveas;
     private Toolbox toolboxContent;
     protected Infobox infoboxContent;
     protected ToolboxIcon dragIcon;
@@ -49,6 +60,11 @@ public class Canvas extends VBox implements Serializable {
     
     // Variables
     private boolean lockOpen;
+    
+    // Dialogues
+    Stage fileBrowserDialogue = new Stage();
+    FileChooser fileChooser = new FileChooser();                
+    File file;
     
     // Event handlers
     protected EventHandler iconDragOverCanvas;
@@ -62,8 +78,10 @@ public class Canvas extends VBox implements Serializable {
      * Constructor
      */
     public Canvas() {
+        
         // Setup model
-        model = new thermocycle.Cycle("test");
+        model = new thermocycle.Cycle("ThermoCycle");
+        
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Canvas.fxml"));
         fxmlLoader.setRoot(this);
@@ -82,16 +100,12 @@ public class Canvas extends VBox implements Serializable {
         
         canvas.getStyleClass().add("canvas");
         
-        // Setup FXML
+        // Setup toolbox
         toolboxContent = new Toolbox(this);
         toolbox.setSidePane(toolboxContent);
         toolbox.setOverLayVisible(false);
         toolbox.setBackground(null);
         toolbox.getStyleClass().add("canvas");
-        
-        infoboxContent = new Infobox(this);
-        infobox.getChildren().add(infoboxContent);
-        infoboxContent.showDetails(Canvas.this);
         
         // Setup toolbox control
         toolbox.setOnMouseEntered(new EventHandler() {
@@ -125,6 +139,11 @@ public class Canvas extends VBox implements Serializable {
             }
         });
         
+        // Setup infobox
+        infoboxContent = new Infobox(this);
+        infobox.getChildren().add(infoboxContent);
+        infoboxContent.showDetails(Canvas.this);
+        
         // Set up console
         Console console = new Console(this);
         consolePane.getChildren().add(console);
@@ -133,7 +152,7 @@ public class Canvas extends VBox implements Serializable {
         AnchorPane.setLeftAnchor(console, 0.0);
         AnchorPane.setRightAnchor(console, 0.0);
         console.setVisible(true);
-                
+        
         // Set up drag handlers
         buildDragHandlers();
         
@@ -146,12 +165,70 @@ public class Canvas extends VBox implements Serializable {
         dragIcon.setOpacity(0.5);
         canvas.getChildren().add(dragIcon);
         
-        // Setup dragConnection
+        // Set up dragConnection
         dragConnection = new ToolboxPath();
         dragConnection.setVisible(false);
         dragConnection.setOpacity(0.35);
         canvas.getChildren().add(dragConnection);
         
+        // Load fluid library
+        model.createIdealGas("Air", 1.4, 287.05);
+        model.createIdealGas("Steam", 1.33, 461.52);
+        
+    }
+    
+    /**
+     * Build menu handlers
+     */
+    private void buildMenuHandlers() {
+        fileSave.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (file != null) {
+                    fileChooser.setTitle("Save Model File");
+                    file = fileChooser.showOpenDialog(fileBrowserDialogue);
+                }
+                try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(file))) {
+                    os.writeObject(model);
+                }
+                catch(IOException e) {
+                    System.err.println("I/O error. " + e.getMessage());
+                }
+            }
+        });
+        fileSaveas.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                fileChooser.setTitle("Save Model File");
+                file = fileChooser.showOpenDialog(fileBrowserDialogue);
+                try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(file))) {
+                    os.writeObject(model);
+                }
+                catch(IOException e) {
+                    System.err.println("I/O error. " + e.getMessage());
+                }
+            }
+        });
+        fileOpen.setOnAction(new EventHandler() {
+            /**
+             * Need to work out how to re build the gui canvas.
+             * @param event 
+             */
+            @Override
+            public void handle(Event event) {
+                fileChooser.setTitle("Open Model File");
+                file = fileChooser.showOpenDialog(fileBrowserDialogue);
+                try (ObjectInputStream is = new ObjectInputStream(new FileInputStream(file))) {
+                    model = (thermocycle.Cycle)is.readObject();
+                }
+                catch(ClassNotFoundException e) {
+                    System.err.println("Class not found. " + e.getMessage());
+                }
+                catch(IOException e) {
+                    System.err.println("I/O error. " + e.getMessage());
+                }
+            }
+        });
     }
     
     /**
@@ -160,7 +237,16 @@ public class Canvas extends VBox implements Serializable {
     private void buildClickHandlers() {
         
         menu = new ContextMenu();
-        MenuItem item = new MenuItem("Show Nodes");
+        MenuItem item = new MenuItem("Solve");
+        item.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                model.solve();
+                event.consume();
+            }
+        });
+        menu = new ContextMenu();
+        item = new MenuItem("Show Nodes");
         item.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
@@ -183,7 +269,6 @@ public class Canvas extends VBox implements Serializable {
         item.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                model.reportSetup();
                 event.consume();
             }
         });
@@ -202,7 +287,6 @@ public class Canvas extends VBox implements Serializable {
                 event.consume();
             }
         });
-        
         
     }
     
@@ -346,6 +430,7 @@ public class Canvas extends VBox implements Serializable {
                 event.consume();
             }
         };
+        
     }
     
     /**

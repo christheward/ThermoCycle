@@ -24,9 +24,9 @@ public interface Attributes {
         IHEATTRANSFER("Ideal Heat Transfer","Q_Ideal","W",0.0,Double.POSITIVE_INFINITY),
         SPLIT("Split","x","-",0.0,1.0);
         
-        protected final String fullName;
-        protected final String symbol;
-        protected final String units;
+        public final String fullName;
+        public final String symbol;
+        public final String units;
         protected final double min;
         protected final double max;
         

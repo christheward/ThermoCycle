@@ -36,7 +36,7 @@ public final class HeatNode extends Node {
      * Gets the nodes heat value.
      * @return Returns the node's heat value.
      */
-    protected OptionalDouble getHeat() {
+    public OptionalDouble getHeat() {
         if (heat.isPresent()) {
             return OptionalDouble.of(heat.getAsDouble());
         }
@@ -81,8 +81,9 @@ public final class HeatNode extends Node {
     
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(super.toString());
-        sb.append(System.lineSeparator()).append("  heat: ").append(heat).append(" W").append(System.lineSeparator());
-        return sb.toString();
+        //StringBuilder sb = new StringBuilder(super.toString());
+        //sb.append(System.lineSeparator()).append("  heat: ").append(heat).append(" W").append(System.lineSeparator());
+        //return sb.toString();
+        return (heat.isPresent() ? String.valueOf(heat.getAsDouble()) : "-Unknown-");
     }
 }

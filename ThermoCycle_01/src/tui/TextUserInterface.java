@@ -74,10 +74,6 @@ public class TextUserInterface {
                     solve(commands);
                     break;
                 }
-                case "REPORT": {
-                    report(commands);
-                    break;
-                }
                 case "PLOT": {
                     break;
                 }
@@ -103,7 +99,6 @@ public class TextUserInterface {
             System.out.println("Loading model from " + filename);
             model = (Cycle)is.readObject();
             System.out.println("Load complete");
-            
         }
         catch(ClassNotFoundException e) {
             System.err.println("Class not found. " + e.getMessage());
@@ -299,33 +294,5 @@ public class TextUserInterface {
      */
     private void solve(ArrayList<String> commands) {
         model.solve();
-    }
-    
-    /**
-     * Command for reporting and plotting results
-     * @param commands Command line string.
-     */
-    private void report(ArrayList<String> commands) {
-        try {
-            switch (commands.get(1)) {
-                case "SETUP": {
-                    model.reportSetup();
-                    break;
-                }
-                case "RESULTS": {
-                    model.reportResults();
-                    break;
-                }
-                case "EXERGY": {
-                    model.reportExergyAnalysis();
-                    break;
-                }
-                default: {
-                    throw new IllegalArgumentException("Invlaid REPORT type. Must be SETUP, RESULTS, or EXERGY.");
-                }
-            }
-        }
-        catch (Exception e) {
-        }
     }
 }

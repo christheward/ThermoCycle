@@ -249,7 +249,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @return Returns a list of all Nodes that are updated during the computation
      */
     protected final Set<Node> update() {
-        logger.info("Solving " + this.getClass().getSimpleName());
+        logger.info("Solving " + this);
         Set<Node> updatedNodes = new HashSet();
         while (updatedNodes.addAll(solve())) {}                          // keep computing until no nodes are updated
         return updatedNodes;
@@ -271,7 +271,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * Get the net exergy change across the component.
      * @return Returns the net exergy change across the component.
      */
-    private final double exergyLoss() {
+    public final double exergyLoss() {
         return ((flowExergyIn() + workIn() + heatExergyIn()) - (flowExergyOut() - workOut() - heatExergyOut()));
     }
     
@@ -396,30 +396,6 @@ public abstract class Component implements Attributes, Properties, Serializable 
             E = E + (fT * dQ);
         }
         return E;
-    }
-    
-    // reporting methods
-    protected final void status() {
-        logger.info(toString() + ((isComplete()) ? ": Compelte" : ": Not complete"));
-        if (isComplete()) {
-            logger.info("Mass in: " + massIn());
-            logger.info("Mass out: " + massOut());
-            logger.info("Work in: " + workIn());
-            logger.info("Work out: " + workOut());
-            logger.info("Heat in: " + heatIn());
-            logger.info("Heat out: " + heatOut());
-        }
-        else {
-            logger.info(getFlowInlets().size() + " Flow Inlets  (" + getFlowInlets().stream().filter(n -> n.isComplete()).collect(Collectors.toList()).size() + " complete)");
-            logger.info(getFlowOutlets().size() + " Flow Outlets  (" + getFlowOutlets().stream().filter(n -> n.isComplete()).collect(Collectors.toList()).size() + " complete)");
-            logger.info(getWorkInlets().size() + " Work Inlets  (" + getWorkInlets().stream().filter(n -> n.isComplete()).collect(Collectors.toList()).size() + " complete)");
-            logger.info(getWorkOutlets().size() + " Work Outlets  (" + getWorkOutlets().stream().filter(n -> n.isComplete()).collect(Collectors.toList()).size() + " complete)");
-            logger.info(getHeatInlets().size() + " Heat Inlets  (" + getHeatInlets().stream().filter(n -> n.isComplete()).collect(Collectors.toList()).size() + " complete)");
-            logger.info(getHeatOutlets().size() + " Heat Outlets  (" + getHeatOutlets().stream().filter(n -> n.isComplete()).collect(Collectors.toList()).size() + " complete)");
-            equations.forEach(e -> {
-                logger.info(e.toString());
-            });
-        }
     }
     
     @Override

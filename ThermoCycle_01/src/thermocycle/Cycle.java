@@ -93,6 +93,16 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     
     /**
+     * Get the value of the attribute belonging to this component.
+     * @param component The component of interest.
+     * @param attribute The attribute of interest.
+     * @return Returns the value of the attribute belonging to the component.
+     */
+    public OptionalDouble getAttribute(Component component, Attribute attribute) {
+        return component.getAttribute(attribute);
+    }
+    
+    /**
      * Get the set of attributes that belong to this component.
      * @param component The component of interest.
      * @return Returns a set of attributes belong to the component.
@@ -166,6 +176,43 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public String getName() {
         return name;
+    }
+    
+    /**
+     * Gets the work value for the work node.
+     * @param node The work node.
+     * @return The work value.
+     */
+    public OptionalDouble getWork(WorkNode node) {
+        return node.getWork();
+    }
+
+    /**
+     * Gets the heat value for the heat node.
+     * @param node The heat node.
+     * @return The heat value.
+     */
+    public OptionalDouble getHeat(HeatNode node) {
+        return node.getHeat();
+    }
+    
+    /**
+     * Gets the mass value for the flow node.
+     * @param node The flow node.
+     * @return The mass value.
+     */
+    public OptionalDouble getMass(FlowNode node) {
+        return node.getMass();
+    }
+    
+    /**
+     * Gets the state value for the flow node.
+     * @param node The flow node.
+     * @param property The property to get.
+     * @return The state value.
+     */
+    public OptionalDouble getState(FlowNode node, Property property) {
+        return node.getState(property);
     }
     
     /**
@@ -466,16 +513,6 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     
     /**
-     * Solve the cycle sweeping through the parameters
-     */
-    public void parametricSolve() {
-        // Loop
-        stack.forEach(c -> c.execute());    // Reset system.
-                                            // Set the parameteer value
-        solve();                            // Sole the system
-    }
-    
-    /**
      * Gets a list of all the variables names and values.
      * @return Returns a HashMap of all the variables and unique names.
      */
@@ -517,6 +554,19 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     
     /**
+     * Reset the cycle to its state prior to solving.
+     */
+    private final void reset() {
+        // clears all values from components
+        components.stream().forEach(c -> {
+            c.clear();
+        });
+        // reset the initial conditions
+        stack.forEach(c -> c.execute());
+    }
+    
+    
+    /**
      * Solves the current cycle
      * @return Returns true if a solution is achieved.
      */
@@ -544,32 +594,32 @@ public class Cycle extends Observable implements Properties, Serializable {
                 // remove complete components from the unsolved list
                 unsolved.removeAll(unsolved.stream().filter(c -> c.isComplete()).collect(Collectors.toSet()));
             } while(updatedNodes.size() > 0 && iteration < Cycle.maxIterations);
-            // Note that connection compatibility os checked during x.update()
-            components.stream().forEach(comp -> {
-                if (!comp.isCompatible()) {
-                    logger.error("Incompatible component: " + comp.name);
-                    comp.attributes.keySet().forEach(at -> {
-                        logger.error(at.name() + " = " + comp.getAttribute(at));
-                    });
-                    throw new IllegalStateException("Components are incompatible!!!");
-                }
-            });
-            // Notify listeners
-            setChanged();
-            notifyObservers();
-            logger.info("System solved");
+            
+            // Check to see if itteration limit reached
+            if (iteration.equals(Cycle.maxIterations)) {
+                logger.error("Maximum number of iterations reached");
+            }
+            else {
+                // Notify listeners
+                setChanged();
+                notifyObservers();
+                logger.info("System solved");
+            }
             return unsolved.isEmpty();
         }
         catch (Exception exc) {
-            report.info("");
-            report.info("ERROR REPORT");
-            report.info("============");
-            report.info(exc.getClass());
-            report.info(exc.getMessage());
-            exc.printStackTrace();
-            reportSolver();
         }
         return false;
+    }
+    
+    /**
+     * Solve the cycle sweeping through the parameters
+     */
+    public void solveParametric() {
+        // Loop
+        
+                                            // Set the parameteer value
+        solve();                            // Sole the system
     }
     
     /**
@@ -651,79 +701,6 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     private boolean notConnected(Node n) {
         return connectionsReadOnly.filtered(c -> c.contains(n)).isEmpty();
-    }
-    
-    /**
-     * Reset the cycle to its state prior to solving.
-     */
-    private final void reset() {
-        // clears all values from components
-        components.stream().forEach(c -> {
-            c.clear();
-        });
-    }
-    
-    // reporting methods
-    public final void reportExergyAnalysis() {
-    }
-    public final void reportResults() {
-        report.info("");
-        report.info("Results Report");
-        report.info("==============");
-        report.info("");
-        report.info("Component Report");
-        report.info("----------------");
-        report.info("");
-        components.forEach(c -> {c.status();});
-        report.info("");
-        report.info("Cycle Report");
-        report.info("------------");
-        report.info("");
-        report.info("Thermal Efficiency: \t \t " + Cycle.percentageFormat.format(efficiencyThermal()) + "%");
-        report.info("Rational Efficiency: \t \t " + Cycle.percentageFormat.format(efficiencyRational()) + "%");
-        report.info("Net Work: \t \t \t " + Cycle.doubleFormat.format(workOut() - workIn()) + "W");
-    }
-    public final void reportSetup() {
-        report.info("");
-        report.info("SETUP REPORT");
-        report.info("============");
-        report.info("");
-        report.info("ENVIRONMENT REPORT");
-        report.info("----------------");
-        report.info("Ambient pressure and temperature are: " + ambient.get(Property.PRESSURE) + " Pa and " + ambient.get(Property.TEMPERATURE)+ " K");
-        report.info("System contains: " + fluids.size() + " Fluids");
-        fluids.forEach(f -> {report.info(f);});
-        report.info("");
-        report.info("COMPONENT REPORT");
-        report.info("----------------");
-        report.info("System contains: " + components.size() + " Components");
-        components.forEach(c -> {c.status();});
-        report.info("");
-        report.info("PATH REPORT");
-        report.info("-----------");
-        report.info("System contains: " + paths.size() + " Paths");
-    }
-    public final void  reportSolver() {
-        report.info("");
-        report.info("Solver Report");
-        report.info("=============");
-        report.info("");
-        if (iteration.equals(Cycle.maxIterations)) {
-            report.info("Maximum number of itterations reached: " + iteration + ". Solution is not complete.");
-        }
-        else {
-            report.info("Solution achieved in " + iteration + " itterations.");
-        }
-        Set<Component> unsolved = new HashSet<>(components.stream().filter(c -> !c.isComplete()).collect(Collectors.toSet()));
-        if (unsolved.size() > 0) {
-            report.info("The following components are unsolved:");
-            components.stream().filter(c -> !c.isComplete()).forEach(c -> {
-                report.info(c.name);
-            });
-        }
-        else {
-            report.info("All components have been solved.");
-        }
     }
     
     /**

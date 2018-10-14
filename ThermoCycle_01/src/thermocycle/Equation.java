@@ -111,24 +111,21 @@ abstract class Equation implements Serializable {
      * @return Return the updated node else returns null.
      */
     protected Node solve() {
-        logger.info("Solving equation" + this.getClass().getSimpleName());
-        logger.info("Unknowns: " + unknowns().size());
         switch (unknowns().size()) {
             // if 0 unknows check compatability
             case 0: {
                 if (compatible()) {
                     state = STATE.COMPATIBLE;
-                    logger.info("Compatible");
+                    logger.info(this.getClass().getSimpleName() + " equation is compatible");
                 }
                 else {
                     state = state.INCOMPATIBLE;
-                    logger.info("Not Compatible");
+                    logger.error(this.getClass().getSimpleName() + " equation is not compatible");
                 }
                 return null;}
             // if 1 unknown solve for single unknown
             case 1: {
-                logger.info("Solve for: " + unknowns().get(0));
-                logger.info("Variable is: " + solveVariable(unknowns().get(0)).getAsDouble());
+                logger.info("Solving " + this.getClass().getSimpleName() + " for " + unknowns().get(0));
                 return saveVariable(unknowns().get(0), solveVariable(unknowns().get(0)));
             }
             // if more than one unknown do nothing.
@@ -156,6 +153,6 @@ abstract class Equation implements Serializable {
     
     @Override
     public String toString() {
-        return (getClass().getSimpleName() + ": " + state);
+        return (getClass().getSimpleName() + " is " + state);
     }
 }

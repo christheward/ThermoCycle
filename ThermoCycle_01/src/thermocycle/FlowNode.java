@@ -5,7 +5,9 @@
  */
 package thermocycle;
 
+import java.util.HashSet;
 import java.util.OptionalDouble;
+import java.util.Set;
 
 
 /**
@@ -51,6 +53,14 @@ public final class FlowNode extends Node implements Properties {
      */
     protected Fluid getFluid() {
         return fluid;
+    }
+    
+    /**
+     * Gets the list of allowable properties
+     * @return Returns the list of allowable properties for the node.
+     */
+    public Set<Property> allowableProperties() {
+        return fluid == null ? new HashSet<>() : new HashSet<>(fluid.fluidState());
     }
     
     /**
