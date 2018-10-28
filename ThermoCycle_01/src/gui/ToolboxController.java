@@ -5,7 +5,7 @@
  */
 package gui;
 
-import gui.DragContainer;
+import gui.DragContainerController;
 import java.io.IOException;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,19 +22,19 @@ import javafx.scene.layout.VBox;
  *
  * @author Chris
  */
-public class Toolbox extends StackPane{
+public class ToolboxController extends StackPane{
     
     // FXML variables
     @FXML private VBox contents;
     @FXML protected ImageView pin;
-    private final Canvas canvas;
+    private final CanvasController canvas;
     
     // Event handlers
     
     /**
      * Constructor
      */
-    public Toolbox(Canvas canvas) {
+    public ToolboxController(CanvasController canvas) {
         
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Toolbox.fxml"));
@@ -57,7 +57,7 @@ public class Toolbox extends StackPane{
         // Populate toolbox with componet icons
         for (IconType iconType : IconType.values()) {
             if (thermocycle.Component.class.isAssignableFrom(iconType.type)) {
-                ToolboxIcon icon = new ToolboxIcon(); 
+                ToolboxIconController icon = new ToolboxIconController(); 
                 addDragDetection(icon);
                 icon.setType(iconType);
                 contents.getChildren().add(icon);
@@ -70,7 +70,7 @@ public class Toolbox extends StackPane{
      * Add drag detection handlers to an icon
      * @param icon The toolbox icon to add drag detection handlers to.
      */
-    private void addDragDetection(ToolboxIcon icon) {
+    private void addDragDetection(ToolboxIconController icon) {
         
         icon.setOnDragDetected (new EventHandler <MouseEvent> () {
             @Override
@@ -78,7 +78,7 @@ public class Toolbox extends StackPane{
                 System.out.println("Toolbox: Drag detection");
                 
                 // Get the source object
-                ToolboxIcon source = (ToolboxIcon)event.getSource();
+                ToolboxIconController source = (ToolboxIconController)event.getSource();
                 
                 // Set drag handlers for the uunderlying canvas
                 canvas.setOnDragOver(canvas.iconDragOverCanvas);
@@ -90,9 +90,9 @@ public class Toolbox extends StackPane{
                 
                 // Put data in clipboard to identify icon type
                 ClipboardContent content = new ClipboardContent();
-                DragContainer container = new DragContainer();
+                DragContainerController container = new DragContainerController();
                 container.addData("type", canvas.dragIcon.getType().toString());
-                content.put(DragContainer.AddNode, container);
+                content.put(DragContainerController.AddNode, container);
                 
                 // Start the drag operation
                 canvas.dragIcon.startDragAndDrop(TransferMode.ANY).setContent(content);

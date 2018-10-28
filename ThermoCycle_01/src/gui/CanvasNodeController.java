@@ -5,8 +5,8 @@
  */
 package gui;
 
-import gui.CanvasPath.Direction;
-import static gui.CanvasPath.Direction.*;
+import gui.CanvasPathController.Direction;
+import static gui.CanvasPathController.Direction.*;
 import java.io.IOException;
 import java.io.Serializable;
 import javafx.event.Event;
@@ -31,7 +31,7 @@ import javafx.scene.shape.Circle;
  *
  * @author Chris
  */
-public final class CanvasNode extends AnchorPane implements Serializable {
+public final class CanvasNodeController extends AnchorPane implements Serializable {
     
     
     
@@ -40,8 +40,8 @@ public final class CanvasNode extends AnchorPane implements Serializable {
     @FXML private Circle circle;
     private ContextMenu menu;
     private Tooltip tip;
-    private final Canvas canvas;
-    private final CanvasIcon canvasIcon;
+    private final CanvasController canvas;
+    private final CanvasIconController canvasIcon;
             
     // Event handlers
     protected EventHandler connectionDragDroppedNode;
@@ -54,7 +54,7 @@ public final class CanvasNode extends AnchorPane implements Serializable {
      * @param node The model Node represented by CanvasNode
      * @throws Exception 
      */
-    public CanvasNode(Canvas canvas, CanvasIcon canvasIcon, thermocycle.Node node) throws Exception {
+    public CanvasNodeController(CanvasController canvas, CanvasIconController canvasIcon, thermocycle.Node node) throws Exception {
         this.canvas = canvas;
         this.canvasIcon = canvasIcon;
         this.node = node;
@@ -108,7 +108,7 @@ public final class CanvasNode extends AnchorPane implements Serializable {
                     menu.show(base, event.getScreenX(), event.getScreenY());
                 }
                 else if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    canvas.infoboxContent.showDetails(CanvasNode.this);
+                    canvas.infoboxContent.showDetails(CanvasNodeController.this);
                 }
                 event.consume();
             }
@@ -124,7 +124,7 @@ public final class CanvasNode extends AnchorPane implements Serializable {
                 System.out.println("CanvasNode: Drag detection");
                 
                 // Get the source object
-                CanvasNode source = (CanvasNode) event.getSource();
+                CanvasNodeController source = (CanvasNodeController) event.getSource();
                 
                 // Set drag handlers for the uunderlying canvas
                 canvas.setOnDragDropped(null);
@@ -138,10 +138,10 @@ public final class CanvasNode extends AnchorPane implements Serializable {
                 
                 // Put icon type in clipboard
                 ClipboardContent content = new ClipboardContent();
-                DragContainer container = new DragContainer();
+                DragContainerController container = new DragContainerController();
                 container.addData("startIcon", source.canvasIcon.hashCode());
                 container.addData("startNode", source.hashCode());
-                content.put(DragContainer.AddLink, container);
+                content.put(DragContainerController.AddLink, container);
                 
                 // Start the drag operation
                 canvas.dragConnection.startDragAndDrop(TransferMode.ANY).setContent(content);
@@ -149,8 +149,8 @@ public final class CanvasNode extends AnchorPane implements Serializable {
                 canvas.dragConnection.setMouseTransparent(true);
                 
                 // Disable inligible nodes
-                canvas.disableIneligibleNodes(CanvasNode.this);
-                //canvas.getNodes().filter(n -> (!(n.node.getClass().equals(CanvasNode.this.node.getClass())) | (n.node.port.equals(CanvasNode.this.node.port)))).forEach(n -> {
+                canvas.disableIneligibleNodes(CanvasNodeController.this);
+                //canvas.getNodes().filter(n -> (!(n.node.getClass().equals(CanvasNodeController.this.node.getClass())) | (n.node.port.equals(CanvasNodeController.this.node.port)))).forEach(n -> {
                 //    n.disableProperty().set(true);
                 //});
                 
@@ -165,17 +165,17 @@ public final class CanvasNode extends AnchorPane implements Serializable {
                 System.out.println("CanvasNode: Drag dropped");
                 
                 // Get source object
-                CanvasNode source = (CanvasNode)event.getSource();
+                CanvasNodeController source = (CanvasNodeController)event.getSource();
                 
                 // Remomve drag handlers
                 canvas.setOnDragOver(null);
                 
                 // Add drop coordinates to drag container
                 ClipboardContent content = new ClipboardContent();
-                DragContainer container = (DragContainer)event.getDragboard().getContent(DragContainer.AddLink);
+                DragContainerController container = (DragContainerController)event.getDragboard().getContent(DragContainerController.AddLink);
                 container.addData("endIcon", source.canvasIcon.hashCode());
                 container.addData("endNode", source.hashCode());
-                content.put(DragContainer.AddLink, container);
+                content.put(DragContainerController.AddLink, container);
                 event.getDragboard().setContent(content);
                 event.setDropCompleted(true);
                 
@@ -192,7 +192,7 @@ public final class CanvasNode extends AnchorPane implements Serializable {
         item.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                //((GridPane)CanvasNode.this.getParent()).setGridLinesVisible(true);
+                //((GridPane)CanvasNodeController.this.getParent()).setGridLinesVisible(true);
                 canvasIcon.node_grid.setGridLinesVisible(true);
                 event.consume();
             }
@@ -203,7 +203,7 @@ public final class CanvasNode extends AnchorPane implements Serializable {
         item.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                canvas.infoboxContent.showDetails(CanvasNode.this);
+                canvas.infoboxContent.showDetails(CanvasNodeController.this);
                 event.consume();
             }
         });
@@ -211,8 +211,8 @@ public final class CanvasNode extends AnchorPane implements Serializable {
     }
     
     /**
-     * Gets the location of the CanvasNode in the scene
-     * @return Returns the center of the CanvasNode,
+     * Gets the location of the CanvasNodeController in the scene
+     * @return Returns the center of the CanvasNodeController,
      */
     protected Point2D sceneLocation() {
         Bounds bounds = getBoundsInLocal();

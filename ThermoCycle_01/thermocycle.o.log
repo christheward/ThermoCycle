@@ -1,4 +1,0 @@
-2018-10-09 19:58:53.024 [JavaFX Application Thread] INFO  DebugLog - Created Air (IdealGas)
-2018-10-09 19:58:53.036 [JavaFX Application Thread] INFO  DebugLog - Created Steam (IdealGas)
-2018-10-09 19:58:59.894 [JavaFX Application Thread] TRACE DebugLog - Cycle change notification.
-2018-10-09 19:58:59.894 [JavaFX Application Thread] INFO  DebugLog - Created Turbine (Turbine)

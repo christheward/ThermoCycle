@@ -5,7 +5,7 @@
  */
 package gui;
 
-import static gui.CanvasPath.Direction.*;
+import static gui.CanvasPathController.Direction.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableDoubleValue;
 import javafx.beans.value.ObservableValue;
@@ -25,13 +25,13 @@ import javafx.scene.shape.MoveTo;
  *
  * @author Chris
  */
-public class CanvasPath extends ToolboxPath {
+public class CanvasPathController extends ToolboxPathController {
     
     // FXML variables
-    protected CanvasNode start;
-    protected CanvasNode end;
+    protected CanvasNodeController start;
+    protected CanvasNodeController end;
     private ContextMenu menu;
-    private final Canvas canvas;
+    private final CanvasController canvas;
     
     // varaibles
     private static double length = 10;
@@ -83,16 +83,16 @@ public class CanvasPath extends ToolboxPath {
      * @param start
      * @param end
      */
-    public CanvasPath(Canvas canvas) {
+    public CanvasPathController(CanvasController canvas) {
         super();
         this.canvas = canvas;
     }
         
     /**
-     * Binds the ends of the connection to a CanvasNode.
-     * @param start The CanvasNode to bind the connection to.
+     * Binds the ends of the connection to a CanvasNodeController.
+     * @param start The CanvasNodeController to bind the connection to.
      */
-    protected void bindEnds(CanvasNode startNode, CanvasNode endNode) {
+    protected void bindEnds(CanvasNodeController startNode, CanvasNodeController endNode) {
         // Asign nodes
         start = startNode;
         end = endNode;
@@ -126,7 +126,7 @@ public class CanvasPath extends ToolboxPath {
     }
     
     /**
-     * Move the start of the path to the start CanvasNode
+     * Move the start of the path to the start CanvasNodeController
      */
     private void moveStart() {
         Point2D point = sceneToLocal(start.sceneLocation());
@@ -135,7 +135,7 @@ public class CanvasPath extends ToolboxPath {
     }
     
     /**
-     * Move the start of the path to the end CanvasNode
+     * Move the start of the path to the end CanvasNodeController
      */
     private void moveEnd() {
         Point2D point = sceneToLocal(end.sceneLocation());
@@ -157,7 +157,10 @@ public class CanvasPath extends ToolboxPath {
             public void handle(MouseEvent event) {
                 System.out.println("Connection Click");
                 if (event.getButton().equals(MouseButton.SECONDARY)) {
-                    menu.show(CanvasPath.this, event.getScreenX(), event.getScreenY());
+                    menu.show(CanvasPathController.this, event.getScreenX(), event.getScreenY());
+                }
+                else {
+                    canvas.infoboxContent.showDetails(CanvasPathController.this);
                 }
                 event.consume();
             }
@@ -188,7 +191,7 @@ public class CanvasPath extends ToolboxPath {
         item.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                canvas.remove(CanvasPath.this);
+                canvas.remove(CanvasPathController.this);
                 event.consume();
             }
         });

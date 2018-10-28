@@ -7,7 +7,7 @@ package main;
 
 import gui.Chart;
 import gui.Graph;
-import gui.Canvas;
+import gui.CanvasController;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -43,7 +43,7 @@ public class Main extends Application {
         } catch(Exception e) {
             e.printStackTrace();
         }
-        root.setCenter(new Canvas());
+        root.setCenter(new CanvasController());
         
     }
     

@@ -19,7 +19,7 @@ import javafx.scene.layout.GridPane;
  *
  * @author Chris
  */
-public class ToolboxIcon extends AnchorPane implements Serializable {
+public class ToolboxIconController extends AnchorPane implements Serializable {
     
     // FXML variables
     @FXML protected AnchorPane base;
@@ -35,7 +35,7 @@ public class ToolboxIcon extends AnchorPane implements Serializable {
     /**
      * Constructor
      */
-    public ToolboxIcon() {
+    public ToolboxIconController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ToolboxIcon.fxml"));
         fxmlLoader.setRoot(this); 
         fxmlLoader.setController(this);

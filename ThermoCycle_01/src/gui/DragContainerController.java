@@ -15,7 +15,7 @@ import javafx.util.Pair;
  *
  * @author Chris
  */
-public class DragContainer implements Serializable {
+public class DragContainerController implements Serializable {
     
     /**
      * 
@@ -29,23 +29,23 @@ public class DragContainer implements Serializable {
     /**
      * Constructor
      */
-    public DragContainer () {
+    public DragContainerController () {
     }
     
     /**
-     * Add data to the DragContainer object
-     * @param key The key for the DragContainer object
-     * @param value The object to add to the DragContainer
+     * Add data to the DragContainerController object
+     * @param key The key for the DragContainerController object
+     * @param value The object to add to the DragContainerController
      */
     public void addData (String key, Object value) {
         mDataPairs.add(new Pair<String, Object>(key, value));        
     }
     
     /**
-     * Gets the object from the DragContainer
+     * Gets the object from the DragContainerController
      * @param <T> ?????
      * @param key The key for the object to retrieve
-     * @return Returns the object from the DragContainer
+     * @return Returns the object from the DragContainerController
      */
     public  <T> T getValue (String key) {
         for (Pair<String, Object> data: mDataPairs) {
@@ -57,7 +57,7 @@ public class DragContainer implements Serializable {
     }
     
     /**
-     * Get a list of the key-object pairs in the DragContainer object
+     * Get a list of the key-object pairs in the DragContainerController object
      * @return Returns the list of key-object pairs
      */
     public List <Pair<String, Object> > getData () {

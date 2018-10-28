@@ -59,7 +59,7 @@ public final class FlowNode extends Node implements Properties {
      * Gets the list of allowable properties
      * @return Returns the list of allowable properties for the node.
      */
-    public Set<Property> allowableProperties() {
+    protected Set<Property> allowableProperties() {
         return fluid == null ? new HashSet<>() : new HashSet<>(fluid.fluidState());
     }
     

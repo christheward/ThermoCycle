@@ -5,6 +5,12 @@
  */
 package thermocycle;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import static thermocycle.Properties.Property.*;
 import java.io.Serializable;
 import java.text.*;
@@ -81,6 +87,10 @@ public class Cycle extends Observable implements Properties, Serializable {
         ambient.putIfAbsent(PRESSURE, OptionalDouble.of(101325.0));
         ambient.putIfAbsent(TEMPERATURE, OptionalDouble.of(300.0));
         stack = new ArrayDeque();
+        
+        // Add  default fluid - find a better wt to to this later.
+        this.createIdealGas("Air", 1.4, 287.0);
+        this.createIdealGas("N2", 1.4, 287.0);
     }
     
     /**
@@ -171,6 +181,15 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     
     /**
+     * Gets the fluid for the flow node.
+     * @param node The node to get the fluid for
+     * @return REturns the fluid.
+     */
+    public Fluid getFluid(FlowNode node) {
+        return node.getFluid();
+    }
+    
+    /**
      * Gets the cycle name.
      * @return REturns the cycle name.
      */
@@ -213,6 +232,15 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public OptionalDouble getState(FlowNode node, Property property) {
         return node.getState(property);
+    }
+    
+    /**
+     * Gets all the allowable properties for a flow node based on it's fluid type
+     * @param node The flow node to get allowable properties for.
+     * @return A set of allowable properties
+     */
+    public Set<Property> getAllowablePrroperties(FlowNode node) {
+        return node.allowableProperties();
     }
     
     /**
@@ -415,6 +443,36 @@ public class Cycle extends Observable implements Properties, Serializable {
         fluids.add(new IdealGas(name,ga,r));
         logger.info("Created " + fluids.get(fluids.size()-1));
         return (IdealGas)fluids.get(fluids.size()-1);
+    }
+    
+    /**
+     * Saves the current fluids to  library
+     * @param filename The file name of the library file.
+     * @return 
+     */
+    public void saveFluidLibrary(File filename) {
+        try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(filename))) {
+            os.writeObject(fluids);
+            logger.info("Fluids library saved to: " + filename.toString());
+        }
+        catch(IOException e) {
+            logger.error("I/O error. " + e.getMessage());
+        }
+    }
+    
+    
+    public void loadFluidLibrary(File filename) {
+        try (ObjectInputStream is = new ObjectInputStream(new FileInputStream(filename))) {
+            ObservableList<Fluid> fluidsLibrary = (ObservableList<Fluid>)is.readObject();
+            fluids.addAll(fluidsLibrary);
+            logger.info("Fluids library loaded from: " + filename.toString());
+        }
+        catch(ClassNotFoundException e) {
+            logger.error("Class not found. " + e.getMessage());
+        }
+        catch(IOException e) {
+            logger.error("I/O error. " + e.getMessage());
+        }
     }
 
     /**

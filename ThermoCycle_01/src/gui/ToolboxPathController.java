@@ -16,7 +16,7 @@ import javafx.scene.shape.PathElement;
  *
  * @author Chris
  */
-public class ToolboxPath extends Path{
+public class ToolboxPathController extends Path{
     
     /**
      * Constructor
@@ -28,7 +28,7 @@ public class ToolboxPath extends Path{
      * Starts the drag operation by setting the style and the start location of the path
      * @param canvasNode Te canvas node to start the drag opperation from.
      */
-    protected void startDrag(CanvasNode canvasNode) {
+    protected void startDrag(CanvasNodeController canvasNode) {
         // Set up drag path form
         getElements().clear();
         getElements().add(new MoveTo());
@@ -45,7 +45,7 @@ public class ToolboxPath extends Path{
      * Sets the style for the path
      * @param canvasNode 
      */
-    protected void setStyle(CanvasNode canvasNode) {
+    protected void setStyle(CanvasNodeController canvasNode) {
         getStyleClass().clear();
         if (canvasNode.node instanceof thermocycle.FlowNode) {
             getStyleClass().add("path-flow");
@@ -84,7 +84,7 @@ public class ToolboxPath extends Path{
     }
     
     /**
-     * Get the first element in the ToolboxPath
+     * Get the first element in the ToolboxPathController
      * @return Returns the first element in the Toolbox
      */
     protected PathElement first() {
@@ -92,8 +92,8 @@ public class ToolboxPath extends Path{
     }
     
     /**
-     * Get the last element in ToolboxPath
-     * @return Returns the last element in the ToolboxPath
+     * Get the last element in ToolboxPathController
+     * @return Returns the last element in the ToolboxPathController
      */
     protected PathElement last() {
         return getElements().get(getElements().size()-1);

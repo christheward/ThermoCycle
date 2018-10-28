@@ -22,14 +22,14 @@ import javafx.scene.layout.VBox;
  *
  * @author Chris
  */
-public class Console extends VBox {
+public class ConsoleController extends VBox {
     
     // FXML variables
     @FXML private TextField input;
     @FXML private TextArea output;
     private StringBuilder text;
     private List<String> history;
-    private final Canvas canvas;
+    private final CanvasController canvas;
     private final tui.TextUserInterface tui;
     private int historyIdx;
     
@@ -37,7 +37,7 @@ public class Console extends VBox {
      * Constructor
      * @param canvas The parent canvas
      */
-    protected Console (Canvas canvas) {
+    protected ConsoleController (CanvasController canvas) {
         this.canvas = canvas;
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Console.fxml"));

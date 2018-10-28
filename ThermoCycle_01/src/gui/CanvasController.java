@@ -6,7 +6,7 @@
 package gui;
 
 import com.jfoenix.controls.JFXDrawer;
-import gui.DragContainer;
+import gui.DragContainerController;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -42,7 +42,7 @@ import javafx.stage.Stage;
  *
  * @author Chris
  */
-public class Canvas extends VBox implements Serializable {
+public class CanvasController extends VBox implements Serializable {
     
     // FXML variables
     @FXML private AnchorPane canvas;
@@ -52,10 +52,12 @@ public class Canvas extends VBox implements Serializable {
     @FXML private MenuItem fileOpen;
     @FXML private MenuItem fileSave;
     @FXML private MenuItem fileSaveas;
-    private Toolbox toolboxContent;
-    protected Infobox infoboxContent;
-    protected ToolboxIcon dragIcon;
-    protected ToolboxPath dragConnection;
+    @FXML private MenuItem editDelete;
+    @FXML private MenuItem cycleSolve;
+    private ToolboxController toolboxContent;
+    protected InfoboxController infoboxContent;
+    protected ToolboxIconController dragIcon;
+    protected ToolboxPathController dragConnection;
     private ContextMenu menu;
     
     // Variables
@@ -77,7 +79,7 @@ public class Canvas extends VBox implements Serializable {
     /**
      * Constructor
      */
-    public Canvas() {
+    public CanvasController() {
         
         // Setup model
         model = new thermocycle.Cycle("ThermoCycle");
@@ -101,7 +103,7 @@ public class Canvas extends VBox implements Serializable {
         canvas.getStyleClass().add("canvas");
         
         // Setup toolbox
-        toolboxContent = new Toolbox(this);
+        toolboxContent = new ToolboxController(this);
         toolbox.setSidePane(toolboxContent);
         toolbox.setOverLayVisible(false);
         toolbox.setBackground(null);
@@ -140,12 +142,12 @@ public class Canvas extends VBox implements Serializable {
         });
         
         // Setup infobox
-        infoboxContent = new Infobox(this);
+        infoboxContent = new InfoboxController(this);
         infobox.getChildren().add(infoboxContent);
-        infoboxContent.showDetails(Canvas.this);
+        infoboxContent.showDetails(CanvasController.this);
         
         // Set up console
-        Console console = new Console(this);
+        ConsoleController console = new ConsoleController(this);
         consolePane.getChildren().add(console);
         AnchorPane.setTopAnchor(console, 0.0);
         AnchorPane.setBottomAnchor(console, 0.0);
@@ -160,13 +162,13 @@ public class Canvas extends VBox implements Serializable {
         buildClickHandlers();
         
         // Set up dragIcon
-        dragIcon = new ToolboxIcon();
+        dragIcon = new ToolboxIconController();
         dragIcon.setVisible(false);
         dragIcon.setOpacity(0.5);
         canvas.getChildren().add(dragIcon);
         
         // Set up dragConnection
-        dragConnection = new ToolboxPath();
+        dragConnection = new ToolboxPathController();
         dragConnection.setVisible(false);
         dragConnection.setOpacity(0.35);
         canvas.getChildren().add(dragConnection);
@@ -194,6 +196,7 @@ public class Canvas extends VBox implements Serializable {
                 catch(IOException e) {
                     System.err.println("I/O error. " + e.getMessage());
                 }
+                event.consume();
             }
         });
         fileSaveas.setOnAction(new EventHandler() {
@@ -207,6 +210,7 @@ public class Canvas extends VBox implements Serializable {
                 catch(IOException e) {
                     System.err.println("I/O error. " + e.getMessage());
                 }
+                event.consume();
             }
         });
         fileOpen.setOnAction(new EventHandler() {
@@ -227,6 +231,21 @@ public class Canvas extends VBox implements Serializable {
                 catch(IOException e) {
                     System.err.println("I/O error. " + e.getMessage());
                 }
+                event.consume();
+            }
+        });
+        editDelete.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                // TODO: How do you work out what to delete?
+                event.consume();
+            }
+        });
+        cycleSolve.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                model.solve();
+                event.consume();
             }
         });
     }
@@ -250,7 +269,7 @@ public class Canvas extends VBox implements Serializable {
         item.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                canvas.getChildren().stream().filter(c -> c instanceof CanvasIcon).forEach((c -> ((CanvasIcon)c).node_grid.setVisible(true)));
+                canvas.getChildren().stream().filter(c -> c instanceof CanvasIconController).forEach((c -> ((CanvasIconController)c).node_grid.setVisible(true)));
                 event.consume();
             }
         });
@@ -259,7 +278,7 @@ public class Canvas extends VBox implements Serializable {
         item.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                canvas.getChildren().stream().filter(c -> c instanceof CanvasIcon).forEach((c -> ((CanvasIcon)c).node_grid.setVisible(false)));
+                canvas.getChildren().stream().filter(c -> c instanceof CanvasIconController).forEach((c -> ((CanvasIconController)c).node_grid.setVisible(false)));
                 event.consume();
             }
         });
@@ -282,7 +301,7 @@ public class Canvas extends VBox implements Serializable {
                 }
                 else if (event.getButton().equals(MouseButton.PRIMARY)) {
                     System.out.print("show canvas");
-                    infoboxContent.showDetails(Canvas.this);
+                    infoboxContent.showDetails(CanvasController.this);
                 }
                 event.consume();
             }
@@ -306,16 +325,16 @@ public class Canvas extends VBox implements Serializable {
                 dragConnection.setVisible(false);
                 
                 // For AddNode operations
-                DragContainer container = (DragContainer)event.getDragboard().getContent(DragContainer.AddNode);
-                // Create the new CanvasIcon 
+                DragContainerController container = (DragContainerController)event.getDragboard().getContent(DragContainerController.AddNode);
+                // Create the new CanvasIconController 
                 if (container != null) {
                     System.out.println("AddNode operations");
                     // If dragging within canvas then container will be null (no new component created).
                     if (container.getValue("scene_coords") != null) {
-                        // ToolboxIcon node;
+                        // ToolboxIconController node;
                         try {
                             // Create a new canvas icon
-                            CanvasIcon component = new CanvasIcon(Canvas.this, IconType.valueOf(container.getValue("type").toString()));
+                            CanvasIconController component = new CanvasIconController(CanvasController.this, IconType.valueOf(container.getValue("type").toString()));
                             component.getStyleClass().add("icon-componnt");
                             canvas.getChildren().add(component);
                             
@@ -333,7 +352,7 @@ public class Canvas extends VBox implements Serializable {
                 }
                 
                 // For AddLink operations
-                container = (DragContainer)event.getDragboard().getContent(DragContainer.AddLink);
+                container = (DragContainerController)event.getDragboard().getContent(DragContainerController.AddLink);
                 if (container != null) {
                     System.out.println("AddLink operations");
                     
@@ -343,27 +362,27 @@ public class Canvas extends VBox implements Serializable {
                     Integer endIconId = container.getValue("endIcon");
                     Integer endNodeId = container.getValue("endNode");
                     
-                    CanvasNode startNode = null;
-                    CanvasNode endNode = null;
+                    CanvasNodeController startNode = null;
+                    CanvasNodeController endNode = null;
                     
                     if (startIconId != null && startNodeId != null && endIconId != null && endNodeId != null) {
                         // Find start and end nodes
                         for (Node c: canvas.getChildren()) {
-                            if (c instanceof CanvasIcon) {
-                                if (((CanvasIcon) c).hashCode() == startIconId) {
-                                    for (Node n: ((CanvasIcon) c).node_grid.getChildren()) {
-                                        if (n instanceof CanvasNode) {
-                                            if (((CanvasNode) n).hashCode() == startNodeId) {
-                                                startNode = (CanvasNode)n;
+                            if (c instanceof CanvasIconController) {
+                                if (((CanvasIconController) c).hashCode() == startIconId) {
+                                    for (Node n: ((CanvasIconController) c).node_grid.getChildren()) {
+                                        if (n instanceof CanvasNodeController) {
+                                            if (((CanvasNodeController) n).hashCode() == startNodeId) {
+                                                startNode = (CanvasNodeController)n;
                                             }
                                         }
                                     };
                                 }
-                                if (((CanvasIcon) c).hashCode() == endIconId) {
-                                    for (Node n: ((CanvasIcon) c).node_grid.getChildren()) {
-                                        if (n instanceof CanvasNode) {
-                                            if (((CanvasNode) n).hashCode() == endNodeId) {
-                                                endNode = (CanvasNode)n;
+                                if (((CanvasIconController) c).hashCode() == endIconId) {
+                                    for (Node n: ((CanvasIconController) c).node_grid.getChildren()) {
+                                        if (n instanceof CanvasNodeController) {
+                                            if (((CanvasNodeController) n).hashCode() == endNodeId) {
+                                                endNode = (CanvasNodeController)n;
                                             }
                                         }
                                     }
@@ -372,7 +391,7 @@ public class Canvas extends VBox implements Serializable {
                         }
                         if ((startNode != null) & (endNode != null)) {
                             // Create canvas connection
-                            CanvasPath connection = new CanvasPath(Canvas.this);
+                            CanvasPathController connection = new CanvasPathController(CanvasController.this);
                             canvas.getChildren().add(0,connection);
                             connection.bindEnds(startNode, endNode);
                             connection.setVisible(true);
@@ -386,7 +405,7 @@ public class Canvas extends VBox implements Serializable {
         });
         
         // Drag over canvas drag handler
-        // This is added to canvas when drag detected in ToolboxIcon
+        // This is added to canvas when drag detected in ToolboxIconController
         iconDragOverCanvas = new EventHandler <DragEvent> () {
             @Override
             public void handle(DragEvent event) {
@@ -397,21 +416,21 @@ public class Canvas extends VBox implements Serializable {
         };
         
         // Dropped over canvas drag handler
-        // This is added to canvas when drag detected in ToolboxIcon
+        // This is added to canvas when drag detected in ToolboxIconController
         iconDragDroppedCanvas = new EventHandler <DragEvent>() {
             @Override
             public void handle(DragEvent event) {
                 System.out.println("Canvas: Icon drag dropped hander");
                 
-                // Remove both event handlers that were added in ToolboxIcon when drag was detected
+                // Remove both event handlers that were added in ToolboxIconController when drag was detected
                 canvas.removeEventHandler(DragEvent.DRAG_OVER, iconDragOverCanvas);
                 canvas.removeEventHandler(DragEvent.DRAG_DROPPED, iconDragDroppedCanvas);
                 
                 // Add drop coordinates to drag container
-                DragContainer container = (DragContainer)event.getDragboard().getContent(DragContainer.AddNode);
+                DragContainerController container = (DragContainerController)event.getDragboard().getContent(DragContainerController.AddNode);
                 container.addData("scene_coords", new Point2D(event.getSceneX(), event.getSceneY()));
                 ClipboardContent content = new ClipboardContent();
-                content.put(DragContainer.AddNode, container);
+                content.put(DragContainerController.AddNode, container);
                 event.getDragboard().setContent(content);
                 event.setDropCompleted(true);
                 
@@ -421,7 +440,7 @@ public class Canvas extends VBox implements Serializable {
         };
         
         // Drag over canvas drag handler
-        // This is added to canvas when drag detected in CanvasNode
+        // This is added to canvas when drag detected in CanvasNodeController
         connectionDragOverCanvas = new EventHandler <DragEvent> () {
             @Override
             public void handle(DragEvent event) {
@@ -437,15 +456,15 @@ public class Canvas extends VBox implements Serializable {
      * Remove component from model
      */
     protected void remove(Node node) {
-        if (node instanceof CanvasIcon) {
-            CanvasIcon icon = (CanvasIcon)node;
+        if (node instanceof CanvasIconController) {
+            CanvasIconController icon = (CanvasIconController)node;
             model.removeComponent(icon.component);
             canvas.getChildren().remove(icon);
             // remove any connections that were deleted from the model as part of this operration
             canvas.getChildren().removeAll(getConnections().filter(c -> !(model.connectionsReadOnly.contains(c.connection))).collect(Collectors.toSet()));
         }
-        else if (node instanceof CanvasPath) {
-            model.removeConnection(((CanvasPath)node).connection);
+        else if (node instanceof CanvasPathController) {
+            model.removeConnection(((CanvasPathController)node).connection);
             canvas.getChildren().remove(node);
        }
     }
@@ -455,15 +474,15 @@ public class Canvas extends VBox implements Serializable {
      * Gets a stream of all the canvas path nodes on the canvas.
      * @return Returns a stream of all the canvas path elements on the canvas.
      */
-    private Stream<CanvasPath> getConnections() {
-        return canvas.getChildren().stream().filter(n -> n instanceof CanvasPath).map(n -> (CanvasPath)n);
+    private Stream<CanvasPathController> getConnections() {
+        return canvas.getChildren().stream().filter(n -> n instanceof CanvasPathController).map(n -> (CanvasPathController)n);
     }
     
     /**
      * Disables nodes that an ineligible to be connnected to this node.
      * @param node 
      */
-    protected void disableIneligibleNodes(CanvasNode node) {
+    protected void disableIneligibleNodes(CanvasNodeController node) {
         // Need to inclue node that are already connected.
         getNodes().filter(n -> (!(n.node.getClass().equals(node.node.getClass())) | (n.node.port.equals(node.node.port)))).forEach(n -> {
             n.disableProperty().set(true);
@@ -482,7 +501,7 @@ public class Canvas extends VBox implements Serializable {
      * @param node The starting node
      * @return A stream on canvas path objects.
      */
-    private Stream<CanvasPath> getPath(CanvasNode node) {
+    private Stream<CanvasPathController> getPath(CanvasNodeController node) {
         if (node.node instanceof thermocycle.FlowNode) {
             // set of flow nodes in the same path
             Set path = model.pathsReadOnly.stream().filter(p -> p.contains((thermocycle.FlowNode) node.node)).collect(Collectors.toSet());
@@ -496,15 +515,15 @@ public class Canvas extends VBox implements Serializable {
      * Gets a stream of all the canvas path nodes on the canvas.
      * @return Returns a stream of all the canvas path elements on the canvas.
      */
-    private Stream<CanvasIcon> getComponents() {
-        return canvas.getChildren().stream().filter(n -> n instanceof CanvasIcon).map(n -> (CanvasIcon)n);
+    private Stream<CanvasIconController> getComponents() {
+        return canvas.getChildren().stream().filter(n -> n instanceof CanvasIconController).map(n -> (CanvasIconController)n);
     }
     
     /**
      * Gets a stream of all the canvas nodes on the canvas.
      * @return Returns a stream of all the canvas nodes on the canvas.
      */
-    private Stream<CanvasNode> getNodes() {
+    private Stream<CanvasNodeController> getNodes() {
         /**List <CanvasNode> nodeList = new ArrayList();
         getComponents().forEach(c -> {
             c.node_grid.getChildren().stream().filter(n -> n instanceof CanvasNode).map(n -> ((CanvasNode)n)).forEach(n -> {
@@ -513,7 +532,7 @@ public class Canvas extends VBox implements Serializable {
             });
         });
         */
-        return getComponents().map(n -> n.node_grid.getChildren().stream().filter(m -> m instanceof CanvasNode).map(m -> (CanvasNode)m)).flatMap(Function.identity());
+        return getComponents().map(n -> n.node_grid.getChildren().stream().filter(m -> m instanceof CanvasNodeController).map(m -> (CanvasNodeController)m)).flatMap(Function.identity());
     }    
 
 }
