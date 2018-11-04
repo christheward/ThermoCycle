@@ -77,6 +77,7 @@ final class State implements Properties, Serializable {
      * @param property The property to be set.
      * @param value The values to set the property to. 
      */
+    /**
     protected void putIfAbsent(Property property, OptionalDouble value) {
         // Check state does not already contain property
         if (state.containsKey(property)) {
@@ -85,6 +86,7 @@ final class State implements Properties, Serializable {
         // put the value in the state
         put(property, value);
     }
+    **/
     
     /**
      * Puts the property in this state and sets it's value. The value must be present and within the property's allowable limits.
@@ -111,10 +113,26 @@ final class State implements Properties, Serializable {
      * Puts the properties and their values from a state to this state.
      * @param state The state properties to be set.
      */
+    /**
     protected void putIfAbsent(State state) {
         state.state.keySet().stream().forEach((property) -> {
-            this.putIfAbsent(property, state.state.get(property));
+            this.put(property, state.state.get(property));
         });
+    }
+    **/
+    
+    /**
+     * Puts the properties and their values from a state to this state.
+     * @param state The state properties to be set.
+     */
+    protected void put(State state) {
+        state.state.keySet().stream().forEach((property) -> {
+            this.put(property, state.state.get(property));
+        });
+    }
+    
+    protected void remove(Property property) {
+        state.remove(property);
     }
     
     /**

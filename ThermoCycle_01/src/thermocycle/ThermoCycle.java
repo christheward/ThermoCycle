@@ -54,7 +54,7 @@ public class ThermoCycle implements Properties {
         turb.getInlet().setMass(OptionalDouble.of(1));
         turb.getInlet().setState(PRESSURE, OptionalDouble.of(500000));
         turb.getInlet().setState(TEMPERATURE, OptionalDouble.of(900));
-        turb.getOutlet().setState(PRESSURE, OptionalDouble.of(gasTurb.getAmbient(PRESSURE)));
+        turb.getOutlet().setState(PRESSURE, gasTurb.getAmbient(PRESSURE));
         turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
         
         // solve
@@ -81,8 +81,8 @@ public class ThermoCycle implements Properties {
         
         //  set initial properties
         comp.getInlet().setMass(OptionalDouble.of(1));
-        comp.getInlet().setState(PRESSURE, OptionalDouble.of(gasTurb.getAmbient(PRESSURE)));
-        comp.getInlet().setState(TEMPERATURE, OptionalDouble.of(gasTurb.getAmbient(TEMPERATURE)));
+        comp.getInlet().setState(PRESSURE, gasTurb.getAmbient(PRESSURE));
+        comp.getInlet().setState(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE));
         
         // solve
         gasTurb.solve();
@@ -107,8 +107,8 @@ public class ThermoCycle implements Properties {
         
         //  set initial properties
         comb.getInlet().setMass(OptionalDouble.of(1));
-        comb.getInlet().setState(PRESSURE, OptionalDouble.of(gasTurb.getAmbient(PRESSURE)));
-        comb.getInlet().setState(TEMPERATURE, OptionalDouble.of(gasTurb.getAmbient(TEMPERATURE)));
+        comb.getInlet().setState(PRESSURE, gasTurb.getAmbient(PRESSURE));
+        comb.getInlet().setState(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE));
         comb.getSupply().setHeat(OptionalDouble.of(2000));
         
         // solve
@@ -133,8 +133,8 @@ public class ThermoCycle implements Properties {
         
         //  set initial properties
         sink.getInlet().setMass(OptionalDouble.of(1));
-        sink.getOutlet().setState(PRESSURE, OptionalDouble.of(gasTurb.getAmbient(PRESSURE)));
-        sink.getOutlet().setState(TEMPERATURE, OptionalDouble.of(gasTurb.getAmbient(TEMPERATURE)));
+        sink.getOutlet().setState(PRESSURE, gasTurb.getAmbient(PRESSURE));
+        sink.getOutlet().setState(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE));
         sink.getInlet().setState(TEMPERATURE, OptionalDouble.of(500));
         sink.setAttribute(PLOSS,OptionalDouble.of(0.05));
         
@@ -163,8 +163,8 @@ public class ThermoCycle implements Properties {
         //  set initial properties
         whru.getInletHot().setMass(OptionalDouble.of(1));
         whru.getInletCold().setMass(OptionalDouble.of(1));
-        whru.getInletCold().setState(PRESSURE, OptionalDouble.of(gasTurb.getAmbient(PRESSURE)));
-        whru.getInletCold().setState(TEMPERATURE, OptionalDouble.of(gasTurb.getAmbient(TEMPERATURE)));
+        whru.getInletCold().setState(PRESSURE, gasTurb.getAmbient(PRESSURE));
+        whru.getInletCold().setState(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE));
         whru.getInletHot().setState(TEMPERATURE, OptionalDouble.of(500));
         whru.getInletHot().setState(PRESSURE, OptionalDouble.of(3e5));
         
@@ -201,8 +201,8 @@ public class ThermoCycle implements Properties {
         comp.getInlet().setMass(OptionalDouble.of(1));
         comp.setAttribute(PRATIO, OptionalDouble.of(5));
         comp.setAttribute(EFFICIENCY, OptionalDouble.of(0.9));
-        comp.getInlet().setState(PRESSURE, OptionalDouble.of(gasTurb.getAmbient(PRESSURE)));
-        comp.getInlet().setState(TEMPERATURE, OptionalDouble.of(gasTurb.getAmbient(TEMPERATURE)));
+        comp.getInlet().setState(PRESSURE, gasTurb.getAmbient(PRESSURE));
+        comp.getInlet().setState(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE));
         comb.getOutlet().setState(Property.TEMPERATURE, OptionalDouble.of(1300));
         comb.setAttribute(PLOSS, OptionalDouble.of(0.05));
         turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
@@ -247,8 +247,8 @@ public class ThermoCycle implements Properties {
         
         //  set initial properties
         lp_comp.getInlet().setMass(OptionalDouble.of(1));
-        lp_comp.getInlet().setState(PRESSURE, OptionalDouble.of(gasTurbCool.getAmbient(PRESSURE)));
-        lp_comp.getInlet().setState(TEMPERATURE, OptionalDouble.of(gasTurbCool.getAmbient(TEMPERATURE)));
+        lp_comp.getInlet().setState(PRESSURE, gasTurbCool.getAmbient(PRESSURE));
+        lp_comp.getInlet().setState(TEMPERATURE, gasTurbCool.getAmbient(TEMPERATURE));
         
         comb.getOutlet().setState(Property.TEMPERATURE, OptionalDouble.of(1300));
         cool.getOutlet().setState(Property.TEMPERATURE, OptionalDouble.of(350));        
@@ -294,12 +294,12 @@ public class ThermoCycle implements Properties {
         
         //  set initial properties
         comp.getInlet().setMass(OptionalDouble.of(1));
-        comp.getInlet().setState(PRESSURE, OptionalDouble.of(gasTurbHeat.getAmbient(PRESSURE)));
-        comp.getInlet().setState(TEMPERATURE, OptionalDouble.of(gasTurbHeat.getAmbient(TEMPERATURE)));
+        comp.getInlet().setState(PRESSURE, gasTurbHeat.getAmbient(PRESSURE));
+        comp.getInlet().setState(TEMPERATURE, gasTurbHeat.getAmbient(TEMPERATURE));
         
         comb.getOutlet().setState(Property.TEMPERATURE, OptionalDouble.of(1300));
         reheat.getOutlet().setState(TEMPERATURE, OptionalDouble.of(1300));
-        hp_turb.getOutlet().setState(Property.PRESSURE, OptionalDouble.of(gasTurbHeat.getAmbient(Properties.Property.PRESSURE)*5));
+        hp_turb.getOutlet().setState(Property.PRESSURE, OptionalDouble.of(gasTurbHeat.getAmbient(Properties.Property.PRESSURE).getAsDouble()*5));
         comb.setAttribute(PLOSS, OptionalDouble.of(0.05));
         reheat.setAttribute(PLOSS, OptionalDouble.of(0.05));
         lp_turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
@@ -349,11 +349,11 @@ public class ThermoCycle implements Properties {
         
         //  set initial properties
         lp_comp.getInlet().setMass(OptionalDouble.of(1));
-        lp_comp.getInlet().setState(PRESSURE, OptionalDouble.of(gasTurb.getAmbient(PRESSURE)));
-        lp_comp.getInlet().setState(TEMPERATURE, OptionalDouble.of(gasTurb.getAmbient(TEMPERATURE)));
+        lp_comp.getInlet().setState(PRESSURE, gasTurb.getAmbient(PRESSURE));
+        lp_comp.getInlet().setState(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE));
         cool.getOutlet().setState(TEMPERATURE, OptionalDouble.of(350));
         comb.getOutlet().setState(TEMPERATURE, OptionalDouble.of(1300));
-        hp_turb.getOutlet().setState(PRESSURE, OptionalDouble.of(gasTurb.getAmbient(PRESSURE)*5));
+        hp_turb.getOutlet().setState(PRESSURE, OptionalDouble.of(gasTurb.getAmbient(PRESSURE).getAsDouble()*5));
         reheat.getOutlet().setState(TEMPERATURE, OptionalDouble.of(1300));
         comb.setAttribute(PLOSS, OptionalDouble.of(0.05));
         reheat.setAttribute(PLOSS, OptionalDouble.of(0.05));
@@ -397,10 +397,10 @@ public class ThermoCycle implements Properties {
         
         //  set initial properties
         comp.getInlet().setMass(OptionalDouble.of(1));
-        comp.getInlet().setState(PRESSURE, OptionalDouble.of(gasTurb.getAmbient(PRESSURE)));
-        comp.getInlet().setState(TEMPERATURE, OptionalDouble.of(gasTurb.getAmbient(TEMPERATURE)));
+        comp.getInlet().setState(PRESSURE, gasTurb.getAmbient(PRESSURE));
+        comp.getInlet().setState(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE));
         comb.getOutlet().setState(Property.TEMPERATURE, OptionalDouble.of(1300));
-        turb.getOutlet().setState(Property.PRESSURE, OptionalDouble.of(gasTurb.getAmbient(Properties.Property.PRESSURE)));
+        turb.getOutlet().setState(Property.PRESSURE, gasTurb.getAmbient(Properties.Property.PRESSURE));
         turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
         comp.setAttribute(PRATIO, OptionalDouble.of(10));
         comp.setAttribute(EFFICIENCY, OptionalDouble.of(0.9));
@@ -438,7 +438,7 @@ public class ThermoCycle implements Properties {
         
         //  set initial properties
         comp.getInlet().setMass(OptionalDouble.of(1));
-        comp.getInlet().setState(PRESSURE, OptionalDouble.of(refridge.getAmbient(PRESSURE)));
+        comp.getInlet().setState(PRESSURE, refridge.getAmbient(PRESSURE));
         comp.getInlet().setState(TEMPERATURE, OptionalDouble.of(253.0));
         
         sink.getOutlet().setState(TEMPERATURE, OptionalDouble.of(257.0));

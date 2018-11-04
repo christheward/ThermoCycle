@@ -84,8 +84,8 @@ public class Cycle extends Observable implements Properties, Serializable {
         componentsReadOnly = FXCollections.unmodifiableObservableList(components);
         fluidsReadOnly = FXCollections.unmodifiableObservableList(fluids);
         pathsReadOnly = FXCollections.unmodifiableObservableList(paths);
-        ambient.putIfAbsent(PRESSURE, OptionalDouble.of(101325.0));
-        ambient.putIfAbsent(TEMPERATURE, OptionalDouble.of(300.0));
+        ambient.put(PRESSURE, OptionalDouble.of(101325.0));
+        ambient.put(TEMPERATURE, OptionalDouble.of(300.0));
         stack = new ArrayDeque();
         
         // Add  default fluid - find a better wt to to this later.
@@ -98,8 +98,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param property The ambient state property to get.
      * @return Returns the ambient state property value.
      */
-    public double getAmbient(Property property) {
-        return ambient.get(property).getAsDouble();
+    public OptionalDouble getAmbient(Property property) {
+        return ambient.get(property);
     }
     
     /**
@@ -152,6 +152,15 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     
     /**
+     * Gets the name of a component
+     * @param component The component to get the name of.
+     * @return The component name.
+     */
+    public String getName(Component component) {
+        return component.name;
+    }
+    
+    /**
      * Gets all the component work nodes in the cycle.
      * @return Returns a set of the component work nodes in the cycle.
      */
@@ -190,6 +199,15 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     
     /**
+     * Determine if thee fluid has been set for this flow node
+     * @param node The flow node to check
+     * @return A boolean
+     */
+    public Boolean isFluidSet(FlowNode node) {
+        return node.isFluidSet();
+    }
+    
+    /**
      * Gets the cycle name.
      * @return REturns the cycle name.
      */
@@ -225,6 +243,49 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     
     /**
+     * Clears the nodes values.
+     * @param node The node to clear.
+     */
+    public void clearValue(Node node) {
+        node.clear();
+    }
+    
+    /**
+     * Clears a node's mass flow rate value.
+     * @param node The node's mass flow rate to clear.
+     */
+    public void clearMass(FlowNode node) {
+        node.clearMass();
+    }
+    
+    /**
+     * Clears a node's property.
+     * @param node The node to clear a property from.
+     * @param property The property to clear.
+     */
+    public void clearState(FlowNode node, Property property) {
+        node.clearState(property);
+    }
+    
+    /**
+     * Clears all a node's properties
+     * @param node The node to clear properties from.
+     */
+    public void clearState(FlowNode node) {
+        node.clearState();
+    }
+    
+    /**
+     * Clears a component's attribute.
+     * @param component The component to clear and attribute from.
+     * @param attribute The attribute to clear.
+     */
+    public void clearAttribute(Component component, Attribute attribute) {
+        component.clearAttribute(attribute);
+    }
+
+    
+    /**
      * Gets the state value for the flow node.
      * @param node The flow node.
      * @param property The property to get.
@@ -239,7 +300,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param node The flow node to get allowable properties for.
      * @return A set of allowable properties
      */
-    public Set<Property> getAllowablePrroperties(FlowNode node) {
+    public Set<Property> getAllowableProperties(FlowNode node) {
         return node.allowableProperties();
     }
     
@@ -260,6 +321,20 @@ public class Cycle extends Observable implements Properties, Serializable {
     public void setAmbient(double pressure, double temperature) {
         ambient.put(PRESSURE, OptionalDouble.of(pressure));
         ambient.put(TEMPERATURE, OptionalDouble.of(temperature));
+    }
+    
+    /**
+     * Set's an ambient property
+     * @param property The property to set. Must be Pressure or Temperature.
+     * @param value The value to set the property to.
+     */
+    public void setAmbient(Property property, double value) {
+        if (property.equals(Properties.Property.PRESSURE) || property.equals(Properties.Property.TEMPERATURE)) {
+            ambient.put(property, OptionalDouble.of(value));
+        }
+        else {
+            logger.warn("Cannot set ambient " + property.toString() + ". Ignoring command.");
+        }
     }
     
     /**
@@ -337,8 +412,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param property The state property to set.
      * @param value The property value.
      */
-    public void setState(FlowNode node, Property property, OptionalDouble value) {
-        stack.add(new SetState(node, property, value));
+    public void setState(FlowNode node, Property property, double value) {
+        stack.add(new SetState(node, property, OptionalDouble.of(value)));
         stack.getLast().execute();
     }
     
@@ -348,8 +423,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param attribute The attribute to set.
      * @param value The value to set thee component attribute to.
      */
-    public void setAttribute(Component component, Attribute attribute, OptionalDouble value) {
-        stack.add(new SetAttribute(component, attribute, value));
+    public void setAttribute(Component component, Attribute attribute, double value) {
+        stack.add(new SetAttribute(component, attribute, OptionalDouble.of(value)));
         stack.getLast().execute();
         logger.info(component + " " + attribute + " set to " + value);
     }

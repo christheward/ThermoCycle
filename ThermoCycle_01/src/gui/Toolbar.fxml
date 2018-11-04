@@ -65,11 +65,6 @@
                   <Image url="@../images/ic_btn_info.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="310.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/ic_delete_black_48dp_2x.png" />
-               </image>
-            </ImageView>
          </children>
       </HBox>
    </children>

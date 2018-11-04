@@ -41,10 +41,35 @@ public final class FlowNode extends Node implements Properties {
         mass = OptionalDouble.empty();
     }
     
+    /**
+     * Clears the fluid node
+     */
     @Override
     protected void clear() {
-        setMass(OptionalDouble.empty());
+        clearMass();
+        clearState();
+    }
+    
+    /**
+     * Clears the mass value of the fluid node
+     */
+    protected void clearMass() {
+        mass = OptionalDouble.empty();
+    }
+    
+    /**
+     * Completely clears the state of the fluid node
+     */
+    protected void clearState() {
         state.clear();
+    }
+    
+    /**
+     * Clears the fluid node state of a property
+     * @param property The property to clear
+     */
+    protected void clearState(Property property) {
+        state.remove(property);
     }
     
     /**
@@ -53,6 +78,14 @@ public final class FlowNode extends Node implements Properties {
      */
     protected Fluid getFluid() {
         return fluid;
+    }
+    
+    /**
+     * Determines if the fluids has been set
+     * @return A boolean
+     */
+    protected Boolean isFluidSet() {
+        return (fluid != null);
     }
     
     /**
@@ -97,7 +130,12 @@ public final class FlowNode extends Node implements Properties {
      * @throws IllegalArgumentException Thrown if the value is not present.
      */
     protected void setMass(OptionalDouble value) {
-        mass = OptionalDouble.of(value.getAsDouble());
+        if (value.isPresent()) {
+            mass = OptionalDouble.of(value.getAsDouble());
+        }
+        else {
+            throw new IllegalStateException("Cannot set mass to an empty OptionalDouble.");
+        }
     }
     
     /**
@@ -106,8 +144,18 @@ public final class FlowNode extends Node implements Properties {
      * @param value The value to set the property to.
      */
     protected void setState(Property property, OptionalDouble value) {
-        state.putIfAbsent(property, value);
-        fluid.computeState(state);
+        if (value.isPresent()) {
+            state.put(property, value);
+            if (fluid == null) {
+                throw new IllegalStateException("Error setting properties in Node. Fluid must be set first.");
+            }
+            else {
+                fluid.computeState(state);
+            }
+        }
+        else {
+            throw new IllegalStateException("Cannot set property to an empty OptionalDouble.");
+        }
     }
 
     /**
@@ -116,10 +164,13 @@ public final class FlowNode extends Node implements Properties {
      * @throws illegalStateException - Thrown if the fluid has not been set prior to setting a property.
      */
     protected void setState(State s) {
-        state.putIfAbsent(s);
-        if (fluid == null)
+        state.put(s);
+        if (fluid == null) {
             throw new IllegalStateException("Error setting properties in Node. Fluid must be set first.");
-        fluid.computeState(state);
+        }
+        else {
+            fluid.computeState(state);
+        }
     }
     
     @Override
@@ -157,7 +208,7 @@ public final class FlowNode extends Node implements Properties {
             // Update state properties
             fn.state.properties().forEach((p) -> {
                 if (!state.contains(p)) {
-                    state.putIfAbsent(p,fn.state.get(p));
+                    state.put(p,fn.state.get(p));
                     fluid.computeState(state);
                 }
                 else if (!Equation.withinTolerance(state.get(p), fn.state.get(p))) {

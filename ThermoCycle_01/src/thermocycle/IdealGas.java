@@ -90,6 +90,7 @@ public final class IdealGas extends Fluid {
         fluidState.add(PRESSURE);
         fluidState.add(TEMPERATURE);
         fluidState.add(VOLUME);
+        fluidState.add(DENSITY);
         fluidState.add(ENTROPY);
         fluidState.add(ENERGY);
         fluidState.add(ENTHALPY);
@@ -108,6 +109,7 @@ public final class IdealGas extends Fluid {
                     case TEMPERATURE: {calcT(state); break;}
                     case PRESSURE: {calcP(state); break;}
                     case VOLUME: {calcV(state); break;}
+                    case DENSITY: {calcR(state); break;}
                     case ENTROPY: {calcS(state); break;}
                     case ENERGY: {calcU(state); break;}
                     case ENTHALPY: {calcH(state); break;}
@@ -128,23 +130,23 @@ public final class IdealGas extends Fluid {
         if (!state.contains(TEMPERATURE)) {
             // T = H / Cp
             if (state.contains(ENTHALPY)) {
-                state.putIfAbsent(TEMPERATURE, OptionalDouble.of(state.get(ENTHALPY).getAsDouble() / getCp()));
+                state.put(TEMPERATURE, OptionalDouble.of(state.get(ENTHALPY).getAsDouble() / getCp()));
             }
             // T = U / Cv
             else if (state.contains(ENERGY)) {
-                state.putIfAbsent(TEMPERATURE, OptionalDouble.of(state.get(ENERGY).getAsDouble() / getCv()));
+                state.put(TEMPERATURE, OptionalDouble.of(state.get(ENERGY).getAsDouble() / getCv()));
             }
             // T = P.V / Rs
             else if (state.contains(PRESSURE, VOLUME)) {
-                state.putIfAbsent(TEMPERATURE, OptionalDouble.of(state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble() / getRs()));
+                state.put(TEMPERATURE, OptionalDouble.of(state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble() / getRs()));
             }
             // T = e^((S - Rs.log(V) + Rs.log(Rs)) / Cv )
             else if (state.contains(ENTROPY, VOLUME)) {
-                state.putIfAbsent(TEMPERATURE, OptionalDouble.of(Math.exp((state.get(ENTROPY).getAsDouble() - getRs() * Math.log(state.get(VOLUME).getAsDouble()) + getRs() * Math.log(getRs())) / getCv())));
+                state.put(TEMPERATURE, OptionalDouble.of(Math.exp((state.get(ENTROPY).getAsDouble() - getRs() * Math.log(state.get(VOLUME).getAsDouble()) + getRs() * Math.log(getRs())) / getCv())));
             }
             // T = e^((S + Rs.log(P) ) / Cp )
             else if (state.contains(ENTROPY, PRESSURE)) {
-                state.putIfAbsent(TEMPERATURE, OptionalDouble.of(Math.exp((state.get(ENTROPY).getAsDouble() + getRs() * Math.log(state.get(PRESSURE).getAsDouble())) / getCp())));
+                state.put(TEMPERATURE, OptionalDouble.of(Math.exp((state.get(ENTROPY).getAsDouble() + getRs() * Math.log(state.get(PRESSURE).getAsDouble())) / getCp())));
             }
         }
     }
@@ -159,15 +161,15 @@ public final class IdealGas extends Fluid {
         if (!state.contains(PRESSURE)) {
             // P = Rs * T / V
             if (state.contains(TEMPERATURE, VOLUME)) {
-                state.putIfAbsent(PRESSURE, OptionalDouble.of(getRs() * state.get(TEMPERATURE).getAsDouble() / state.get(VOLUME).getAsDouble()));
+                state.put(PRESSURE, OptionalDouble.of(getRs() * state.get(TEMPERATURE).getAsDouble() / state.get(VOLUME).getAsDouble()));
             }
             // P = e^((-S + Cp.log (T)) / Rs)
             else if (state.contains(ENTROPY, TEMPERATURE)) {
-                state.putIfAbsent(PRESSURE, OptionalDouble.of(Math.exp((-state.get(ENTROPY).getAsDouble() + getCp() * Math.log(state.get(TEMPERATURE).getAsDouble())) / getRs())));
+                state.put(PRESSURE, OptionalDouble.of(Math.exp((-state.get(ENTROPY).getAsDouble() + getCp() * Math.log(state.get(TEMPERATURE).getAsDouble())) / getRs())));
             }
             // P = e^((S - Cp.log(V) + Cp.log(Rs)) / Cv)
             else if (state.contains(ENTROPY, VOLUME)) {
-                state.putIfAbsent(PRESSURE, OptionalDouble.of(Math.exp((state.get(ENTROPY).getAsDouble() - getCp() * Math.log(state.get(VOLUME).getAsDouble()) + getCp() * Math.log(getRs())) / getCv())));
+                state.put(PRESSURE, OptionalDouble.of(Math.exp((state.get(ENTROPY).getAsDouble() - getCp() * Math.log(state.get(VOLUME).getAsDouble()) + getCp() * Math.log(getRs())) / getCv())));
             }
         }
     }
@@ -182,15 +184,15 @@ public final class IdealGas extends Fluid {
         if (!state.contains(VOLUME)) {
             // V = Rs * T / P
             if (state.contains(TEMPERATURE, PRESSURE)) {
-                state.putIfAbsent(VOLUME, OptionalDouble.of(getRs() * state.get(TEMPERATURE).getAsDouble() / state.get(PRESSURE).getAsDouble()));
+                state.put(VOLUME, OptionalDouble.of(getRs() * state.get(TEMPERATURE).getAsDouble() / state.get(PRESSURE).getAsDouble()));
             }
             // V = e^((S - Cv.log(T) + Rs.log(Rs)) / Rs)
             else if (state.contains(ENTROPY, TEMPERATURE)) {
-                state.putIfAbsent(VOLUME, OptionalDouble.of(Math.exp((state.get(ENTROPY).getAsDouble() - getCv() * Math.log(state.get(TEMPERATURE).getAsDouble()) + getRs() * Math.log(getRs())) / getRs())));
+                state.put(VOLUME, OptionalDouble.of(Math.exp((state.get(ENTROPY).getAsDouble() - getCv() * Math.log(state.get(TEMPERATURE).getAsDouble()) + getRs() * Math.log(getRs())) / getRs())));
             }
             // V = e^((S - Cv.log(P) + Cp.log(Rs)) / Cp)
             else if (state.contains(ENTROPY, PRESSURE)) {
-                state.putIfAbsent(VOLUME, OptionalDouble.of(Math.exp((state.get(ENTROPY).getAsDouble() - getCv() * Math.log(state.get(PRESSURE).getAsDouble()) + getCp() * Math.log(getRs())) / getCp())));
+                state.put(VOLUME, OptionalDouble.of(Math.exp((state.get(ENTROPY).getAsDouble() - getCv() * Math.log(state.get(PRESSURE).getAsDouble()) + getCp() * Math.log(getRs())) / getCp())));
             }
         }
     }
@@ -205,15 +207,15 @@ public final class IdealGas extends Fluid {
         if (!state.contains(ENTROPY)) {
             // S = Cv.log(T) + Rs * log(V) - Rs.log(Rs)
             if (state.contains(TEMPERATURE, VOLUME)) {
-                state.putIfAbsent(ENTROPY, OptionalDouble.of(getCv() * Math.log(state.get(TEMPERATURE).getAsDouble()) + getRs() * Math.log(state.get(VOLUME).getAsDouble()) - getRs() * Math.log(getRs())));
+                state.put(ENTROPY, OptionalDouble.of(getCv() * Math.log(state.get(TEMPERATURE).getAsDouble()) + getRs() * Math.log(state.get(VOLUME).getAsDouble()) - getRs() * Math.log(getRs())));
             }
             // S = Cp.log(T) - Rs * log(P)
             else if (state.contains(TEMPERATURE, PRESSURE)) {
-                state.putIfAbsent(ENTROPY, OptionalDouble.of(getCp() * Math.log(state.get(TEMPERATURE).getAsDouble()) - getRs() * Math.log(state.get(PRESSURE).getAsDouble())));
+                state.put(ENTROPY, OptionalDouble.of(getCp() * Math.log(state.get(TEMPERATURE).getAsDouble()) - getRs() * Math.log(state.get(PRESSURE).getAsDouble())));
             }
             // S = Cv.log(P) + Cp * log(V) - Cp.log(Rs)
             else if (state.contains(PRESSURE, VOLUME)) {
-                state.putIfAbsent(ENTROPY, OptionalDouble.of(getCv() * Math.log(state.get(PRESSURE).getAsDouble()) + getCp() * Math.log(state.get(VOLUME).getAsDouble()) - getCp() * Math.log(getRs())));
+                state.put(ENTROPY, OptionalDouble.of(getCv() * Math.log(state.get(PRESSURE).getAsDouble()) + getCp() * Math.log(state.get(VOLUME).getAsDouble()) - getCp() * Math.log(getRs())));
             }
         }
     }
@@ -228,7 +230,7 @@ public final class IdealGas extends Fluid {
         if (!state.contains(ENERGY)) {
             // U = Cv.T
             if (state.contains(TEMPERATURE)) {
-                state.putIfAbsent(ENERGY, OptionalDouble.of(getCv() * state.get(TEMPERATURE).getAsDouble()));
+                state.put(ENERGY, OptionalDouble.of(getCv() * state.get(TEMPERATURE).getAsDouble()));
             }
         }
     }
@@ -243,7 +245,7 @@ public final class IdealGas extends Fluid {
         if (!state.contains(ENTHALPY)) {
             // H = Cp.T
             if (state.contains(TEMPERATURE)) {
-                state.putIfAbsent(ENTHALPY, OptionalDouble.of(getCp() * state.get(TEMPERATURE).getAsDouble()));
+                state.put(ENTHALPY, OptionalDouble.of(getCp() * state.get(TEMPERATURE).getAsDouble()));
             }
         }
     }
@@ -256,5 +258,11 @@ public final class IdealGas extends Fluid {
     @Override
     protected void calcG(State state) {
         super.calcG(state);
-    } 
+    }
+    
+    @Override
+    protected void calcR(State state) {
+        super.calcR(state);
+    }
+    
 }

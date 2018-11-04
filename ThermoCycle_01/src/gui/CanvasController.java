@@ -14,10 +14,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.OptionalDouble;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -26,7 +29,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitPane;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
@@ -72,6 +74,7 @@ public class CanvasController extends VBox implements Serializable {
     protected EventHandler iconDragOverCanvas;
     protected EventHandler iconDragDroppedCanvas;
     protected EventHandler connectionDragOverCanvas;
+    protected ChangeListener numericField;
     
     // Model varaibles
     protected thermocycle.Cycle model = null;
@@ -161,6 +164,9 @@ public class CanvasController extends VBox implements Serializable {
         //Set up click handlers
         buildClickHandlers();
         
+        //Set up menu handlers
+        buildMenuHandlers();
+        
         // Set up dragIcon
         dragIcon = new ToolboxIconController();
         dragIcon.setVisible(false);
@@ -172,10 +178,6 @@ public class CanvasController extends VBox implements Serializable {
         dragConnection.setVisible(false);
         dragConnection.setOpacity(0.35);
         canvas.getChildren().add(dragConnection);
-        
-        // Load fluid library
-        model.createIdealGas("Air", 1.4, 287.05);
-        model.createIdealGas("Steam", 1.33, 461.52);
         
     }
     
@@ -533,6 +535,18 @@ public class CanvasController extends VBox implements Serializable {
         });
         */
         return getComponents().map(n -> n.node_grid.getChildren().stream().filter(m -> m instanceof CanvasNodeController).map(m -> (CanvasNodeController)m)).flatMap(Function.identity());
-    }    
-
+    }
+    
+    /**
+     * Converts the optional double to a string for display
+     * @param value The optional double to print.
+     * @return Returns a string to print.
+     */
+    public static String displayOptionalDouble(OptionalDouble value) {
+        if (value.isPresent()) {
+            return String.valueOf(value.getAsDouble());
+        }
+        return "";
+    }
+    
 }

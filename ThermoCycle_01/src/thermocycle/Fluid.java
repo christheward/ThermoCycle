@@ -73,25 +73,36 @@ public abstract class Fluid implements Properties, Serializable {
     protected abstract void computeState(State state);
     
     /**
+     * Calculates the fluid density, R, from the specific volume.
+     * @param state The state to compute density for.
+     */
+    protected void calcR(State state) {
+        // R = 1/V
+        if (state.contains(VOLUME)) {
+            state.put(DENSITY, OptionalDouble.of(1/state.get(VOLUME).getAsDouble()));
+        }
+    }
+    
+    /**
      * Calculates the fluid enthalpy, H, based on general state relationships. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
      * @param state The state to compute enthalpy for.
      */
     protected void calcH(State state) {
         // H = U + P.V
         if (state.contains(ENERGY, PRESSURE, VOLUME)) {
-            state.putIfAbsent(ENTHALPY, OptionalDouble.of(state.get(ENERGY).getAsDouble() + state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble()));
+            state.put(ENTHALPY, OptionalDouble.of(state.get(ENERGY).getAsDouble() + state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble()));
         }
         // H = G + T.S
         else if (state.contains(GIBBS, TEMPERATURE, ENTROPY)) {
-            state.putIfAbsent(ENTHALPY, OptionalDouble.of(state.get(GIBBS).getAsDouble() + state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble()));
+            state.put(ENTHALPY, OptionalDouble.of(state.get(GIBBS).getAsDouble() + state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble()));
         }
         // H = G + U - F
         else if (state.contains(GIBBS, ENERGY, HELMHOLTZ)) {
-            state.putIfAbsent(ENTHALPY, OptionalDouble.of(state.get(GIBBS).getAsDouble() + state.get(ENERGY).getAsDouble() - state.get(HELMHOLTZ).getAsDouble()));
+            state.put(ENTHALPY, OptionalDouble.of(state.get(GIBBS).getAsDouble() + state.get(ENERGY).getAsDouble() - state.get(HELMHOLTZ).getAsDouble()));
         }
         // H = F + T.S + P.V
         else if (state.contains(HELMHOLTZ, TEMPERATURE, ENTROPY, PRESSURE, VOLUME)) {
-            state.putIfAbsent(ENTHALPY, OptionalDouble.of(state.get(HELMHOLTZ).getAsDouble() + state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble() + state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble()));
+            state.put(ENTHALPY, OptionalDouble.of(state.get(HELMHOLTZ).getAsDouble() + state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble() + state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble()));
         }
     }
 
@@ -102,18 +113,18 @@ public abstract class Fluid implements Properties, Serializable {
     protected void calcU(State state) {
         // U = H - P.V
         if (state.contains(ENTHALPY, PRESSURE, VOLUME)) {
-            state.putIfAbsent(ENERGY, OptionalDouble.of(state.get(ENTHALPY).getAsDouble() - state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble()));
+            state.put(ENERGY, OptionalDouble.of(state.get(ENTHALPY).getAsDouble() - state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble()));
         }
         // U = F + T.sS
         else if (state.contains(HELMHOLTZ, TEMPERATURE, ENTROPY)) {
-            state.putIfAbsent(ENERGY, OptionalDouble.of(state.get(HELMHOLTZ).getAsDouble() + state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble()));
+            state.put(ENERGY, OptionalDouble.of(state.get(HELMHOLTZ).getAsDouble() + state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble()));
         }
         // U = F + H - G
         else if (state.contains(HELMHOLTZ, ENTHALPY, GIBBS)) {
-            state.putIfAbsent(ENERGY, OptionalDouble.of(state.get(HELMHOLTZ).getAsDouble() + state.get(ENTHALPY).getAsDouble() - state.get(GIBBS).getAsDouble()));
+            state.put(ENERGY, OptionalDouble.of(state.get(HELMHOLTZ).getAsDouble() + state.get(ENTHALPY).getAsDouble() - state.get(GIBBS).getAsDouble()));
         }
         // U = G + T.S - P.V
-        else if (state.contains(GIBBS, TEMPERATURE, ENTROPY, PRESSURE, VOLUME)) {state.putIfAbsent(ENERGY, OptionalDouble.of(state.get(GIBBS).getAsDouble() + state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble() - state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble()));}
+        else if (state.contains(GIBBS, TEMPERATURE, ENTROPY, PRESSURE, VOLUME)) {state.put(ENERGY, OptionalDouble.of(state.get(GIBBS).getAsDouble() + state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble() - state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble()));}
     }
     
     /**
@@ -123,19 +134,19 @@ public abstract class Fluid implements Properties, Serializable {
     protected void calcG(State state) {
         // G = H - T.S
         if (state.contains(ENTHALPY, TEMPERATURE, ENTROPY)) {
-            state.putIfAbsent(GIBBS, OptionalDouble.of(state.get(ENTHALPY).getAsDouble() - state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble()));
+            state.put(GIBBS, OptionalDouble.of(state.get(ENTHALPY).getAsDouble() - state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble()));
         }
         // G = U + PV - T.S
         else if (state.contains(ENERGY, PRESSURE, VOLUME, TEMPERATURE, ENTROPY)) {
-            state.putIfAbsent(GIBBS, OptionalDouble.of(state.get(ENERGY).getAsDouble() + state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble() - state.get(TEMPERATURE).getAsDouble()*state.get(ENTROPY).getAsDouble()));
+            state.put(GIBBS, OptionalDouble.of(state.get(ENERGY).getAsDouble() + state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble() - state.get(TEMPERATURE).getAsDouble()*state.get(ENTROPY).getAsDouble()));
         }
         // G = F + P.V
         else if (state.contains(HELMHOLTZ, PRESSURE, VOLUME)) {
-            state.putIfAbsent(GIBBS, OptionalDouble.of(state.get(HELMHOLTZ).getAsDouble() + state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble()));
+            state.put(GIBBS, OptionalDouble.of(state.get(HELMHOLTZ).getAsDouble() + state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble()));
         }
         // G = H - U + F
         else if (state.contains(ENTHALPY, ENERGY, HELMHOLTZ)) {
-            state.putIfAbsent(GIBBS, OptionalDouble.of(state.get(ENTHALPY).getAsDouble() - state.get(ENERGY).getAsDouble() + state.get(HELMHOLTZ).getAsDouble()));
+            state.put(GIBBS, OptionalDouble.of(state.get(ENTHALPY).getAsDouble() - state.get(ENERGY).getAsDouble() + state.get(HELMHOLTZ).getAsDouble()));
         }
     }
     
@@ -146,19 +157,19 @@ public abstract class Fluid implements Properties, Serializable {
    protected void calcF(State state) {
         // F = U - T.S
         if (state.contains(ENERGY, TEMPERATURE, ENTROPY)) {
-            state.putIfAbsent(HELMHOLTZ, OptionalDouble.of(state.get(ENERGY).getAsDouble() - state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble()));
+            state.put(HELMHOLTZ, OptionalDouble.of(state.get(ENERGY).getAsDouble() - state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble()));
         }
         // F = H - P.V - T.S
         else if (state.contains(ENTHALPY, PRESSURE, VOLUME, TEMPERATURE, ENTROPY)) {
-            state.putIfAbsent(HELMHOLTZ, OptionalDouble.of(state.get(ENTHALPY).getAsDouble() - state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble() - state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble()));
+            state.put(HELMHOLTZ, OptionalDouble.of(state.get(ENTHALPY).getAsDouble() - state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble() - state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble()));
         }
         // F = G - P.V
         else if (state.contains(GIBBS, PRESSURE, VOLUME)) {
-            state.putIfAbsent(HELMHOLTZ, OptionalDouble.of(state.get(GIBBS).getAsDouble() - state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble()));
+            state.put(HELMHOLTZ, OptionalDouble.of(state.get(GIBBS).getAsDouble() - state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble()));
         }
         // F = U - H + G
         else if (state.contains(ENERGY, ENTHALPY, GIBBS)) {
-            state.putIfAbsent(HELMHOLTZ, OptionalDouble.of(state.get(ENERGY).getAsDouble() - state.get(ENTHALPY).getAsDouble() + state.get(GIBBS).getAsDouble()));
+            state.put(HELMHOLTZ, OptionalDouble.of(state.get(ENERGY).getAsDouble() - state.get(ENTHALPY).getAsDouble() + state.get(GIBBS).getAsDouble()));
         }
     }
     
@@ -170,19 +181,19 @@ public abstract class Fluid implements Properties, Serializable {
         if (state.contains(ENTROPY)) {
             // T = (U - F)/S
             if (state.contains(ENERGY, HELMHOLTZ)) {
-                state.putIfAbsent(TEMPERATURE, OptionalDouble.of((state.get(ENERGY).getAsDouble() - state.get(HELMHOLTZ).getAsDouble()) / state.get(ENTROPY).getAsDouble()));
+                state.put(TEMPERATURE, OptionalDouble.of((state.get(ENERGY).getAsDouble() - state.get(HELMHOLTZ).getAsDouble()) / state.get(ENTROPY).getAsDouble()));
             }
             // T = (H - G)/S
             else if (state.contains(ENTHALPY, GIBBS)) {
-                state.putIfAbsent(TEMPERATURE, OptionalDouble.of((state.get(ENTHALPY).getAsDouble() - state.get(GIBBS).getAsDouble()) / state.get(ENTROPY).getAsDouble()));
+                state.put(TEMPERATURE, OptionalDouble.of((state.get(ENTHALPY).getAsDouble() - state.get(GIBBS).getAsDouble()) / state.get(ENTROPY).getAsDouble()));
             }
             // T = (U + P.V - G)/S
             else if (state.contains(ENERGY, PRESSURE, VOLUME, GIBBS)) {
-                state.putIfAbsent(TEMPERATURE, OptionalDouble.of((state.get(ENERGY).getAsDouble() + state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble() - state.get(GIBBS).getAsDouble()) / state.get(ENTROPY).getAsDouble()));
+                state.put(TEMPERATURE, OptionalDouble.of((state.get(ENERGY).getAsDouble() + state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble() - state.get(GIBBS).getAsDouble()) / state.get(ENTROPY).getAsDouble()));
             }
             // T = (H - P.V - F)/S
             else if (state.contains(ENTHALPY, PRESSURE, VOLUME, HELMHOLTZ)) {
-                state.putIfAbsent(TEMPERATURE, OptionalDouble.of((state.get(ENERGY).getAsDouble() - state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble() - state.get(HELMHOLTZ).getAsDouble()) / state.get(ENTROPY).getAsDouble()));
+                state.put(TEMPERATURE, OptionalDouble.of((state.get(ENERGY).getAsDouble() - state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble() - state.get(HELMHOLTZ).getAsDouble()) / state.get(ENTROPY).getAsDouble()));
             }
         }
     }
@@ -195,19 +206,19 @@ public abstract class Fluid implements Properties, Serializable {
         if (state.contains(TEMPERATURE)) {
             // S = (U - F)/T
             if (state.contains(ENERGY, HELMHOLTZ)) {
-                state.putIfAbsent(ENTROPY, OptionalDouble.of((state.get(ENERGY).getAsDouble() - state.get(HELMHOLTZ).getAsDouble()) / state.get(TEMPERATURE).getAsDouble()));
+                state.put(ENTROPY, OptionalDouble.of((state.get(ENERGY).getAsDouble() - state.get(HELMHOLTZ).getAsDouble()) / state.get(TEMPERATURE).getAsDouble()));
             }
             // T = (H - G)/S
             else if (state.contains(ENTHALPY, GIBBS)) {
-                state.putIfAbsent(ENTROPY, OptionalDouble.of((state.get(ENTHALPY).getAsDouble() - state.get(GIBBS).getAsDouble()) / state.get(TEMPERATURE).getAsDouble()));
+                state.put(ENTROPY, OptionalDouble.of((state.get(ENTHALPY).getAsDouble() - state.get(GIBBS).getAsDouble()) / state.get(TEMPERATURE).getAsDouble()));
             }
             // T = (U + P.V - G)/S
             else if (state.contains(ENERGY, PRESSURE, VOLUME, GIBBS)) {
-                state.putIfAbsent(ENTROPY, OptionalDouble.of((state.get(ENERGY).getAsDouble() + state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble() - state.get(GIBBS).getAsDouble()) / state.get(TEMPERATURE).getAsDouble()));
+                state.put(ENTROPY, OptionalDouble.of((state.get(ENERGY).getAsDouble() + state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble() - state.get(GIBBS).getAsDouble()) / state.get(TEMPERATURE).getAsDouble()));
             }
             // T = (H - P.V - F)/S
             else if (state.contains(ENTHALPY, PRESSURE, VOLUME, HELMHOLTZ)) {
-                state.putIfAbsent(ENTROPY, OptionalDouble.of((state.get(ENERGY).getAsDouble() - state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble() - state.get(HELMHOLTZ).getAsDouble()) / state.get(TEMPERATURE).getAsDouble()));
+                state.put(ENTROPY, OptionalDouble.of((state.get(ENERGY).getAsDouble() - state.get(PRESSURE).getAsDouble() * state.get(VOLUME).getAsDouble() - state.get(HELMHOLTZ).getAsDouble()) / state.get(TEMPERATURE).getAsDouble()));
             }
         }
     }
@@ -220,19 +231,19 @@ public abstract class Fluid implements Properties, Serializable {
         if (state.contains(VOLUME)) {
             // P = (H - U)/V
             if (state.contains(ENTHALPY, ENERGY)) {
-                state.putIfAbsent(PRESSURE, OptionalDouble.of((state.get(ENTHALPY).getAsDouble() - state.get(ENERGY).getAsDouble()) / state.get(VOLUME).getAsDouble()));
+                state.put(PRESSURE, OptionalDouble.of((state.get(ENTHALPY).getAsDouble() - state.get(ENERGY).getAsDouble()) / state.get(VOLUME).getAsDouble()));
             }
             // P = (G - F)/V
             else if (state.contains(GIBBS, HELMHOLTZ)) {
-                state.putIfAbsent(PRESSURE, OptionalDouble.of((state.get(GIBBS).getAsDouble() - state.get(HELMHOLTZ).getAsDouble()) / state.get(VOLUME).getAsDouble()));
+                state.put(PRESSURE, OptionalDouble.of((state.get(GIBBS).getAsDouble() - state.get(HELMHOLTZ).getAsDouble()) / state.get(VOLUME).getAsDouble()));
             }
             // P = (G + T.S - U)/V
             else if (state.contains(GIBBS, TEMPERATURE, ENTROPY, ENERGY)) {
-                state.putIfAbsent(PRESSURE, OptionalDouble.of((state.get(GIBBS).getAsDouble() - state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble() - state.get(ENERGY).getAsDouble()) / state.get(VOLUME).getAsDouble()));
+                state.put(PRESSURE, OptionalDouble.of((state.get(GIBBS).getAsDouble() - state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble() - state.get(ENERGY).getAsDouble()) / state.get(VOLUME).getAsDouble()));
             }
             // P = (H - F - TS)/V
             else if (state.contains(ENTHALPY, HELMHOLTZ, TEMPERATURE, ENTROPY)) {
-                state.putIfAbsent(PRESSURE, OptionalDouble.of((state.get(ENTHALPY).getAsDouble() - state.get(HELMHOLTZ).getAsDouble() - state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble()) / state.get(VOLUME).getAsDouble()));
+                state.put(PRESSURE, OptionalDouble.of((state.get(ENTHALPY).getAsDouble() - state.get(HELMHOLTZ).getAsDouble() - state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble()) / state.get(VOLUME).getAsDouble()));
             }
         }
     }
@@ -242,22 +253,26 @@ public abstract class Fluid implements Properties, Serializable {
      * @param state The state to compute specific volume for.
      */
     protected void calcV(State state) {
+        if (state.contains(DENSITY)) {
+            // V = 1/R;
+            state.put(VOLUME, OptionalDouble.of(1/state.get(DENSITY).getAsDouble()));
+        }
         if (state.contains(PRESSURE)) {
             // V = (H - U)/P
             if (state.contains(ENTHALPY, ENERGY)) {
-                state.putIfAbsent(VOLUME, OptionalDouble.of((state.get(ENTHALPY).getAsDouble() - state.get(ENERGY).getAsDouble()) / state.get(PRESSURE).getAsDouble()));
+                state.put(VOLUME, OptionalDouble.of((state.get(ENTHALPY).getAsDouble() - state.get(ENERGY).getAsDouble()) / state.get(PRESSURE).getAsDouble()));
             }
             // V = (G - F)/P
             else if (state.contains(GIBBS, HELMHOLTZ)) {
-                state.putIfAbsent(VOLUME, OptionalDouble.of((state.get(GIBBS).getAsDouble() - state.get(HELMHOLTZ).getAsDouble()) / state.get(PRESSURE).getAsDouble()));
+                state.put(VOLUME, OptionalDouble.of((state.get(GIBBS).getAsDouble() - state.get(HELMHOLTZ).getAsDouble()) / state.get(PRESSURE).getAsDouble()));
             }
             // V = (G + T.S - U)/P
             else if (state.contains(GIBBS, TEMPERATURE, ENTROPY, ENERGY)) {
-                state.putIfAbsent(VOLUME, OptionalDouble.of((state.get(GIBBS).getAsDouble() - state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble() - state.get(ENERGY).getAsDouble()) / state.get(PRESSURE).getAsDouble()));
+                state.put(VOLUME, OptionalDouble.of((state.get(GIBBS).getAsDouble() - state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble() - state.get(ENERGY).getAsDouble()) / state.get(PRESSURE).getAsDouble()));
             }
             // V = (H - F - T.S)/P
             else if (state.contains(ENTHALPY, HELMHOLTZ, TEMPERATURE, ENTROPY)) {
-                state.putIfAbsent(VOLUME, OptionalDouble.of((state.get(ENTHALPY).getAsDouble() - state.get(HELMHOLTZ).getAsDouble() - state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble())/state.get(PRESSURE).getAsDouble()));
+                state.put(VOLUME, OptionalDouble.of((state.get(ENTHALPY).getAsDouble() - state.get(HELMHOLTZ).getAsDouble() - state.get(TEMPERATURE).getAsDouble() * state.get(ENTROPY).getAsDouble())/state.get(PRESSURE).getAsDouble()));
             }
         }
     }

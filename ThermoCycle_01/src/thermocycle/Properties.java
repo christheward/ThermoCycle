@@ -18,6 +18,7 @@ public interface Properties {
         PRESSURE ("Pressure", "P", "Pa",0.0, Double.POSITIVE_INFINITY),
         TEMPERATURE ("Temperature", "T", "K", 0.0, Double.POSITIVE_INFINITY),
         VOLUME ("Specific volume", "V", "m^3/kg", 0.0, Double.POSITIVE_INFINITY),
+        DENSITY("Density", "\u03C1", "kg/m^3", 0.0, Double.POSITIVE_INFINITY),
         ENTROPY ("Specific entropy", "s", "J/kg.K", Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY),
         ENERGY ("Specific internal energy", "u", "J/kg", Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY),
         ENTHALPY ("Specific enthalpy", "h", "J/kg", Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY),
@@ -28,9 +29,9 @@ public interface Properties {
         MECHANICAL("Specific mechanical energy", "m", "J/kg", Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
         
         // variables
-        protected final String fullName;
-        protected final String symbol;
-        protected final String units;
+        public final String fullName;
+        public final String symbol;
+        public final String units;
         protected final double max;
         protected final double min;
         
@@ -48,6 +49,6 @@ public interface Properties {
             this.units = units;
             this.max = max;
             this.min = min;
-        }   
+        }
     }
 }

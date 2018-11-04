@@ -5,6 +5,7 @@
  */
 package thermocycle;
 
+import java.util.Optional;
 import java.util.OptionalDouble;
 
 /**
@@ -29,7 +30,7 @@ public final class WorkNode extends Node {
     
     @Override
     protected void clear() {
-        setWork(OptionalDouble.empty());
+        work = OptionalDouble.empty();
     }
     
     /**
@@ -49,7 +50,12 @@ public final class WorkNode extends Node {
      * @throws IllegalArgumentException Thrown if the value is not present.
      */
     void setWork(OptionalDouble value) {
-        work = OptionalDouble.of(value.getAsDouble());
+        if (value.isPresent()) {
+            work = OptionalDouble.of(value.getAsDouble());
+        }
+        else {
+            throw new IllegalStateException("Cannot set work to an empty OptionalDouble.");
+        }
     }
     
     @Override

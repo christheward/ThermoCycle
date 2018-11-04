@@ -5,6 +5,7 @@
  */
 package thermocycle;
 
+import java.util.Optional;
 import java.util.OptionalDouble;
 
 /**
@@ -29,7 +30,7 @@ public final class HeatNode extends Node {
     
     @Override
     protected void clear() {
-        setHeat(OptionalDouble.empty());
+        heat = OptionalDouble.empty();
     }
     
     /**
@@ -49,7 +50,12 @@ public final class HeatNode extends Node {
      * @throws IllegalArgumentException Thrown if the value is not present.
      */
     protected void setHeat(OptionalDouble value) {
-        heat = OptionalDouble.of(value.getAsDouble());
+        if (value.isPresent()) {
+            heat = OptionalDouble.of(value.getAsDouble());
+        }
+        else {
+            throw new IllegalStateException("Cannot set heat to an empty OptionalDouble.");
+        }
     }
     
     @Override

@@ -101,7 +101,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
         equations.stream().forEach(e -> {
             e.reset();
         });
-        // clear noodes
+        // clear nodes
         getNodes().stream().forEach(n -> {
             n.clear();
         });
@@ -208,14 +208,26 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @throws IllegalArgumentException if thee attribute is not valid.
      * @throws IllegalStateException if thee attribute has already been set.
      */
-    protected final void setAttribute(Attribute name, OptionalDouble value) {
-        if (!attributes.containsKey(name)) {
-            throw new IllegalArgumentException(name + " is not a valid attribute for component type " + this.getClass().getSimpleName());
+    protected final void setAttribute(Attribute attribute, OptionalDouble value) {
+        if (value.isPresent()) {
+            if (!attributes.containsKey(attribute)) {
+                throw new IllegalArgumentException(attribute + " is not a valid attribute for component type " + this.getClass().getSimpleName());
+            }
+            else {
+                attributes.put(attribute, value);
+            }
         }
-        if (attributes.get(name).isPresent()) {
-            throw new IllegalStateException(name + " has already been set in component " + this.name);
+        else {
+            throw new IllegalStateException("Cannot set attribute to an empty OptionalDouble.");
         }
-        attributes.put(name, value);
+    }
+    
+    /**
+     * Clear attribute value
+     * @param attribute The attribute to clear
+     */
+    protected final void clearAttribute(Attribute attribute) {
+        attributes.put(attribute, OptionalDouble.empty());
     }
     
     /**
@@ -284,7 +296,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
         State dead = new State();
         for (FlowNode n : getFlowInlets()) {
             dead.clear();
-            dead.putIfAbsent(ambient);
+            dead.put(ambient);
             n.getFluid().computeState(dead);
             E = E + n.getMass().getAsDouble() * ((n.getState(ENTHALPY).getAsDouble() - dead.get(ENTHALPY).getAsDouble()) - (dead.get(TEMPERATURE).getAsDouble() * (n.getState(ENTROPY).getAsDouble() - dead.get(ENTROPY).getAsDouble())));
         }
@@ -300,7 +312,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
         State dead = new State();
         for (FlowNode n : getFlowOutlets()) {
             dead.clear();
-            dead.putIfAbsent(ambient);
+            dead.put(ambient);
             n.getFluid().computeState(dead);
             E = E + n.getMass().getAsDouble() * ((n.getState(ENTHALPY).getAsDouble() - dead.get(ENTHALPY).getAsDouble()) - (dead.get(TEMPERATURE).getAsDouble() * (n.getState(ENTROPY).getAsDouble() - dead.get(ENTROPY).getAsDouble())));
         }
