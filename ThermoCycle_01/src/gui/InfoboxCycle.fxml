@@ -35,12 +35,12 @@
                <font>
                   <Font name="System Bold" size="15.0" />
                </font></Label>
-            <ListView fx:id="listComponents" />
-            <Label text="Components" underline="true">
+            <ListView fx:id="listComponents" prefHeight="200.0" />
+            <Label text="Fluids" underline="true">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font></Label>
-            <ListView fx:id="listFluids" />
+            <ListView fx:id="listFluids" prefHeight="100" />
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

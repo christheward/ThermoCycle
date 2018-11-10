@@ -19,22 +19,20 @@ import thermocycle.WorkNode;
  *
  * @author Chris
  */
-public class InfoboxController extends AnchorPane{
+public class InfoboxBaseController extends AnchorPane{
     
     // FXML variables
     @FXML private VBox contents;
     private final CanvasController canvas;
     
-    // Event handlers
-    
     /**
      * Constructor
      * @param canvas The parent canvas 
      */
-    public InfoboxController(CanvasController canvas) {
+    public InfoboxBaseController(CanvasController canvas) {
         
         // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Infobox.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InfoboxBase.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {
@@ -54,59 +52,9 @@ public class InfoboxController extends AnchorPane{
     
     public void showDetails(Node node) {
         if (node instanceof CanvasController) {
-            
             contents.getChildren().clear();
             InfoboxCycleController ifc = new InfoboxCycleController(canvas);
             contents.getChildren().add(ifc);
-            
-            /**
-            TextField pressureField = new TextField();
-            TextField temperatureField = new TextField();
-            
-            pressureField.setText(String.valueOf(canvas.model.getAmbient(Properties.Property.PRESSURE)));
-            temperatureField.setText(String.valueOf(canvas.model.getAmbient(Properties.Property.TEMPERATURE)));
-            
-            contents.getChildren().add(new Label(Properties.Property.PRESSURE.name()));
-            contents.getChildren().add(pressureField);
-            contents.getChildren().add(new Label(Properties.Property.TEMPERATURE.name()));
-            contents.getChildren().add(temperatureField);
-            
-            pressureField.textProperty().addListener(new ChangeListener<String>() {
-                @Override
-                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                    if (!newValue.matches("\\d*")) {
-                        pressureField.setText(newValue.replaceAll("[^\\d]", ""));
-                    }
-                }
-            });
-            pressureField.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    canvas.model.setAmbient(Double.valueOf(pressureField.getText()),Double.valueOf(temperatureField.getText()));
-                }
-            });
-            temperatureField.textProperty().addListener(new ChangeListener<String>() {
-                @Override
-                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                    if (!newValue.matches("\\d*")) {
-                        temperatureField.setText(newValue.replaceAll("[^\\d]", ""));
-                    }
-                }
-            });
-            temperatureField.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    canvas.model.setAmbient(Double.valueOf(pressureField.getText()),Double.valueOf(temperatureField.getText()));
-                }
-            });
-            
-            contents.getChildren().add(new ListView<thermocycle.Component>(canvas.model.componentsReadOnly));
-            contents.getChildren().add(new ListView<thermocycle.Fluid>(canvas.model.fluidsReadOnly));
-            ListView pathsView = new ListView<Set<thermocycle.FlowNode>>(canvas.model.pathsReadOnly);
-                        
-            contents.getChildren().add(pathsView);
-            **/
-            
         }
         else if (node instanceof CanvasNodeController) {
             thermocycle.Node n = (((CanvasNodeController) node).node);
@@ -129,9 +77,9 @@ public class InfoboxController extends AnchorPane{
         }
         else if (node instanceof CanvasIconController) {
             contents.getChildren().clear();
-            InfoboxComponentController iac = new InfoboxComponentController(canvas);
-            iac.showDetails(((CanvasIconController) node).component);
-            contents.getChildren().add(iac);
+            InfoboxComponentController icc = new InfoboxComponentController(canvas);
+            icc.showDetails(((CanvasIconController) node).component);
+            contents.getChildren().add(icc);
         }
         else if (node instanceof CanvasPathController) {
             contents.getChildren().clear();

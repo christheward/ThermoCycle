@@ -20,13 +20,13 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author Chris
  */
-public class Chart extends AnchorPane {
+public class ChartController extends AnchorPane {
 
     @FXML private PieChart pieChart;
     private ObservableList<Data> dataset = null;
     
     // Constructor
-    public Chart() {
+    public ChartController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Chart.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);

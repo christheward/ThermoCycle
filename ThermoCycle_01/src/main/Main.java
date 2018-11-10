@@ -5,8 +5,8 @@
  */
 package main;
 
-import gui.Chart;
-import gui.Graph;
+import gui.ChartController;
+import gui.GraphController;
 import gui.CanvasController;
 import java.io.IOException;
 import javafx.application.Application;
@@ -59,27 +59,11 @@ public class Main extends Application {
             e.printStackTrace();
         }
         
-        Chart chart = new Chart();
+        ChartController chart = new ChartController();
         chart.add("Cat 1", 5.0);
         chart.add("Cat 2", 3.0);
         chart.add("Cat 3", 7.0);
         root.setCenter(chart);
-    }
-    
-    private void GraphTest() throws IOException, InterruptedException {
-        
-        BorderPane root = new BorderPane();
-        try {
-            Scene scene = new Scene(root,640,480);
-            scene.getStylesheets().add(getClass().getResource("/gui/application.css").toExternalForm());
-            stage.setScene(scene);
-            stage.show();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-        
-        Graph graph = new Graph();
-        root.setCenter(graph);
     }
     
 }

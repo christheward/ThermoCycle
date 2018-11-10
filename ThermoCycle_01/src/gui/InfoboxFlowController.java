@@ -116,6 +116,7 @@ public class InfoboxFlowController extends AnchorPane {
         if (canvas.model.isFluidSet(node)) {
             selectFluid.getSelectionModel().select(canvas.model.getFluid(node));
             fluidSettings.setVisible(true);
+            propertyList.addAll(canvas.model.getAllowableProperties(node));
         }
         else {
             fluidSettings.setVisible(false);

@@ -20,13 +20,14 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.ClipboardContent;
@@ -55,11 +56,13 @@ public class CanvasController extends VBox implements Serializable {
     @FXML private MenuItem fileSave;
     @FXML private MenuItem fileSaveas;
     @FXML private MenuItem editDelete;
+    @FXML private MenuItem cyclePlot;
     @FXML private MenuItem cycleSolve;
     private ToolboxController toolboxContent;
-    protected InfoboxController infoboxContent;
+    protected InfoboxBaseController infoboxContent;
     protected ToolboxIconController dragIcon;
     protected ToolboxPathController dragConnection;
+    private GraphController graph;
     private ContextMenu menu;
     
     // Variables
@@ -103,6 +106,7 @@ public class CanvasController extends VBox implements Serializable {
      */
     public void initialize() {
         
+        // Add style
         canvas.getStyleClass().add("canvas");
         
         // Setup toolbox
@@ -145,7 +149,7 @@ public class CanvasController extends VBox implements Serializable {
         });
         
         // Setup infobox
-        infoboxContent = new InfoboxController(this);
+        infoboxContent = new InfoboxBaseController(this);
         infobox.getChildren().add(infoboxContent);
         infoboxContent.showDetails(CanvasController.this);
         
@@ -157,6 +161,16 @@ public class CanvasController extends VBox implements Serializable {
         AnchorPane.setLeftAnchor(console, 0.0);
         AnchorPane.setRightAnchor(console, 0.0);
         console.setVisible(true);
+        
+        // Setup graph
+        graph = new GraphController(this);
+        canvas.getChildren().add(graph);
+        AnchorPane.setTopAnchor(graph, 0.0);
+        AnchorPane.setBottomAnchor(graph, 0.0);
+        AnchorPane.setLeftAnchor(graph, 0.0);
+        AnchorPane.setRightAnchor(graph, 0.0);
+        graph.setVisible(true);
+        
         
         // Set up drag handlers
         buildDragHandlers();
@@ -242,6 +256,14 @@ public class CanvasController extends VBox implements Serializable {
                 // TODO: How do you work out what to delete?
                 event.consume();
             }
+        });
+        cyclePlot.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                graph.setVisible(!graph.isVisible());
+                //graph.setVisible(true);
+                
+            }            
         });
         cycleSolve.setOnAction(new EventHandler() {
             @Override

@@ -68,7 +68,8 @@ public class InfoboxComponentController extends AnchorPane {
         attributeList = FXCollections.observableList(new ArrayList<>());
         attributeTable = FXCollections.observableList(new ArrayList<>());
         attributeColumn.setCellValueFactory(new PropertyValueFactory<>("attribute"));
-        valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+        //valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+        valueColumn.setCellValueFactory(new PropertyValueFactory<>("output"));
         unitsColumn.setCellValueFactory(new PropertyValueFactory<>("units"));
         selectAttribute.setItems(attributeList);
         table.setItems(attributeTable);

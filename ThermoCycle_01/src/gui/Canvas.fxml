@@ -31,6 +31,7 @@
             <Menu mnemonicParsing="false" text="Cycle">
               <items>
                 <MenuItem fx:id="cycleSolve" mnemonicParsing="false" text="Solve" />
+                  <MenuItem fx:id="cyclePlot" mnemonicParsing="false" text="Plot" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Help">
