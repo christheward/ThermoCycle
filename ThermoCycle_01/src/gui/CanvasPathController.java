@@ -7,17 +7,14 @@ package gui;
 
 import static gui.CanvasPathController.Direction.*;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableDoubleValue;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 
@@ -31,7 +28,7 @@ public class CanvasPathController extends ToolboxPathController {
     protected CanvasNodeController start;
     protected CanvasNodeController end;
     private ContextMenu menu;
-    private final CanvasController canvas;
+    private final MasterSceneController master;
     
     // varaibles
     private static double length = 10;
@@ -83,9 +80,9 @@ public class CanvasPathController extends ToolboxPathController {
      * @param start
      * @param end
      */
-    public CanvasPathController(CanvasController canvas) {
+    public CanvasPathController(MasterSceneController master) {
         super();
-        this.canvas = canvas;
+        this.master = master;
     }
         
     /**
@@ -119,7 +116,7 @@ public class CanvasPathController extends ToolboxPathController {
             }
         });
         // Create conection in model
-        connection = canvas.model.createConnection(start.node, end.node);
+        connection = master.getModel().createConnection(start.node, end.node);
         // Creat context menu
         buildContextMenu();
         buildClickHandlers();
@@ -155,12 +152,11 @@ public class CanvasPathController extends ToolboxPathController {
         this.setOnMouseClicked(new EventHandler <MouseEvent> () {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("Connection Click");
                 if (event.getButton().equals(MouseButton.SECONDARY)) {
                     menu.show(CanvasPathController.this, event.getScreenX(), event.getScreenY());
                 }
                 else {
-                    canvas.infoboxContent.showDetails(CanvasPathController.this);
+                    master.infobox.showDetails(CanvasPathController.this);
                 }
                 event.consume();
             }
@@ -172,26 +168,11 @@ public class CanvasPathController extends ToolboxPathController {
      */
     private void buildContextMenu() {
         menu = new ContextMenu();
-        if (start.node instanceof thermocycle.FlowNode) {
-            Menu submenu = new Menu("Set fluid");
-            canvas.model.fluidsReadOnly.forEach(f -> {
-                MenuItem fluidItem = new MenuItem(f.toString());
-                submenu.getItems().add(fluidItem);
-                fluidItem.setOnAction(new EventHandler() {
-                    @Override
-                    public void handle(Event event) {
-                        canvas.model.setFluid((thermocycle.FlowNode)start.node, f);
-                        event.consume();
-                    }
-                });
-            });
-            menu.getItems().add(submenu);
-        }
         MenuItem item = new MenuItem("Remove connection");
         item.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                canvas.remove(CanvasPathController.this);
+                master.canvas.remove(CanvasPathController.this);
                 event.consume();
             }
         });
@@ -206,7 +187,7 @@ public class CanvasPathController extends ToolboxPathController {
         
         intersection(start.sceneLocation(), start.getDirection().vector, end.sceneLocation(), end.getDirection().opposite.vector);
         
-        // free to continue in teh same direction
+        // free to continue in the same direction
         // infinite cost to reverse
         // small cost to turn
         // how to make sure it's symmetric???

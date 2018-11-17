@@ -8,6 +8,7 @@ package thermocycle;
 import java.util.*;
 import static thermocycle.Attributes.Attribute.SPLIT;
 import static thermocycle.Node.Port.*;
+import static thermocycle.Properties.Property.*;
 
 
 /**
@@ -63,6 +64,14 @@ final class Splitter extends Component {
     @Override
     protected double heatExergyOut() {
         return 0;
+    }
+    
+    @Override
+    protected List<List<FlowNode>> plotData() {
+        List paths = new ArrayList();
+        paths.add(thermodynamicProcess(getInlet(), getOutlet1(), ENTHALPY, ENTROPY));
+        paths.add(thermodynamicProcess(getInlet(), getOutlet2(), ENTHALPY, ENTROPY));
+        return paths;
     }
     
     /**

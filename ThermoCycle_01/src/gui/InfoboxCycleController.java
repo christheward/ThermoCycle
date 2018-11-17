@@ -6,6 +6,8 @@
 package gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,18 +23,23 @@ import thermocycle.Properties;
  */
 public class InfoboxCycleController extends AnchorPane {
 
-    // FXML Variables
+    // FXML variables
     @FXML private TextField pressureInput;
     @FXML private TextField temperatureInput;
     @FXML private ListView listComponents;
     @FXML private ListView listFluids;
-    private final CanvasController canvas;
+    
+    // GUI variables
+    private final MasterSceneController master;
     
     /**
      * Constructor
      * 
      */
-    public InfoboxCycleController(CanvasController canvas) {
+    public InfoboxCycleController(MasterSceneController master) {
+        
+        // Set master
+        this.master = master;
         
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InfoboxCycle.fxml"));
@@ -43,12 +50,6 @@ public class InfoboxCycleController extends AnchorPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-        this.canvas = canvas;
-        
-        // Build event handlers
-        buildEventHandlers();
-        connectLists();
-        populate();
         
     }
     
@@ -56,42 +57,64 @@ public class InfoboxCycleController extends AnchorPane {
      * Initialiser
      */
     public void initialize() {
+        
+        // Build event handlers
+        buildEventHandlers();
+        
     }
-    
-    
-    public void showDetails() {
+        
+    /**
+     * Refresh the infobox.
+     */
+    private void refresh() {
+        pressureInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getAmbient(Properties.Property.PRESSURE)));
+        temperatureInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getAmbient(Properties.Property.TEMPERATURE)));
     }
     
     /**
-     * Populates the state table with properties and values.
+     * Builds the event handlers for the infobox
      */
-    private void populate() {
-        pressureInput.setText(CanvasController.displayOptionalDouble(canvas.model.getAmbient(Properties.Property.PRESSURE)));
-        temperatureInput.setText(CanvasController.displayOptionalDouble(canvas.model.getAmbient(Properties.Property.TEMPERATURE)));
-    }
-    
     private void buildEventHandlers() {
+        
+        // Pressure text field handlers
         pressureInput.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                canvas.model.setAmbient(Properties.Property.PRESSURE, Double.valueOf(pressureInput.getText()));
-                populate();
+                master.getModel().setAmbient(Properties.Property.PRESSURE, Double.valueOf(pressureInput.getText()));
+                refresh();
                 event.consume();
             }
         });
+        
+        // Temperature text field handlers
         temperatureInput.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                canvas.model.setAmbient(Properties.Property.TEMPERATURE, Double.valueOf(temperatureInput.getText()));
-                populate();
+                master.getModel().setAmbient(Properties.Property.TEMPERATURE, Double.valueOf(temperatureInput.getText()));
+                refresh();
                 event.consume();
             }
         });
+        
     }
     
-    private void connectLists() {
-        listComponents.setItems(canvas.model.componentsReadOnly);
-        listFluids.setItems(canvas.model.fluidsReadOnly);
+    /**
+     * Connects the info panel to a new model
+     */
+    public void connectNewModel() {
+        // Check if model exists
+        if (master.isModel()) {
+            // Connect to other lists
+            listComponents.setItems(master.getModel().componentsReadOnly);
+            listFluids.setItems(master.getModel().fluidsReadOnly);
+            // Populate form
+            refresh();
+        }
+        else {
+            // Connnect to blank lists
+            listComponents.setItems(FXCollections.observableList(new ArrayList<>()));
+            listFluids.setItems(FXCollections.observableList(new ArrayList<>()));
+        }
     }
     
 }

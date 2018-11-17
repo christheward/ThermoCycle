@@ -84,6 +84,14 @@ public final class HeatExchanger extends Component {
         return 0;
     }
     
+    @Override
+    protected List<List<FlowNode>> plotData() {
+        List paths = new ArrayList();
+        paths.add(thermodynamicProcess(getInletHot(), getOutletHot(), ENTHALPY, ENTROPY));
+        paths.add(thermodynamicProcess(getInletCold(), getOutletCold(), ENTHALPY, ENTROPY));
+        return paths;
+    }
+    
     /**
      * Mass balance on the hot side of the heat exchanger.
      */

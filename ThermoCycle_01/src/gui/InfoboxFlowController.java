@@ -7,6 +7,7 @@ package gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.OptionalDouble;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,7 +32,7 @@ import thermocycle.Properties.Property;
  */
 public class InfoboxFlowController extends AnchorPane {
 
-    // FXML Variables
+    // FXML variables
     @FXML private TableView<PropertyView> table;
     @FXML private TableColumn<PropertyView, Object> propertyColumn;
     @FXML private TableColumn<PropertyView, Double> valueColumn;
@@ -43,23 +44,24 @@ public class InfoboxFlowController extends AnchorPane {
     @FXML private Label propertyUnits;
     @FXML private Button buttonClearMass;
     @FXML private Button buttonClearProperty;
-    @FXML private Button buttonClearState;
     @FXML private VBox fluidSettings;
     
-    private final CanvasController canvas;
+    // GUI variables
+    private final MasterSceneController master;
+    private final ObservableList<PropertyView> propertyTable;
+    private final ObservableList<Property> propertyList;
     
     // Model variables
     protected thermocycle.FlowNode node;
-    
-    // Table data
-    private final ObservableList<PropertyView> propertyTable;
-    private final ObservableList<Property> propertyList;
     
     /**
      * Constructor
      * 
      */
-    public InfoboxFlowController(CanvasController canvas) {
+    public InfoboxFlowController(MasterSceneController master) {
+        
+        // Set master
+        this.master = master;
         
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InfoboxFlow.fxml"));
@@ -70,20 +72,17 @@ public class InfoboxFlowController extends AnchorPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-        this.canvas = canvas;
         
         // Initialise form data
-        propertyList = FXCollections.observableList(new ArrayList<>());
-        propertyTable = FXCollections.observableList(new ArrayList<>());
-        propertyColumn.setCellValueFactory(new PropertyValueFactory<>("property"));
-        valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
-        unitsColumn.setCellValueFactory(new PropertyValueFactory<>("units"));
-        selectProperty.setItems(propertyList);
+        propertyList = FXCollections.observableList(new ArrayList());
+        propertyTable = FXCollections.observableList(new ArrayList());
+        propertyColumn.setCellValueFactory(new PropertyValueFactory("property"));
+        valueColumn.setCellValueFactory(new PropertyValueFactory("value"));
+        unitsColumn.setCellValueFactory(new PropertyValueFactory("units"));
         
+        // Set up links
+        selectProperty.setItems(propertyList);
         table.setItems(propertyTable);
-                
-        // Build event handlers
-        buildClickHandlers();
         
     }
     
@@ -91,48 +90,74 @@ public class InfoboxFlowController extends AnchorPane {
      * Initialiser
      */
     public void initialize() {
+
+        // Build event handlers
+        buildClickHandlers();
+        
     }
     
-    
+    /**
+     * Shows details for the 
+     * @param node 
+     */
     public void showDetails(thermocycle.FlowNode node) {
         
         // Set component
         this.node = node;
         
-        // Get fluid
-        selectFluid.getItems().addAll(canvas.model.fluidsReadOnly);
+        // Set fluids list - can't put this in initialiser because model doesn't allways exit 
+        selectFluid.setItems(master.getModel().fluidsReadOnly);
+                
+        // Set fluid
+        if (master.getModel().isFluidSet(node)) {
+            selectFluid.getSelectionModel().select(master.getModel().getFluid(node));
+            propertyList.clear();
+            propertyList.addAll(master.getModel().getAllowableProperties(selectFluid.getValue()));
+        };
         
-        // Populate the state table
-        populate();
-        
+        refresh();
     }
     
     /**
-     * Populates the state table with properties and values.
+     * Refreshes infobox values.
      */
-    private void populate() {
+    private void refresh() {
         
-        // Hide or show the flow infomation
-        if (canvas.model.isFluidSet(node)) {
-            selectFluid.getSelectionModel().select(canvas.model.getFluid(node));
+        if (master.getModel().isFluidSet(node)) {
+            
+            // Update mass flow boundary condition
+            massInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getMassBoundaryCondition(node)));
+
+            // Update propery boundary condition table
+            if (!selectFluid.getSelectionModel().isEmpty()) {
+                propertyTable.clear();
+                master.getModel().getAllowableProperties(selectFluid.getValue()).forEach(p -> {
+                    OptionalDouble value = master.getModel().getPropertyBoundaryCondition(node, p);
+                    if (value.isPresent()) {
+                        propertyTable.add(new PropertyView(p, value));
+                    }
+                });
+            }
+            
+            // Update property boundary condition
+            if (!selectProperty.getSelectionModel().isEmpty()) {
+                propertyInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getPropertyBoundaryCondition(node, selectProperty.getSelectionModel().getSelectedItem())));
+                propertyUnits.setText(selectProperty.getSelectionModel().getSelectedItem().units);
+            }
+            else {
+                propertyInput.setText("");
+                propertyUnits.setText("-");
+            }
+            
+            // Show infomation
             fluidSettings.setVisible(true);
-            propertyList.addAll(canvas.model.getAllowableProperties(node));
+            
         }
         else {
+            
+            // Hide infomation
             fluidSettings.setVisible(false);
         }
-        
-        // Update text fields
-        updateTextFields();
-        
-        // Property value
-        //propertyInput.setText(CanvasController.displayOptionalDouble(canvas.model.getState(node, selectProperty.getSelectionModel().getSelectedItem())));
-        
-        // Re-populate table
-        propertyTable.clear();
-        canvas.model.getAllowableProperties(node).forEach(p -> {
-            propertyTable.add(new PropertyView(p, canvas.model.getState(node, p)));
-        });
         
     }
     
@@ -140,21 +165,24 @@ public class InfoboxFlowController extends AnchorPane {
      * Build click handlers for combo boxes and buttons
      */
     private void buildClickHandlers() {
+        
         selectFluid.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                canvas.model.setFluid(node, selectFluid.getSelectionModel().getSelectedItem());
-                propertyList.addAll(canvas.model.getAllowableProperties(node));
-                populate();
+                master.getModel().setFluid(node, selectFluid.getSelectionModel().getSelectedItem());
+                // Update property list
+                propertyList.clear();
+                propertyList.addAll(master.getModel().getAllowableProperties(selectFluid.getValue()));
+                refresh();
                 event.consume();
-            }            
+            }        
         });
         
         massInput.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                canvas.model.setMass(node, Double.valueOf(massInput.getText()));
-                populate();
+                master.getModel().setMass(node, Double.valueOf(massInput.getText()));
+                refresh();
                 event.consume();
             }
         });
@@ -162,8 +190,8 @@ public class InfoboxFlowController extends AnchorPane {
         buttonClearMass.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                canvas.model.clearMass(node);
-                populate();
+                master.getModel().removeBoundaryCondition(node);
+                refresh();
                 event.consume();
             }
         });
@@ -171,9 +199,7 @@ public class InfoboxFlowController extends AnchorPane {
         selectProperty.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                propertyInput.setText(CanvasController.displayOptionalDouble(canvas.model.getState(node, selectProperty.getSelectionModel().getSelectedItem())));
-                propertyUnits.setText(selectProperty.getSelectionModel().getSelectedItem().units);
-                populate();
+                refresh();
                 event.consume();
             }    
         });
@@ -181,8 +207,8 @@ public class InfoboxFlowController extends AnchorPane {
         propertyInput.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                canvas.model.setState(node, selectProperty.getSelectionModel().getSelectedItem(), Double.valueOf(propertyInput.getText()));
-                populate();
+                master.getModel().setState(node, selectProperty.getSelectionModel().getSelectedItem(), Double.valueOf(propertyInput.getText()));
+                refresh();
                 event.consume();
             }
         });
@@ -190,31 +216,11 @@ public class InfoboxFlowController extends AnchorPane {
         buttonClearProperty.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                canvas.model.clearState(node, selectProperty.getSelectionModel().getSelectedItem());
-                populate();
+                master.getModel().removeBoundaryCondition(node, selectProperty.getSelectionModel().getSelectedItem());
+                refresh();
                 event.consume();
             }
         });
         
-        buttonClearState.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                canvas.model.clearState(node);
-                populate();
-                event.consume();
-            }
-        });
-
     }
-    
-    private void updateTextFields() {
-        if (!selectProperty.getSelectionModel().isEmpty()) {
-            propertyInput.setText(CanvasController.displayOptionalDouble(canvas.model.getState(node, selectProperty.getSelectionModel().getSelectedItem())));
-        }
-        else {
-            propertyInput.setText("");
-        }
-        massInput.setText(CanvasController.displayOptionalDouble(canvas.model.getMass(node)));
-    }
-    
 }

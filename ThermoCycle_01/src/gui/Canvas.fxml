@@ -10,52 +10,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root prefHeight="600.0" prefWidth="900.0" type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" fx:id="canvas" prefHeight="500.0" prefWidth="900.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <MenuBar VBox.vgrow="NEVER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem fx:id="fileOpen" mnemonicParsing="false" text="Open" />
-              <MenuItem fx:id="fileClose" mnemonicParsing="false" text="Close" />
-              <MenuItem fx:id="fileSave" mnemonicParsing="false" text="Save" />
-              <MenuItem fx:id="fileSaveas" mnemonicParsing="false" text="Save As" />
-              <MenuItem fx:id="fileExit" mnemonicParsing="false" text="Exit" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem fx:id="editDelete" mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Cycle">
-              <items>
-                <MenuItem fx:id="cycleSolve" mnemonicParsing="false" text="Solve" />
-                  <MenuItem fx:id="cyclePlot" mnemonicParsing="false" text="Plot" />
-              </items>
-            </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem fx:id="helpAbout" mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <ToolBar fx:id="toolbar" />
-      <HBox VBox.vgrow="ALWAYS">
-         <children>
-            <SplitPane dividerPositions="0.75" orientation="VERTICAL" HBox.hgrow="ALWAYS" SplitPane.resizableWithParent="false">
-               <items>
-                  <AnchorPane id="AnchorPane" fx:id="canvas" prefHeight="500.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <JFXDrawer fx:id="toolbox" layoutY="96.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane fx:id="consolePane" minHeight="100.0" prefHeight="100.0" SplitPane.resizableWithParent="false" />
-               </items>
-            </SplitPane>
-            <StackPane fx:id="infobox" minWidth="250.0" HBox.hgrow="NEVER" />
-         </children>
-      </HBox>
+      <JFXDrawer fx:id="draw" layoutY="96.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
 </fx:root>

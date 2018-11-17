@@ -14,9 +14,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
@@ -27,11 +27,12 @@ import javafx.scene.input.TransferMode;
  *
  * @author Chris
  */
-public class CanvasIconController extends ToolboxIconController{
+public class CanvasComponentController extends ToolboxComponentController{
     
     // FXML variables
     private ContextMenu menu;
-    private final CanvasController canvas;
+    private final MasterSceneController master;
+    private Tooltip tip;
     
     // Event handlers
     private EventHandler  iconDragOverCanvas;
@@ -46,20 +47,37 @@ public class CanvasIconController extends ToolboxIconController{
      * @param model The thermocycle model.
      * @throws Exception 
      */
-    public CanvasIconController(CanvasController canvas, IconType iType) throws Exception {
+    public CanvasComponentController(MasterSceneController master, ComponentIcon iType) throws Exception {
         super();
-        this.canvas = canvas;
+        
+        // Set master
+        this.master = master;
         setType(iType);
         icon.getStyleClass().add("icon-component");
         createComponent();
+        
+        buildNodeDragHandlers();
+        buildNodeClickHandlers();
     }
     
     /**
      * Initializer
      */
     @FXML private void initialize() {
-        buildNodeDragHandlers();
-        buildNodeClickHandlers();
+    }
+    
+    /**
+     * Builds the tool tip for this component
+     */
+    protected void buildTooltip() {
+        tip = new Tooltip();
+        Tooltip.install(base, tip);
+        tip.setOnShowing(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                tip.setText(component.toString());
+            }
+        });
     }
     
     /**
@@ -69,19 +87,19 @@ public class CanvasIconController extends ToolboxIconController{
     private final void createComponent() throws Exception {
         switch (iType) {
             case COMBUSTOR:
-                component = canvas.model.createCombustor(iType.name);
+                component = master.getModel().createCombustor(iType.name);
                 break;
             case COMPRESSOR:
-                component = canvas.model.createCompressor(iType.name);
+                component = master.getModel().createCompressor(iType.name);
                 break;
             case HEAT_EXCHANGER:
-                component = canvas.model.createHeatExchanger(iType.name);
+                component = master.getModel().createHeatExchanger(iType.name);
                 break;
             case HEAT_SINK:
-                component = canvas.model.createHeatSink(iType.name);
+                component = master.getModel().createHeatSink(iType.name);
                 break;
             case TURBINE:
-                component = canvas.model.createTurbine(iType.name);
+                component = master.getModel().createTurbine(iType.name);
                 break;
             default:
                 throw new Exception("Unknown component type!");
@@ -90,7 +108,7 @@ public class CanvasIconController extends ToolboxIconController{
     }
     
     /**
-     * Adds the input/output work/heat/and flow nodes to the CanvasIconController 
+     * Adds the input/output work/heat/and flow nodes to the CanvasComponentController 
      * @throws Exception 
      */
     private void addNodes() throws Exception {
@@ -98,7 +116,7 @@ public class CanvasIconController extends ToolboxIconController{
         while (lif.hasNext()) {
             int idx = lif.nextIndex();
             thermocycle.FlowNode fn = lif.next();
-            CanvasNodeController node = new CanvasNodeController(canvas, CanvasIconController.this, fn);
+            CanvasNodeController node = new CanvasNodeController(master, CanvasComponentController.this, fn);
             node.setOnDragDropped(node.connectionDragDroppedNode);
             node_grid.add(node, iType.flownodes[idx][0], iType.flownodes[idx][1]);
         }
@@ -106,18 +124,18 @@ public class CanvasIconController extends ToolboxIconController{
         while (liw.hasNext()) {
             int idx = liw.nextIndex();
             thermocycle.WorkNode wn = liw.next();
-            node_grid.add(new CanvasNodeController(canvas, CanvasIconController.this, wn), iType.worknodes[idx][0], iType.worknodes[idx][1]);
+            node_grid.add(new CanvasNodeController(master, CanvasComponentController.this, wn), iType.worknodes[idx][0], iType.worknodes[idx][1]);
         }
         ListIterator<thermocycle.HeatNode> lih = component.heatNodes.listIterator();
         while (lih.hasNext()) {
             int idx = lih.nextIndex();
             thermocycle.HeatNode hn = lih.next();
-            node_grid.add(new CanvasNodeController(canvas, CanvasIconController.this, hn), iType.heatnodes[idx][0], iType.heatnodes[idx][1]);
+            node_grid.add(new CanvasNodeController(master, CanvasComponentController.this, hn), iType.heatnodes[idx][0], iType.heatnodes[idx][1]);
         }
     }
     
     /**
-     * Builds the CanvasIconController drag handlers
+     * Builds the CanvasComponentController drag handlers
      */
     private void buildNodeDragHandlers() {
         
@@ -125,13 +143,12 @@ public class CanvasIconController extends ToolboxIconController{
         icon.setOnDragDetected (new EventHandler <MouseEvent> () {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("CanvasIcon: Drag detected");
                 
                 // Apply the drag handlers to teh canvas
-                canvas.setOnDragOver(null);
-                canvas.setOnDragDropped(null);
-                canvas.setOnDragOver (iconDragOverCanvas);
-                canvas.setOnDragDropped (iconDragDroppedCanvas);
+                master.canvas.setOnDragOver(null);
+                master.canvas.setOnDragDropped(null);
+                master.canvas.setOnDragOver (iconDragOverCanvas);
+                master.canvas.setOnDragDropped (iconDragDroppedCanvas);
                 
                 // Put icon type in clipboard
                 ClipboardContent content = new ClipboardContent();
@@ -152,7 +169,6 @@ public class CanvasIconController extends ToolboxIconController{
         iconDragOverCanvas = new EventHandler <DragEvent> () {
             @Override
             public void handle(DragEvent event) {
-                System.out.println("CanvasIcon: Drag over canvas");
                 event.acceptTransferModes(TransferMode.ANY);                
                 relocateToPoint(new Point2D( event.getSceneX(), event.getSceneY()));
                 event.consume();
@@ -163,9 +179,8 @@ public class CanvasIconController extends ToolboxIconController{
         iconDragDroppedCanvas = new EventHandler <DragEvent> () {
             @Override
             public void handle(DragEvent event) {
-                System.out.println("CanvasIcon: Drag dropped canvas");
-                canvas.setOnDragOver(null);
-                canvas.setOnDragDropped(null);
+                master.canvas.setOnDragOver(null);
+                master.canvas.setOnDragDropped(null);
                 event.setDropCompleted(true);
                 event.consume();
             }
@@ -174,27 +189,28 @@ public class CanvasIconController extends ToolboxIconController{
     }
     
     /**
-     * Builds the mouse click handlers for CanvasIconController
+     * Builds the mouse click handlers for CanvasComponentController
      */
     private void buildNodeClickHandlers() {
+        
         icon.setOnMouseClicked(new EventHandler <MouseEvent> () {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("CanvasIcon: Click");
                 if (event.getButton().equals(MouseButton.SECONDARY)) {
                     buildContextMenu();
                     menu.show(icon, event.getScreenX(), event.getScreenY());
                 }
                 else if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    canvas.infoboxContent.showDetails(CanvasIconController.this);
+                    master.infobox.showDetails(CanvasComponentController.this);
                 }
                 event.consume();
             }
         });
+        
     }
     
     /**
-     * Builds context menus for the CanvasIconController
+     * Builds context menus for the CanvasComponentController
      */
     private void buildContextMenu() {
         menu = new ContextMenu();
@@ -221,7 +237,7 @@ public class CanvasIconController extends ToolboxIconController{
                         name.setText(input.getText());
                         input.setVisible(false);
                         name.setVisible(true);
-                        canvas.model.setName(component, name.getText());
+                        master.getModel().setName(component, name.getText());
                     }
                     
                 });
@@ -235,40 +251,7 @@ public class CanvasIconController extends ToolboxIconController{
         item.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                canvas.remove(CanvasIconController.this);
-                event.consume();
-            }
-        });
-        menu.getItems().add(item);
-        
-        if (node_grid.isVisible()) {
-            item = new MenuItem("Hide Nodes");
-            item.setOnAction(new EventHandler() {
-                @Override
-                public void handle(Event event) {
-                    node_grid.setVisible(false);
-                    event.consume();
-                }
-            });
-        }
-        else {
-            item = new MenuItem("Show Nodes");
-            item.setOnAction(new EventHandler() {
-                @Override
-                public void handle(Event event) {
-                    node_grid.setVisible(true);
-                    event.consume();
-                }
-            });
-        }
-        menu.getItems().add(item);
-
-        menu.getItems().add(new SeparatorMenuItem());
-        item = new Menu("Set Attributes");
-        item.setOnAction(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                icon.setRotate(icon.getRotate()+90);
+                master.canvas.remove(CanvasComponentController.this);
                 event.consume();
             }
         });

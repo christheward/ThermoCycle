@@ -5,7 +5,6 @@
  */
 package thermocycle;
 
-import java.util.Optional;
 import java.util.OptionalDouble;
 
 /**
@@ -87,9 +86,8 @@ public final class HeatNode extends Node {
     
     @Override
     public String toString() {
-        //StringBuilder sb = new StringBuilder(super.toString());
-        //sb.append(System.lineSeparator()).append("  heat: ").append(heat).append(" W").append(System.lineSeparator());
-        //return sb.toString();
-        return (heat.isPresent() ? String.valueOf(heat.getAsDouble()) : "-Unknown-");
+        StringBuilder sb = new StringBuilder(super.toString());
+        sb.append(System.lineSeparator()).append("Heat: ").append(heat.isPresent() ? heat.getAsDouble() + " W" : "Unknown").append(" W");
+        return sb.toString();
     }
 }

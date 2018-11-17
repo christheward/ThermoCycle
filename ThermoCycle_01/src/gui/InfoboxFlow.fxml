@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.*?>
 <?import com.jfoenix.validation.*?>
 <?import javafx.scene.image.*?>
@@ -17,10 +18,20 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
          <children>
+            <Label text="Fluid" underline="true">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
             <ComboBox fx:id="selectFluid" prefWidth="170.0" />
             <Separator prefWidth="200.0" />
             <VBox fx:id="fluidSettings" spacing="10.0">
                <children>
+                  <Label text="Mass Flow Rate" underline="true">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
                   <HBox fx:id="flowUnitts" alignment="CENTER_LEFT" spacing="10.0">
                      <children>
                         <TextField fx:id="massInput" prefWidth="170.0" promptText="Value" />
@@ -29,7 +40,12 @@
                   </HBox>
                   <Button fx:id="buttonClearMass" mnemonicParsing="false" text="Clear Mass" />
                   <Separator layoutY="41.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                  <TableView fx:id="table" layoutY="54.0">
+                  <Label text="Properties" underline="true">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="table" layoutY="54.0" prefHeight="200.0">
                     <columns>
                       <TableColumn fx:id="propertyColumn" editable="false" maxWidth="500.0" minWidth="100.0" prefWidth="100.0" text="Property" />
                       <TableColumn fx:id="valueColumn" maxWidth="500.0" minWidth="100.0" prefWidth="100.0" text="Value" />
@@ -39,7 +55,6 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <Separator layoutY="464.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                   <ComboBox fx:id="selectProperty" layoutY="477.0" prefWidth="170.0" promptText="Select Property" />
                   <HBox alignment="CENTER_LEFT" layoutY="518.0" spacing="10.0">
                      <children>
@@ -50,7 +65,6 @@
                   <HBox layoutY="559.0" spacing="10.0">
                      <children>
                         <Button fx:id="buttonClearProperty" mnemonicParsing="false" text="Clear Property" />
-                        <Button fx:id="buttonClearState" mnemonicParsing="false" text="Clear State" />
                      </children>
                      <VBox.margin>
                         <Insets />

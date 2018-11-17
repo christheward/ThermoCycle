@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.input.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root type="MenuBar" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <menus>
+    <Menu mnemonicParsing="false" text="File">
+      <items>
+            <MenuItem fx:id="fileNew" text="New">
+               <accelerator>
+                  <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+               </accelerator></MenuItem>
+        <MenuItem fx:id="fileOpen" mnemonicParsing="false" text="Open" />
+        <MenuItem fx:id="fileClose" mnemonicParsing="false" text="Close" />
+        <MenuItem fx:id="fileSave" mnemonicParsing="false" text="Save">
+               <accelerator>
+                  <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+               </accelerator></MenuItem>
+        <MenuItem fx:id="fileSaveas" mnemonicParsing="false" text="Save As">
+               <accelerator>
+                  <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+               </accelerator></MenuItem>
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem fx:id="fileImport" mnemonicParsing="false" text="Import" />
+            <MenuItem fx:id="fileExport" mnemonicParsing="false" text="Export" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+        <MenuItem fx:id="fileExit" mnemonicParsing="false" text="Exit">
+               <accelerator>
+                  <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+               </accelerator></MenuItem>
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Edit">
+      <items>
+        <MenuItem fx:id="editDelete" mnemonicParsing="false" text="Delete" />
+      </items>
+    </Menu>
+      <Menu mnemonicParsing="false" text="Cycle">
+        <items>
+          <MenuItem fx:id="cycleSolve" mnemonicParsing="false" text="Solve" />
+            <MenuItem fx:id="cycleClear" mnemonicParsing="false" text="Clear" />
+            <MenuItem fx:id="cyclePlot" mnemonicParsing="false" text="Plot" />
+            <MenuItem fx:id="cycleChart" mnemonicParsing="false" text="Chart" />
+            <MenuItem fx:id="cycleReport" mnemonicParsing="false" text="Report" />
+        </items>
+      </Menu>
+    <Menu mnemonicParsing="false" text="Help">
+      <items>
+        <MenuItem fx:id="helpAbout" mnemonicParsing="false" text="About" />
+      </items>
+    </Menu>
+  </menus>
+</fx:root>

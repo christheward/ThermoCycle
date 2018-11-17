@@ -7,6 +7,7 @@ package gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.OptionalDouble;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,7 +30,7 @@ import thermocycle.Attributes.Attribute;
  */
 public class InfoboxComponentController extends AnchorPane {
 
-    // FXML Variables
+    // FXML variables
     @FXML private TableView<AttributeView> table;
     @FXML private TableColumn<AttributeView, Object> attributeColumn;
     @FXML private TableColumn<AttributeView, Double> valueColumn;
@@ -38,20 +39,23 @@ public class InfoboxComponentController extends AnchorPane {
     @FXML private TextField attributeInput;
     @FXML private Label attributeUnits;
     @FXML private Button buttonClearAttribute;
-    private final CanvasController canvas;
+    
+    // GUI variables
+    private final MasterSceneController master;
+    private final ObservableList<AttributeView> attributeTable;
+    private final ObservableList<Attribute> attributeList;
     
     // Model variables
     protected thermocycle.Component component;
-    
-    // Table data
-    private final ObservableList<AttributeView> attributeTable;
-    private final ObservableList<Attribute> attributeList;
     
     /**
      * Constructor
      * 
      */
-    public InfoboxComponentController(CanvasController canvas) {
+    public InfoboxComponentController(MasterSceneController master) {
+        
+        // Set master
+        this.master = master;
         
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InfoboxComponent.fxml"));
@@ -62,20 +66,17 @@ public class InfoboxComponentController extends AnchorPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-        this.canvas = canvas;
         
         // Initialise form data
         attributeList = FXCollections.observableList(new ArrayList<>());
         attributeTable = FXCollections.observableList(new ArrayList<>());
         attributeColumn.setCellValueFactory(new PropertyValueFactory<>("attribute"));
-        //valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
         valueColumn.setCellValueFactory(new PropertyValueFactory<>("output"));
         unitsColumn.setCellValueFactory(new PropertyValueFactory<>("units"));
         selectAttribute.setItems(attributeList);
-        table.setItems(attributeTable);
         
-        // Build event handlers
-        buildClickHandlers();
+        // Set up links
+        table.setItems(attributeTable);
         
     }
     
@@ -83,6 +84,10 @@ public class InfoboxComponentController extends AnchorPane {
      * Initialiser
      */
     public void initialize() {
+        
+        // Build event handlers
+        buildClickHandlers();
+        
     }
     
     public void showDetails(thermocycle.Component component) {
@@ -90,42 +95,48 @@ public class InfoboxComponentController extends AnchorPane {
         // Set component
         this.component = component;
         
-        // Clear table
-        attributeTable.clear();
-        
-        // Re-populate table
-        canvas.model.getAttributes(component).forEach(a -> {
-            attributeTable.add(new AttributeView(a, canvas.model.getAttribute(component, a)));
-        });
-        
         // Get available Attributes
-        attributeList.addAll(canvas.model.getAttributes(component));
+        attributeList.clear();
+        attributeList.addAll(master.getModel().getAttributes(component));
+        
+        refresh();
         
     }
     
     /**
      * Populates the heat flux values.
      */
-    private void populate() {
+    private void refresh() {
         
-        // Update text fields
-        updateTextFields();
-        
-        // Re-populate table
+        // Re-refresh attribute boundary condition table
         attributeTable.clear();
-        canvas.model.getAttributes(component).forEach(a -> {
-            attributeTable.add(new AttributeView(a, canvas.model.getAttribute(component, a)));
+        master.getModel().getAttributes(component).forEach(a -> {
+            OptionalDouble value = master.getModel().getAttributeBoundaryCondition(component, a);
+            if (value.isPresent()) {
+                attributeTable.add(new AttributeView(a, value));
+            }
         });
+
+        // Update text fields
+        if (!selectAttribute.getSelectionModel().isEmpty()) {
+            attributeInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getAttributeBoundaryCondition(component, selectAttribute.getSelectionModel().getSelectedItem())));
+            attributeUnits.setText(selectAttribute.getSelectionModel().getSelectedItem().units);
+        }
+        else {
+            attributeInput.setText("");
+            attributeUnits.setText("-");
+        }
         
     }
     
     private void buildClickHandlers() {
+        
         attributeInput.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if (!selectAttribute.getSelectionModel().isEmpty()) {
-                    canvas.model.setAttribute(component, selectAttribute.getSelectionModel().getSelectedItem(), Double.valueOf(attributeInput.getText()));
-                    populate();
+                    master.getModel().setAttribute(component, selectAttribute.getSelectionModel().getSelectedItem(), Double.valueOf(attributeInput.getText()));
+                    refresh();
                 }
                 event.consume();
             }
@@ -135,8 +146,8 @@ public class InfoboxComponentController extends AnchorPane {
             @Override
             public void handle(ActionEvent event) {
                 if (!selectAttribute.getSelectionModel().isEmpty()) {
-                    canvas.model.clearAttribute(component, selectAttribute.getSelectionModel().getSelectedItem());
-                    populate();
+                    master.getModel().removeBoundaryCondition(component, selectAttribute.getSelectionModel().getSelectedItem());
+                    refresh();
                 }
                 event.consume();
             }
@@ -145,20 +156,9 @@ public class InfoboxComponentController extends AnchorPane {
         selectAttribute.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                attributeInput.setText(CanvasController.displayOptionalDouble(canvas.model.getAttribute(component, selectAttribute.getSelectionModel().getSelectedItem())));
-                attributeUnits.setText(selectAttribute.getSelectionModel().getSelectedItem().units);
-                populate();
+                refresh();
                 event.clone();
             }    
         });
-    }
-    
-    private void updateTextFields() {
-        if (!selectAttribute.getSelectionModel().isEmpty()) {
-            attributeInput.setText(CanvasController.displayOptionalDouble(canvas.model.getAttribute(component, selectAttribute.getSelectionModel().getSelectedItem())));
-        }
-        else {
-            attributeInput.setText("");
-        }
     }
 }

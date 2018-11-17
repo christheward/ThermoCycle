@@ -7,6 +7,7 @@ package gui;
  */
 
 import java.io.IOException;
+import java.util.List;
 import java.util.OptionalDouble;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,7 +19,8 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import thermocycle.FlowNode;
 import thermocycle.Properties.Property;
 
 /**
@@ -26,7 +28,7 @@ import thermocycle.Properties.Property;
  *
  * @author Chris
  */
-public class GraphController extends AnchorPane {
+public class GraphController extends VBox {
 
     // FXML Variables
     @FXML private LineChart<Number, Number> lineGraph;
@@ -34,14 +36,21 @@ public class GraphController extends AnchorPane {
     @FXML private NumberAxis yaxis;
     @FXML private ComboBox<Property> xproperty;
     @FXML private ComboBox<Property> yproperty;
-    private final CanvasController canvas;
+    
+    // GUI Varaiables
+    private final MasterSceneController master;
     
     // Dataset variables
     private final ObservableList<XYChart.Series<Number, Number>> dataset;
     private final ObservableList<Property> propertyList;
     
     // Constructor
-    public GraphController(CanvasController canvas) {
+    public GraphController(MasterSceneController master) {
+        
+        // Set master
+        this.master = master;
+        
+        // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Graph.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -50,7 +59,6 @@ public class GraphController extends AnchorPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-        this.canvas = canvas;
         
         // Initialise dataset
         dataset = FXCollections.observableArrayList();
@@ -59,6 +67,7 @@ public class GraphController extends AnchorPane {
         lineGraph.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         lineGraph.setData(dataset);
         lineGraph.setVisible(true);
+        lineGraph.setTitle("Thermodynamic Cycle");
         
         // Fill the combo box with properties
         propertyList = FXCollections.observableArrayList(Property.values());
@@ -67,10 +76,11 @@ public class GraphController extends AnchorPane {
         xproperty.getSelectionModel().select(Property.TEMPERATURE);
         yproperty.getSelectionModel().select(Property.ENTROPY);
         
-        // Gets data from model
-        getData();
         // Set combobox handlers
         buildHandlers();
+        
+        // Set data
+        getData();
     }
     
     /**
@@ -85,25 +95,25 @@ public class GraphController extends AnchorPane {
     private void getData() {
         // Clear existing data
         dataset.clear();
-        // Loop over all paths
-        System.out.println("Paths");
-        System.out.println(canvas.model.pathsReadOnly.size());
-        canvas.model.pathsReadOnly.forEach(p -> {
-            // Create new series
-            XYChart.Series series = new XYChart.Series();
-            // Loop over all nodes in path
-            System.out.println("Nodes");
-            System.out.println(p.size());
-            p.forEach(n -> {
-                OptionalDouble x = canvas.model.getState(n, xproperty.getSelectionModel().getSelectedItem());
-                OptionalDouble y = canvas.model.getState(n, yproperty.getSelectionModel().getSelectedItem());
-                System.out.println(x);
-                System.out.println(y);
-                series.getData().add(new XYChart.Data(x.orElse(Double.NaN), y.orElse(Double.NaN)));
+        // Check model
+        if (master.isModel()) {
+            master.getModel().componentsReadOnly.forEach(c -> {
+                // Get component data
+                List<List<FlowNode>> componentData = master.getModel().plotData(c);
+                componentData.forEach(path -> {
+                    // Create new series
+                    XYChart.Series series = new XYChart.Series();
+                    path.forEach(n -> {
+                        OptionalDouble x = master.getModel().getProperty(n, xproperty.getSelectionModel().getSelectedItem());
+                        OptionalDouble y = master.getModel().getProperty(n, yproperty.getSelectionModel().getSelectedItem());
+                        series.getData().add(new XYChart.Data(x.orElse(Double.NaN), y.orElse(Double.NaN)));
+                        series.setName(c.getClass().getName());
+                    });
+                    // Add series to dataset
+                    dataset.add(series);
+                });
             });
-            // Add series to dataset
-            dataset.add(series);
-        });
+        }
     }
     
     /**

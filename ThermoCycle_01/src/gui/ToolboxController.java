@@ -27,9 +27,9 @@ public class ToolboxController extends StackPane{
     // FXML variables
     @FXML private VBox contents;
     @FXML protected ImageView pin;
-    private final CanvasController canvas;
     
-    // Event handlers
+    // GUI variables
+    private final CanvasController canvas;
     
     /**
      * Constructor
@@ -55,11 +55,11 @@ public class ToolboxController extends StackPane{
     public void initialize() {
         
         // Populate toolbox with componet icons
-        for (IconType iconType : IconType.values()) {
-            if (thermocycle.Component.class.isAssignableFrom(iconType.type)) {
-                ToolboxIconController icon = new ToolboxIconController(); 
+        for (ComponentIcon componentType : ComponentIcon.values()) {
+            if (thermocycle.Component.class.isAssignableFrom(componentType.type)) {
+                ToolboxComponentController icon = new ToolboxComponentController(); 
                 addDragDetection(icon);
-                icon.setType(iconType);
+                icon.setType(componentType);
                 contents.getChildren().add(icon);
             }
         }
@@ -70,7 +70,7 @@ public class ToolboxController extends StackPane{
      * Add drag detection handlers to an icon
      * @param icon The toolbox icon to add drag detection handlers to.
      */
-    private void addDragDetection(ToolboxIconController icon) {
+    private void addDragDetection(ToolboxComponentController icon) {
         
         icon.setOnDragDetected (new EventHandler <MouseEvent> () {
             @Override
@@ -78,7 +78,7 @@ public class ToolboxController extends StackPane{
                 System.out.println("Toolbox: Drag detection");
                 
                 // Get the source object
-                ToolboxIconController source = (ToolboxIconController)event.getSource();
+                ToolboxComponentController source = (ToolboxComponentController)event.getSource();
                 
                 // Set drag handlers for the uunderlying canvas
                 canvas.setOnDragOver(canvas.iconDragOverCanvas);

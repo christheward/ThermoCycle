@@ -292,15 +292,18 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @return Returns the total exergy input via fluid transport.
      */
     private double flowExergyIn() {
-        double E = 0;
-        State dead = new State();
-        for (FlowNode n : getFlowInlets()) {
-            dead.clear();
-            dead.put(ambient);
-            n.getFluid().computeState(dead);
-            E = E + n.getMass().getAsDouble() * ((n.getState(ENTHALPY).getAsDouble() - dead.get(ENTHALPY).getAsDouble()) - (dead.get(TEMPERATURE).getAsDouble() * (n.getState(ENTROPY).getAsDouble() - dead.get(ENTROPY).getAsDouble())));
+        if (getFlowInlets().stream().allMatch(n -> n.isComplete())) {
+            double E = 0;
+            State dead = new State();
+            for (FlowNode n : getFlowInlets()) {
+                dead.clear();
+                dead.put(ambient);
+                n.getFluid().computeState(dead);
+                E = E + n.getMass().getAsDouble() * ((n.getState(ENTHALPY).getAsDouble() - dead.get(ENTHALPY).getAsDouble()) - (dead.get(TEMPERATURE).getAsDouble() * (n.getState(ENTROPY).getAsDouble() - dead.get(ENTROPY).getAsDouble())));
+            }
+            return E;
         }
-        return E;
+        return Double.NaN;
     }
     
     /**
@@ -308,15 +311,18 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @return Returns the total exergy output via fluid transport.
      */
     private double flowExergyOut() {
-        double E = 0;
-        State dead = new State();
-        for (FlowNode n : getFlowOutlets()) {
-            dead.clear();
-            dead.put(ambient);
-            n.getFluid().computeState(dead);
-            E = E + n.getMass().getAsDouble() * ((n.getState(ENTHALPY).getAsDouble() - dead.get(ENTHALPY).getAsDouble()) - (dead.get(TEMPERATURE).getAsDouble() * (n.getState(ENTROPY).getAsDouble() - dead.get(ENTROPY).getAsDouble())));
+        if (getFlowOutlets().stream().allMatch(n -> n.isComplete())) {
+            double E = 0;
+            State dead = new State();
+            for (FlowNode n : getFlowOutlets()) {
+                dead.clear();
+                dead.put(ambient);
+                n.getFluid().computeState(dead);
+                E = E + n.getMass().getAsDouble() * ((n.getState(ENTHALPY).getAsDouble() - dead.get(ENTHALPY).getAsDouble()) - (dead.get(TEMPERATURE).getAsDouble() * (n.getState(ENTROPY).getAsDouble() - dead.get(ENTROPY).getAsDouble())));
+            }
+            return E;
         }
-        return E;
+        return Double.NaN;
     }
     
     /**
@@ -336,7 +342,10 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @return Returns the total heat input.
      */
     protected final double heatIn() {
-        return getHeatInlets().stream().mapToDouble(n -> n.getHeat().getAsDouble()).sum();
+        if (getHeatInlets().stream().allMatch(n -> n.getHeat().isPresent())) {
+            return getHeatInlets().stream().mapToDouble(n -> n.getHeat().getAsDouble()).sum();
+        }
+        return Double.NaN;
     }
     
     /**
@@ -344,7 +353,10 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @return Returns the total heat output.
      */
     protected final double heatOut() {
-        return getHeatOutlets().stream().mapToDouble(n -> n.getHeat().getAsDouble()).sum();
+        if (getHeatOutlets().stream().allMatch(n -> n.getHeat().isPresent())) {
+            return getHeatOutlets().stream().mapToDouble(n -> n.getHeat().getAsDouble()).sum();
+        }
+        return Double.NaN;
     }
     
     /**
@@ -352,7 +364,10 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @return Returns the total mass input.
      */
     private double massIn() {
-        return getFlowInlets().stream().mapToDouble(n -> n.getMass().getAsDouble()).sum();
+        if (getFlowInlets().stream().allMatch(n -> n.getMass().isPresent())) {
+            return getFlowInlets().stream().mapToDouble(n -> n.getMass().getAsDouble()).sum();
+        }
+        return Double.NaN;
     }
     
     /**
@@ -360,7 +375,10 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @return Returns the total mass output.
      */
     private double massOut() {
-        return getFlowOutlets().stream().mapToDouble(n -> n.getMass().getAsDouble()).sum();
+        if (getFlowOutlets().stream().allMatch(n -> n.getMass().isPresent())) {
+            return getFlowOutlets().stream().mapToDouble(n -> n.getMass().getAsDouble()).sum();
+        }
+        return Double.NaN;
     }
     
     /**
@@ -368,7 +386,10 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @return Returns the total work input.
      */
     protected double workIn() {
-        return getWorkInlets().stream().mapToDouble(n -> n.getWork().getAsDouble()).sum();
+        if (getWorkInlets().stream().allMatch(n -> n.getWork().isPresent())) {
+            return getWorkInlets().stream().mapToDouble(n -> n.getWork().getAsDouble()).sum();
+        }
+        return Double.NaN;
     }
     
     /**
@@ -376,7 +397,10 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @return Returns the total work output.
      */
     protected double workOut() {
-        return getWorkOutlets().stream().mapToDouble(n -> n.getWork().getAsDouble()).sum();
+        if (getWorkOutlets().stream().allMatch(n -> n.getWork().isPresent())) {
+            return getWorkOutlets().stream().mapToDouble(n -> n.getWork().getAsDouble()).sum();
+        }
+        return Double.NaN;
     }
     
     /**
@@ -410,8 +434,15 @@ public abstract class Component implements Attributes, Properties, Serializable 
         return E;
     }
     
+    protected abstract List<List<FlowNode>> plotData();
+    
     @Override
-    public String toString() {
-        return (name + " (" + getClass().getSimpleName() + ")");
+    public final String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(name + " (" + getClass().getSimpleName() + ")");
+        attributes.keySet().forEach(a -> {
+            sb.append(System.lineSeparator()).append(a.fullName).append(" :").append(attributes.get(a).isPresent() ? attributes.get(a).getAsDouble() + a.units : "Unknown");
+        });
+        return (sb.toString());
     }
 }

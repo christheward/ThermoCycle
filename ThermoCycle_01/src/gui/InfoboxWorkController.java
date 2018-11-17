@@ -24,7 +24,7 @@ public class InfoboxWorkController extends AnchorPane {
     @FXML private TextField workInput;
     @FXML private Button buttonClearWork;
     
-    private final CanvasController canvas;
+    private final MasterSceneController master;
     
     // Model variables
     protected thermocycle.WorkNode node;
@@ -33,7 +33,7 @@ public class InfoboxWorkController extends AnchorPane {
      * Constructor
      * 
      */
-    public InfoboxWorkController(CanvasController canvas) {
+    public InfoboxWorkController(MasterSceneController master) {
         
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InfoboxWork.fxml"));
@@ -44,7 +44,7 @@ public class InfoboxWorkController extends AnchorPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-        this.canvas = canvas;
+        this.master = master;
         
         // Build event handlers
         buildClickHandlers();
@@ -64,16 +64,16 @@ public class InfoboxWorkController extends AnchorPane {
         this.node = node;
         
         // Populate the values
-        populate();
+        refresh();
         
     }
     
     /**
      * Populates the state table with properties and values.
      */
-    private void populate() {
+    private void refresh() {
         // Set work
-        workInput.setText(CanvasController.displayOptionalDouble(canvas.model.getWork(node)));
+        workInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getWorkBoundaryCondition(node)));
     }
     
     /**
@@ -83,8 +83,8 @@ public class InfoboxWorkController extends AnchorPane {
         buttonClearWork.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                canvas.model.clearValue(node);
-                populate();
+                master.getModel().removeBoundaryCondition(node);
+                refresh();
                 event.consume();
             }
         });
@@ -92,8 +92,8 @@ public class InfoboxWorkController extends AnchorPane {
         workInput.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                canvas.model.setWork(node, Double.valueOf(workInput.getText()));
-                populate();
+                master.getModel().setWork(node, Double.valueOf(workInput.getText()));
+                refresh();
                 event.consume();
             }
         });

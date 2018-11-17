@@ -6,11 +6,9 @@
 package gui;
 
 import java.io.IOException;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import thermocycle.FlowNode;
 import thermocycle.HeatNode;
 import thermocycle.WorkNode;
@@ -19,17 +17,33 @@ import thermocycle.WorkNode;
  *
  * @author Chris
  */
-public class InfoboxBaseController extends AnchorPane{
+public class InfoboxBaseController extends StackPane {
     
     // FXML variables
-    @FXML private VBox contents;
-    private final CanvasController canvas;
+    
+    // GUI variables
+    private final MasterSceneController master;
+    private final InfoboxCycleController infoCycle;
+    private final InfoboxHeatController infoHeat;
+    private final InfoboxWorkController infoWork;
+    private final InfoboxFlowController infoFlow;
+    private final InfoboxComponentController infoComponent;
     
     /**
-     * Constructor
-     * @param canvas The parent canvas 
+     * Constructor.
+     * @param master The master scene
      */
-    public InfoboxBaseController(CanvasController canvas) {
+    public InfoboxBaseController(MasterSceneController master) {
+        
+        // Set master
+        this.master = master;
+        
+        // Create infobox elements
+        infoCycle = new InfoboxCycleController(master);
+        infoHeat = new InfoboxHeatController(master);
+        infoWork = new InfoboxWorkController(master);
+        infoFlow = new InfoboxFlowController(master);
+        infoComponent = new InfoboxComponentController(master);
         
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InfoboxBase.fxml"));
@@ -40,65 +54,80 @@ public class InfoboxBaseController extends AnchorPane{
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-        this.canvas = canvas;
+                
+    }
+    
+    /**
+     * Initialiser.
+     */
+    public void initialize() {
+        
+        // Create cycle infobox panel
+        this.getChildren().addAll(infoCycle, infoHeat, infoWork, infoFlow, infoComponent);
+        hideAll();
         
     }
     
     /**
-     * Initialiser
+     * Hides all the children on the infobox.
      */
-    public void initialize() {
+    private final void hideAll() {
+        this.getChildren().stream().forEach(c -> {
+            c.setVisible(false);
+        });
     }
     
+    /**
+     * Shows details for the GUI node selected.
+     * @param node The GUI node to show details for.
+     */
     public void showDetails(Node node) {
+        hideAll();
+        
         if (node instanceof CanvasController) {
-            contents.getChildren().clear();
-            InfoboxCycleController ifc = new InfoboxCycleController(canvas);
-            contents.getChildren().add(ifc);
+            infoCycle.setVisible(master.isModel());
         }
         else if (node instanceof CanvasNodeController) {
             thermocycle.Node n = (((CanvasNodeController) node).node);
-            contents.getChildren().clear();
             if (n instanceof HeatNode) {
-                InfoboxHeatController ifc = new InfoboxHeatController(canvas);
-                ifc.showDetails((HeatNode)n);
-                contents.getChildren().add(ifc);
+                infoHeat.showDetails((HeatNode)n);
+                infoHeat.setVisible(true);
             }
             else if (n instanceof WorkNode) {
-                InfoboxWorkController ifc = new InfoboxWorkController(canvas);
-                ifc.showDetails((WorkNode)n);
-                contents.getChildren().add(ifc);
+                infoWork.showDetails((WorkNode)n);
+                infoWork.setVisible(true);
             }
             else if (n instanceof FlowNode) {
-                InfoboxFlowController ifc = new InfoboxFlowController(canvas);
-                ifc.showDetails((FlowNode)n);
-                contents.getChildren().add(ifc);
+                infoFlow.showDetails((FlowNode)n);
+                infoFlow.setVisible(true);
             }
         }
-        else if (node instanceof CanvasIconController) {
-            contents.getChildren().clear();
-            InfoboxComponentController icc = new InfoboxComponentController(canvas);
-            icc.showDetails(((CanvasIconController) node).component);
-            contents.getChildren().add(icc);
+        else if (node instanceof CanvasComponentController) {
+            infoComponent.showDetails(((CanvasComponentController) node).component);
+            infoComponent.setVisible(true);
         }
         else if (node instanceof CanvasPathController) {
-            contents.getChildren().clear();
-            thermocycle.Node start = ((CanvasPathController)node).start.node;
-            if (start instanceof FlowNode) {
-                InfoboxFlowController ifc = new InfoboxFlowController(canvas);
-                ifc.showDetails((FlowNode)start);
-                contents.getChildren().add(ifc);
+            thermocycle.Node n = ((CanvasPathController)node).start.node;
+            if (n instanceof HeatNode) {
+                infoHeat.showDetails((HeatNode)n);
+                infoHeat.setVisible(true);
             }
-            else if (start instanceof WorkNode) {
-                InfoboxWorkController ifc = new InfoboxWorkController(canvas);
-                ifc.showDetails((WorkNode)start);
-                contents.getChildren().add(ifc);
+            else if (n instanceof WorkNode) {
+                infoWork.showDetails((WorkNode)n);
+                infoWork.setVisible(true);
             }
-            else if (start instanceof HeatNode) {
-                InfoboxHeatController ifc = new InfoboxHeatController(canvas);
-                ifc.showDetails((HeatNode)start);
-                contents.getChildren().add(ifc);
+            else if (n instanceof FlowNode) {
+                infoFlow.showDetails((FlowNode)n);
+                infoFlow.setVisible(true);
             }
         }
     }
+    
+    /**
+     * Connects the infobox to the underlying model.
+     */
+    protected void connectNewModel() {
+        infoCycle.connectNewModel();
+    }
+    
 }

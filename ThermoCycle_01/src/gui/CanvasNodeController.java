@@ -33,15 +33,15 @@ import javafx.scene.shape.Circle;
  */
 public final class CanvasNodeController extends AnchorPane implements Serializable {
     
-    
-    
     // FXML variables
     @FXML private AnchorPane base;
     @FXML private Circle circle;
+    
+    // GUI variables
     private ContextMenu menu;
     private Tooltip tip;
-    private final CanvasController canvas;
-    private final CanvasIconController canvasIcon;
+    private final MasterSceneController master;
+    private final CanvasComponentController canvasIcon;
             
     // Event handlers
     protected EventHandler connectionDragDroppedNode;
@@ -54,10 +54,14 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
      * @param node The model Node represented by CanvasNode
      * @throws Exception 
      */
-    public CanvasNodeController(CanvasController canvas, CanvasIconController canvasIcon, thermocycle.Node node) throws Exception {
-        this.canvas = canvas;
+    public CanvasNodeController(MasterSceneController master, CanvasComponentController canvasIcon, thermocycle.Node node) throws Exception {
+        
+        // Set master
+        this.master = master;
+        
         this.canvasIcon = canvasIcon;
         this.node = node;
+        
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CanvasNode.fxml"));
         fxmlLoader.setRoot(this);
@@ -67,15 +71,23 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-    }
-    
-    @FXML private void initialize() {
+        
         setNodeStyle();
         buildNodeClickHandlers();
         buildNodeDragHandlers();
         buildTooltip();
+        
     }
     
+    /**
+     * Initializer
+     */
+    private void initialize() {    
+    }
+    
+      /**
+       * Sets the node style based on node type
+       */
     private void setNodeStyle() {
         circle.getStyleClass().add("node");
         if (node instanceof thermocycle.FlowNode) {
@@ -92,23 +104,33 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
         }
     }
     
-    private void buildTooltip() {
+    /**
+     * Builds the tool tip for this node
+     */
+    protected void buildTooltip() {
         tip = new Tooltip();
-        tip.setText(node.getClass().getSimpleName() + " " + canvas.model.getNodePort(node));
         Tooltip.install(base, tip);
+        tip.setOnShowing(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                tip.setText(node.getClass().getSimpleName() + " " + master.getModel().getNodePort(node) + "\n" + node.toString());
+            }
+        });
     }
     
+    /**
+     * Builds the click handlers for this node
+     */
     private void buildNodeClickHandlers() {
         base.setOnMouseClicked(new EventHandler <MouseEvent> () {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("Node Click");
                 if (event.getButton().equals(MouseButton.SECONDARY)) {
                     buildContextMenu();
                     menu.show(base, event.getScreenX(), event.getScreenY());
                 }
                 else if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    canvas.infoboxContent.showDetails(CanvasNodeController.this);
+                    master.infobox.showDetails(CanvasNodeController.this);
                 }
                 event.consume();
             }
@@ -127,14 +149,14 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
                 CanvasNodeController source = (CanvasNodeController) event.getSource();
                 
                 // Set drag handlers for the uunderlying canvas
-                canvas.setOnDragDropped(null);
-                canvas.setOnDragOver(null);
+                master.canvas.setOnDragDropped(null);
+                master.canvas.setOnDragOver(null);
                 base.setOnDragDropped(null);
-                canvas.setOnDragOver(canvas.connectionDragOverCanvas);
+                master.canvas.setOnDragOver(master.canvas.connectionDragOverCanvas);
                 base.setOnDragDropped(connectionDragDroppedNode);
                 
                 // Bind the start to the node
-                canvas.dragConnection.startDrag(source);
+                master.canvas.dragConnection.startDrag(source);
                 
                 // Put icon type in clipboard
                 ClipboardContent content = new ClipboardContent();
@@ -144,12 +166,12 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
                 content.put(DragContainerController.AddLink, container);
                 
                 // Start the drag operation
-                canvas.dragConnection.startDragAndDrop(TransferMode.ANY).setContent(content);
-                canvas.dragConnection.setVisible(true);
-                canvas.dragConnection.setMouseTransparent(true);
+                master.canvas.dragConnection.startDragAndDrop(TransferMode.ANY).setContent(content);
+                master.canvas.dragConnection.setVisible(true);
+                master.canvas.dragConnection.setMouseTransparent(true);
                 
                 // Disable inligible nodes
-                canvas.disableIneligibleNodes(CanvasNodeController.this);
+                master.canvas.disableIneligibleNodes(CanvasNodeController.this);
                 //canvas.getNodes().filter(n -> (!(n.node.getClass().equals(CanvasNodeController.this.node.getClass())) | (n.node.port.equals(CanvasNodeController.this.node.port)))).forEach(n -> {
                 //    n.disableProperty().set(true);
                 //});
@@ -168,7 +190,7 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
                 CanvasNodeController source = (CanvasNodeController)event.getSource();
                 
                 // Remomve drag handlers
-                canvas.setOnDragOver(null);
+                master.canvas.setOnDragOver(null);
                 
                 // Add drop coordinates to drag container
                 ClipboardContent content = new ClipboardContent();
@@ -203,7 +225,7 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
         item.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                canvas.infoboxContent.showDetails(CanvasNodeController.this);
+                master.infobox.showDetails(CanvasNodeController.this);
                 event.consume();
             }
         });

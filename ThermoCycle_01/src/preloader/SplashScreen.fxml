@@ -20,7 +20,7 @@
             <Image url="@splash.jpg" />
          </image>
       </ImageView>
-      <Text layoutX="26.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ThermoCycle v1.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="26.0">
+      <Text layoutX="26.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ThermoCycle v0.1" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="26.0">
          <font>
             <Font size="30.0" />
          </font>

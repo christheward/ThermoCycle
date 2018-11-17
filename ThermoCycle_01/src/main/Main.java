@@ -6,8 +6,7 @@
 package main;
 
 import gui.ChartController;
-import gui.GraphController;
-import gui.CanvasController;
+import gui.MasterSceneController;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -21,6 +20,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     
     private Stage stage;
+    //private Stage welcomeStage;
     
     public static void main(String[] args) {
         launch(args);
@@ -34,6 +34,7 @@ public class Main extends Application {
     
     private void Launcher() throws IOException, InterruptedException {
         
+        // Set up master stage
         BorderPane root = new BorderPane();
         try {
             Scene scene = new Scene(root);
@@ -43,27 +44,15 @@ public class Main extends Application {
         } catch(Exception e) {
             e.printStackTrace();
         }
-        root.setCenter(new CanvasController());
+        root.setCenter(new MasterSceneController());
         
-    }
-    
-    private void ChartTest() throws IOException, InterruptedException {
+        // Set up welome stage
+        //welcomeStage = new Stage();
+        //welcomeStage.setAlwaysOnTop(true);
+        //welcomeStage.setTitle("Welcome to thermocycle.");
+        //stage.setScene(new Scene(graph, 800, 600));
+        //stage.show();
         
-        BorderPane root = new BorderPane();
-        try {
-            Scene scene = new Scene(root,640,480);
-            scene.getStylesheets().add(getClass().getResource("/gui/application.css").toExternalForm());
-            stage.setScene(scene);
-            stage.show();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-        
-        ChartController chart = new ChartController();
-        chart.add("Cat 1", 5.0);
-        chart.add("Cat 2", 3.0);
-        chart.add("Cat 3", 7.0);
-        root.setCenter(chart);
     }
     
 }

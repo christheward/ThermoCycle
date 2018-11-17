@@ -65,6 +65,13 @@ public final class Combustor extends Component {
         return 0;
     }
     
+    @Override
+    protected List<List<FlowNode>> plotData() {
+        List paths = new ArrayList();
+        paths.add(thermodynamicProcess(getInlet(), getOutlet(), ENTHALPY, PRESSURE));
+        return paths;
+    }
+    
     /**
      * Mass balance across the combustor.
      */

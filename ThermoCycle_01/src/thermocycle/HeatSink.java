@@ -61,9 +61,17 @@ public final class HeatSink extends Component {
     protected double heatExergyIn() {
         return 0;
     }
+    
     @Override
     protected double heatExergyOut() {
         return heatTransferProcessExergy(thermodynamicProcess(getInlet(), getOutlet(), ENTHALPY, PRESSURE));
+    }
+    
+    @Override
+    protected List<List<FlowNode>> plotData() {
+        List paths = new ArrayList();
+        paths.add(thermodynamicProcess(getInlet(), getOutlet(), ENTHALPY, ENTROPY));
+        return paths;
     }
     
     /**

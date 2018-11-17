@@ -232,20 +232,10 @@ public final class FlowNode extends Node implements Properties {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(super.toString());
-        sb.append(System.lineSeparator()).append("  fluid:   ");
-        if (fluid == null) {
-            sb.append("  null");
-        }
-        else {
-            sb.append(fluid.getName());
-        }
-        sb.append(System.lineSeparator()).append("  mass:    ");
-        if (!mass.isPresent()) {
-            sb.append("  null");}
-        else {
-            sb.append(mass.getAsDouble()).append(" kg/s");
-        }
-        sb.append(System.lineSeparator()).append("  state:   ").append(state.toString().replaceAll(System.lineSeparator(), System.lineSeparator() + "         "));
+        sb.append(System.lineSeparator()).append("Mass: ").append(mass.isPresent() ? mass.getAsDouble() + "kg/s" : "Unknown");
+        state.properties().forEach(p -> {
+            sb.append(System.lineSeparator()).append(p.name()).append(": ").append(state.get(p).getAsDouble());
+        });
         return sb.toString();
     }
 }

@@ -67,7 +67,7 @@ public class Cycle extends Observable implements Properties, Serializable {
     public final ObservableList<Component> componentsReadOnly;
     public final ObservableList<Fluid> fluidsReadOnly;
     public final ObservableList<Set<FlowNode>> pathsReadOnly;
-    private final ArrayDeque<Condition> stack;
+    private final ArrayDeque<BoundaryCondition> boundaryConditions;
         
     /**
      * Constructor
@@ -86,7 +86,7 @@ public class Cycle extends Observable implements Properties, Serializable {
         pathsReadOnly = FXCollections.unmodifiableObservableList(paths);
         ambient.put(PRESSURE, OptionalDouble.of(101325.0));
         ambient.put(TEMPERATURE, OptionalDouble.of(300.0));
-        stack = new ArrayDeque();
+        boundaryConditions = new ArrayDeque();
         
         // Add  default fluid - find a better wt to to this later.
         this.createIdealGas("Air", 1.4, 287.0);
@@ -100,16 +100,6 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public OptionalDouble getAmbient(Property property) {
         return ambient.get(property);
-    }
-    
-    /**
-     * Get the value of the attribute belonging to this component.
-     * @param component The component of interest.
-     * @param attribute The attribute of interest.
-     * @return Returns the value of the attribute belonging to the component.
-     */
-    public OptionalDouble getAttribute(Component component, Attribute attribute) {
-        return component.getAttribute(attribute);
     }
     
     /**
@@ -220,17 +210,35 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param node The work node.
      * @return The work value.
      */
+    /**
     public OptionalDouble getWork(WorkNode node) {
         return node.getWork();
     }
-
+    */
+    public OptionalDouble getWorkBoundaryCondition(WorkNode node) {
+        BoundaryCondition match = boundaryConditions.stream().filter(bc -> bc.match(new BoundaryConditionWork(node, OptionalDouble.empty()))).collect(singletonCollector());
+        if (match == null) {
+            return OptionalDouble.empty();
+        }
+        return match.value();
+    }
+    
     /**
      * Gets the heat value for the heat node.
      * @param node The heat node.
      * @return The heat value.
      */
+    /**
     public OptionalDouble getHeat(HeatNode node) {
         return node.getHeat();
+    }
+    */
+    public OptionalDouble getHeatBoundaryCondition(HeatNode node) {
+        BoundaryCondition match = boundaryConditions.stream().filter(bc -> bc.match(new BoundaryConditionHeat(node, OptionalDouble.empty()))).collect(singletonCollector());
+        if (match == null) {
+            return OptionalDouble.empty();
+        }
+        return match.value();
     }
     
     /**
@@ -238,8 +246,53 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param node The flow node.
      * @return The mass value.
      */
+    /**
     public OptionalDouble getMass(FlowNode node) {
         return node.getMass();
+    }
+    */
+    public OptionalDouble getMassBoundaryCondition(FlowNode node) {
+        BoundaryCondition match = boundaryConditions.stream().filter(bc -> bc.match(new BoundaryConditionMass(node, OptionalDouble.empty()))).collect(singletonCollector());
+        if (match == null) {
+            return OptionalDouble.empty();
+        }
+        return match.value();
+    }
+    
+    /**
+     * Gets the state value for the flow node.
+     * @param node The flow node.
+     * @param property The property to get.
+     * @return The state value.
+     */
+    public OptionalDouble getProperty(FlowNode node, Property property) {
+        return node.getState(property);
+    }
+    public OptionalDouble getPropertyBoundaryCondition(FlowNode node, Property property) {
+        BoundaryCondition match = boundaryConditions.stream().filter(bc -> bc.match(new BoundaryConditionProperty(node, property, OptionalDouble.empty()))).collect(singletonCollector());
+        if (match == null) {
+            return OptionalDouble.empty();
+        }
+        return match.value();
+    }
+    
+    /**
+     * Get the value of the attribute belonging to this component.
+     * @param component The component of interest.
+     * @param attribute The attribute of interest.
+     * @return Returns the value of the attribute belonging to the component.
+     */
+    /**
+    public OptionalDouble getAttribute(Component component, Attribute attribute) {
+        return component.getAttribute(attribute);
+    }
+    */
+    public OptionalDouble getAttributeBoundaryCondition(Component component, Attribute attribute) {
+        BoundaryCondition match = boundaryConditions.stream().filter(bc -> bc.match(new BoundaryConditionAttribute(component, attribute, OptionalDouble.empty()))).collect(singletonCollector());
+        if (match == null) {
+            return OptionalDouble.empty();
+        }
+        return match.value();
     }
     
     /**
@@ -283,25 +336,25 @@ public class Cycle extends Observable implements Properties, Serializable {
     public void clearAttribute(Component component, Attribute attribute) {
         component.clearAttribute(attribute);
     }
-
-    
-    /**
-     * Gets the state value for the flow node.
-     * @param node The flow node.
-     * @param property The property to get.
-     * @return The state value.
-     */
-    public OptionalDouble getState(FlowNode node, Property property) {
-        return node.getState(property);
-    }
     
     /**
      * Gets all the allowable properties for a flow node based on it's fluid type
      * @param node The flow node to get allowable properties for.
      * @return A set of allowable properties
      */
+    /**
     public Set<Property> getAllowableProperties(FlowNode node) {
         return node.allowableProperties();
+    }
+    */
+    
+    /**
+     * Gets all the allowable properties for a fluid type
+     * @param node The flow node to get allowable properties for.
+     * @return A set of allowable properties
+     */
+    public Set<Property> getAllowableProperties(Fluid fluid) {
+        return fluid.fluidState();
     }
     
     /**
@@ -382,8 +435,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param value The work value.
      */
     public void setWork(WorkNode node, double value) {
-        stack.add(new SetWork(node, OptionalDouble.of(value)));
-        stack.getLast().execute();
+        boundaryConditions.add(new BoundaryConditionWork(node, OptionalDouble.of(value)));
     }
 
     /**
@@ -392,8 +444,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param value The heat value.
      */
     public void setHeat(HeatNode node, double value) {
-        stack.add(new SetHeat(node, OptionalDouble.of(value)));
-        stack.getLast().execute();
+        boundaryConditions.add(new BoundaryConditionHeat(node, OptionalDouble.of(value)));
     }
     
     /**
@@ -402,8 +453,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param value The mass value.
      */
     public void setMass(FlowNode node, double value) {
-        stack.add(new SetMass(node, OptionalDouble.of(value)));
-        stack.getLast().execute();
+        boundaryConditions.add(new BoundaryConditionMass(node, OptionalDouble.of(value)));
     }
     
     /**
@@ -413,8 +463,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param value The property value.
      */
     public void setState(FlowNode node, Property property, double value) {
-        stack.add(new SetState(node, property, OptionalDouble.of(value)));
-        stack.getLast().execute();
+        boundaryConditions.add(new BoundaryConditionProperty(node, property, OptionalDouble.of(value)));
     }
     
     /**
@@ -424,8 +473,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param value The value to set thee component attribute to.
      */
     public void setAttribute(Component component, Attribute attribute, double value) {
-        stack.add(new SetAttribute(component, attribute, OptionalDouble.of(value)));
-        stack.getLast().execute();
+        boundaryConditions.add(new BoundaryConditionAttribute(component, attribute, OptionalDouble.of(value)));
         logger.info(component + " " + attribute + " set to " + value);
     }
     
@@ -435,8 +483,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param fluid The fluid to set.
      */
     public void setFluid(FlowNode node, Fluid fluid) {
-        stack.add(new SetFluid(node, fluid));
-        stack.getLast().execute();
+        //boundaryConditions.add(new SetFluid(node, fluid));
+        paths.stream().filter(p -> p.contains(node)).collect(singletonCollector()).forEach(n -> n.setFluid(fluid));
     }
     
     /**
@@ -484,6 +532,26 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     
     /**
+     * Removes an existing boundary condition
+     * @param bc 
+     */
+    public void removeBoundaryCondition(HeatNode node) {
+        boundaryConditions.removeIf(bc -> bc.match(new BoundaryConditionHeat(node, OptionalDouble.empty()))); 
+    }
+    public void removeBoundaryCondition(WorkNode node) {
+        boundaryConditions.removeIf(bc -> bc.match(new BoundaryConditionWork(node, OptionalDouble.empty()))); 
+    }
+    public void removeBoundaryCondition(FlowNode node) {
+        boundaryConditions.removeIf(bc -> bc.match(new BoundaryConditionMass(node, OptionalDouble.empty()))); 
+    }
+    public void removeBoundaryCondition(FlowNode node, Property property) {
+        boundaryConditions.removeIf(bc -> bc.match(new BoundaryConditionProperty(node, property, OptionalDouble.empty()))); 
+    }
+    public void removeBoundaryCondition(Component component, Attribute attribute) {
+        boundaryConditions.removeIf(bc -> bc.match(new BoundaryConditionAttribute(component, attribute, OptionalDouble.empty()))); 
+    }
+    
+    /**
      * Removes a component from the cycle. All connections with the component are also removed.
      * @param component The component to remove.
      */
@@ -494,17 +562,9 @@ public class Cycle extends Observable implements Properties, Serializable {
             component.workNodes.forEach(n -> removeConnection(n));
             components.remove(component);
             cycleChange();
-            cleanStack();
+            boundaryConditions.removeIf(bc -> !bc.valid());            // Remove boundary references to removed components
             logger.info("Removed " + component);
         }
-    }
-    
-    /**
-     * Cleans the stack so that and references to removed components are deleted.
-     */
-    private void cleanStack() {
-        stack.removeIf(c -> c.clean());
-        logger.trace("Stack cleaned.");
     }
     
     /**
@@ -521,35 +581,39 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     
     /**
-     * Saves the current fluids to  library
+     * Exports the current fluids to  library
      * @param filename The file name of the library file.
      * @return 
      */
-    public void saveFluidLibrary(File filename) {
+    public void exportFluidLibrary(File filename) {
         try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(filename))) {
             os.writeObject(fluids);
-            logger.info("Fluids library saved to: " + filename.toString());
+            logger.info("Fluids library exported to: " + filename.toString());
         }
         catch(IOException e) {
-            logger.error("I/O error. " + e.getMessage());
+            logger.error("Error writing fluids library. " + e.getMessage());
         }
     }
     
-    
-    public void loadFluidLibrary(File filename) {
+    /**
+     * Imports the fluids library from file
+     * @param filename The file name of the library file.
+     * @return 
+     */
+    public void importFluidLibrary(File filename) {
         try (ObjectInputStream is = new ObjectInputStream(new FileInputStream(filename))) {
-            ObservableList<Fluid> fluidsLibrary = (ObservableList<Fluid>)is.readObject();
-            fluids.addAll(fluidsLibrary);
-            logger.info("Fluids library loaded from: " + filename.toString());
+            fluids.clear();
+            fluids.addAll((ObservableList<Fluid>)is.readObject());
+            logger.info("Fluids library impotred from: " + filename.toString());
+        }
+        catch(IOException e) {
+            logger.error("Error impoting fluids library. " + e.getMessage());
         }
         catch(ClassNotFoundException e) {
             logger.error("Class not found. " + e.getMessage());
         }
-        catch(IOException e) {
-            logger.error("I/O error. " + e.getMessage());
-        }
     }
-
+    
     /**
      * Creates a connection between two nodes.
      * @param node1 The first node.
@@ -645,6 +709,10 @@ public class Cycle extends Observable implements Properties, Serializable {
         }
     }
     
+    public List<List<FlowNode>> plotData(Component component) {
+        return component.plotData();
+    }
+    
     /**
      * Gets a list of all the variables names and values.
      * @return Returns a HashMap of all the variables and unique names.
@@ -689,13 +757,11 @@ public class Cycle extends Observable implements Properties, Serializable {
     /**
      * Reset the cycle to its state prior to solving.
      */
-    private final void reset() {
+    public final void reset() {
         // clears all values from components
         components.stream().forEach(c -> {
             c.clear();
         });
-        // reset the initial conditions
-        stack.forEach(c -> c.execute());
     }
     
     
@@ -704,12 +770,16 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @return Returns true if a solution is achieved.
      */
     public boolean solve() {
+        logger.info("Applying boundary conditions");
+        boundaryConditions.forEach(h -> h.execute());
         logger.info("Solving system");
         try {
+            // Solve inital conditions
             getFlowNodes().forEach(n -> {n.computeState();});                                              // update all flow node states (ensures all nodes states are internally compatible first).
             connections.stream().forEach(x -> {x.update();});                                              // update all node connections (ensures state values are transfered between nodes, checks for inconsistencies).
             Set<Component> unsolved = new HashSet<>(components);                                           // update all connections (updates nodes across components)
             Set<Node> updatedNodes = new HashSet<>();
+            // Loop until converged or max itterations reached
             iteration = 0;
             do {
                 updatedNodes.clear();
@@ -839,13 +909,13 @@ public class Cycle extends Observable implements Properties, Serializable {
     /**
      * Command to set a component's attribute
      */
-    public class SetAttribute extends Condition {
+    public class BoundaryConditionAttribute extends BoundaryCondition {
         
         private final Component component;
         private final Attribute attribute;
         private final OptionalDouble value;
         
-        public SetAttribute(Component component, Attribute attribute, OptionalDouble value) {
+        public BoundaryConditionAttribute(Component component, Attribute attribute, OptionalDouble value) {
             this.component = component;
             this.attribute = attribute;
             this.value = value;
@@ -857,27 +927,38 @@ public class Cycle extends Observable implements Properties, Serializable {
         }
         
         @Override
-        public boolean match(Condition cnd) {
-            if (cnd instanceof SetAttribute) {
-                if (this.component == (((SetAttribute) cnd).component)) {
-                    if (this.attribute == (((SetAttribute) cnd).attribute)) {
+        public boolean match(BoundaryCondition cnd) {
+            if (cnd instanceof BoundaryConditionAttribute) {
+                if (this.component == (((BoundaryConditionAttribute) cnd).component)) {
+                    if (this.attribute == (((BoundaryConditionAttribute) cnd).attribute)) {
                         return true;
                     }
                 }
             }
             return false;
         }
+        
+        @Override
+        public OptionalDouble value() {
+            return value;
+        }
+        
+        @Override
+        public boolean valid() {
+            return (Cycle.this.componentsReadOnly.contains(component));
+        }
+        
     }
     
     /**
      * Command to set the heat of a node
      */
-    public class SetHeat extends Condition {
+    public class BoundaryConditionHeat extends BoundaryCondition {
         
         private final HeatNode node;
         private final OptionalDouble value;
         
-        public SetHeat(HeatNode node, OptionalDouble value) {
+        public BoundaryConditionHeat(HeatNode node, OptionalDouble value) {
             this.node = node;
             this.value = value;
         }
@@ -888,25 +969,35 @@ public class Cycle extends Observable implements Properties, Serializable {
         }
         
         @Override
-        public boolean match(Condition cnd) {
-            if (cnd instanceof SetHeat) {
-                if (this.node == ((SetHeat) cnd).node) {
+        public boolean match(BoundaryCondition cnd) {
+            if (cnd instanceof BoundaryConditionHeat) {
+                if (this.node == ((BoundaryConditionHeat) cnd).node) {
                     return true;
                 }
             }
             return false;
+        }
+        
+        @Override
+        public OptionalDouble value() {
+            return value;
+        }
+        
+        @Override
+        public boolean valid() {
+            return (Cycle.this.getHeatNodes().contains(node));
         }
     }
     
     /**
      * Command to set the work of a node
      */
-    public class SetWork extends Condition {
+    public class BoundaryConditionWork extends BoundaryCondition {
         
         private final WorkNode node;
         private final OptionalDouble value;
         
-        public SetWork(WorkNode node, OptionalDouble value) {
+        public BoundaryConditionWork(WorkNode node, OptionalDouble value) {
             this.node = node;
             this.value = value;
         }
@@ -917,26 +1008,35 @@ public class Cycle extends Observable implements Properties, Serializable {
         }
         
         @Override
-        public boolean match(Condition cnd) {
-            if (cnd instanceof SetWork) {
-                if (this.node == ((SetWork) cnd).node) {
+        public boolean match(BoundaryCondition cnd) {
+            if (cnd instanceof BoundaryConditionWork) {
+                if (this.node == ((BoundaryConditionWork) cnd).node) {
                     return true;
                 }
             }
             return false;
         }
         
+        @Override
+        public OptionalDouble value() {
+            return value;
+        }
+        
+        @Override
+        public boolean valid() {
+            return (Cycle.this.getWorkNodes().contains(node));
+        }
     }
     
     /**
      * Command to set the mass flow rate of a node
      */
-    public class SetMass extends Condition {
+    public class BoundaryConditionMass extends BoundaryCondition {
         
         private final FlowNode node;
         private final OptionalDouble value;
         
-        public SetMass(FlowNode node, OptionalDouble value) {
+        public BoundaryConditionMass(FlowNode node, OptionalDouble value) {
             this.node = node;
             this.value = value;
         }
@@ -947,27 +1047,36 @@ public class Cycle extends Observable implements Properties, Serializable {
         }
         
         @Override
-        public boolean match(Condition cnd) {
-            if (cnd instanceof SetMass) {
-                if (this.node == ((SetMass) cnd).node) {
+        public boolean match(BoundaryCondition cnd) {
+            if (cnd instanceof BoundaryConditionMass) {
+                if (this.node == ((BoundaryConditionMass) cnd).node) {
                     return true;
                 }
             }
             return false;
         }
         
+        @Override
+        public OptionalDouble value() {
+            return value;
+        }
+        
+        @Override
+        public boolean valid() {
+            return (Cycle.this.getFlowNodes().contains(node));
+        }
     }
     
     /**
      * Command to set the state of a node.
      */
-    public class SetState extends Condition {
+    public class BoundaryConditionProperty extends BoundaryCondition {
         
         private final FlowNode node;
         private final Property property;
         private final OptionalDouble value;
         
-        public SetState(FlowNode node, Property property, OptionalDouble value) {
+        public BoundaryConditionProperty(FlowNode node, Property property, OptionalDouble value) {
             this.node = node;
             this.property = property;
             this.value = value;
@@ -979,21 +1088,31 @@ public class Cycle extends Observable implements Properties, Serializable {
         }
         
         @Override
-        public boolean match(Condition cnd) {
-            if (cnd instanceof SetState) {
-                if (this.node == ((SetState) cnd).node) {
-                    if (this.property == ((SetState) cnd).property)
+        public boolean match(BoundaryCondition cnd) {
+            if (cnd instanceof BoundaryConditionProperty) {
+                if (this.node == ((BoundaryConditionProperty) cnd).node) {
+                    if (this.property == ((BoundaryConditionProperty) cnd).property)
                         return true;
                 }
             }
             return false;
         }
         
+        @Override
+        public OptionalDouble value() {
+            return value;
+        }
+        
+        @Override
+        public boolean valid() {
+            return (Cycle.this.getFlowNodes().contains(node));
+        }
     }
     
     /**
      * Sets the fluid of a flow path
      */
+    /**
     public class SetFluid extends Condition {
         
         private final FlowNode node;
@@ -1019,5 +1138,6 @@ public class Cycle extends Observable implements Properties, Serializable {
             return false;    
         }
     }
+    **/
     
 }

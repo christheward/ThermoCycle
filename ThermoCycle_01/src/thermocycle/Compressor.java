@@ -68,6 +68,13 @@ public final class Compressor extends Component {
         return 0;
     }    
     
+    @Override
+    protected List<List<FlowNode>> plotData() {
+        List paths = new ArrayList();
+        paths.add(thermodynamicProcess(getInlet(), getOutlet(), ENTHALPY, ENTROPY));
+        return paths;
+    }
+    
     /**
      * Mass balance across the compressor.
      */

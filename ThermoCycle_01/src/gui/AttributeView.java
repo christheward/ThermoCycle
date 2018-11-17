@@ -6,11 +6,7 @@
 package gui;
 
 import java.util.OptionalDouble;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -33,7 +29,7 @@ public class AttributeView {
         //this.present = new SimpleBooleanProperty(value.isPresent());
         //this.value = new SimpleDoubleProperty(value.orElse(0.0));
         this.units = new SimpleStringProperty(attribute.units);
-        this.output = new SimpleStringProperty(CanvasController.displayOptionalDouble(value));
+        this.output = new SimpleStringProperty(MasterSceneController.displayOptionalDouble(value));
     }
     
     //public ObjectProperty attributeProperty() {

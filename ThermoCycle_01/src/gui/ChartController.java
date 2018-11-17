@@ -13,20 +13,32 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
  *
  * @author Chris
  */
-public class ChartController extends AnchorPane {
-
+public class ChartController extends VBox {
+    
+    // FXML Variables
     @FXML private PieChart pieChart;
-    private ObservableList<Data> dataset = null;
+    
+    // Dataset Variables
+    private ObservableList<Data> dataset;
+
+    // GUI Varaiables
+    private final MasterSceneController master;
+
     
     // Constructor
-    public ChartController() {
+    public ChartController(MasterSceneController master) {
+        
+        // Set master
+        this.master = master;
+        
+        /// FXML loader
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Chart.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -35,10 +47,12 @@ public class ChartController extends AnchorPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-        //dataset = FXCollections.observableArrayList(new ArrayList<>());
+        
+        // Initialise dataset
         dataset = FXCollections.observableArrayList();
         pieChart.setData(dataset);
         pieChart.setVisible(true);
+        pieChart.setTitle("Exergy Analysis");
     }
     
     
@@ -47,13 +61,15 @@ public class ChartController extends AnchorPane {
      */
     @FXML private void initialize() {
     }
-    public void add(String name, double value) {
-        dataset.add(new Data(name, value));
-    }
-    public void setTitle(String title) {
-        pieChart.setTitle(title);
-    }
-    public void clear() {
+    
+    protected void getData() {
         dataset.clear();
+        if (master.isModel()) {
+            master.getModel().componentsReadOnly.stream().forEach(c -> {
+                System.out.println(c.exergyLoss());
+                dataset.add(new Data(c.getClass().getName(), c.exergyLoss()));
+            });
+        }
     }
+    
 }

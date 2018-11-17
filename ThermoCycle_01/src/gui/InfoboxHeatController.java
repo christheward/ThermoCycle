@@ -24,7 +24,7 @@ public class InfoboxHeatController extends AnchorPane {
     @FXML private TextField heatInput;
     @FXML private Button buttonClearHeat;
     
-    private final CanvasController canvas;
+    private final MasterSceneController master;
     
     // Model variables
     protected thermocycle.HeatNode node;
@@ -33,7 +33,7 @@ public class InfoboxHeatController extends AnchorPane {
      * Constructor
      * 
      */
-    public InfoboxHeatController(CanvasController canvas) {
+    public InfoboxHeatController(MasterSceneController master) {
         
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InfoboxHeat.fxml"));
@@ -44,7 +44,7 @@ public class InfoboxHeatController extends AnchorPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-        this.canvas = canvas;
+        this.master = master;
         
         // Build event handlers
         buildClickHandlers();
@@ -63,16 +63,16 @@ public class InfoboxHeatController extends AnchorPane {
         this.node = node;
         
         // Populate the values
-        populate();
+        refresh();
         
     }
     
     /**
      * Populates the heat flux values.
      */
-    private void populate() {
+    private void refresh() {
         // Set heat flux
-        heatInput.setText(CanvasController.displayOptionalDouble(canvas.model.getHeat(node)));
+        heatInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getHeatBoundaryCondition(node)));
     }
     
     /**
@@ -82,8 +82,8 @@ public class InfoboxHeatController extends AnchorPane {
         buttonClearHeat.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                canvas.model.clearValue(node);
-                populate();
+                master.getModel().removeBoundaryCondition(node);
+                refresh();
                 event.consume();
             }
         });
@@ -91,8 +91,8 @@ public class InfoboxHeatController extends AnchorPane {
         heatInput.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                canvas.model.setHeat(node, Double.valueOf(heatInput.getText()));
-                populate();
+                master.getModel().setHeat(node, Double.valueOf(heatInput.getText()));
+                refresh();
                 event.consume();
             }
         });

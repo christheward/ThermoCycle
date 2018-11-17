@@ -27,18 +27,21 @@ public class ConsoleController extends VBox {
     // FXML variables
     @FXML private TextField input;
     @FXML private TextArea output;
+    
+    // GUI variables
+    private final MasterSceneController master;
+    
     private StringBuilder text;
     private List<String> history;
-    private final CanvasController canvas;
     private final tui.TextUserInterface tui;
     private int historyIdx;
     
     /**
      * Constructor
-     * @param canvas The parent canvas
+     * @param master The parent master
      */
-    protected ConsoleController (CanvasController canvas) {
-        this.canvas = canvas;
+    protected ConsoleController (MasterSceneController master) {
+        
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Console.fxml"));
         fxmlLoader.setRoot(this);
@@ -48,12 +51,14 @@ public class ConsoleController extends VBox {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+        this.master = master;
+        
         // create the history
         history = new ArrayList<>();
         // set default string
         text = new StringBuilder();
-        // craete new tui
-        this.tui = new tui.TextUserInterface(canvas.model);
+        // create new tui
+        this.tui = new tui.TextUserInterface(this.master.getModel());
     }
     
     /**

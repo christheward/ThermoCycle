@@ -19,7 +19,7 @@ import javafx.scene.layout.GridPane;
  *
  * @author Chris
  */
-public class ToolboxIconController extends AnchorPane implements Serializable {
+public class ToolboxComponentController extends AnchorPane implements Serializable {
     
     // FXML variables
     @FXML protected AnchorPane base;
@@ -27,16 +27,17 @@ public class ToolboxIconController extends AnchorPane implements Serializable {
     @FXML protected GridPane node_grid;
     @FXML protected Label name;
     @FXML protected TextField input;
-    
-    
-    // Variables
-    protected IconType iType;
+        
+    // Model variables
+    protected ComponentIcon iType;
     
     /**
      * Constructor
      */
-    public ToolboxIconController() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ToolboxIcon.fxml"));
+    public ToolboxComponentController() {
+        
+        // Load FXML
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ToolboxComponent.fxml"));
         fxmlLoader.setRoot(this); 
         fxmlLoader.setController(this);
         try {
@@ -44,6 +45,7 @@ public class ToolboxIconController extends AnchorPane implements Serializable {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+        
     }
     
     /**
@@ -53,10 +55,10 @@ public class ToolboxIconController extends AnchorPane implements Serializable {
     }
     
     /**
-     * Gets the icon type.
-     * @return Returns the IconType.
+     * Gets the component type.
+     * @return Returns the ComponentIcon.
      */
-    protected IconType getType() {
+    protected ComponentIcon getType() {
         return iType;
     }
     
@@ -73,7 +75,7 @@ public class ToolboxIconController extends AnchorPane implements Serializable {
      * Sets the icon types
      * @param iType The icon type to set.
      */
-    protected final void setType(IconType iType) {
+    protected final void setType(ComponentIcon iType) {
         this.iType = iType;
         icon.getStyleClass().clear();
         icon.getStyleClass().add(iType.css);
@@ -81,4 +83,5 @@ public class ToolboxIconController extends AnchorPane implements Serializable {
         icon.getStyleClass().add("icon-toolbox");
         name.setText(iType.name);
     }
+    
 }
