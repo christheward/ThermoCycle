@@ -5,7 +5,6 @@
  */
 package main;
 
-import gui.ChartController;
 import gui.MasterSceneController;
 import java.io.IOException;
 import javafx.application.Application;
@@ -23,6 +22,11 @@ public class Main extends Application {
     //private Stage welcomeStage;
     
     public static void main(String[] args) {
+        
+        // specify log4j2 configuration file location
+        System.setProperty("log4j.configurationFile", "./src/resources/log4j2.xml");
+        
+        // launch program
         launch(args);
     }
     

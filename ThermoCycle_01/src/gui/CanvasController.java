@@ -6,9 +6,7 @@
 package gui;
 
 import com.jfoenix.controls.JFXDrawer;
-import gui.DragContainerController;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -31,7 +29,7 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author Chris
  */
-public class CanvasController extends AnchorPane implements Serializable {
+public class CanvasController extends AnchorPane {
     
     // FXML variables
     @FXML private AnchorPane canvas;
@@ -363,19 +361,27 @@ public class CanvasController extends AnchorPane implements Serializable {
     }
     
     /**
-     * Gets a stream of all the canvas path nodes on the canvas.
-     * @return Returns a stream of all the canvas path elements on the canvas.
+     * Gets a stream of all the components on the canvas.
+     * @return Returns a stream of all the components on the canvas.
      */
     private Stream<CanvasComponentController> getComponents() {
         return canvas.getChildren().stream().filter(n -> n instanceof CanvasComponentController).map(n -> (CanvasComponentController)n);
     }
     
     /**
-     * Gets a stream of all the canvas nodes on the canvas.
-     * @return Returns a stream of all the canvas nodes on the canvas.
+     * Gets a stream of all the component nodes on the canvas.
+     * @return Returns a stream of all the component nodes on the canvas.
      */
     private Stream<CanvasNodeController> getNodes() {
         return getComponents().map(n -> n.node_grid.getChildren().stream().filter(m -> m instanceof CanvasNodeController).map(m -> (CanvasNodeController)m)).flatMap(Function.identity());
+    }
+    
+    /**
+     * Gets a stream of all the paths on the canvas
+     * @return Returns a stream of all the paths on the canvas
+     */
+    private Stream<CanvasPathController> getPaths() {
+        return canvas.getChildren().stream().filter(c -> c instanceof CanvasPathController).map(c -> (CanvasPathController)c);
     }
     
     /**
@@ -391,5 +397,30 @@ public class CanvasController extends AnchorPane implements Serializable {
      */
     protected void setNodeVisibility(boolean visible) {
         canvas.getChildren().stream().filter(c -> c instanceof CanvasComponentController).forEach((c -> ((CanvasComponentController)c).node_grid.setVisible(visible)));
+    }
+    
+    /**
+     * This function builds the gui from the underlying model
+     */
+    protected void buildFromModel() {
+        
+        master.getModel().componentsReadOnly.stream().forEach(c -> {
+            try {
+                // Coopied from drag handlers - need to put this in a common function
+                // Create a new canvas icon
+                CanvasComponentController component = new CanvasComponentController(master, c);
+                component.getStyleClass().add("icon-componnt");
+                canvas.getChildren().add(component);
+                
+                // Put the canvas icon at the drop co-ordinated
+                Point2D cursorPoint = new Point2D(100,100);
+                component.relocateToPoint(new Point2D(cursorPoint.getX() - 32, cursorPoint.getY() - 32));
+                
+                // Show the component
+                component.setVisible(true);
+            } catch (Exception ex) {
+                //Logger.getLogger(CanvasController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
     }
 }

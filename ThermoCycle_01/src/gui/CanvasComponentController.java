@@ -5,6 +5,9 @@
  */
 package gui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ListIterator;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -52,10 +55,38 @@ public class CanvasComponentController extends ToolboxComponentController{
         
         // Set master
         this.master = master;
+        
+        // set icon type
         setType(iType);
         icon.getStyleClass().add("icon-component");
+        
+        // create model component
         createComponent();
         
+        // adds nodes
+        addNodes();
+        
+        // build handlers
+        buildNodeDragHandlers();
+        buildNodeClickHandlers();
+    }
+    public CanvasComponentController(MasterSceneController master, thermocycle.Component component) throws Exception {
+        super();
+        
+        // set master
+        this.master = master;
+        
+        // set compoennt
+        this.component = component;
+        
+        // set icon type
+        List<ComponentIcon> items = Arrays.asList(ComponentIcon.values());
+        ComponentIcon icon = items.stream().filter(i -> i.type.equals(component.getClass())).findFirst().orElse(ComponentIcon.UNKNOWN);
+        
+        // Adds nodes
+        addNodes();
+        
+        // build handlers
         buildNodeDragHandlers();
         buildNodeClickHandlers();
     }
@@ -104,7 +135,6 @@ public class CanvasComponentController extends ToolboxComponentController{
             default:
                 throw new Exception("Unknown component type!");
         }
-        addNodes();
     }
     
     /**

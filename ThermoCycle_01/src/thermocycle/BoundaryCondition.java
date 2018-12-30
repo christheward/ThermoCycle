@@ -16,6 +16,5 @@ public abstract class BoundaryCondition {
     protected abstract void execute();
     protected abstract boolean match(BoundaryCondition cnd);
     protected abstract OptionalDouble value();
-    protected abstract boolean valid();
     
 }

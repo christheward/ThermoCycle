@@ -6,11 +6,15 @@
 package gui;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.charset.Charset;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -18,7 +22,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
+import utilities.FileHandler;
+import utilities.GsonHandler;
 
 /**
  *
@@ -68,6 +76,9 @@ public class MenubarController extends MenuBar {
             throw new RuntimeException(exception);
         }
         
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("ThermoCycle files (*.cyc)","*.cyc"));
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("All files (*.*)","*.*"));
+        
     }
     
     /**
@@ -97,22 +108,34 @@ public class MenubarController extends MenuBar {
             }
         });
         fileOpen.setOnAction(new EventHandler() {
-            /**
-             * Need to work out how to re build the GUI canvas.
-             */
             @Override
             public void handle(Event event) {
                 fileChooser.setTitle("Open Model File");
                 file = fileChooser.showOpenDialog(fileBrowserDialogue);
-                try (ObjectInputStream is = new ObjectInputStream(new FileInputStream(file))) {
-                    master.setModel((thermocycle.Cycle)is.readObject());
+                /**
+                String json;
+                try {
+                    json = FileUtils.readFileToString(file, Charset.defaultCharset());
                 }
-                catch(ClassNotFoundException e) {
-                    System.err.println("Class not found. " + e.getMessage());
+                catch (IOException ex) {
+                    json = "";
+                    Logger.getLogger(MenubarController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                catch(IOException e) {
-                    System.err.println("I/O error. " + e.getMessage());
+                master.setModel(GsonHandler.gsonCanvas.fromJson(json,thermocycle.Cycle.class));
+                */
+                try {
+                master.setModel((thermocycle.Cycle)FileHandler.read(file));
                 }
+                catch (FileNotFoundException ex) {
+                    // DO something
+                }
+                catch (ClassNotFoundException ex) {
+                    // Do something
+                }
+                catch (IOException ex) {
+                    // Do something
+                }
+                master.canvas.buildFromModel();
                 event.consume();
             }
         });
@@ -121,13 +144,21 @@ public class MenubarController extends MenuBar {
             public void handle(Event event) {
                 if (file == null) {
                     fileChooser.setTitle("Save Model File");
-                    file = fileChooser.showOpenDialog(fileBrowserDialogue);
+                    file = fileChooser.showSaveDialog(fileBrowserDialogue);
                 }
-                try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(file))) {
-                    os.writeObject(master.getModel());
-                }
-                catch(IOException e) {
-                    System.err.println("I/O error. " + e.getMessage());
+                 /**
+                 * try (FileWriter writer = new FileWriter(file)) {
+                 * //writer.write(master.canvas.getJson());
+                 * writer.write(GsonHandler.gsonModel.toJson(master.getModel()));
+                 * }
+                 * catch (IOException ex) {
+                 * //Logger.getLogger(MenubarController.class.getName()).log(Level.SEVERE, null, ex);
+                 * }
+                 */
+                try {
+                    FileHandler.write(master.getModel(), file);
+                } catch (IOException ex) {
+                    Logger.getLogger(MenubarController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 event.consume();
             }
@@ -136,6 +167,7 @@ public class MenubarController extends MenuBar {
             @Override
             public void handle(Event event) {
                 fileChooser.setTitle("Save Model File");
+                fileChooser.setInitialFileName(master.getModel().getName());
                 file = fileChooser.showOpenDialog(fileBrowserDialogue);
                 try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(file))) {
                     os.writeObject(master.getModel());

@@ -33,6 +33,7 @@ public class ToolboxController extends StackPane{
     
     /**
      * Constructor
+     * @param canvas
      */
     public ToolboxController(CanvasController canvas) {
         
@@ -42,7 +43,8 @@ public class ToolboxController extends StackPane{
         fxmlLoader.setController(this);
         try {
             fxmlLoader.load();
-        } catch (IOException exception) {
+        }
+        catch (IOException exception) {
             throw new RuntimeException(exception);
         }
         this.canvas = canvas;
@@ -56,11 +58,13 @@ public class ToolboxController extends StackPane{
         
         // Populate toolbox with componet icons
         for (ComponentIcon componentType : ComponentIcon.values()) {
-            if (thermocycle.Component.class.isAssignableFrom(componentType.type)) {
-                ToolboxComponentController icon = new ToolboxComponentController(); 
-                addDragDetection(icon);
-                icon.setType(componentType);
-                contents.getChildren().add(icon);
+            if (componentType.type != null) {
+                if (thermocycle.Component.class.isAssignableFrom(componentType.type)) {
+                    ToolboxComponentController icon = new ToolboxComponentController(); 
+                    addDragDetection(icon);
+                    icon.setType(componentType);
+                    contents.getChildren().add(icon);
+                }
             }
         }
         

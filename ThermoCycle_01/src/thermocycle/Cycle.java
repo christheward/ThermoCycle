@@ -5,13 +5,14 @@
  */
 package thermocycle;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import static thermocycle.Properties.Property.*;
 import java.io.Serializable;
 import java.text.*;
 import java.util.*;
@@ -21,8 +22,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import thermocycle.Attributes.Attribute;
-import thermocycle.Node.Port;
+import static thermocycle.Attributes.Attribute;
+import static thermocycle.Properties.Property.*;
+import static thermocycle.Node.Port;
+import utilities.GsonHandler;
+import static utilities.SingletonCollector.singletonCollector;
 
 /**
  *
@@ -37,24 +41,6 @@ public class Cycle extends Observable implements Properties, Serializable {
     static private final Logger logger = LogManager.getLogger("DebugLog");
     static private final Logger report = LogManager.getLogger("ReportLog");
     
-    /**
-     * Singleton Collector
-     * @param <T>
-     * @return 
-     */
-    static <T> Collector<T, List <T>, T> singletonCollector() {
-        return Collector.of(
-                ArrayList::new,
-                List::add,
-                (left,right) -> {left.addAll(right); return left; },
-                list -> {
-                    if (list.size() > 1) {throw new IllegalStateException("Collection contains more than 1 element.");}
-                    else if (list.isEmpty()) {return null;}
-                    return list.get(0);
-                }
-        );
-    }
-    
     // variables
     private String name;
     private Integer iteration;
@@ -68,12 +54,14 @@ public class Cycle extends Observable implements Properties, Serializable {
     public final ObservableList<Fluid> fluidsReadOnly;
     public final ObservableList<Set<FlowNode>> pathsReadOnly;
     private final ArrayDeque<BoundaryCondition> boundaryConditions;
-        
+    
     /**
      * Constructor
      * @param name The name of the new cycle. 
      */
     public Cycle(String name) {
+        
+        // Initialise cycle components
         this.name = name;
         ambient = new State();
         connections = FXCollections.observableList(new ArrayList<>());
@@ -557,12 +545,26 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public void removeComponent(Component component) {
         if (components.contains(component)) {
-            component.flowNodes.forEach(n -> removeConnection(n));  
-            component.heatNodes.forEach(n -> removeConnection(n));
-            component.workNodes.forEach(n -> removeConnection(n));
+            component.flowNodes.forEach(n -> {
+                removeBoundaryCondition(n);
+                for (Property property : Properties.Property.values()) {
+                    removeBoundaryCondition(n, property);
+                }
+                removeConnection(n);
+            });
+            component.heatNodes.forEach(n -> {
+                removeBoundaryCondition(n);
+                removeConnection(n);
+            });
+            component.workNodes.forEach(n -> {
+                removeBoundaryCondition(n);
+                removeConnection(n);
+            });
+            for (Attribute attribute : Attributes.Attribute.values()) {
+                removeBoundaryCondition(component, attribute);
+            }
             components.remove(component);
             cycleChange();
-            boundaryConditions.removeIf(bc -> !bc.valid());            // Remove boundary references to removed components
             logger.info("Removed " + component);
         }
     }
@@ -905,210 +907,7 @@ public class Cycle extends Observable implements Properties, Serializable {
     private boolean notConnected(Node n) {
         return connectionsReadOnly.filtered(c -> c.contains(n)).isEmpty();
     }
-    
-    /**
-     * Command to set a component's attribute
-     */
-    public class BoundaryConditionAttribute extends BoundaryCondition {
         
-        private final Component component;
-        private final Attribute attribute;
-        private final OptionalDouble value;
-        
-        public BoundaryConditionAttribute(Component component, Attribute attribute, OptionalDouble value) {
-            this.component = component;
-            this.attribute = attribute;
-            this.value = value;
-        }
-        
-        @Override
-        public void execute() {
-            component.setAttribute(attribute, value);
-        }
-        
-        @Override
-        public boolean match(BoundaryCondition cnd) {
-            if (cnd instanceof BoundaryConditionAttribute) {
-                if (this.component == (((BoundaryConditionAttribute) cnd).component)) {
-                    if (this.attribute == (((BoundaryConditionAttribute) cnd).attribute)) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-        
-        @Override
-        public OptionalDouble value() {
-            return value;
-        }
-        
-        @Override
-        public boolean valid() {
-            return (Cycle.this.componentsReadOnly.contains(component));
-        }
-        
-    }
-    
-    /**
-     * Command to set the heat of a node
-     */
-    public class BoundaryConditionHeat extends BoundaryCondition {
-        
-        private final HeatNode node;
-        private final OptionalDouble value;
-        
-        public BoundaryConditionHeat(HeatNode node, OptionalDouble value) {
-            this.node = node;
-            this.value = value;
-        }
-        
-        @Override
-        public void execute() {
-            node.setHeat(value);
-        }
-        
-        @Override
-        public boolean match(BoundaryCondition cnd) {
-            if (cnd instanceof BoundaryConditionHeat) {
-                if (this.node == ((BoundaryConditionHeat) cnd).node) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        
-        @Override
-        public OptionalDouble value() {
-            return value;
-        }
-        
-        @Override
-        public boolean valid() {
-            return (Cycle.this.getHeatNodes().contains(node));
-        }
-    }
-    
-    /**
-     * Command to set the work of a node
-     */
-    public class BoundaryConditionWork extends BoundaryCondition {
-        
-        private final WorkNode node;
-        private final OptionalDouble value;
-        
-        public BoundaryConditionWork(WorkNode node, OptionalDouble value) {
-            this.node = node;
-            this.value = value;
-        }
-        
-        @Override
-        public void execute() {
-            node.setWork(value);
-        }
-        
-        @Override
-        public boolean match(BoundaryCondition cnd) {
-            if (cnd instanceof BoundaryConditionWork) {
-                if (this.node == ((BoundaryConditionWork) cnd).node) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        
-        @Override
-        public OptionalDouble value() {
-            return value;
-        }
-        
-        @Override
-        public boolean valid() {
-            return (Cycle.this.getWorkNodes().contains(node));
-        }
-    }
-    
-    /**
-     * Command to set the mass flow rate of a node
-     */
-    public class BoundaryConditionMass extends BoundaryCondition {
-        
-        private final FlowNode node;
-        private final OptionalDouble value;
-        
-        public BoundaryConditionMass(FlowNode node, OptionalDouble value) {
-            this.node = node;
-            this.value = value;
-        }
-        
-        @Override
-        public void execute() {
-            node.setMass(value);
-        }
-        
-        @Override
-        public boolean match(BoundaryCondition cnd) {
-            if (cnd instanceof BoundaryConditionMass) {
-                if (this.node == ((BoundaryConditionMass) cnd).node) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        
-        @Override
-        public OptionalDouble value() {
-            return value;
-        }
-        
-        @Override
-        public boolean valid() {
-            return (Cycle.this.getFlowNodes().contains(node));
-        }
-    }
-    
-    /**
-     * Command to set the state of a node.
-     */
-    public class BoundaryConditionProperty extends BoundaryCondition {
-        
-        private final FlowNode node;
-        private final Property property;
-        private final OptionalDouble value;
-        
-        public BoundaryConditionProperty(FlowNode node, Property property, OptionalDouble value) {
-            this.node = node;
-            this.property = property;
-            this.value = value;
-        }
-        
-        @Override
-        public void execute() {
-            node.setState(property, value);
-        }
-        
-        @Override
-        public boolean match(BoundaryCondition cnd) {
-            if (cnd instanceof BoundaryConditionProperty) {
-                if (this.node == ((BoundaryConditionProperty) cnd).node) {
-                    if (this.property == ((BoundaryConditionProperty) cnd).property)
-                        return true;
-                }
-            }
-            return false;
-        }
-        
-        @Override
-        public OptionalDouble value() {
-            return value;
-        }
-        
-        @Override
-        public boolean valid() {
-            return (Cycle.this.getFlowNodes().contains(node));
-        }
-    }
-    
     /**
      * Sets the fluid of a flow path
      */

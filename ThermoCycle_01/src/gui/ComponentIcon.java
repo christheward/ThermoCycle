@@ -16,7 +16,8 @@ public enum ComponentIcon {
     TURBINE ("Turbine", "icon-turbine", thermocycle.Turbine.class, new int[][] {{0,3},{6,3}}, new int[][] {{3,0}}, new int[][] {{}}),
     COMBUSTOR ("Combustor", "icon-combustor", thermocycle.Combustor.class, new int[][] {{0,3},{6,3}}, new int[][] {{}}, new int[][] {{3,0}}),
     HEAT_SINK ("Heat Sink", "icon-heatsink",thermocycle.HeatSink.class, new int[][] {{0,3},{6,3}}, new int[][] {{}}, new int[][] {{3,6}}),
-    HEAT_EXCHANGER ("Heat Exchanger", "icon-heatexchanger",thermocycle.HeatExchanger.class, new int[][] {{0,2},{6,2},{0,4},{6,4}}, new int[][] {{}}, new int[][] {{}});
+    HEAT_EXCHANGER ("Heat Exchanger", "icon-heatexchanger",thermocycle.HeatExchanger.class, new int[][] {{0,2},{6,2},{0,4},{6,4}}, new int[][] {{}}, new int[][] {{}}),
+    UNKNOWN("Unknown", "icon-combustor",null,new int[][] {{}}, new int[][] {{}}, new int[][] {{}});
     
     protected final String name;
     protected final String css;
