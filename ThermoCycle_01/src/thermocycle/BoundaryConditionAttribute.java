@@ -5,7 +5,6 @@
  */
 package thermocycle;
 
-import java.util.OptionalDouble;
 import thermocycle.Attributes.Attribute;
 
 /**
@@ -16,9 +15,9 @@ public class BoundaryConditionAttribute extends BoundaryCondition {
     
     private final Component component;
     private final Attribute attribute;
-    private final OptionalDouble value;
+    private final Double value;
 
-    public BoundaryConditionAttribute(Component component, Attribute attribute, OptionalDouble value) {
+    public BoundaryConditionAttribute(Component component, Attribute attribute, Double value) {
         this.component = component;
         this.attribute = attribute;
         this.value = value;
@@ -42,7 +41,7 @@ public class BoundaryConditionAttribute extends BoundaryCondition {
     }
 
     @Override
-    public OptionalDouble value() {
+    public Double value() {
         return value;
     }
 

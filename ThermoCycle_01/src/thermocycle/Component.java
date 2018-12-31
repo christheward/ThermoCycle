@@ -19,28 +19,30 @@ import static thermocycle.Node.Port.*;
  */
 public abstract class Component implements Attributes, Properties, Serializable {
     
-    
-    static private final Logger logger = LogManager.getLogger("DebugLog");
+    /**
+     * The logger instance.
+     */
+    private static final Logger logger = LogManager.getLogger("DebugLog");
     
     /**
      * The number of internal states used for plotting and exergy calculations.
      */
-    static int nIntStates = 100;
+    private static final int nIntStates = 100;
     
     /**
-     * The component name.
+     * The component's name.
      */
-    protected String name;
+    public String name;
     
     /**
-     * The component unique reference number
+     * The component's unique reference number
      */
-    public final UUID id;
+    private final UUID id;
     
     /**
-     * The components ambient reference state. 
+     * The component's ambient reference state. 
      */
-    protected final State ambient;
+    private final State ambient;
     
     /**
      * A list of all the internal connections within the component.
@@ -68,35 +70,39 @@ public abstract class Component implements Attributes, Properties, Serializable 
     public final List<HeatNode> heatNodes;
     
     /**
-     * A map of all this components attributes.
+     * A set of all the component's attributes.
      */
-    public final Map<Attribute, OptionalDouble> attributes;
+    protected final Set<Attribute> attributes;
+    
+    /**
+     * A map containing the value of all component attributes that have been set.
+     */
+    public final Map<Attribute, Double> condition;
     
     /**
      * Constructor
      * @param name The name of the new component.
-     * @param ambient The ambient state of thee components.
+     * @param ambient The ambient state of the new component.
      */
     protected Component(String name, State ambient) {
         id = UUID.randomUUID();
         this.name = name;
         this.ambient = ambient;
-        flowNodes = new ArrayList();
-        workNodes = new ArrayList();
-        heatNodes = new ArrayList();
-        internals = new ArrayList();
-        equations = new ArrayList();
-        attributes = new HashMap();
+        this.flowNodes = new ArrayList();
+        this.workNodes = new ArrayList();
+        this.heatNodes = new ArrayList();
+        this.internals = new ArrayList();
+        this.equations = new ArrayList();
+        this.attributes = new HashSet();
+        this.condition = new HashMap();
     }
     
     /**
      * Clears all the values of the component and resets all the component's equations to unsolved.
      */
     protected final void clear() {
-        // clear attributes
-        attributes.keySet().stream().forEach(a -> {
-            attributes.put(a, OptionalDouble.empty());
-        });
+        // clear condition
+        condition.clear();
         // clear equations
         equations.stream().forEach(e -> {
             e.reset();
@@ -108,17 +114,8 @@ public abstract class Component implements Attributes, Properties, Serializable 
     }
     
     /**
-     * Gets the ambient state property for this component.
-     * @param property The property to get.
-     * @return Returns the value of the property.
-     */
-    protected final OptionalDouble getAmbient(Property property) {
-        return ambient.get(property);
-    }
-    
-    /**
      * Gets all the inlet flow nodes for this component.
-     * @return Returns a list of the inlet flow nodes.
+     * @return A list of the inlet flow nodes.
      */
     private List<FlowNode> getFlowInlets() {
         return flowNodes.stream().filter(n -> n.port.equals(INLET)).collect(Collectors.toList());
@@ -126,7 +123,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
 
     /**
      * Gets all the outlet flow nodes for this component.
-     * @return Returns a list of the outlet flow nodes.
+     * @return A list of the outlet flow nodes.
      */
     private List<FlowNode> getFlowOutlets() {
         return flowNodes.stream().filter(n -> n.port.equals(OUTLET)).collect(Collectors.toList());
@@ -134,7 +131,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
     
     /**
      * Gets all the inlet heat nodes for this component.
-     * @return Returns a list of the inlet heat nodes.
+     * @return A list of the inlet heat nodes.
      */
     private List<HeatNode> getHeatInlets() {
         return heatNodes.stream().filter(n -> n.port.equals(INLET)).collect(Collectors.toList());
@@ -142,7 +139,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
     
     /**
      * Gets all the outlet heat nodes for this component.
-     * @return Returns a list of the outlet heat nodes.
+     * @return A list of the outlet heat nodes.
      */
     private List<HeatNode> getHeatOutlets() {
         return heatNodes.stream().filter(n -> n.port.equals(OUTLET)).collect(Collectors.toList());
@@ -150,7 +147,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
 
     /**
      * Gets all the inlet work nodes for this component.
-     * @return Returns a list of the inlet work nodes.
+     * @return A list of the inlet work nodes.
      */
     private List<WorkNode> getWorkInlets() {
         return workNodes.stream().filter(n -> n.port.equals(INLET)).collect(Collectors.toList());
@@ -158,7 +155,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
     
     /**
      * Gets all the outlet work nodes for this component.
-     * @return Returns a list of the outlet work nodes.
+     * @return A list of the outlet work nodes.
      */
     private List<WorkNode> getWorkOutlets() {
         return workNodes.stream().filter(n -> n.port.equals(OUTLET)).collect(Collectors.toList());
@@ -166,7 +163,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
     
     /**
      * Gets a list of all the nodes for this component
-     * @return Returns a list of the nodes.
+     * @return A list of all nodes.
      */
     private final List<Node> getNodes() {
         List<Node> nodes = new ArrayList();
@@ -177,62 +174,46 @@ public abstract class Component implements Attributes, Properties, Serializable 
     }
     
     /**
-     * Gets the value of the specified attribute.
-     * @param name The name of the required attribute.
-     * @return Returns the value of the attribute.
-     */
-    protected final OptionalDouble getAttribute(Attribute name) {
-        return attributes.get(name);
-    }
-    
-    /**
-     * Gets the set of attributes for the component.
-     * @return A set of valid attributes.
+     * Gets the set of component attributes.
+     * @return A set of component attributes.
      */
     protected final Set<Attribute> getAtributes() {
-        return attributes.keySet();
+        return attributes;
     }
     
     /**
-     * Creates an attribute.
-     * @param name The name of the attribute to create.
+     * Gets the value of an attribute if it has been set.
+     * The presence of the attribute should be checked prior to getting the value using isSet().
+     * @param attribute The attribute to get the value of.
+     * @return The value of the attribute.
      */
-    protected final void createAttribute(Attribute name) {
-        attributes.put(name, OptionalDouble.empty());
-    };
+    protected final OptionalDouble getAttribute(Attribute attribute) {
+        if (condition.containsKey(attribute)) {
+            return OptionalDouble.of(condition.get(attribute));
+        }
+        return OptionalDouble.empty();
+    }
     
     /**
-     * Sets the value of the attribute.
-     * @param name The name of the attribute to set.
+     * Sets the value of an attribute.
+     * @param attribute The attribute to set.
      * @param value The value to set the attribute to.
-     * @throws IllegalArgumentException if thee attribute is not valid.
-     * @throws IllegalStateException if thee attribute has already been set.
      */
-    protected final void setAttribute(Attribute attribute, OptionalDouble value) {
-        if (value.isPresent()) {
-            if (!attributes.containsKey(attribute)) {
-                throw new IllegalArgumentException(attribute + " is not a valid attribute for component type " + this.getClass().getSimpleName());
-            }
-            else {
-                attributes.put(attribute, value);
-            }
-        }
-        else {
-            throw new IllegalStateException("Cannot set attribute to an empty OptionalDouble.");
-        }
+    protected final void setAttribute(Attribute attribute, Double value) {
+        condition.put(attribute, value);
     }
     
     /**
-     * Clear attribute value
-     * @param attribute The attribute to clear
+     * Clears the value of a component attribute.
+     * @param attribute The component attribute to clear.
      */
     protected final void clearAttribute(Attribute attribute) {
-        attributes.put(attribute, OptionalDouble.empty());
+        condition.remove(attribute);
     }
     
     /**
-     * Checks to see if the component is complete. A component is complete if all its nodes are complete and equations have been checked for compatibility.
-     * @return Returns True if all Nodes associated with the component are complete.
+     * Checks if the component is complete. A component is complete when all its nodes are complete and equations have been checked for compatibility.
+     * @return true if the component is complete, false otherwise.
      */
     protected final boolean isComplete() {
         if (getNodes().stream().allMatch(n -> n.isComplete())) {
@@ -244,9 +225,10 @@ public abstract class Component implements Attributes, Properties, Serializable 
     }
     
     /**
-     * Checks to see if the component is compatible. A component is compatible if all its equations are compatible.
-     * @return Returns true is the component is compatible.
+     * Checks if the component is compatible. A component is compatible if all its equations are compatible.
+     * @return Returns true is the component is compatible, false otherwise.
      */
+    /**
     protected final boolean isCompatible() {
         equations.stream().forEach(equation -> {
             if (!equation.isCompatible()) {
@@ -255,21 +237,22 @@ public abstract class Component implements Attributes, Properties, Serializable 
         });
         return equations.stream().allMatch(equation -> equation.isCompatible());
     }
+    */
     
     /**
-     * Updates the component.
-     * @return Returns a list of all Nodes that are updated during the computation
+     * Updates the component by continually solving it's equations until all unknowns have been found.
+     * @return A set of the nodes that have been updated during the update.
      */
     protected final Set<Node> update() {
         logger.info("Solving " + this);
         Set<Node> updatedNodes = new HashSet();
-        while (updatedNodes.addAll(solve())) {}                          // keep computing until no nodes are updated
+        while (updatedNodes.addAll(solve())) {}
         return updatedNodes;
     }
     
     /**
-     * Solves the component's equations to find any unknowns.
-     * @return Returns any Nodes that are updated during the computation.
+     * Solves the component's equations to find unknowns.
+     * @return A set of the nodes that have been updated during the solve.
      */
     private final Set<Node> solve() {
         Set<Node> updatedNodes = new HashSet();
@@ -281,25 +264,25 @@ public abstract class Component implements Attributes, Properties, Serializable 
 
     /**
      * Get the net exergy change across the component.
-     * @return Returns the net exergy change across the component.
+     * @return The net exergy change across the component.
      */
     public final double exergyLoss() {
         return ((flowExergyIn() + workIn() + heatExergyIn()) - (flowExergyOut() - workOut() - heatExergyOut()));
     }
     
     /**
-     * Get the total exergy input to the component through fluid transport.
-     * @return Returns the total exergy input via fluid transport.
+     * Get the total exergy input to the component due to fluid flow.
+     * @return The exergy input to the component due to fluid flow. If any of the flow nodes are not complete then returns Double.NaN.
      */
     private double flowExergyIn() {
         if (getFlowInlets().stream().allMatch(n -> n.isComplete())) {
             double E = 0;
             State dead = new State();
             for (FlowNode n : getFlowInlets()) {
-                dead.clear();
-                dead.put(ambient);
+                dead.clearState();
+                dead.setProperty(ambient);
                 n.getFluid().computeState(dead);
-                E = E + n.getMass().getAsDouble() * ((n.getState(ENTHALPY).getAsDouble() - dead.get(ENTHALPY).getAsDouble()) - (dead.get(TEMPERATURE).getAsDouble() * (n.getState(ENTROPY).getAsDouble() - dead.get(ENTROPY).getAsDouble())));
+                E = E + n.getMass().getAsDouble() * ((n.getState(ENTHALPY).getAsDouble() - dead.getProperty(ENTHALPY).getAsDouble()) - (dead.getProperty(TEMPERATURE).getAsDouble() * (n.getState(ENTROPY).getAsDouble() - dead.getProperty(ENTROPY).getAsDouble())));
             }
             return E;
         }
@@ -307,18 +290,18 @@ public abstract class Component implements Attributes, Properties, Serializable 
     }
     
     /**
-     * Get the total exergy output from the component through fluid transport.
-     * @return Returns the total exergy output via fluid transport.
+     * Get the total exergy output from the component due to fluid flow.
+     * @return The total exergy output from the component due to fluid flow. If any of the flow nodes are not complete then returns Double.NaN.
      */
     private double flowExergyOut() {
         if (getFlowOutlets().stream().allMatch(n -> n.isComplete())) {
             double E = 0;
             State dead = new State();
             for (FlowNode n : getFlowOutlets()) {
-                dead.clear();
-                dead.put(ambient);
+                dead.clearState();
+                dead.setProperty(ambient);
                 n.getFluid().computeState(dead);
-                E = E + n.getMass().getAsDouble() * ((n.getState(ENTHALPY).getAsDouble() - dead.get(ENTHALPY).getAsDouble()) - (dead.get(TEMPERATURE).getAsDouble() * (n.getState(ENTROPY).getAsDouble() - dead.get(ENTROPY).getAsDouble())));
+                E = E + n.getMass().getAsDouble() * ((n.getState(ENTHALPY).getAsDouble() - dead.getProperty(ENTHALPY).getAsDouble()) - (dead.getProperty(TEMPERATURE).getAsDouble() * (n.getState(ENTROPY).getAsDouble() - dead.getProperty(ENTROPY).getAsDouble())));
             }
             return E;
         }
@@ -327,89 +310,90 @@ public abstract class Component implements Attributes, Properties, Serializable 
     
     /**
      * Get the total exergy input to the component due to heat transfer.
-     * @return Returns the total exergy input via heat transfer.
+     * @return The total exergy input to the component due to heat transfer.
      */
     protected abstract double heatExergyIn();
     
     /**
      * Get the total exergy output from the component due to heat transfer.
-     * @return Returns the total exergy output via heat transfer.
+     * @return The total exergy output from the component due to heat transfer.
      */
     protected abstract double heatExergyOut();
     
     /**
-     * Get the total heat input to the component. Currently assumes that all heat values are present.
-     * @return Returns the total heat input.
+     * Get the total heat input to the component.
+     * @return The total heat input to the component. If any of the heat nodes are not complete then returns Double.NaN.
      */
     protected final double heatIn() {
-        if (getHeatInlets().stream().allMatch(n -> n.getHeat().isPresent())) {
+        if (getHeatInlets().stream().allMatch(n -> n.isComplete())) {
             return getHeatInlets().stream().mapToDouble(n -> n.getHeat().getAsDouble()).sum();
         }
         return Double.NaN;
     }
     
     /**
-     * Get the total heat output from the component. Currently assumes that all heat values are present.
-     * @return Returns the total heat output.
+     * Get the total heat output from the component.
+     * @return The total heat output from the component. If any of the heat nodes are not complete then returns Double.NaN.
      */
     protected final double heatOut() {
-        if (getHeatOutlets().stream().allMatch(n -> n.getHeat().isPresent())) {
+        if (getHeatOutlets().stream().allMatch(n -> n.isComplete())) {
             return getHeatOutlets().stream().mapToDouble(n -> n.getHeat().getAsDouble()).sum();
         }
         return Double.NaN;
     }
     
     /**
-     * Get the total mass input to the component. Currently assumes that all mass values are present.
-     * @return Returns the total mass input.
+     * Get the total mass flow rate in to the component.
+     * @return The total mass flow rate into the component. If any of the flow nodes are not complete then returns Double.NaN.
      */
     private double massIn() {
-        if (getFlowInlets().stream().allMatch(n -> n.getMass().isPresent())) {
+        if (getFlowInlets().stream().allMatch(n -> n.isComplete())) {
             return getFlowInlets().stream().mapToDouble(n -> n.getMass().getAsDouble()).sum();
         }
         return Double.NaN;
     }
     
     /**
-     * Get the total mass output from the component. Currently assumes that all mass values are present.
-     * @return Returns the total mass output.
+     * Get the total mass flow rate out from the component. Currently assumes that all mass values are present.
+     * @return The total mass flow rate out from the component. If any of the flow nodes are not complete then returns Double.NaN.
      */
     private double massOut() {
-        if (getFlowOutlets().stream().allMatch(n -> n.getMass().isPresent())) {
+        if (getFlowOutlets().stream().allMatch(n -> n.isComplete())) {
             return getFlowOutlets().stream().mapToDouble(n -> n.getMass().getAsDouble()).sum();
         }
         return Double.NaN;
     }
     
     /**
-     * Get the total work input to the component. Currently assumes that all work values are present.
-     * @return Returns the total work input.
+     * Get the total work input to the component.
+     * @return The total work input to the component. If any of the work nodes are not complete then returns Double.NaN.
      */
     protected double workIn() {
-        if (getWorkInlets().stream().allMatch(n -> n.getWork().isPresent())) {
+        if (getWorkInlets().stream().allMatch(n -> n.isComplete())) {
             return getWorkInlets().stream().mapToDouble(n -> n.getWork().getAsDouble()).sum();
         }
         return Double.NaN;
     }
     
     /**
-     * Get the total work output from the component. Currently assumes that all work values are present.
-     * @return Returns the total work output.
+     * Get the total work output from the component.
+     * @return The total work output from the component. If any of the work nodes are not complete then returns Double.NaN.
      */
     protected double workOut() {
-        if (getWorkOutlets().stream().allMatch(n -> n.getWork().isPresent())) {
+        if (getWorkOutlets().stream().allMatch(n -> n.isComplete())) {
             return getWorkOutlets().stream().mapToDouble(n -> n.getWork().getAsDouble()).sum();
         }
         return Double.NaN;
     }
     
     /**
-     * Creates a set of INTERNAL FlowNodes nodes that describe a the thermodynamic process between two states. The two properties are specified as varying linearly between the start and end states.
-     * @param start The FlowNode that defines the start of the thermodynamic process.
-     * @param end The FlowNode that defines the end of the thermodynamic process.
-     * @param x The first property
-     * @param y The second property
-     * @return Returns the list of FlowNode representing the thermodynamic process.
+     * Creates a set of internal flow nodes that describe a thermodynamic process between two states.
+     * Two properties are specified that are assumed to vary linearly between the start and end states.
+     * @param start The flow node that defines the start of the thermodynamic process.
+     * @param end The flow node that defines the end of the thermodynamic process.
+     * @param x The first property that varies linearly between the start and end states.
+     * @param y The second property that varies linearly between the start and ed states.
+     * @return A list of flow nodes representing the thermodynamic process.
      */
     protected final List<FlowNode> thermodynamicProcess(FlowNode start, FlowNode end, Property x, Property y) {
         List<FlowNode> process = new ArrayList();
@@ -417,18 +401,23 @@ public abstract class Component implements Attributes, Properties, Serializable 
             FlowNode node = new FlowNode(INTERNAL);
             node.setFluid(start.getFluid());
             process.add(node);
-            process.get(i).setMass(start.getMass());
-            process.get(i).setState(x, OptionalDouble.of(start.getState(x).getAsDouble() + (i * (end.getState(x).getAsDouble() - start.getState(x).getAsDouble()) / (Component.nIntStates-1))));
-            process.get(i).setState(y, OptionalDouble.of(start.getState(y).getAsDouble() + (i * (end.getState(y).getAsDouble() - start.getState(y).getAsDouble()) / (Component.nIntStates-1))));
+            process.get(i).setMass(start.getMass().getAsDouble());
+            process.get(i).setProperty(x, start.getState(x).getAsDouble() + (i * (end.getState(x).getAsDouble() - start.getState(x).getAsDouble()) / (Component.nIntStates-1)));
+            process.get(i).setProperty(y, start.getState(y).getAsDouble() + (i * (end.getState(y).getAsDouble() - start.getState(y).getAsDouble()) / (Component.nIntStates-1)));
         }
         return process;
     }
     
+    /**
+     * The exergy change due to a
+     * @param process
+     * @return The exergy change due to the heat transfer process.
+     */
     protected final double heatTransferProcessExergy(List<FlowNode> process) {
         double E = 0;
         for (int i=0; i<(process.size()-1); i++) {
             double dQ = (process.get(i+1).getMass().getAsDouble() * process.get(i+1).getState(ENTHALPY).getAsDouble()) - (process.get(i).getMass().getAsDouble() * (process.get(i).getState(ENTHALPY).getAsDouble()));
-            double fT = (1 - (2 * ambient.get(TEMPERATURE).getAsDouble() / (process.get(i).getState(TEMPERATURE).getAsDouble() + process.get(i+1).getState(TEMPERATURE).getAsDouble())));
+            double fT = (1 - (2 * ambient.getProperty(TEMPERATURE).getAsDouble() / (process.get(i).getState(TEMPERATURE).getAsDouble() + process.get(i+1).getState(TEMPERATURE).getAsDouble())));
             E = E + (fT * dQ);
         }
         return E;
@@ -438,11 +427,6 @@ public abstract class Component implements Attributes, Properties, Serializable 
     
     @Override
     public final String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(name + " (" + getClass().getSimpleName() + ")");
-        attributes.keySet().forEach(a -> {
-            sb.append(System.lineSeparator()).append(a.fullName).append(" :").append(attributes.get(a).isPresent() ? attributes.get(a).getAsDouble() + a.units : "Unknown");
-        });
-        return (sb.toString());
+        return (name + " (" + getClass().getSimpleName() + ")");
     }
 }

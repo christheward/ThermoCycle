@@ -37,9 +37,9 @@ public final class HeatExchanger extends Component {
         equations.add(new Pressure_Loss_Cold());
         equations.add(new Effectiveness());
         equations.add(new Ideal_Heat_Transfer());
-        createAttribute(EFFECTIVENESS);
-        createAttribute(AHEATTRANSFER);
-        createAttribute(IHEATTRANSFER);
+        attributes.add(EFFECTIVENESS);
+        attributes.add(AHEATTRANSFER);
+        attributes.add(IHEATTRANSFER);
     }
     
     /**
@@ -127,7 +127,7 @@ public final class HeatExchanger extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "m in": {
                     HeatExchanger.this.getInletHot().setMass(value);
@@ -177,7 +177,7 @@ public final class HeatExchanger extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "m in": {
                     HeatExchanger.this.getInletCold().setMass(value);
@@ -227,14 +227,14 @@ public final class HeatExchanger extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "p in": {
-                    HeatExchanger.this.getInletHot().setState(PRESSURE,value);
+                    HeatExchanger.this.getInletHot().setProperty(PRESSURE,value);
                     return HeatExchanger.this.getInletHot();
                 }
                 case "p out": {
-                    HeatExchanger.this.getOutletHot().setState(PRESSURE,value);
+                    HeatExchanger.this.getOutletHot().setProperty(PRESSURE,value);
                     return HeatExchanger.this.getOutletHot();
                 }
             }
@@ -277,14 +277,14 @@ public final class HeatExchanger extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "p in": {
-                    HeatExchanger.this.getInletCold().setState(PRESSURE,value);
+                    HeatExchanger.this.getInletCold().setProperty(PRESSURE,value);
                     return HeatExchanger.this.getInletCold();
                 }
                 case "p out": {
-                    HeatExchanger.this.getOutletCold().setState(PRESSURE,value);
+                    HeatExchanger.this.getOutletCold().setProperty(PRESSURE,value);
                     return HeatExchanger.this.getOutletCold();
                 }
             }
@@ -332,7 +332,7 @@ public final class HeatExchanger extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "e": {
                     HeatExchanger.this.setAttribute(EFFECTIVENESS,value);
@@ -396,18 +396,18 @@ public final class HeatExchanger extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "m": {
                     HeatExchanger.this.getInletHot().setMass(value);
                     return HeatExchanger.this.getInletHot();
                 }
                 case "h in": {
-                    HeatExchanger.this.getInletHot().setState(ENTHALPY, value);
+                    HeatExchanger.this.getInletHot().setProperty(ENTHALPY, value);
                     return HeatExchanger.this.getInletHot();
                 }
                 case "h out": {
-                    HeatExchanger.this.getOutletHot().setState(ENTHALPY, value);
+                    HeatExchanger.this.getOutletHot().setProperty(ENTHALPY, value);
                     return HeatExchanger.this.getOutletHot();
                 }
                 case "Q": {
@@ -465,18 +465,18 @@ public final class HeatExchanger extends Component {
         }
                 
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "m": {
                     HeatExchanger.this.setAttribute(AHEATTRANSFER, value);
                     return null;
                 }
                 case "h in": {
-                    HeatExchanger.this.getInletCold().setState(ENTHALPY, value);
+                    HeatExchanger.this.getInletCold().setProperty(ENTHALPY, value);
                     return HeatExchanger.this.getInletCold();
                 }
                 case "h out": {
-                    HeatExchanger.this.getOutletCold().setState(ENTHALPY, value);
+                    HeatExchanger.this.getOutletCold().setProperty(ENTHALPY, value);
                     return HeatExchanger.this.getOutletCold();
                 }
                 case "Q": {
@@ -524,15 +524,15 @@ public final class HeatExchanger extends Component {
             OptionalDouble Q_ideal_c2h = OptionalDouble.of(0.0);
             
             if (!variable.equals("T in cold") && !variable.equals("p out hot")) {
-                hotOutletMin.setState(TEMPERATURE, HeatExchanger.this.getInletCold().getState(TEMPERATURE));
-                hotOutletMin.setState(PRESSURE, HeatExchanger.this.getOutletHot().getState(PRESSURE));
+                hotOutletMin.setProperty(TEMPERATURE, HeatExchanger.this.getInletCold().getState(TEMPERATURE).getAsDouble());
+                hotOutletMin.setProperty(PRESSURE, HeatExchanger.this.getOutletHot().getState(PRESSURE).getAsDouble());
                 if (!variable.equals("h in hot") && !variable.equals("m hot")) {
                     Q_ideal_h2c = OptionalDouble.of(HeatExchanger.this.getInletHot().getMass().getAsDouble() * (HeatExchanger.this.getInletHot().getState(ENTHALPY).getAsDouble() - hotOutletMin.getState(ENTHALPY).getAsDouble()));
                 }
             }
             if (!variable.equals("T in hot") && !variable.equals("p out cold")) {
-                coldOutletMax.setState(TEMPERATURE, HeatExchanger.this.getInletHot().getState(TEMPERATURE));
-                coldOutletMax.setState(PRESSURE, HeatExchanger.this.getOutletCold().getState(PRESSURE));
+                coldOutletMax.setProperty(TEMPERATURE, HeatExchanger.this.getInletHot().getState(TEMPERATURE).getAsDouble());
+                coldOutletMax.setProperty(PRESSURE, HeatExchanger.this.getOutletCold().getState(PRESSURE).getAsDouble());
                 if (!variable.equals("h in cold") && !variable.equals("m cold")) {
                     Q_ideal_c2h = OptionalDouble.of(HeatExchanger.this.getInletCold().getMass().getAsDouble() * (coldOutletMax.getState(ENTHALPY).getAsDouble() - HeatExchanger.this.getInletCold().getState(ENTHALPY).getAsDouble()));
                 }
@@ -562,7 +562,7 @@ public final class HeatExchanger extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "Q ideal": {
                     HeatExchanger.this.setAttribute(IHEATTRANSFER, value);

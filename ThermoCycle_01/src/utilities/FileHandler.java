@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import thermocycle.Cycle;
 
 /**
  *
@@ -26,20 +27,22 @@ public class FileHandler {
     
     private FileHandler() {}
     
-    static public void write(Object object, File file) throws FileNotFoundException, IOException {
+    static public void write(Cycle model, File file) throws FileNotFoundException, IOException {
+        System.out.println("here");
         fostream = new FileOutputStream(file);
         oostream = new ObjectOutputStream(fostream);
-        oostream.writeObject(object);
+        model.writeObject(oostream);
+        System.out.println("here2");
         oostream.close();
-        
     }
     
-    static public Object read(File file) throws FileNotFoundException, IOException, ClassNotFoundException {
+    static public Cycle read(File file) throws FileNotFoundException, IOException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
         fistream = new FileInputStream(file);
         oistream = new ObjectInputStream(fistream);
-        Object object = oistream.readObject();
+        Cycle model = new Cycle("Loading");
+        model.readObject(oistream);
         oistream.close();
-        return object;
+        return model;
     }
     
 }

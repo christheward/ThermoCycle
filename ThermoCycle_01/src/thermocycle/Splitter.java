@@ -29,7 +29,7 @@ final class Splitter extends Component {
         flowNodes.add(new FlowNode(OUTLET));
         internals.add(new Connection(flowNodes.get(0),flowNodes.get(1)));
         internals.add(new Connection(flowNodes.get(0),flowNodes.get(2)));
-        createAttribute(SPLIT);
+        attributes.add(SPLIT);
     }
     
     /**
@@ -114,7 +114,7 @@ final class Splitter extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "m in": {
                     Splitter.this.getInlet().setMass(value);
@@ -171,7 +171,7 @@ final class Splitter extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "split": {
                     Splitter.this.setAttribute(SPLIT, value);
@@ -229,7 +229,7 @@ final class Splitter extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "split": {
                     Splitter.this.setAttribute(SPLIT, value);

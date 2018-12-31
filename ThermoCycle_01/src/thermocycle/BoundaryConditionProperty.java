@@ -5,7 +5,6 @@
  */
 package thermocycle;
 
-import java.util.OptionalDouble;
 import thermocycle.Properties.Property;
 
 /**
@@ -16,9 +15,9 @@ public class BoundaryConditionProperty extends BoundaryCondition {
     
     private final FlowNode node;
     private final Property property;
-    private final OptionalDouble value;
+    private final Double value;
 
-    public BoundaryConditionProperty(FlowNode node, Property property, OptionalDouble value) {
+    public BoundaryConditionProperty(FlowNode node, Property property, Double value) {
         this.node = node;
         this.property = property;
         this.value = value;
@@ -26,7 +25,7 @@ public class BoundaryConditionProperty extends BoundaryCondition {
 
     @Override
     public void execute() {
-        node.setState(property, value);
+        node.setProperty(property, value);
     }
 
     @Override
@@ -41,7 +40,7 @@ public class BoundaryConditionProperty extends BoundaryCondition {
     }
 
     @Override
-    public OptionalDouble value() {
+    public Double value() {
         return value;
     }
 

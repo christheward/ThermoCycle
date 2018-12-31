@@ -30,7 +30,7 @@ public final class Combustor extends Component {
         equations.add(new Mass_Balance());
         equations.add(new Energy_Balance());
         equations.add(new Pressure_Loss());
-        createAttribute(PLOSS);
+        attributes.add(PLOSS);
     }
     
     /**
@@ -76,7 +76,7 @@ public final class Combustor extends Component {
      * Mass balance across the combustor.
      */
     private class Mass_Balance extends Equation{
-        
+                
         /**
          * Constructor.
          */
@@ -107,7 +107,7 @@ public final class Combustor extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "m in": {
                     Combustor.this.getInlet().setMass(value);
@@ -166,7 +166,7 @@ public final class Combustor extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "Q": {
                     Combustor.this.getSupply().setHeat(value);
@@ -175,10 +175,10 @@ public final class Combustor extends Component {
                     Combustor.this.getInlet().setMass(value);
                     return Combustor.this.getInlet();}
                 case "h in": {
-                    Combustor.this.getInlet().setState(ENTHALPY,value);
+                    Combustor.this.getInlet().setProperty(ENTHALPY,value);
                     return Combustor.this.getInlet();}
                 case "h out": {
-                    Combustor.this.getOutlet().setState(ENTHALPY,value);
+                    Combustor.this.getOutlet().setProperty(ENTHALPY,value);
                     return Combustor.this.getOutlet();}
             }
             return null;
@@ -222,18 +222,18 @@ public final class Combustor extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "pr": {
                     Combustor.this.setAttribute(PLOSS, value);
                     return null;
                 }
                 case "p in": {
-                    Combustor.this.getInlet().setState(PRESSURE,value);
+                    Combustor.this.getInlet().setProperty(PRESSURE,value);
                     return Combustor.this.getInlet();
                 }
                 case "p out": {
-                    Combustor.this.getOutlet().setState(PRESSURE,value);
+                    Combustor.this.getOutlet().setProperty(PRESSURE,value);
                     return Combustor.this.getOutlet();
                 }
             }

@@ -43,8 +43,8 @@ public interface Properties {
          * @param min Minimum property value
          * @param max Maximum property value
          */
-        private Property(String name, String symbol, String units, double min, double max) {
-            fullName = name;
+        private Property(String fullname, String symbol, String units, double min, double max) {
+            this.fullName = fullname;
             this.symbol = symbol;
             this.units = units;
             this.max = max;

@@ -33,22 +33,28 @@ public abstract class Node extends Observable implements Serializable {
     }
     
     /**
-     * Clears the node's numerical values
+     * Clears the node's numerical values.
      */
     protected abstract void clear();
     
     /**
-     * Works out if the node is complete.
-     * @return Returns true if the node is complete.
+     * Checks if the node is complete.
+     * @return true if the node is complete, false otherwise.
      */
     protected abstract boolean isComplete();
     
     /**
      * Updates this node's properties to match those of the source node.
      * @param sourceNode The source node.
-     * @return Returns true if this node is updated.
+     * @return true if this node is updated.
      */
     protected abstract boolean update(Node sourceNode);
+    
+    /**
+     * Checks if the nodes mass, heat or work value is present.
+     * @return true if the value is present, false otherwise.
+     */
+    protected abstract boolean isPresent();
     
     @Override
     public String toString() {

@@ -5,7 +5,6 @@
  */
 package thermocycle;
 
-import java.util.OptionalDouble;
 import java.util.concurrent.ExecutionException;
 import static thermocycle.Properties.Property.*;
 import static thermocycle.Attributes.Attribute.*;
@@ -51,11 +50,11 @@ public class ThermoCycle implements Properties {
         gasTurb.setFluid(turb.getInlet(), air);
         
         //  set initial properties
-        turb.getInlet().setMass(OptionalDouble.of(1));
-        turb.getInlet().setState(PRESSURE, OptionalDouble.of(500000));
-        turb.getInlet().setState(TEMPERATURE, OptionalDouble.of(900));
-        turb.getOutlet().setState(PRESSURE, gasTurb.getAmbient(PRESSURE));
-        turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
+        turb.getInlet().setMass(1.0);
+        turb.getInlet().setProperty(PRESSURE, 500000.0);
+        turb.getInlet().setProperty(TEMPERATURE, 900.0);
+        turb.getOutlet().setProperty(PRESSURE, gasTurb.getAmbient(PRESSURE).getAsDouble());
+        turb.setAttribute(EFFICIENCY, 0.95);
         
         // solve
         gasTurb.solve();
@@ -73,16 +72,16 @@ public class ThermoCycle implements Properties {
         
         // create components
         Compressor comp = gasTurb.createCompressor("Compressor");
-        comp.setAttribute(PRATIO, OptionalDouble.of(5));
-        comp.setAttribute(EFFICIENCY, OptionalDouble.of(0.9));
+        comp.setAttribute(PRATIO, 5.0);
+        comp.setAttribute(EFFICIENCY, 0.9);
         
         // set fluid
         gasTurb.setFluid(comp.getInlet(), air);
         
         //  set initial properties
-        comp.getInlet().setMass(OptionalDouble.of(1));
-        comp.getInlet().setState(PRESSURE, gasTurb.getAmbient(PRESSURE));
-        comp.getInlet().setState(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE));
+        comp.getInlet().setMass(1.0);
+        comp.getInlet().setProperty(PRESSURE, gasTurb.getAmbient(PRESSURE).getAsDouble());
+        comp.getInlet().setProperty(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE).getAsDouble());
         
         // solve
         gasTurb.solve();
@@ -100,16 +99,16 @@ public class ThermoCycle implements Properties {
         
         // create components
         Combustor comb = gasTurb.createCombustor("Combustor");
-        comb.setAttribute(PLOSS, OptionalDouble.of(0.05));
+        comb.setAttribute(PLOSS, 0.05);
         
         // set fluid
         gasTurb.setFluid(comb.getInlet(), air);
         
         //  set initial properties
-        comb.getInlet().setMass(OptionalDouble.of(1));
-        comb.getInlet().setState(PRESSURE, gasTurb.getAmbient(PRESSURE));
-        comb.getInlet().setState(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE));
-        comb.getSupply().setHeat(OptionalDouble.of(2000));
+        comb.getInlet().setMass(1.0);
+        comb.getInlet().setProperty(PRESSURE, gasTurb.getAmbient(PRESSURE).getAsDouble());
+        comb.getInlet().setProperty(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE).getAsDouble());
+        comb.getSupply().setHeat(2000.0);
         
         // solve
         gasTurb.solve();
@@ -132,11 +131,11 @@ public class ThermoCycle implements Properties {
         gasTurb.setFluid(sink.getInlet(), air);
         
         //  set initial properties
-        sink.getInlet().setMass(OptionalDouble.of(1));
-        sink.getOutlet().setState(PRESSURE, gasTurb.getAmbient(PRESSURE));
-        sink.getOutlet().setState(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE));
-        sink.getInlet().setState(TEMPERATURE, OptionalDouble.of(500));
-        sink.setAttribute(PLOSS,OptionalDouble.of(0.05));
+        sink.getInlet().setMass(1.0);
+        sink.getOutlet().setProperty(PRESSURE, gasTurb.getAmbient(PRESSURE).getAsDouble());
+        sink.getOutlet().setProperty(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE).getAsDouble());
+        sink.getInlet().setProperty(TEMPERATURE, 500.0);
+        sink.setAttribute(PLOSS,0.05);
         
         // solve
         gasTurb.solve();
@@ -154,19 +153,19 @@ public class ThermoCycle implements Properties {
         
         // create components
         HeatExchanger whru = gasTurb.createHeatExchanger("WHRU");
-        whru.setAttribute(EFFECTIVENESS, OptionalDouble.of(0.95));
+        whru.setAttribute(EFFECTIVENESS, 0.95);
         
         // set fluid
         gasTurb.setFluid(whru.getInletHot(), air);
         gasTurb.setFluid(whru.getInletCold(), air);
         
         //  set initial properties
-        whru.getInletHot().setMass(OptionalDouble.of(1));
-        whru.getInletCold().setMass(OptionalDouble.of(1));
-        whru.getInletCold().setState(PRESSURE, gasTurb.getAmbient(PRESSURE));
-        whru.getInletCold().setState(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE));
-        whru.getInletHot().setState(TEMPERATURE, OptionalDouble.of(500));
-        whru.getInletHot().setState(PRESSURE, OptionalDouble.of(3e5));
+        whru.getInletHot().setMass(1.0);
+        whru.getInletCold().setMass(1.0);
+        whru.getInletCold().setProperty(PRESSURE, gasTurb.getAmbient(PRESSURE).getAsDouble());
+        whru.getInletCold().setProperty(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE).getAsDouble());
+        whru.getInletHot().setProperty(TEMPERATURE, 500.0);
+        whru.getInletHot().setProperty(PRESSURE, 3e5);
         
         // solve
         gasTurb.solve();
@@ -198,15 +197,15 @@ public class ThermoCycle implements Properties {
         gasTurb.setFluid(comp.getInlet(), air);
         
         //  set initial properties
-        comp.getInlet().setMass(OptionalDouble.of(1));
-        comp.setAttribute(PRATIO, OptionalDouble.of(5));
-        comp.setAttribute(EFFICIENCY, OptionalDouble.of(0.9));
-        comp.getInlet().setState(PRESSURE, gasTurb.getAmbient(PRESSURE));
-        comp.getInlet().setState(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE));
-        comb.getOutlet().setState(Property.TEMPERATURE, OptionalDouble.of(1300));
-        comb.setAttribute(PLOSS, OptionalDouble.of(0.05));
-        turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
-        sink.setAttribute(PLOSS, OptionalDouble.of(0.05));
+        comp.getInlet().setMass(1.0);
+        comp.setAttribute(PRATIO, 5.0);
+        comp.setAttribute(EFFICIENCY, 0.9);
+        comp.getInlet().setProperty(PRESSURE, gasTurb.getAmbient(PRESSURE).getAsDouble());
+        comp.getInlet().setProperty(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE).getAsDouble());
+        comb.getOutlet().setProperty(Property.TEMPERATURE, 1300.0);
+        comb.setAttribute(PLOSS, 0.05);
+        turb.setAttribute(EFFICIENCY, 0.95);
+        sink.setAttribute(PLOSS, 0.05);
                 
         // solve
         gasTurb.solve();
@@ -224,12 +223,12 @@ public class ThermoCycle implements Properties {
         
         // create components
         Compressor lp_comp = gasTurbCool.createCompressor("LP Compressor");
-        lp_comp.setAttribute(PRATIO, OptionalDouble.of(4));
-        lp_comp.setAttribute(EFFICIENCY, OptionalDouble.of(0.9));
+        lp_comp.setAttribute(PRATIO, 4.0);
+        lp_comp.setAttribute(EFFICIENCY, 0.9);
         HeatSink cool = gasTurbCool.createHeatSink("Inter Cooler");
         Compressor hp_comp = gasTurbCool.createCompressor("HP Compressor");
-        hp_comp.setAttribute(PRATIO, OptionalDouble.of(5));
-        hp_comp.setAttribute(EFFICIENCY, OptionalDouble.of(0.9));
+        hp_comp.setAttribute(PRATIO, 5.0);
+        hp_comp.setAttribute(EFFICIENCY, 0.9);
         Combustor comb = gasTurbCool.createCombustor("Combustor");
         Turbine turb = gasTurbCool.createTurbine("Turbine");
         HeatSink sink = gasTurbCool.createHeatSink("Heat Sink");
@@ -246,16 +245,16 @@ public class ThermoCycle implements Properties {
         gasTurbCool.setFluid(hp_comp.getInlet(), air);
         
         //  set initial properties
-        lp_comp.getInlet().setMass(OptionalDouble.of(1));
-        lp_comp.getInlet().setState(PRESSURE, gasTurbCool.getAmbient(PRESSURE));
-        lp_comp.getInlet().setState(TEMPERATURE, gasTurbCool.getAmbient(TEMPERATURE));
+        lp_comp.getInlet().setMass(1.0);
+        lp_comp.getInlet().setProperty(PRESSURE, gasTurbCool.getAmbient(PRESSURE).getAsDouble());
+        lp_comp.getInlet().setProperty(TEMPERATURE, gasTurbCool.getAmbient(TEMPERATURE).getAsDouble());
         
-        comb.getOutlet().setState(Property.TEMPERATURE, OptionalDouble.of(1300));
-        cool.getOutlet().setState(Property.TEMPERATURE, OptionalDouble.of(350));        
-        comb.setAttribute(PLOSS, OptionalDouble.of(0.05));
-        turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
-        cool.setAttribute(PLOSS, OptionalDouble.of(0.05));
-        sink.setAttribute(PLOSS, OptionalDouble.of(0.05));
+        comb.getOutlet().setProperty(Property.TEMPERATURE, 1300.0);
+        cool.getOutlet().setProperty(Property.TEMPERATURE, 350.0);
+        comb.setAttribute(PLOSS, 0.05);
+        turb.setAttribute(EFFICIENCY, 0.95);
+        cool.setAttribute(PLOSS, 0.05);
+        sink.setAttribute(PLOSS, 0.05);
         
         // solve
         gasTurbCool.solve();
@@ -273,8 +272,8 @@ public class ThermoCycle implements Properties {
         
         // create components
         Compressor comp = gasTurbHeat.createCompressor("Compressor");
-        comp.setAttribute(PRATIO, OptionalDouble.of(20));
-        comp.setAttribute(EFFICIENCY, OptionalDouble.of(0.9));
+        comp.setAttribute(PRATIO, 20.0);
+        comp.setAttribute(EFFICIENCY, 0.9);
         Combustor comb = gasTurbHeat.createCombustor("Combustor");
         Combustor reheat = gasTurbHeat.createCombustor("Reheat");
         Turbine hp_turb = gasTurbHeat.createTurbine("HP Turbine");
@@ -293,18 +292,18 @@ public class ThermoCycle implements Properties {
         gasTurbHeat.setFluid(comp.getInlet(), air);
         
         //  set initial properties
-        comp.getInlet().setMass(OptionalDouble.of(1));
-        comp.getInlet().setState(PRESSURE, gasTurbHeat.getAmbient(PRESSURE));
-        comp.getInlet().setState(TEMPERATURE, gasTurbHeat.getAmbient(TEMPERATURE));
+        comp.getInlet().setMass(1.0);
+        comp.getInlet().setProperty(PRESSURE, gasTurbHeat.getAmbient(PRESSURE).getAsDouble());
+        comp.getInlet().setProperty(TEMPERATURE, gasTurbHeat.getAmbient(TEMPERATURE).getAsDouble());
         
-        comb.getOutlet().setState(Property.TEMPERATURE, OptionalDouble.of(1300));
-        reheat.getOutlet().setState(TEMPERATURE, OptionalDouble.of(1300));
-        hp_turb.getOutlet().setState(Property.PRESSURE, OptionalDouble.of(gasTurbHeat.getAmbient(Properties.Property.PRESSURE).getAsDouble()*5));
-        comb.setAttribute(PLOSS, OptionalDouble.of(0.05));
-        reheat.setAttribute(PLOSS, OptionalDouble.of(0.05));
-        lp_turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
-        hp_turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
-        sink.setAttribute(PLOSS, OptionalDouble.of(0.05));
+        comb.getOutlet().setProperty(Property.TEMPERATURE, 1300.0);
+        reheat.getOutlet().setProperty(TEMPERATURE, 1300.0);
+        hp_turb.getOutlet().setProperty(Property.PRESSURE, gasTurbHeat.getAmbient(Properties.Property.PRESSURE).getAsDouble()*5.0);
+        comb.setAttribute(PLOSS, 0.05);
+        reheat.setAttribute(PLOSS, 0.05);
+        lp_turb.setAttribute(EFFICIENCY, 0.95);
+        hp_turb.setAttribute(EFFICIENCY, 0.95);
+        sink.setAttribute(PLOSS, 0.05);
                 
         // solve
         gasTurbHeat.solve();
@@ -323,10 +322,10 @@ public class ThermoCycle implements Properties {
         // create components
         Compressor lp_comp = gasTurb.createCompressor("LP Compressor");
         Compressor hp_comp = gasTurb.createCompressor("HP Compressor");
-        lp_comp.setAttribute(PRATIO, OptionalDouble.of(5));
-        lp_comp.setAttribute(EFFICIENCY, OptionalDouble.of(0.9));
-        hp_comp.setAttribute(PRATIO, OptionalDouble.of(4));
-        hp_comp.setAttribute(EFFICIENCY, OptionalDouble.of(0.9));
+        lp_comp.setAttribute(PRATIO, 5.0);
+        lp_comp.setAttribute(EFFICIENCY, 0.9);
+        hp_comp.setAttribute(PRATIO, 4.0);
+        hp_comp.setAttribute(EFFICIENCY, 0.9);
         HeatSink cool = gasTurb.createHeatSink("Intercooler");
         Combustor comb = gasTurb.createCombustor("Combustor");
         Combustor reheat = gasTurb.createCombustor("Reheat");
@@ -348,19 +347,19 @@ public class ThermoCycle implements Properties {
         gasTurb.setFluid(lp_comp.getInlet(), air);
         
         //  set initial properties
-        lp_comp.getInlet().setMass(OptionalDouble.of(1));
-        lp_comp.getInlet().setState(PRESSURE, gasTurb.getAmbient(PRESSURE));
-        lp_comp.getInlet().setState(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE));
-        cool.getOutlet().setState(TEMPERATURE, OptionalDouble.of(350));
-        comb.getOutlet().setState(TEMPERATURE, OptionalDouble.of(1300));
-        hp_turb.getOutlet().setState(PRESSURE, OptionalDouble.of(gasTurb.getAmbient(PRESSURE).getAsDouble()*5));
-        reheat.getOutlet().setState(TEMPERATURE, OptionalDouble.of(1300));
-        comb.setAttribute(PLOSS, OptionalDouble.of(0.05));
-        reheat.setAttribute(PLOSS, OptionalDouble.of(0.05));
-        lp_turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
-        hp_turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
-        sink.setAttribute(PLOSS, OptionalDouble.of(0.05));
-        cool.setAttribute(PLOSS, OptionalDouble.of(0.05));
+        lp_comp.getInlet().setMass(1.0);
+        lp_comp.getInlet().setProperty(PRESSURE, gasTurb.getAmbient(PRESSURE).getAsDouble());
+        lp_comp.getInlet().setProperty(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE).getAsDouble());
+        cool.getOutlet().setProperty(TEMPERATURE, 350.0);
+        comb.getOutlet().setProperty(TEMPERATURE, 1300.0);
+        hp_turb.getOutlet().setProperty(PRESSURE, gasTurb.getAmbient(PRESSURE).getAsDouble()*5.0);
+        reheat.getOutlet().setProperty(TEMPERATURE, 1300.0);
+        comb.setAttribute(PLOSS, 0.05);
+        reheat.setAttribute(PLOSS, 0.05);
+        lp_turb.setAttribute(EFFICIENCY, 0.95);
+        hp_turb.setAttribute(EFFICIENCY, 0.95);
+        sink.setAttribute(PLOSS, 0.05);
+        cool.setAttribute(PLOSS, 0.05);
         
         // solve
         gasTurb.solve();
@@ -382,7 +381,7 @@ public class ThermoCycle implements Properties {
         Turbine turb = gasTurb.createTurbine("Turbine");
         HeatSink sink = gasTurb.createHeatSink("Heat Sink");
         HeatExchanger whru = gasTurb.createHeatExchanger("WHRU");
-        whru.setAttribute(EFFECTIVENESS, OptionalDouble.of(0.95));
+        whru.setAttribute(EFFECTIVENESS, 0.95);
         
         // create connections
         gasTurb.createConnection(comp.getOutlet(), whru.getInletCold());
@@ -396,16 +395,16 @@ public class ThermoCycle implements Properties {
         gasTurb.setFluid(comp.getInlet(), air);
         
         //  set initial properties
-        comp.getInlet().setMass(OptionalDouble.of(1));
-        comp.getInlet().setState(PRESSURE, gasTurb.getAmbient(PRESSURE));
-        comp.getInlet().setState(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE));
-        comb.getOutlet().setState(Property.TEMPERATURE, OptionalDouble.of(1300));
-        turb.getOutlet().setState(Property.PRESSURE, gasTurb.getAmbient(Properties.Property.PRESSURE));
-        turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
-        comp.setAttribute(PRATIO, OptionalDouble.of(10));
-        comp.setAttribute(EFFICIENCY, OptionalDouble.of(0.9));
-        comb.setAttribute(PLOSS, OptionalDouble.of(0.05));
-        sink.setAttribute(PLOSS, OptionalDouble.of(0.0));
+        comp.getInlet().setMass(1.0);
+        comp.getInlet().setProperty(PRESSURE, gasTurb.getAmbient(PRESSURE).getAsDouble());
+        comp.getInlet().setProperty(TEMPERATURE, gasTurb.getAmbient(TEMPERATURE).getAsDouble());
+        comb.getOutlet().setProperty(Property.TEMPERATURE, 1300.0);
+        turb.getOutlet().setProperty(Property.PRESSURE, gasTurb.getAmbient(Properties.Property.PRESSURE).getAsDouble());
+        turb.setAttribute(EFFICIENCY, 0.95);
+        comp.setAttribute(PRATIO, 10.0);
+        comp.setAttribute(EFFICIENCY, 0.9);
+        comb.setAttribute(PLOSS, 0.05);
+        sink.setAttribute(PLOSS, 0.0);
         
         // solve
         gasTurb.solve();
@@ -437,17 +436,17 @@ public class ThermoCycle implements Properties {
         refridge.setFluid(comp.getInlet(), air);
         
         //  set initial properties
-        comp.getInlet().setMass(OptionalDouble.of(1));
-        comp.getInlet().setState(PRESSURE, refridge.getAmbient(PRESSURE));
-        comp.getInlet().setState(TEMPERATURE, OptionalDouble.of(253.0));
+        comp.getInlet().setMass(1.0);
+        comp.getInlet().setProperty(PRESSURE, refridge.getAmbient(PRESSURE).getAsDouble());
+        comp.getInlet().setProperty(TEMPERATURE, 253.0);
         
-        sink.getOutlet().setState(TEMPERATURE, OptionalDouble.of(257.0));
+        sink.getOutlet().setProperty(TEMPERATURE, 257.0);
         
-        turb.setAttribute(EFFICIENCY, OptionalDouble.of(0.95));
-        comp.setAttribute(PRATIO, OptionalDouble.of(10));
-        comp.setAttribute(EFFICIENCY, OptionalDouble.of(0.9));
-        comb.setAttribute(PLOSS, OptionalDouble.of(0.0));
-        sink.setAttribute(PLOSS, OptionalDouble.of(0.0));
+        turb.setAttribute(EFFICIENCY, 0.95);
+        comp.setAttribute(PRATIO, 10.0);
+        comp.setAttribute(EFFICIENCY, 0.9);
+        comb.setAttribute(PLOSS, 0.0);
+        sink.setAttribute(PLOSS, 0.0);
         
         // solve
         refridge.solve();

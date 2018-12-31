@@ -33,21 +33,16 @@ abstract class Equation implements Serializable {
     private static double tolerance = 1e-5;
     
     /**
-     * Checks to see if two the calculated value is equal to the known value to within the tolerance.
+     * Checks if two the calculated value is equal to the known value to within the tolerance.
      * @param knownValue The known value.
      * @param calculatedValue The calculated value.
-     * @return Returns True if the two values are equal to within the tolerance.
+     * @return true if the two values are equal to within the tolerance.
      */
-    protected static boolean withinTolerance(OptionalDouble knownValue, OptionalDouble calculatedValue) {
-        if (knownValue.isPresent() & calculatedValue.isPresent()) {
-            if (knownValue.getAsDouble() == 0) {
-                return (calculatedValue.getAsDouble() == 0);
+    protected static final boolean withinTolerance(Double knownValue, Double calculatedValue) {
+            if (knownValue == 0.0) {
+                return (calculatedValue == 0);
             }
-            else {
-                return (Math.abs((knownValue.getAsDouble() - calculatedValue.getAsDouble())/knownValue.getAsDouble()) < tolerance);
-            }
-        }
-        return false;
+            return (Math.abs((knownValue - calculatedValue)/knownValue) < tolerance);
     }
     
     /**
@@ -58,15 +53,15 @@ abstract class Equation implements Serializable {
     }
     
     /**
-     * Gets a map of all the equation variables.
-     * @return Returns a map of the equation variables, which uses variable names as the keys.
+     * Gets a map of all the equation variables and their values.
+     * @return A map of the equation variables, which uses variable names as the keys.
      */
     protected abstract Map<String, OptionalDouble> getVariables();
     
     /**
-     * Tries to solves the equation for a particular variable.
+     * Tries to solve the equation for a particular variable.
      * @param varaible The variable to try and solve for.
-     * @return Returns the variable value.
+     * @return The variable value.
      */
     protected abstract OptionalDouble solveVariable(String varaible);
     
@@ -76,7 +71,7 @@ abstract class Equation implements Serializable {
      * @param value
      * @return 
      */
-    protected abstract Node saveVariable(String variable, OptionalDouble value);
+    protected abstract Node saveVariable(String variable, Double value);
     
     /**
      * Gets the equation compatibility.
@@ -101,7 +96,7 @@ abstract class Equation implements Serializable {
     private boolean compatible() {
         if (unknowns().size() == 0) {
             Map<String,OptionalDouble> variables = getVariables();
-            return variables.keySet().stream().filter(name -> solveVariable(name).isPresent()).allMatch(name -> Equation.withinTolerance(variables.get(name), solveVariable(name)));
+            return variables.keySet().stream().filter(name -> solveVariable(name).isPresent()).allMatch(name -> Equation.withinTolerance(variables.get(name).getAsDouble(), solveVariable(name).getAsDouble()));
         }
         return false;
     }
@@ -126,7 +121,7 @@ abstract class Equation implements Serializable {
             // if 1 unknown solve for single unknown
             case 1: {
                 logger.info("Solving " + this.getClass().getSimpleName() + " for " + unknowns().get(0));
-                return saveVariable(unknowns().get(0), solveVariable(unknowns().get(0)));
+                return saveVariable(unknowns().get(0), solveVariable(unknowns().get(0)).getAsDouble());
             }
             // if more than one unknown do nothing.
             default: {

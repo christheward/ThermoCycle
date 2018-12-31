@@ -7,14 +7,7 @@ package gui;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.nio.charset.Charset;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,9 +17,7 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import org.apache.commons.io.FileUtils;
 import utilities.FileHandler;
-import utilities.GsonHandler;
 
 /**
  *
@@ -112,19 +103,10 @@ public class MenubarController extends MenuBar {
             public void handle(Event event) {
                 fileChooser.setTitle("Open Model File");
                 file = fileChooser.showOpenDialog(fileBrowserDialogue);
-                /**
-                String json;
                 try {
-                    json = FileUtils.readFileToString(file, Charset.defaultCharset());
-                }
-                catch (IOException ex) {
-                    json = "";
-                    Logger.getLogger(MenubarController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                master.setModel(GsonHandler.gsonCanvas.fromJson(json,thermocycle.Cycle.class));
-                */
-                try {
-                master.setModel((thermocycle.Cycle)FileHandler.read(file));
+                    System.out.println(FileHandler.read(file).componentsReadOnly.size());
+                    master.setModel(FileHandler.read(file));
+                    //master.canvas.buildFromModel();
                 }
                 catch (FileNotFoundException ex) {
                     // DO something
@@ -135,7 +117,12 @@ public class MenubarController extends MenuBar {
                 catch (IOException ex) {
                     // Do something
                 }
-                master.canvas.buildFromModel();
+                catch (NoSuchFieldException ex) {
+                    // Do something
+                }
+                catch (IllegalAccessException ex) {
+                    // Do something
+                }
                 event.consume();
             }
         });
@@ -146,19 +133,10 @@ public class MenubarController extends MenuBar {
                     fileChooser.setTitle("Save Model File");
                     file = fileChooser.showSaveDialog(fileBrowserDialogue);
                 }
-                 /**
-                 * try (FileWriter writer = new FileWriter(file)) {
-                 * //writer.write(master.canvas.getJson());
-                 * writer.write(GsonHandler.gsonModel.toJson(master.getModel()));
-                 * }
-                 * catch (IOException ex) {
-                 * //Logger.getLogger(MenubarController.class.getName()).log(Level.SEVERE, null, ex);
-                 * }
-                 */
                 try {
                     FileHandler.write(master.getModel(), file);
                 } catch (IOException ex) {
-                    Logger.getLogger(MenubarController.class.getName()).log(Level.SEVERE, null, ex);
+                    // Do something
                 }
                 event.consume();
             }
@@ -169,11 +147,10 @@ public class MenubarController extends MenuBar {
                 fileChooser.setTitle("Save Model File");
                 fileChooser.setInitialFileName(master.getModel().getName());
                 file = fileChooser.showOpenDialog(fileBrowserDialogue);
-                try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(file))) {
-                    os.writeObject(master.getModel());
-                }
-                catch(IOException e) {
-                    System.err.println("I/O error. " + e.getMessage());
+                try {
+                    FileHandler.write(master.getModel(), file);
+                } catch (IOException ex) {
+                    // Do something
                 }
                 event.consume();
             }

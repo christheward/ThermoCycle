@@ -30,7 +30,7 @@ public final class HeatSink extends Component {
         equations.add(new Mass_Balance());
         equations.add(new Energy_Balance());
         equations.add(new Pressure_Loss());
-        createAttribute(PLOSS);
+        attributes.add(PLOSS);
     }
     
     /**
@@ -109,7 +109,7 @@ public final class HeatSink extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "m in": {
                     HeatSink.this.getInlet().setMass(value);
@@ -171,7 +171,7 @@ public final class HeatSink extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "Q": {
                     HeatSink.this.getSink().setHeat(value);
@@ -182,11 +182,11 @@ public final class HeatSink extends Component {
                     return HeatSink.this.getInlet();
                 }
                 case "h in": {
-                    HeatSink.this.getInlet().setState(ENTHALPY,value);
+                    HeatSink.this.getInlet().setProperty(ENTHALPY,value);
                     return HeatSink.this.getInlet();
                 }
                 case "h out": {
-                    HeatSink.this.getOutlet().setState(ENTHALPY,value);
+                    HeatSink.this.getOutlet().setProperty(ENTHALPY,value);
                     return HeatSink.this.getOutlet();
                 }
             }
@@ -234,18 +234,18 @@ public final class HeatSink extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "pr": {
                     HeatSink.this.setAttribute(PLOSS, value);
                     return null;
                 }
                 case "p in": {
-                    HeatSink.this.getInlet().setState(PRESSURE,value);
+                    HeatSink.this.getInlet().setProperty(PRESSURE,value);
                     return HeatSink.this.getInlet();
                 }
                 case "p out": {
-                    HeatSink.this.getOutlet().setState(PRESSURE,value);
+                    HeatSink.this.getOutlet().setProperty(PRESSURE,value);
                     return HeatSink.this.getOutlet();
                 }
             }

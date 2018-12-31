@@ -5,8 +5,6 @@
  */
 package thermocycle;
 
-import java.util.OptionalDouble;
-
 /**
  *
  * @author Chris Ward
@@ -14,9 +12,9 @@ import java.util.OptionalDouble;
 public class BoundaryConditionHeat extends BoundaryCondition {
 
     protected final HeatNode node;
-    protected final OptionalDouble value;
+    protected final Double value;
 
-    public BoundaryConditionHeat(HeatNode node, OptionalDouble value) {
+    public BoundaryConditionHeat(HeatNode node, Double value) {
         this.node = node;
         this.value = value;
     }
@@ -37,7 +35,7 @@ public class BoundaryConditionHeat extends BoundaryCondition {
     }
 
     @Override
-    public OptionalDouble value() {
+    public Double value() {
         return value;
     }
     

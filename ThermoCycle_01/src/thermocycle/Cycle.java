@@ -5,8 +5,6 @@
  */
 package thermocycle;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -14,9 +12,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.text.*;
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -43,7 +41,6 @@ public class Cycle extends Observable implements Properties, Serializable {
     
     // variables
     private String name;
-    private Integer iteration;
     private final State ambient;
     private final ObservableList<Connection> connections;
     private final ObservableList<Component> components;
@@ -72,8 +69,8 @@ public class Cycle extends Observable implements Properties, Serializable {
         componentsReadOnly = FXCollections.unmodifiableObservableList(components);
         fluidsReadOnly = FXCollections.unmodifiableObservableList(fluids);
         pathsReadOnly = FXCollections.unmodifiableObservableList(paths);
-        ambient.put(PRESSURE, OptionalDouble.of(101325.0));
-        ambient.put(TEMPERATURE, OptionalDouble.of(300.0));
+        ambient.setProperty(PRESSURE, 101325.0);
+        ambient.setProperty(TEMPERATURE, 300.0);
         boundaryConditions = new ArrayDeque();
         
         // Add  default fluid - find a better wt to to this later.
@@ -87,7 +84,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @return Returns the ambient state property value.
      */
     public OptionalDouble getAmbient(Property property) {
-        return ambient.get(property);
+        return ambient.getProperty(property);
     }
     
     /**
@@ -204,11 +201,11 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     */
     public OptionalDouble getWorkBoundaryCondition(WorkNode node) {
-        BoundaryCondition match = boundaryConditions.stream().filter(bc -> bc.match(new BoundaryConditionWork(node, OptionalDouble.empty()))).collect(singletonCollector());
+        BoundaryCondition match = boundaryConditions.stream().filter(bc -> bc.match(new BoundaryConditionWork(node, 0.0))).collect(singletonCollector());
         if (match == null) {
             return OptionalDouble.empty();
         }
-        return match.value();
+        return OptionalDouble.of(match.value());
     }
     
     /**
@@ -222,11 +219,11 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     */
     public OptionalDouble getHeatBoundaryCondition(HeatNode node) {
-        BoundaryCondition match = boundaryConditions.stream().filter(bc -> bc.match(new BoundaryConditionHeat(node, OptionalDouble.empty()))).collect(singletonCollector());
+        BoundaryCondition match = boundaryConditions.stream().filter(bc -> bc.match(new BoundaryConditionHeat(node, 0.0))).collect(singletonCollector());
         if (match == null) {
             return OptionalDouble.empty();
         }
-        return match.value();
+        return OptionalDouble.of(match.value());
     }
     
     /**
@@ -240,11 +237,11 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     */
     public OptionalDouble getMassBoundaryCondition(FlowNode node) {
-        BoundaryCondition match = boundaryConditions.stream().filter(bc -> bc.match(new BoundaryConditionMass(node, OptionalDouble.empty()))).collect(singletonCollector());
+        BoundaryCondition match = boundaryConditions.stream().filter(bc -> bc.match(new BoundaryConditionMass(node, 0.0))).collect(singletonCollector());
         if (match == null) {
             return OptionalDouble.empty();
         }
-        return match.value();
+        return OptionalDouble.of(match.value());
     }
     
     /**
@@ -257,11 +254,11 @@ public class Cycle extends Observable implements Properties, Serializable {
         return node.getState(property);
     }
     public OptionalDouble getPropertyBoundaryCondition(FlowNode node, Property property) {
-        BoundaryCondition match = boundaryConditions.stream().filter(bc -> bc.match(new BoundaryConditionProperty(node, property, OptionalDouble.empty()))).collect(singletonCollector());
+        BoundaryCondition match = boundaryConditions.stream().filter(bc -> bc.match(new BoundaryConditionProperty(node, property, 0.0))).collect(singletonCollector());
         if (match == null) {
             return OptionalDouble.empty();
         }
-        return match.value();
+        return OptionalDouble.of(match.value());
     }
     
     /**
@@ -276,11 +273,11 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     */
     public OptionalDouble getAttributeBoundaryCondition(Component component, Attribute attribute) {
-        BoundaryCondition match = boundaryConditions.stream().filter(bc -> bc.match(new BoundaryConditionAttribute(component, attribute, OptionalDouble.empty()))).collect(singletonCollector());
+        BoundaryCondition match = boundaryConditions.stream().filter(bc -> bc.match(new BoundaryConditionAttribute(component, attribute, 0.0))).collect(singletonCollector());
         if (match == null) {
             return OptionalDouble.empty();
         }
-        return match.value();
+        return OptionalDouble.of(match.value());
     }
     
     /**
@@ -304,8 +301,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param node The node to clear a property from.
      * @param property The property to clear.
      */
-    public void clearState(FlowNode node, Property property) {
-        node.clearState(property);
+    public void clearProperty(FlowNode node, Property property) {
+        node.clearProperty(property);
     }
     
     /**
@@ -342,7 +339,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @return A set of allowable properties
      */
     public Set<Property> getAllowableProperties(Fluid fluid) {
-        return fluid.fluidState();
+        return fluid.getAllowableProperties();
     }
     
     /**
@@ -360,8 +357,8 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param temperature  The ambient temperature
      */
     public void setAmbient(double pressure, double temperature) {
-        ambient.put(PRESSURE, OptionalDouble.of(pressure));
-        ambient.put(TEMPERATURE, OptionalDouble.of(temperature));
+        ambient.setProperty(PRESSURE, pressure);
+        ambient.setProperty(TEMPERATURE, temperature);
     }
     
     /**
@@ -371,7 +368,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      */
     public void setAmbient(Property property, double value) {
         if (property.equals(Properties.Property.PRESSURE) || property.equals(Properties.Property.TEMPERATURE)) {
-            ambient.put(property, OptionalDouble.of(value));
+            ambient.setProperty(property, value);
         }
         else {
             logger.warn("Cannot set ambient " + property.toString() + ". Ignoring command.");
@@ -423,7 +420,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param value The work value.
      */
     public void setWork(WorkNode node, double value) {
-        boundaryConditions.add(new BoundaryConditionWork(node, OptionalDouble.of(value)));
+        boundaryConditions.add(new BoundaryConditionWork(node, value));
     }
 
     /**
@@ -432,7 +429,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param value The heat value.
      */
     public void setHeat(HeatNode node, double value) {
-        boundaryConditions.add(new BoundaryConditionHeat(node, OptionalDouble.of(value)));
+        boundaryConditions.add(new BoundaryConditionHeat(node, value));
     }
     
     /**
@@ -441,7 +438,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param value The mass value.
      */
     public void setMass(FlowNode node, double value) {
-        boundaryConditions.add(new BoundaryConditionMass(node, OptionalDouble.of(value)));
+        boundaryConditions.add(new BoundaryConditionMass(node, value));
     }
     
     /**
@@ -451,7 +448,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param value The property value.
      */
     public void setState(FlowNode node, Property property, double value) {
-        boundaryConditions.add(new BoundaryConditionProperty(node, property, OptionalDouble.of(value)));
+        boundaryConditions.add(new BoundaryConditionProperty(node, property, value));
     }
     
     /**
@@ -461,7 +458,7 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param value The value to set thee component attribute to.
      */
     public void setAttribute(Component component, Attribute attribute, double value) {
-        boundaryConditions.add(new BoundaryConditionAttribute(component, attribute, OptionalDouble.of(value)));
+        boundaryConditions.add(new BoundaryConditionAttribute(component, attribute, value));
         logger.info(component + " " + attribute + " set to " + value);
     }
     
@@ -524,19 +521,19 @@ public class Cycle extends Observable implements Properties, Serializable {
      * @param bc 
      */
     public void removeBoundaryCondition(HeatNode node) {
-        boundaryConditions.removeIf(bc -> bc.match(new BoundaryConditionHeat(node, OptionalDouble.empty()))); 
+        boundaryConditions.removeIf(bc -> bc.match(new BoundaryConditionHeat(node, 0.0))); 
     }
     public void removeBoundaryCondition(WorkNode node) {
-        boundaryConditions.removeIf(bc -> bc.match(new BoundaryConditionWork(node, OptionalDouble.empty()))); 
+        boundaryConditions.removeIf(bc -> bc.match(new BoundaryConditionWork(node, 0.0))); 
     }
     public void removeBoundaryCondition(FlowNode node) {
-        boundaryConditions.removeIf(bc -> bc.match(new BoundaryConditionMass(node, OptionalDouble.empty()))); 
+        boundaryConditions.removeIf(bc -> bc.match(new BoundaryConditionMass(node, 0.0))); 
     }
     public void removeBoundaryCondition(FlowNode node, Property property) {
-        boundaryConditions.removeIf(bc -> bc.match(new BoundaryConditionProperty(node, property, OptionalDouble.empty()))); 
+        boundaryConditions.removeIf(bc -> bc.match(new BoundaryConditionProperty(node, property, 0.0))); 
     }
     public void removeBoundaryCondition(Component component, Attribute attribute) {
-        boundaryConditions.removeIf(bc -> bc.match(new BoundaryConditionAttribute(component, attribute, OptionalDouble.empty()))); 
+        boundaryConditions.removeIf(bc -> bc.match(new BoundaryConditionAttribute(component, attribute, 0.0))); 
     }
     
     /**
@@ -723,8 +720,8 @@ public class Cycle extends Observable implements Properties, Serializable {
         Map variables = new HashMap<String, OptionalDouble>();
         
         // Ambient state values
-        variables.put("Ambient pressure", ambient.get(PRESSURE));
-        variables.put("Ambient temperature", ambient.get(TEMPERATURE));
+        variables.put("Ambient pressure", ambient.getProperty(PRESSURE));
+        variables.put("Ambient temperature", ambient.getProperty(TEMPERATURE));
         
         // Loop over all componanets
         this.components.stream().forEach(c -> {
@@ -733,7 +730,7 @@ public class Cycle extends Observable implements Properties, Serializable {
                 // Get mass flow rates
                 variables.put(c.name + "Mass" + c.flowNodes.indexOf(n), n.getMass());
                 // Get state properties
-                n.getFluid().fluidState().stream().forEach(s -> {
+                n.getFluid().getAllowableProperties().stream().forEach(s -> {
                     variables.put(c.name + s.name() + c.flowNodes.indexOf(n), n.getState(s));    // Need to make sure component name is unique
                 });
             });
@@ -748,9 +745,9 @@ public class Cycle extends Observable implements Properties, Serializable {
                 variables.put(c.name + "Work" + c.workNodes.indexOf(n), n.getWork());
             });
             // Loop over component attributes
-            c.attributes.keySet().stream().forEach(a -> {
+            c.condition.keySet().stream().forEach(a -> {
                 // Get attribute values
-                variables.put(c.name + a.name(), c.attributes.get(a));
+                variables.put(c.name + a.name(), c.condition.get(a));
             });
         });
         return variables;
@@ -782,7 +779,7 @@ public class Cycle extends Observable implements Properties, Serializable {
             Set<Component> unsolved = new HashSet<>(components);                                           // update all connections (updates nodes across components)
             Set<Node> updatedNodes = new HashSet<>();
             // Loop until converged or max itterations reached
-            iteration = 0;
+            Integer iteration = 0;
             do {
                 updatedNodes.clear();
                 iteration++;
@@ -939,4 +936,43 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     **/
     
+    public void writeObject(ObjectOutputStream stream) throws IOException {
+        
+        logger.info("Saving model.");
+        stream.writeObject(name);
+        stream.writeObject(ambient);
+        logger.info("Saving components.");
+        stream.writeObject(new ArrayList(components));
+        logger.info("Saving connections.");
+        stream.writeObject(new ArrayList(connections));
+        logger.info("Saving fluids.");
+        stream.writeObject(new ArrayList(fluids));
+        logger.info("Saving paths.");
+        stream.writeObject(new HashSet(paths));
+        logger.info("Saving boundary conditions.");
+        stream.writeObject(boundaryConditions);
+        logger.info("Savign compelte..");
+    }
+    
+    public void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        
+        logger.info("Loading model.");
+        Class c = Cycle.class;
+        Field ambientField = c.getDeclaredField("ambient");
+        name = (String)stream.readObject();
+        ambientField.setAccessible(true);
+        ambientField.set(this, (State)stream.readObject());
+        logger.info("Loading components.");
+        components.addAll((List<Component>)stream.readObject());
+        logger.info("Loading connections.");
+        connections.addAll((List<Connection>)stream.readObject());
+        logger.info("Loading fluids.");
+        fluids.addAll((List<Fluid>)stream.readObject());
+        logger.info("Loading paths.");
+        paths.addAll((Set<FlowNode>)stream.readObject());
+        logger.info("Loading boundary conditions.");
+        boundaryConditions.addAll((ArrayDeque<BoundaryCondition>)stream.readObject());
+        logger.info("Loading complete.");
+        
+    }
 }

@@ -16,7 +16,7 @@ public final class WorkNode extends Node {
     /**
      * The node work value.
      */
-    private OptionalDouble work;
+    private Double work;
     
     /**
      * Constructor.
@@ -24,21 +24,25 @@ public final class WorkNode extends Node {
      */
     protected WorkNode(Port port) {
         super(port);
-        work = OptionalDouble.empty();
+        work = null;
     }
     
     @Override
     protected void clear() {
-        work = OptionalDouble.empty();
+        work = null;
     }
     
+    @Override
+    protected boolean isPresent() {
+        return (work != null);
+    }
     /**
      * Gets the node work values
      * @return Returns the node work value.
      */
     protected OptionalDouble getWork() {
-        if (work.isPresent()) {
-            return OptionalDouble.of(work.getAsDouble());
+        if (isPresent()) {
+            return OptionalDouble.of(work);
         }
         return OptionalDouble.empty();
     }
@@ -48,31 +52,26 @@ public final class WorkNode extends Node {
      * @param value The value to set the heat flux to.
      * @throws IllegalArgumentException Thrown if the value is not present.
      */
-    void setWork(OptionalDouble value) {
-        if (value.isPresent()) {
-            work = OptionalDouble.of(value.getAsDouble());
-        }
-        else {
-            throw new IllegalStateException("Cannot set work to an empty OptionalDouble.");
-        }
+    protected void setWork(Double value) {
+        work = value;
     }
     
     @Override
     protected boolean isComplete() {
-        return (work.isPresent());
+        return (isPresent());
     }
     
     @Override
     protected boolean update(Node n) {
         if (n instanceof WorkNode) {
             WorkNode wn = (WorkNode) n;
-            if (!work.isPresent()) {
-                if (wn.work.isPresent()) {
-                    work = OptionalDouble.of(wn.work.getAsDouble());
+            if (!isPresent()) {
+                if (wn.isPresent()) {
+                    work = wn.work;
                     return true;
                 }
             }
-            else if (wn.work.isPresent()) {
+            else if (wn.isPresent()) {
                 if (!work.equals(wn.work)) {
                     throw new IllegalStateException("Node work values are incompatible.");
                 }
@@ -84,10 +83,4 @@ public final class WorkNode extends Node {
         return false;
     }
     
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder(super.toString());
-        sb.append(System.lineSeparator()).append("Work: ").append(work.isPresent() ? work.getAsDouble() + " W" : "Unknown");
-        return sb.toString();
-    }
 }

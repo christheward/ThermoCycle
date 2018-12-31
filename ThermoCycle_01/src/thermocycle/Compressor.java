@@ -32,8 +32,8 @@ public final class Compressor extends Component {
         equations.add(new Energy_Balance());
         equations.add(new Pressure_Ratio());
         equations.add(new Efficiency());
-        createAttribute(PRATIO);
-        createAttribute(EFFICIENCY);
+        attributes.add(PRATIO);
+        attributes.add(EFFICIENCY);
     }
     
     /**
@@ -110,7 +110,7 @@ public final class Compressor extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "m in": {
                     Compressor.this.getInlet().setMass(value);
@@ -170,7 +170,7 @@ public final class Compressor extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "W": {
                     Compressor.this.getShaft().setWork(value);
@@ -181,11 +181,11 @@ public final class Compressor extends Component {
                     return Compressor.this.getInlet();
                 }
                 case "h in": {
-                    Compressor.this.getInlet().setState(ENTHALPY,value);
+                    Compressor.this.getInlet().setProperty(ENTHALPY,value);
                     return Compressor.this.getInlet();
                 }
                 case "h out": {
-                    Compressor.this.getOutlet().setState(ENTHALPY,value);
+                    Compressor.this.getOutlet().setProperty(ENTHALPY,value);
                     return Compressor.this.getOutlet();
                 }
             }
@@ -233,18 +233,18 @@ public final class Compressor extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "pr": {
                     Compressor.this.setAttribute(PRATIO, value);
                     return null;
                 }
                 case "p in": {
-                    Compressor.this.getInlet().setState(PRESSURE,value); 
+                    Compressor.this.getInlet().setProperty(PRESSURE,value); 
                     return Compressor.this.getInlet();
                 }
                 case "p out": {
-                    Compressor.this.getOutlet().setState(PRESSURE,value);
+                    Compressor.this.getOutlet().setProperty(PRESSURE,value);
                     return Compressor.this.getOutlet();
                 }
             }
@@ -280,11 +280,11 @@ public final class Compressor extends Component {
             FlowNode isen = new FlowNode(INTERNAL);
             isen.setFluid(Compressor.this.getInlet().getFluid());
             if (variable.equals("h in") | variable.equals("n") | variable.equals("W")) {
-                isen.setState(ENTROPY, Compressor.this.getInlet().getState(ENTROPY));
-                isen.setState(PRESSURE, Compressor.this.getOutlet().getState(PRESSURE));
+                isen.setProperty(ENTROPY, Compressor.this.getInlet().getState(ENTROPY).getAsDouble());
+                isen.setProperty(PRESSURE, Compressor.this.getOutlet().getState(PRESSURE).getAsDouble());
             }
             else {
-                isen.setState(ENTHALPY, OptionalDouble.of(Compressor.this.getInlet().getState(ENTHALPY).getAsDouble() + (Compressor.this.getShaft().getWork().getAsDouble() * Compressor.this.getAttribute(EFFICIENCY).getAsDouble() / (Compressor.this.getInlet().getMass().getAsDouble()))));
+                isen.setProperty(ENTHALPY, Compressor.this.getInlet().getState(ENTHALPY).getAsDouble() + (Compressor.this.getShaft().getWork().getAsDouble() * Compressor.this.getAttribute(EFFICIENCY).getAsDouble() / (Compressor.this.getInlet().getMass().getAsDouble())));
             }
             switch (variable) {
                 case "W": {
@@ -304,12 +304,12 @@ public final class Compressor extends Component {
                     break;
                 }
                 case "s in": {
-                    isen.setState(PRESSURE, Compressor.this.getOutlet().getState(PRESSURE));
+                    isen.setProperty(PRESSURE, Compressor.this.getOutlet().getState(PRESSURE).getAsDouble());
                     value = isen.getState(ENTROPY);
                     break;
                 }
                 case "p out": {
-                    isen.setState(ENTROPY, Compressor.this.getInlet().getState(ENTROPY));
+                    isen.setProperty(ENTROPY, Compressor.this.getInlet().getState(ENTROPY).getAsDouble());
                     value = isen.getState(PRESSURE);
                     break;
                 }
@@ -318,7 +318,7 @@ public final class Compressor extends Component {
         }
         
         @Override
-        protected Node saveVariable(String variable, OptionalDouble value) {
+        protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "W": {
                     Compressor.this.getShaft().setWork(value);
@@ -333,15 +333,15 @@ public final class Compressor extends Component {
                     return Compressor.this.getInlet();
                 }
                 case "h in": {
-                    Compressor.this.getInlet().setState(ENTHALPY,value);
+                    Compressor.this.getInlet().setProperty(ENTHALPY,value);
                     return Compressor.this.getInlet();
                 }
                 case "s in": {
-                    Compressor.this.getInlet().setState(ENTROPY,value);
+                    Compressor.this.getInlet().setProperty(ENTROPY,value);
                     return Compressor.this.getInlet();
                 }
                 case "p out": {
-                    Compressor.this.getOutlet().setState(PRESSURE,value);
+                    Compressor.this.getOutlet().setProperty(PRESSURE,value);
                     return Compressor.this.getOutlet();
                 }
             }

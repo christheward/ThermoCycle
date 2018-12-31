@@ -17,7 +17,7 @@ final class State implements Properties, Serializable {
     /**
      * Property map.
      */
-    private final EnumMap<Property, OptionalDouble> state;
+    private final EnumMap<Property, Double> state;
     
     /**
      * Constructor.
@@ -27,7 +27,7 @@ final class State implements Properties, Serializable {
     }
     
     /**
-     * Checks to see if this state contains specified properties.
+     * Checks if this state contains specified properties.
      * @param properties The specified properties.
      * @return Returns true if all specified properties are present in this state.
      */
@@ -57,9 +57,9 @@ final class State implements Properties, Serializable {
      * @param property The specified property.
      * @return If the property exists in the state returns the values of the specified property, else returns empty.
      */
-    protected OptionalDouble get(Property property) {
+    protected OptionalDouble getProperty(Property property) {
         if (state.containsKey(property)) {
-            return OptionalDouble.of(state.get(property).getAsDouble());
+            return OptionalDouble.of(state.get(property));
         }
         return OptionalDouble.empty();
     }
@@ -73,40 +73,20 @@ final class State implements Properties, Serializable {
     }
     
     /**
-     * Puts the property in this state and sets it's value. The value must be present and within the property's allowable limits. The property cannot already exist in the state.
-     * @param property The property to be set.
-     * @param value The values to set the property to. 
-     */
-    /**
-    protected void putIfAbsent(Property property, OptionalDouble value) {
-        // Check state does not already contain property
-        if (state.containsKey(property)) {
-            throw new IllegalArgumentException("Property already exists in the state.");
-        }
-        // put the value in the state
-        put(property, value);
-    }
-    **/
-    
-    /**
      * Puts the property in this state and sets it's value. The value must be present and within the property's allowable limits.
      * @param property The property to be set.
      * @param value The values to set the property to. 
      */
-    protected void put(Property property, OptionalDouble value) {
-        // Check value is present
-        if (!value.isPresent()) {
-            throw new IllegalArgumentException("Value must not be empty.");
-        }
+    protected void setProperty(Property property, Double value) {
         // Check value is within propoerty limits
-        if (value.getAsDouble() > property.max) {
+        if (value > property.max) {
             throw new IllegalArgumentException("Value is greater than allowable maximum.");
         }
-        if (value.getAsDouble() < property.min) {
+        if (value < property.min) {
             throw new IllegalArgumentException("Value is less than allowable minimum.");
         }
         // Put property in state
-        state.put(property, OptionalDouble.of(value.getAsDouble()));
+        state.put(property, value);
     }
     
     /**
@@ -125,20 +105,20 @@ final class State implements Properties, Serializable {
      * Puts the properties and their values from a state to this state.
      * @param state The state properties to be set.
      */
-    protected void put(State state) {
+    protected void setProperty(State state) {
         state.state.keySet().stream().forEach((property) -> {
-            this.put(property, state.state.get(property));
+            this.setProperty(property, state.state.get(property));
         });
     }
     
-    protected void remove(Property property) {
+    protected void clearProperty(Property property) {
         state.remove(property);
     }
     
     /**
      * Removes all properties from the state.
      */
-    protected void clear() {
+    protected void clearState() {
         state.clear();
     }
     
@@ -146,7 +126,7 @@ final class State implements Properties, Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         state.keySet().stream().forEach(property -> {
-            sb.append(String.format("%-13s",property.toString())).append(": ").append(get(property).getAsDouble()).append(" ").append(property.units).append(System.lineSeparator());
+            sb.append(String.format("%-13s",property.toString())).append(": ").append(getProperty(property).getAsDouble()).append(" ").append(property.units).append(System.lineSeparator());
         });
         return sb.toString();
     }

@@ -16,7 +16,7 @@ public final class HeatNode extends Node {
     /**
      * The node heat value.
      */
-    private OptionalDouble heat;
+    private Double heat;
     
     /**
      * Constructor.
@@ -24,12 +24,12 @@ public final class HeatNode extends Node {
      */
     protected HeatNode(Port port) {
         super(port);
-        heat = OptionalDouble.empty();
+        heat = null;
     }
     
     @Override
     protected void clear() {
-        heat = OptionalDouble.empty();
+        heat = null;
     }
     
     /**
@@ -37,8 +37,8 @@ public final class HeatNode extends Node {
      * @return Returns the node's heat value.
      */
     public OptionalDouble getHeat() {
-        if (heat.isPresent()) {
-            return OptionalDouble.of(heat.getAsDouble());
+        if (isPresent()) {
+            return OptionalDouble.of(heat);
         }
         return OptionalDouble.empty();
     }
@@ -48,31 +48,31 @@ public final class HeatNode extends Node {
      * @param value The value to set the heat flux to.
      * @throws IllegalArgumentException Thrown if the value is not present.
      */
-    protected void setHeat(OptionalDouble value) {
-        if (value.isPresent()) {
-            heat = OptionalDouble.of(value.getAsDouble());
-        }
-        else {
-            throw new IllegalStateException("Cannot set heat to an empty OptionalDouble.");
-        }
+    protected void setHeat(Double value) {
+        heat = value;
+    }
+    
+    @Override
+    protected boolean isPresent() {
+        return (heat != null);
     }
     
     @Override
     protected boolean isComplete() {
-        return (heat.isPresent());
+        return (isPresent());
     }
     
     @Override
     protected boolean update(Node n) {
         if (n instanceof HeatNode) {
             HeatNode hn = (HeatNode) n;
-            if (!heat.isPresent()) {
-                if (hn.heat.isPresent()) {
-                    heat = OptionalDouble.of(hn.heat.getAsDouble());
+            if (!isPresent()) {
+                if (hn.isPresent()) {
+                    heat = hn.heat;
                     return true;
                 }
             }
-            else if (hn.heat.isPresent()) {
+            else if (hn.isPresent()) {
                 if (!heat.equals(hn.heat)) {
                     throw new IllegalStateException("Node heat values are incompatible.");
                 }
@@ -84,10 +84,4 @@ public final class HeatNode extends Node {
         return false;
     }
     
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder(super.toString());
-        sb.append(System.lineSeparator()).append("Heat: ").append(heat.isPresent() ? heat.getAsDouble() + " W" : "Unknown").append(" W");
-        return sb.toString();
-    }
 }

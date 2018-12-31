@@ -38,8 +38,8 @@ public interface Attributes {
          * @param min Minimum attribute value
          * @param max Maximum attribute value
          */
-        private Attribute(String name, String symbol, String units, double min, double max) {
-            fullName = name;
+        private Attribute(String fullname, String symbol, String units, double min, double max) {
+            this.fullName = fullname;
             this.symbol = symbol;
             this.units = units;
             this.max = max;

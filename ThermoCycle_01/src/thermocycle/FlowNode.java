@@ -17,19 +17,19 @@ import java.util.Set;
 public final class FlowNode extends Node implements Properties {
     
     /**
-     * The fluid at this node.
+     * The fluid of this node.
      */
     private Fluid fluid;
     
     /**
-     * The fluid state of this node.
+     * The thermodynamic state of this node.
      */
     private final State state;
     
     /**
      * The mass flow rate at this node.
      */
-    private OptionalDouble mass;
+    private Double mass;
     
     /**
      * Constructor.
@@ -38,7 +38,12 @@ public final class FlowNode extends Node implements Properties {
     protected FlowNode(Port port) {
         super(port);
         state = new State();
-        mass = OptionalDouble.empty();
+        mass = null;
+    }
+    
+    @Override
+    protected boolean isPresent() {
+        return (mass != null);
     }
     
     /**
@@ -54,22 +59,22 @@ public final class FlowNode extends Node implements Properties {
      * Clears the mass value of the fluid node
      */
     protected void clearMass() {
-        mass = OptionalDouble.empty();
+        mass = null;
     }
     
     /**
-     * Completely clears the state of the fluid node
+     * Completely clears the thermodynamics state of the fluid node
      */
     protected void clearState() {
-        state.clear();
+        state.clearState();
     }
     
     /**
      * Clears the fluid node state of a property
      * @param property The property to clear
      */
-    protected void clearState(Property property) {
-        state.remove(property);
+    protected void clearProperty(Property property) {
+        state.clearProperty(property);
     }
     
     /**
@@ -92,8 +97,8 @@ public final class FlowNode extends Node implements Properties {
      * Gets the list of allowable properties
      * @return Returns the list of allowable properties for the node.
      */
-    protected Set<Property> allowableProperties() {
-        return fluid == null ? new HashSet<>() : new HashSet<>(fluid.fluidState());
+    protected Set<Property> getAllowableProperties() {
+        return fluid == null ? new HashSet<>() : new HashSet<>(fluid.getAllowableProperties());
     }
     
     /**
@@ -101,8 +106,8 @@ public final class FlowNode extends Node implements Properties {
      * @return Returns the mass flow rate.
      */
     protected OptionalDouble getMass() {
-        if (mass.isPresent()) {
-            return OptionalDouble.of(mass.getAsDouble());
+        if (isPresent()) {
+            return OptionalDouble.of(mass);
         }
         return OptionalDouble.empty();
     }
@@ -113,7 +118,7 @@ public final class FlowNode extends Node implements Properties {
      * @return Returns the value of the state property.
      */
     protected OptionalDouble getState(Property property) {
-        return state.get(property);
+        return state.getProperty(property);
     }
     
     /**
@@ -129,13 +134,8 @@ public final class FlowNode extends Node implements Properties {
      * @param value The value to set the mass flow rate to.
      * @throws IllegalArgumentException Thrown if the value is not present.
      */
-    protected void setMass(OptionalDouble value) {
-        if (value.isPresent()) {
-            mass = OptionalDouble.of(value.getAsDouble());
-        }
-        else {
-            throw new IllegalStateException("Cannot set mass to an empty OptionalDouble.");
-        }
+    protected void setMass(Double value) {
+        mass = value;
     }
     
     /**
@@ -143,28 +143,8 @@ public final class FlowNode extends Node implements Properties {
      * @param property The state property to set.
      * @param value The value to set the property to.
      */
-    protected void setState(Property property, OptionalDouble value) {
-        if (value.isPresent()) {
-            state.put(property, value);
-            if (fluid == null) {
-                throw new IllegalStateException("Error setting properties in Node. Fluid must be set first.");
-            }
-            else {
-                fluid.computeState(state);
-            }
-        }
-        else {
-            throw new IllegalStateException("Cannot set property to an empty OptionalDouble.");
-        }
-    }
-
-    /**
-     * Sets the state properties for the Node. Once the property's value has been set, other state properties are calculated where possible.
-     * @param s The state
-     * @throws illegalStateException - Thrown if the fluid has not been set prior to setting a property.
-     */
-    protected void setState(State s) {
-        state.put(s);
+    protected void setProperty(Property property, Double value) {
+        state.setProperty(property, value);
         if (fluid == null) {
             throw new IllegalStateException("Error setting properties in Node. Fluid must be set first.");
         }
@@ -178,7 +158,7 @@ public final class FlowNode extends Node implements Properties {
         if (fluid == null) {
             return false;
         }
-        return ((mass.isPresent()) && state.properties().containsAll(fluid.fluidState()));
+        return ((isPresent()) && state.properties().containsAll(fluid.getAllowableProperties()));
     }
     
     @Override
@@ -193,26 +173,26 @@ public final class FlowNode extends Node implements Properties {
             }
             
             // Update the mass flow rate
-            if (!mass.isPresent()) {
-                if (fn.mass.isPresent()) {
-                    mass = OptionalDouble.of(fn.mass.getAsDouble());
+            if (!isPresent()) {
+                if (fn.isPresent()) {
+                    mass = fn.mass;
                     updated = true;
                 }
             }
-            else if (fn.mass.isPresent()) {
+            else if (fn.isPresent()) {
                 if (!mass.equals(fn.mass)) {
-                    throw new IllegalStateException("Node mass flow rates are incompatible - Node: " + mass.getAsDouble() + " / Node: " + fn.mass.getAsDouble());
+                    throw new IllegalStateException("Node mass flow rates are incompatible - Node: " + mass + " / Node: " + fn.mass);
                 }
             }
             
             // Update state properties
             fn.state.properties().forEach((p) -> {
                 if (!state.contains(p)) {
-                    state.put(p,fn.state.get(p));
+                    state.setProperty(p,fn.state.getProperty(p).getAsDouble());
                     fluid.computeState(state);
                 }
-                else if (!Equation.withinTolerance(state.get(p), fn.state.get(p))) {
-                    throw new IllegalStateException("Node properties are incompatible (" + p.toString() + ") - Node: " + state.get(p) + " / Node: " + fn.state.get(p));
+                else if (!Equation.withinTolerance(state.getProperty(p).getAsDouble(), fn.state.getProperty(p).getAsDouble())) {
+                    throw new IllegalStateException("Node properties are incompatible (" + p.toString() + ") - Node: " + state.getProperty(p) + " / Node: " + fn.state.getProperty(p));
                 }
             });
         }
@@ -229,13 +209,4 @@ public final class FlowNode extends Node implements Properties {
         fluid.computeState(state);
     }
     
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder(super.toString());
-        sb.append(System.lineSeparator()).append("Mass: ").append(mass.isPresent() ? mass.getAsDouble() + "kg/s" : "Unknown");
-        state.properties().forEach(p -> {
-            sb.append(System.lineSeparator()).append(p.name()).append(": ").append(state.get(p).getAsDouble());
-        });
-        return sb.toString();
-    }
 }

@@ -41,7 +41,7 @@ final class VanDerWaalsGas extends Fluid {
     
     // abstract methods
     @Override
-    protected Set<Property> fluidState() {
+    protected Set<Property> getAllowableProperties() {
         Set<Property> fluidState = new HashSet<>();
         fluidState.add(PRESSURE);
         fluidState.add(TEMPERATURE);
@@ -55,7 +55,7 @@ final class VanDerWaalsGas extends Fluid {
     }
     @Override
     protected void computeState(State state) {
-        Set<Property> unknowns = this.fluidState();
+        Set<Property> unknowns = this.getAllowableProperties();
         unknowns.removeAll(state.properties());
         do {
             unknowns.forEach(p -> {
