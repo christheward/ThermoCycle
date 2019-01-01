@@ -46,7 +46,7 @@ public class InfoboxBaseController extends StackPane {
         infoComponent = new InfoboxComponentController(master);
         
         // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InfoboxBase.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/InfoboxBase.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

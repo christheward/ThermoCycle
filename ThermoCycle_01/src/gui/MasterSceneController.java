@@ -49,7 +49,7 @@ public class MasterSceneController extends VBox {
     public MasterSceneController() {
         
         // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MasterScene.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/MasterScene.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

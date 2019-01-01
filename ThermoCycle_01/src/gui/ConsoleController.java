@@ -43,7 +43,7 @@ public class ConsoleController extends VBox {
     protected ConsoleController (MasterSceneController master) {
         
         // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Console.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Console.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

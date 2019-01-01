@@ -67,7 +67,7 @@ public class CanvasController extends AnchorPane {
         this.master = master;
         
         // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Canvas.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Canvas.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

@@ -63,7 +63,7 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
         this.node = node;
         
         // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CanvasNode.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/CanvasNode.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

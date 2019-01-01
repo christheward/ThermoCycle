@@ -51,7 +51,7 @@ public class GraphController extends VBox {
         this.master = master;
         
         // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Graph.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Graph.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

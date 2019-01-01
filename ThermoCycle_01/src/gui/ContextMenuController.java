@@ -38,7 +38,7 @@ public class ContextMenuController extends ContextMenu {
         this.master = master;
         
         // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ContextMenu.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ContextMenu.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

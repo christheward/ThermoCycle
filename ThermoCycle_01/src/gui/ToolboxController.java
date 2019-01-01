@@ -38,7 +38,7 @@ public class ToolboxController extends StackPane{
     public ToolboxController(CanvasController canvas) {
         
         // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Toolbox.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Toolbox.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

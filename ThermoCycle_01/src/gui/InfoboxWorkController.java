@@ -36,7 +36,7 @@ public class InfoboxWorkController extends AnchorPane {
     public InfoboxWorkController(MasterSceneController master) {
         
         // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InfoboxWork.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/InfoboxWork.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

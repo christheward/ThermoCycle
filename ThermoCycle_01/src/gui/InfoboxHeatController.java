@@ -36,7 +36,7 @@ public class InfoboxHeatController extends AnchorPane {
     public InfoboxHeatController(MasterSceneController master) {
         
         // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InfoboxHeat.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/InfoboxHeat.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

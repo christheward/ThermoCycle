@@ -62,7 +62,7 @@ public class MenubarController extends MenuBar {
         this.master = master;
         
         // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Menubar.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Menubar.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

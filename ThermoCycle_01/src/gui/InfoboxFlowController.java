@@ -64,7 +64,7 @@ public class InfoboxFlowController extends AnchorPane {
         this.master = master;
         
         // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InfoboxFlow.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/InfoboxFlow.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

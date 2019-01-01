@@ -39,7 +39,7 @@ public class ChartController extends VBox {
         this.master = master;
         
         /// FXML loader
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Chart.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Chart.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {

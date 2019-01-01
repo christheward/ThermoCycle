@@ -37,7 +37,7 @@ public class ToolboxComponentController extends AnchorPane implements Serializab
     public ToolboxComponentController() {
         
         // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ToolboxComponent.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ToolboxComponent.fxml"));
         fxmlLoader.setRoot(this); 
         fxmlLoader.setController(this);
         try {

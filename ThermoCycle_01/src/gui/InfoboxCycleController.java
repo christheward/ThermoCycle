@@ -42,7 +42,7 @@ public class InfoboxCycleController extends AnchorPane {
         this.master = master;
         
         // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InfoboxCycle.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/InfoboxCycle.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {
