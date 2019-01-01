@@ -79,7 +79,6 @@ public class ToolboxController extends StackPane{
         icon.setOnDragDetected (new EventHandler <MouseEvent> () {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("Toolbox: Drag detection");
                 
                 // Get the source object
                 ToolboxComponentController source = (ToolboxComponentController)event.getSource();
@@ -90,7 +89,7 @@ public class ToolboxController extends StackPane{
                 
                 // Prepare the transparent drag icon on the parent canvas
                 canvas.dragIcon.setType(source.getType());
-                canvas.dragIcon.relocateToPoint(new Point2D (event.getSceneX(), event.getSceneY()));
+                canvas.dragIcon.relocateToPointInScene(new Point2D (event.getSceneX(), event.getSceneY()));
                 
                 // Put data in clipboard to identify icon type
                 ClipboardContent content = new ClipboardContent();

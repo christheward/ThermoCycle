@@ -5,6 +5,7 @@
  */
 package utilities;
 
+import gui.CanvasController;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,24 +26,42 @@ public class FileHandler {
     static private FileInputStream fistream;
     static private ObjectInputStream oistream;
     
-    private FileHandler() {}
+    public FileHandler() {}
     
-    static public void write(Cycle model, File file) throws FileNotFoundException, IOException {
-        System.out.println("here");
+    static public void openWriteStream(File file) throws FileNotFoundException, IOException {
         fostream = new FileOutputStream(file);
         oostream = new ObjectOutputStream(fostream);
-        model.writeObject(oostream);
-        System.out.println("here2");
-        oostream.close();
     }
     
-    static public Cycle read(File file) throws FileNotFoundException, IOException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
+    static public void closeWriteStream() throws IOException {
+        oostream.close();
+        fostream.close();
+    }
+    
+    static public void openReadStream(File file) throws FileNotFoundException, IOException {
         fistream = new FileInputStream(file);
         oistream = new ObjectInputStream(fistream);
-        Cycle model = new Cycle("Loading");
-        model.readObject(oistream);
+    }
+    
+    static public void closeReadStream() throws IOException {
         oistream.close();
-        return model;
+        fistream.close();
+    }
+    
+    static public void saveModel(Cycle model) throws IOException {
+        model.saveModel(oostream);
+    }
+    
+    static public void loadModel(Cycle model) throws FileNotFoundException, IOException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
+        model.loadModel(oistream);
+    }
+    
+    static public void saveLayout(CanvasController canvas) throws FileNotFoundException, IOException {
+        canvas.saveLayout(oostream);
+    }
+    
+    static public void loadLayout(CanvasController canvas) throws FileNotFoundException, IOException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
+        canvas.loadLayout(oistream);
     }
     
 }

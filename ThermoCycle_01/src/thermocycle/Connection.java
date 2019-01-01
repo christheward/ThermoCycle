@@ -6,6 +6,8 @@
 package thermocycle;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import static thermocycle.Node.Port.*;
 
 /**
@@ -76,7 +78,7 @@ public final class Connection<T extends Node> implements Serializable {
     
     /**
      * Updates the connections to ensure equality of connected nodes.
-     * @return Returns true when complete
+     * @return true when complete
      */
     protected void update() {
         n1.update(n2);
@@ -85,10 +87,21 @@ public final class Connection<T extends Node> implements Serializable {
     
     /**
      * A connection is complete if both nodes are complete.
-     * @return Returns true if the connection is complete.
+     * @return true if the connection is complete.
      */
     protected boolean isComplete() {
         return (n1.isComplete() && n2.isComplete());
+    }
+    
+    /**
+     * Gets a set containing the two nodes in the connection.
+     * @return a set containing the two nodes in the connection.
+     */
+    protected Set<Node> getNodes() {
+        Set nodes = new HashSet();
+        nodes.add(n1);
+        nodes.add(n2);
+        return nodes;
     }
     
 }

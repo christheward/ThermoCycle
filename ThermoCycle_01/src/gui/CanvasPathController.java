@@ -17,6 +17,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
+import thermocycle.Connection;
 
 /**
  *
@@ -35,7 +36,7 @@ public class CanvasPathController extends ToolboxPathController {
     private static double radius = 20;
     
     // Model variables
-    protected thermocycle.Connection connection;
+    protected Connection connection;
     
     /**
      * Grid position enum
@@ -84,12 +85,14 @@ public class CanvasPathController extends ToolboxPathController {
         super();
         this.master = master;
     }
-        
+    
     /**
      * Binds the ends of the connection to a CanvasNodeController.
-     * @param start The CanvasNodeController to bind the connection to.
+     * @param startNode The CanvasNodeController to bind the connection to.
+     * @param endNode The CanvasNodeController to bind the connection to.
+     * @param connection The underlying model connection represented by this component.
      */
-    protected void bindEnds(CanvasNodeController startNode, CanvasNodeController endNode) {
+    protected void bindEnds(CanvasNodeController startNode, CanvasNodeController endNode, Connection connection) {
         // Asign nodes
         start = startNode;
         end = endNode;
@@ -116,7 +119,12 @@ public class CanvasPathController extends ToolboxPathController {
             }
         });
         // Create conection in model
-        connection = master.getModel().createConnection(start.node, end.node);
+        if (connection == null) {
+            this.connection = master.getModel().createConnection(start.node, end.node);
+        }
+        else {
+            this.connection = connection;
+        }
         // Creat context menu
         buildContextMenu();
         buildClickHandlers();

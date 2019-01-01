@@ -5,7 +5,6 @@
  */
 package gui;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
@@ -81,7 +80,7 @@ public class CanvasComponentController extends ToolboxComponentController{
         
         // set icon type
         List<ComponentIcon> items = Arrays.asList(ComponentIcon.values());
-        ComponentIcon icon = items.stream().filter(i -> i.type.equals(component.getClass())).findFirst().orElse(ComponentIcon.UNKNOWN);
+        setType(items.stream().filter(i -> i.type.equals(component.getClass())).findFirst().orElse(ComponentIcon.UNKNOWN));
         
         // Adds nodes
         addNodes();
@@ -187,7 +186,7 @@ public class CanvasComponentController extends ToolboxComponentController{
                 content.put(DragContainerController.DragNode, container);
                 
                 // Start drag operations
-                relocateToPoint(new Point2D(event.getSceneX(), event.getSceneY()));
+                relocateToPointInScene(new Point2D(event.getSceneX(), event.getSceneY()));
                 startDragAndDrop(TransferMode.ANY).setContent(content);
                 
                 // Consume event
@@ -200,7 +199,7 @@ public class CanvasComponentController extends ToolboxComponentController{
             @Override
             public void handle(DragEvent event) {
                 event.acceptTransferModes(TransferMode.ANY);                
-                relocateToPoint(new Point2D( event.getSceneX(), event.getSceneY()));
+                relocateToPointInScene(new Point2D( event.getSceneX(), event.getSceneY()));
                 event.consume();
             }
         };

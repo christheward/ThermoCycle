@@ -143,7 +143,6 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
         base.setOnDragDetected(new EventHandler <MouseEvent> () {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("CanvasNode: Drag detection");
                 
                 // Get the source object
                 CanvasNodeController source = (CanvasNodeController) event.getSource();
@@ -172,9 +171,6 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
                 
                 // Disable inligible nodes
                 master.canvas.disableIneligibleNodes(CanvasNodeController.this);
-                //canvas.getNodes().filter(n -> (!(n.node.getClass().equals(CanvasNodeController.this.node.getClass())) | (n.node.port.equals(CanvasNodeController.this.node.port)))).forEach(n -> {
-                //    n.disableProperty().set(true);
-                //});
                 
                 // Consume event
                 event.consume();
@@ -184,7 +180,6 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
         connectionDragDroppedNode = new EventHandler <DragEvent> (){
             @Override
             public void handle (DragEvent event) {
-                System.out.println("CanvasNode: Drag dropped");
                 
                 // Get source object
                 CanvasNodeController source = (CanvasNodeController)event.getSource();
@@ -214,7 +209,6 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
         item.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                //((GridPane)CanvasNodeController.this.getParent()).setGridLinesVisible(true);
                 canvasIcon.node_grid.setGridLinesVisible(true);
                 event.consume();
             }

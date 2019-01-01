@@ -7,6 +7,11 @@ package gui;
 
 import com.jfoenix.controls.JFXDrawer;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -24,6 +29,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
+import thermocycle.Component;
 
 /**
  *
@@ -44,6 +50,7 @@ public class CanvasController extends AnchorPane {
     
     // Variables
     private boolean lockOpen;
+    private final Map<Component,Double[]> layout;
     
     // Event handlers
     protected EventHandler iconDragOverCanvas;
@@ -72,6 +79,8 @@ public class CanvasController extends AnchorPane {
         // Create context menu
         contextMenu = new ContextMenuController(master);
         
+        // Set up layout
+        layout = new HashMap();
     }
     
     /**
@@ -190,7 +199,7 @@ public class CanvasController extends AnchorPane {
                             
                             // Put the canvas icon at the drop co-ordinated
                             Point2D cursorPoint = container.getValue("scene_coords");
-                            component.relocateToPoint(new Point2D(cursorPoint.getX() - 32, cursorPoint.getY() - 32));
+                            component.relocateToPointInScene(new Point2D(cursorPoint.getX() - 32, cursorPoint.getY() - 32));
                             
                             // Show the component
                             component.setVisible(true);
@@ -242,7 +251,7 @@ public class CanvasController extends AnchorPane {
                             // Create canvas connection
                             CanvasPathController connection = new CanvasPathController(master);
                             canvas.getChildren().add(0,connection);
-                            connection.bindEnds(startNode, endNode);
+                            connection.bindEnds(startNode, endNode, null);
                             connection.setVisible(true);
                         }
    
@@ -259,7 +268,7 @@ public class CanvasController extends AnchorPane {
             @Override
             public void handle(DragEvent event) {
                 event.acceptTransferModes(TransferMode.ANY);
-                dragIcon.relocateToPoint(new Point2D(event.getSceneX(), event.getSceneY()));
+                dragIcon.relocateToPointInScene(new Point2D(event.getSceneX(), event.getSceneY()));
                 event.consume();
             }
         };
@@ -320,11 +329,19 @@ public class CanvasController extends AnchorPane {
     
     
     /**
-     * Gets a stream of all the canvas path nodes on the canvas.
-     * @return Returns a stream of all the canvas path elements on the canvas.
+     * Gets a stream of all the paths on the canvas.
+     * @return A stream of all the path elements on the canvas.
      */
     private Stream<CanvasPathController> getConnections() {
         return canvas.getChildren().stream().filter(n -> n instanceof CanvasPathController).map(n -> (CanvasPathController)n);
+    }
+    
+    /**
+     * Gets a stream of all the components on the canvas
+     * @return A stream of the components on the canvas.
+     */
+    private Stream<CanvasComponentController>getComponents() {
+        return canvas.getChildren().stream().filter(n -> n instanceof CanvasComponentController).map(n -> (CanvasComponentController)n);
     }
     
     /**
@@ -361,27 +378,11 @@ public class CanvasController extends AnchorPane {
     }
     
     /**
-     * Gets a stream of all the components on the canvas.
-     * @return Returns a stream of all the components on the canvas.
-     */
-    private Stream<CanvasComponentController> getComponents() {
-        return canvas.getChildren().stream().filter(n -> n instanceof CanvasComponentController).map(n -> (CanvasComponentController)n);
-    }
-    
-    /**
      * Gets a stream of all the component nodes on the canvas.
      * @return Returns a stream of all the component nodes on the canvas.
      */
     private Stream<CanvasNodeController> getNodes() {
         return getComponents().map(n -> n.node_grid.getChildren().stream().filter(m -> m instanceof CanvasNodeController).map(m -> (CanvasNodeController)m)).flatMap(Function.identity());
-    }
-    
-    /**
-     * Gets a stream of all the paths on the canvas
-     * @return Returns a stream of all the paths on the canvas
-     */
-    private Stream<CanvasPathController> getPaths() {
-        return canvas.getChildren().stream().filter(c -> c instanceof CanvasPathController).map(c -> (CanvasPathController)c);
     }
     
     /**
@@ -400,27 +401,68 @@ public class CanvasController extends AnchorPane {
     }
     
     /**
-     * This function builds the gui from the underlying model
+     * This function builds the GUI from the underlying model
      */
     protected void buildFromModel() {
         
         master.getModel().componentsReadOnly.stream().forEach(c -> {
             try {
-                // Coopied from drag handlers - need to put this in a common function
                 // Create a new canvas icon
                 CanvasComponentController component = new CanvasComponentController(master, c);
-                component.getStyleClass().add("icon-componnt");
+                //component.getStyleClass().add("icon-componnt");
                 canvas.getChildren().add(component);
                 
                 // Put the canvas icon at the drop co-ordinated
-                Point2D cursorPoint = new Point2D(100,100);
-                component.relocateToPoint(new Point2D(cursorPoint.getX() - 32, cursorPoint.getY() - 32));
+                component.relocateToPointInScene(this.localToScene(double2point(layout.get(c))));
                 
                 // Show the component
                 component.setVisible(true);
             } catch (Exception ex) {
-                //Logger.getLogger(CanvasController.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+                // Do something
             }
         });
+        master.getModel().connectionsReadOnly.stream().forEach(c -> {
+            // Create new canvas path
+            CanvasPathController connection = new CanvasPathController(master);
+            canvas.getChildren().add(0,connection);
+            
+            List<CanvasNodeController> nodes = getNodes().filter(n -> master.getModel().containsNode(c, n.node)).collect(Collectors.toList());
+            if (nodes.size() == 2) {
+                connection.bindEnds(nodes.get(0), nodes.get(1), c);
+            }
+            else {
+                System.err.println("Incorrect number of connected nodes.");
+            }
+            
+            // Show the connection
+            connection.setVisible(true);
+        });
     }
+    
+    public void saveLayout(ObjectOutputStream stream) throws IOException {
+        layout.clear();
+        getComponents().forEach(c -> {
+            layout.put(c.component, point2double(c.getCenterPointInParent()));
+        });
+        stream.writeObject(layout);
+    }
+    
+    public void loadLayout(ObjectInputStream stream) throws IOException, ClassNotFoundException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        layout.clear();
+        layout.putAll((Map<Component,Double[]>)stream.readObject());
+    }
+    
+    public static Double[] point2double(Point2D point) {
+        Double[] location = new Double[2];
+        location[0] = point.getX();
+        location[1] = point.getY();
+        return location;
+    }
+    
+    public static Point2D double2point(Double[] location) {
+        Point2D point = new Point2D(location[0], location[1]);
+        return point;
+    }
+    
 }

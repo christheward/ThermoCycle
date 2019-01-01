@@ -17,6 +17,7 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import thermocycle.Cycle;
 import utilities.FileHandler;
 
 /**
@@ -45,9 +46,12 @@ public class MenubarController extends MenuBar {
     private final MasterSceneController master;
     
     // Dialogues
-    Stage fileBrowserDialogue = new Stage();
-    FileChooser fileChooser = new FileChooser();                
-    File file;
+    private Stage fileBrowserDialogue = new Stage();
+    private FileChooser fileChooser = new FileChooser();                
+    private File file;
+    
+    // File Handler
+    private FileHandler fileHandler = new FileHandler();
     
     /**
      * Constructor
@@ -67,6 +71,7 @@ public class MenubarController extends MenuBar {
             throw new RuntimeException(exception);
         }
         
+        // SEt up file chooser
         fileChooser.getExtensionFilters().add(new ExtensionFilter("ThermoCycle files (*.cyc)","*.cyc"));
         fileChooser.getExtensionFilters().add(new ExtensionFilter("All files (*.*)","*.*"));
         
@@ -104,24 +109,34 @@ public class MenubarController extends MenuBar {
                 fileChooser.setTitle("Open Model File");
                 file = fileChooser.showOpenDialog(fileBrowserDialogue);
                 try {
-                    System.out.println(FileHandler.read(file).componentsReadOnly.size());
-                    master.setModel(FileHandler.read(file));
-                    //master.canvas.buildFromModel();
+                    Cycle model = new Cycle("Loading");
+                    System.out.println("1");
+                    FileHandler.openReadStream(file);
+                    System.out.println("2");
+                    FileHandler.loadModel(model);
+                    System.out.println("3");
+                    FileHandler.loadLayout(master.canvas);
+                    System.out.println("4");
+                    FileHandler.closeReadStream();
+                    System.out.println("5");
+                    master.setModel(model);
+                    System.out.println("6");
+                    master.canvas.buildFromModel();
                 }
                 catch (FileNotFoundException ex) {
-                    // DO something
+                    System.err.print("error1");
                 }
                 catch (ClassNotFoundException ex) {
-                    // Do something
+                    System.err.print("error2");
                 }
                 catch (IOException ex) {
-                    // Do something
+                    System.err.print("error3");
                 }
                 catch (NoSuchFieldException ex) {
-                    // Do something
+                    System.err.print("error4");
                 }
                 catch (IllegalAccessException ex) {
-                    // Do something
+                    System.err.print("error5");
                 }
                 event.consume();
             }
@@ -134,9 +149,12 @@ public class MenubarController extends MenuBar {
                     file = fileChooser.showSaveDialog(fileBrowserDialogue);
                 }
                 try {
-                    FileHandler.write(master.getModel(), file);
+                    FileHandler.openWriteStream(file);
+                    FileHandler.saveModel(master.getModel());
+                    FileHandler.saveLayout(master.canvas);
+                    FileHandler.closeWriteStream();
                 } catch (IOException ex) {
-                    // Do something
+                    ex.printStackTrace();
                 }
                 event.consume();
             }
@@ -146,9 +164,12 @@ public class MenubarController extends MenuBar {
             public void handle(Event event) {
                 fileChooser.setTitle("Save Model File");
                 fileChooser.setInitialFileName(master.getModel().getName());
-                file = fileChooser.showOpenDialog(fileBrowserDialogue);
+                file = fileChooser.showSaveDialog(fileBrowserDialogue);
                 try {
-                    FileHandler.write(master.getModel(), file);
+                    FileHandler.openWriteStream(file);
+                    FileHandler.saveModel(master.getModel());
+                    FileHandler.saveLayout(master.canvas);
+                    FileHandler.closeWriteStream();
                 } catch (IOException ex) {
                     // Do something
                 }

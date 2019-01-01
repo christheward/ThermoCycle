@@ -14,6 +14,9 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import thermocycle.Cycle;
 
 /**
  *
@@ -36,6 +39,9 @@ public class MasterSceneController extends VBox {
     
     // Model elements
     private thermocycle.Cycle model;
+    
+    // Logger
+    static private final Logger logger = LogManager.getLogger("GUILog");
     
     /**
      * Constructor
@@ -108,13 +114,12 @@ public class MasterSceneController extends VBox {
      * Sets the model variable
      * @param model The new model
      */
-    protected void setModel(thermocycle.Cycle model) {
+    protected void setModel(Cycle model) {
         this.model = model;
         canvas.setDisable(false);
         infobox.setDisable(false);
         infobox.showDetails(canvas);
         infobox.connectNewModel();
-        
     }
     
     /**
@@ -133,7 +138,7 @@ public class MasterSceneController extends VBox {
      * Gets the current model
      * @return 
      */
-    protected thermocycle.Cycle getModel() {
+    protected Cycle getModel() {
         return model;
     }
     

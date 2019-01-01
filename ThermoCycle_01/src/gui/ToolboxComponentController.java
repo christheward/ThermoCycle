@@ -66,9 +66,17 @@ public class ToolboxComponentController extends AnchorPane implements Serializab
      * Relocates the toolbox icon to the specified point in scene co-ordinates.
      * @param p The point to relocate to in the scene co-ordinates.
      */
-    protected final void relocateToPoint (Point2D p) {
+    protected final void relocateToPointInScene(Point2D p) {
         Point2D localCoords = getParent().sceneToLocal(p);
-        relocate((int) (localCoords.getX() - (getBoundsInLocal().getWidth() / 2)), (int) (localCoords.getY() - (getBoundsInLocal().getHeight() / 2)));
+        this.relocate((int) (localCoords.getX() - (getBoundsInLocal().getWidth() / 2)), (int) (localCoords.getY() - (getBoundsInLocal().getHeight() / 2)));
+    }
+    
+    /**
+     * Gets the centre of this component in the parents co-ordinate system.
+     * @return The centre point of the component in the parents co-ordinate system.
+     */
+    protected final Point2D getCenterPointInParent() {
+        return localToParent(new Point2D ((int)((getBoundsInLocal().getMinX() + getBoundsInLocal().getMaxX()) / 2), (int)((getBoundsInLocal().getMinX() + getBoundsInLocal().getMaxX()) / 2)));
     }
     
     /**

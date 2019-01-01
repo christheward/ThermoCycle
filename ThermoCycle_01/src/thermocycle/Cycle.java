@@ -23,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 import static thermocycle.Attributes.Attribute;
 import static thermocycle.Properties.Property.*;
 import static thermocycle.Node.Port;
-import utilities.GsonHandler;
+import utilities.SingletonCollector;
 import static utilities.SingletonCollector.singletonCollector;
 
 /**
@@ -114,6 +114,16 @@ public class Cycle extends Observable implements Properties, Serializable {
         links.addAll(connections.stream().filter(c -> c.nodeType().equals(FlowNode.class)).collect(Collectors.toSet()));
         components.forEach(c -> links.addAll(c.internals));
         return links;
+    }
+    
+    /**
+     * Determines if the model connection contains the model node
+     * @param connection The connection to get the nodes for.
+     * @param node The node to look for.
+     * @return true if the connection contains the node, otherwise returns false.
+     */
+    public boolean containsNode(Connection connection, Node node) {
+        return connection.contains(node);
     }
     
     /**
@@ -936,7 +946,7 @@ public class Cycle extends Observable implements Properties, Serializable {
     }
     **/
     
-    public void writeObject(ObjectOutputStream stream) throws IOException {
+    public void saveModel(ObjectOutputStream stream) throws IOException {
         
         logger.info("Saving model.");
         stream.writeObject(name);
@@ -954,7 +964,8 @@ public class Cycle extends Observable implements Properties, Serializable {
         logger.info("Savign compelte..");
     }
     
-    public void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+    public void loadModel(ObjectInputStream stream) throws IOException, ClassNotFoundException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        
         
         logger.info("Loading model.");
         Class c = Cycle.class;

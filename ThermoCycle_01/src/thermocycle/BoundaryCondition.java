@@ -5,13 +5,13 @@
  */
 package thermocycle;
 
-import java.util.OptionalDouble;
+import java.io.Serializable;
 
 /**
  *
  * @author Chris
  */
-public abstract class BoundaryCondition {
+public abstract class BoundaryCondition implements Serializable {
     
     protected abstract void execute();
     protected abstract boolean match(BoundaryCondition cnd);
