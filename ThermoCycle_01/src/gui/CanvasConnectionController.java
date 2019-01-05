@@ -5,7 +5,7 @@
  */
 package gui;
 
-import static gui.CanvasPathController.Direction.*;
+import static gui.CanvasConnectionController.Direction.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
@@ -23,7 +23,7 @@ import thermocycle.Connection;
  *
  * @author Chris
  */
-public class CanvasPathController extends ToolboxPathController {
+public class CanvasConnectionController extends ToolboxConnectionController {
     
     // FXML variables
     protected CanvasNodeController start;
@@ -81,7 +81,7 @@ public class CanvasPathController extends ToolboxPathController {
      * @param start
      * @param end
      */
-    public CanvasPathController(MasterSceneController master) {
+    public CanvasConnectionController(MasterSceneController master) {
         super();
         this.master = master;
     }
@@ -161,10 +161,10 @@ public class CanvasPathController extends ToolboxPathController {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.SECONDARY)) {
-                    menu.show(CanvasPathController.this, event.getScreenX(), event.getScreenY());
+                    menu.show(CanvasConnectionController.this, event.getScreenX(), event.getScreenY());
                 }
                 else {
-                    master.infobox.showDetails(CanvasPathController.this);
+                    master.infobox.showDetails(CanvasConnectionController.this);
                 }
                 event.consume();
             }
@@ -180,7 +180,7 @@ public class CanvasPathController extends ToolboxPathController {
         item.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                master.canvas.remove(CanvasPathController.this);
+                master.canvas.remove(CanvasConnectionController.this);
                 event.consume();
             }
         });

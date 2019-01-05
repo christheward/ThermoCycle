@@ -5,8 +5,8 @@
  */
 package gui;
 
-import gui.CanvasPathController.Direction;
-import static gui.CanvasPathController.Direction.*;
+import gui.CanvasConnectionController.Direction;
+import static gui.CanvasConnectionController.Direction.*;
 import java.io.IOException;
 import java.io.Serializable;
 import javafx.event.Event;

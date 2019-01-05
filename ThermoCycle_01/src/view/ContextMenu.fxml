@@ -1,23 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.input.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.shape.*?>
-<?import com.jfoenix.controls.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
 
 <fx:root type="ContextMenu" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <items>
       <MenuItem fx:id="contextSolve" mnemonicParsing="false" text="Solve" />
-      <CheckMenuItem fx:id="contextNodeVisibility" mnemonicParsing="false" text="Show Nodes">
-         <accelerator>
-            <KeyCodeCombination alt="UP" code="H" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-         </accelerator></CheckMenuItem>
+      <CheckMenuItem fx:id="contextNodeVisibility" mnemonicParsing="false" text="Show Nodes" />
     <MenuItem fx:id="contextSummary" mnemonicParsing="false" text="Summary" />
   </items>
 </fx:root>

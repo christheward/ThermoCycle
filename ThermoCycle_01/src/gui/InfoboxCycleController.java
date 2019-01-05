@@ -103,7 +103,7 @@ public class InfoboxCycleController extends AnchorPane {
      */
     public void connectNewModel() {
         // Check if model exists
-        if (master.isModel()) {
+        if (master.modelAbsent.not().get()) {
             // Connect to other lists
             listComponents.setItems(master.getModel().componentsReadOnly);
             listFluids.setItems(master.getModel().fluidsReadOnly);

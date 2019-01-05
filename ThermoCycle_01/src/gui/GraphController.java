@@ -96,7 +96,7 @@ public class GraphController extends VBox {
         // Clear existing data
         dataset.clear();
         // Check model
-        if (master.isModel()) {
+        if (master.modelAbsent.not().get()) {
             master.getModel().componentsReadOnly.forEach(c -> {
                 // Get component data
                 List<List<FlowNode>> componentData = master.getModel().plotData(c);

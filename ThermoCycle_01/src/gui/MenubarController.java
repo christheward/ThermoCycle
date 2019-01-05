@@ -12,6 +12,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
@@ -41,6 +42,7 @@ public class MenubarController extends MenuBar {
     @FXML private MenuItem cyclePlot;
     @FXML private MenuItem cycleChart;
     @FXML private MenuItem cycleReport;
+    @FXML private CheckMenuItem cycleNodeVisibility;
     
     // GUI variables
     private final MasterSceneController master;
@@ -71,7 +73,7 @@ public class MenubarController extends MenuBar {
             throw new RuntimeException(exception);
         }
         
-        // SEt up file chooser
+        // Set up file chooser
         fileChooser.getExtensionFilters().add(new ExtensionFilter("ThermoCycle files (*.cyc)","*.cyc"));
         fileChooser.getExtensionFilters().add(new ExtensionFilter("All files (*.*)","*.*"));
         
@@ -82,8 +84,21 @@ public class MenubarController extends MenuBar {
      */
     public void initialize() {
         
-        // Set up menu handlers
+        // Setup handlers
         buildMenuHandlers();
+        
+        // Setup bindings
+        fileClose.disableProperty().bind(master.modelAbsent);
+        fileSave.disableProperty().bind(master.modelAbsent);
+        fileSaveas.disableProperty().bind(master.modelAbsent);
+        editDelete.disableProperty().bind(master.modelAbsent);
+        cycleSolve.disableProperty().bind(master.modelAbsent);
+        cycleClear.disableProperty().bind(master.modelAbsent);
+        cyclePlot.disableProperty().bind(master.modelAbsent);
+        cycleChart.disableProperty().bind(master.modelAbsent);
+        cycleReport.disableProperty().bind(master.modelAbsent);
+        cycleNodeVisibility.disableProperty().bind(master.modelAbsent);
+        master.nodeVisibility.bindBidirectional(cycleNodeVisibility.selectedProperty());
         
     }
     
@@ -110,17 +125,11 @@ public class MenubarController extends MenuBar {
                 file = fileChooser.showOpenDialog(fileBrowserDialogue);
                 try {
                     Cycle model = new Cycle("Loading");
-                    System.out.println("1");
                     FileHandler.openReadStream(file);
-                    System.out.println("2");
                     FileHandler.loadModel(model);
-                    System.out.println("3");
                     FileHandler.loadLayout(master.canvas);
-                    System.out.println("4");
                     FileHandler.closeReadStream();
-                    System.out.println("5");
                     master.setModel(model);
-                    System.out.println("6");
                     master.canvas.buildFromModel();
                 }
                 catch (FileNotFoundException ex) {
@@ -171,7 +180,7 @@ public class MenubarController extends MenuBar {
                     FileHandler.saveLayout(master.canvas);
                     FileHandler.closeWriteStream();
                 } catch (IOException ex) {
-                    // Do something
+                    ex.printStackTrace();
                 }
                 event.consume();
             }
@@ -240,5 +249,4 @@ public class MenubarController extends MenuBar {
             }
         });
     }
-        
 }

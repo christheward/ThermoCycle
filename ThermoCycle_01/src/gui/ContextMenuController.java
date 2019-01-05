@@ -6,6 +6,7 @@
 package gui;
 
 import java.io.IOException;
+import javafx.beans.property.BooleanProperty;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -46,14 +47,22 @@ public class ContextMenuController extends ContextMenu {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-        
+         
     }
     
     /**
      * Initializer
      */
     public void initialize() {
+        
+        // Setup handlers
         buildMenuHandlers();
+        
+        // Setup bindings
+        master.nodeVisibility.bindBidirectional(contextNodeVisibility.selectedProperty());
+        contextSolve.disableProperty().bind(master.modelAbsent);
+        contextSummary.disableProperty().bind(master.modelAbsent);
+        
     }
     
     /**
@@ -64,14 +73,6 @@ public class ContextMenuController extends ContextMenu {
             @Override
             public void handle(Event event) {
                 master.getModel().solve();
-                event.consume();
-            }
-            
-        });
-        contextNodeVisibility.setOnAction(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                master.canvas.setNodeVisibility(contextNodeVisibility.isSelected());
                 event.consume();
             }
             

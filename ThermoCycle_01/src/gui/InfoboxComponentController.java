@@ -38,6 +38,7 @@ public class InfoboxComponentController extends AnchorPane {
     @FXML private ComboBox<Attribute> selectAttribute;
     @FXML private TextField attributeInput;
     @FXML private Label attributeUnits;
+    @FXML private TextField nameInput;
     @FXML private Button buttonClearAttribute;
     
     // GUI variables
@@ -95,6 +96,9 @@ public class InfoboxComponentController extends AnchorPane {
         // Set component
         this.component = component;
         
+        // Set the name
+        nameInput.setText(component.name);
+        
         // Get available Attributes
         attributeList.clear();
         attributeList.addAll(master.getModel().getAttributes(component));
@@ -116,7 +120,7 @@ public class InfoboxComponentController extends AnchorPane {
                 attributeTable.add(new AttributeView(a, value));
             }
         });
-
+        
         // Update text fields
         if (!selectAttribute.getSelectionModel().isEmpty()) {
             attributeInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getAttributeBoundaryCondition(component, selectAttribute.getSelectionModel().getSelectedItem())));

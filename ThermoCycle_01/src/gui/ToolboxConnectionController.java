@@ -16,7 +16,7 @@ import javafx.scene.shape.PathElement;
  *
  * @author Chris
  */
-public class ToolboxPathController extends Path{
+public class ToolboxConnectionController extends Path{
     
     /**
      * Constructor
@@ -26,7 +26,7 @@ public class ToolboxPathController extends Path{
     
     /**
      * Starts the drag operation by setting the style and the start location of the path
-     * @param canvasNode Te canvas node to start the drag opperation from.
+     * @param canvasNode The canvas node to start the drag operation from.
      */
     protected void startDrag(CanvasNodeController canvasNode) {
         // Set up drag path form
@@ -42,8 +42,8 @@ public class ToolboxPathController extends Path{
     }
     
     /**
-     * Sets the style for the path
-     * @param canvasNode 
+     * Sets the style for the path.
+     * @param canvasNode The canvas node that defines the type of connection.
      */
     protected void setStyle(CanvasNodeController canvasNode) {
         getStyleClass().clear();

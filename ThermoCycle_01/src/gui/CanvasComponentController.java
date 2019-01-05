@@ -24,6 +24,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import thermocycle.Component;
 
 /**
  *
@@ -41,7 +42,7 @@ public class CanvasComponentController extends ToolboxComponentController{
     private EventHandler  iconDragDroppedCanvas;
     
     // Model variables
-    protected thermocycle.Component component;
+    protected Component component;
     
     /**
      * Constructor
@@ -268,7 +269,6 @@ public class CanvasComponentController extends ToolboxComponentController{
                         name.setVisible(true);
                         master.getModel().setName(component, name.getText());
                     }
-                    
                 });
                 event.consume();
             }

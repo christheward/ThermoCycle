@@ -17,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import thermocycle.Component;
 
 /**
  *
@@ -59,7 +60,7 @@ public class ToolboxController extends StackPane{
         // Populate toolbox with componet icons
         for (ComponentIcon componentType : ComponentIcon.values()) {
             if (componentType.type != null) {
-                if (thermocycle.Component.class.isAssignableFrom(componentType.type)) {
+                if (Component.class.isAssignableFrom(componentType.type)) {
                     ToolboxComponentController icon = new ToolboxComponentController(); 
                     addDragDetection(icon);
                     icon.setType(componentType);

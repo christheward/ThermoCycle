@@ -7,6 +7,8 @@ package gui;
 
 import java.io.IOException;
 import java.util.OptionalDouble;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -37,6 +39,10 @@ public class MasterSceneController extends VBox {
     protected GraphController graph;
     protected ChartController chart;
     
+    // Properties
+    protected BooleanProperty modelAbsent;
+    protected BooleanProperty nodeVisibility;
+    
     // Model elements
     private thermocycle.Cycle model;
     
@@ -47,6 +53,10 @@ public class MasterSceneController extends VBox {
      * Constructor
      */
     public MasterSceneController() {
+        
+        // Create properties
+        modelAbsent = new SimpleBooleanProperty(true);
+        nodeVisibility = new SimpleBooleanProperty(false);
         
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/MasterScene.fxml"));
@@ -82,9 +92,16 @@ public class MasterSceneController extends VBox {
         console = new ConsoleController(this);
         splitpane.getItems().add(console);
         
+        // Set up split pane
+        splitpane.setDividerPositions(0.75); // Needed because scenebuilder keeps overwriting this.
+        
         // Setup infobox
         infobox = new InfoboxBaseController(this);
         hbox.getChildren().add(infobox);
+        
+        // Setup bindings
+        canvas.disableProperty().bind(modelAbsent);
+        infobox.disableProperty().bind(modelAbsent);
         
     }
     
@@ -116,8 +133,7 @@ public class MasterSceneController extends VBox {
      */
     protected void setModel(Cycle model) {
         this.model = model;
-        canvas.setDisable(false);
-        infobox.setDisable(false);
+        modelAbsent.setValue(false);
         infobox.showDetails(canvas);
         infobox.connectNewModel();
     }
@@ -128,8 +144,7 @@ public class MasterSceneController extends VBox {
      */
     protected void closeModel() {
         this.model = null;
-        canvas.setDisable(true);
-        infobox.setDisable(true);
+        modelAbsent.setValue(true);
         infobox.showDetails(canvas);
         canvas.clearCanvas();
     }
@@ -140,14 +155,6 @@ public class MasterSceneController extends VBox {
      */
     protected Cycle getModel() {
         return model;
-    }
-    
-    /**
-     * Determines if a model has been specified
-     * @return True if the model is set, false if not.
-     */
-    protected boolean isModel() {
-        return (model != null);
     }
     
     /**

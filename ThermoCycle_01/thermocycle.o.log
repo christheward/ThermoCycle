@@ -1,8 +1,4 @@
-2019-01-01 10:37:22.279 [JavaFX Application Thread] INFO  DebugLog - Created Air (IdealGas)
-2019-01-01 10:37:22.280 [JavaFX Application Thread] INFO  DebugLog - Created N2 (IdealGas)
-2019-01-01 10:37:23.958 [JavaFX Application Thread] TRACE DebugLog - Cycle change notification.
-2019-01-01 10:37:23.958 [JavaFX Application Thread] INFO  DebugLog - Created Turbine (Turbine)
-2019-01-01 10:37:26.104 [JavaFX Application Thread] TRACE DebugLog - Cycle change notification.
-2019-01-01 10:37:26.105 [JavaFX Application Thread] INFO  DebugLog - Created Compressor (Compressor)
-2019-01-01 10:37:31.442 [JavaFX Application Thread] TRACE DebugLog - Cycle change notification.
-2019-01-01 10:37:31.442 [JavaFX Application Thread] TRACE DebugLog - Created connection
+2019-01-04 23:24:51.525 [JavaFX Application Thread] INFO  DebugLog - Created Air (IdealGas)
+2019-01-04 23:24:51.531 [JavaFX Application Thread] INFO  DebugLog - Created N2 (IdealGas)
+2019-01-04 23:24:54.462 [JavaFX Application Thread] TRACE DebugLog - Cycle change notification.
+2019-01-04 23:24:54.462 [JavaFX Application Thread] INFO  DebugLog - Created Turbine (Turbine)

@@ -17,6 +17,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -29,6 +30,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Rectangle;
 import thermocycle.Component;
 
 /**
@@ -46,7 +48,7 @@ public class CanvasController extends AnchorPane {
     private ContextMenuController contextMenu;
     private ToolboxController toolbox;
     protected ToolboxComponentController dragIcon;
-    protected ToolboxPathController dragConnection;
+    protected ToolboxConnectionController dragConnection;
     
     // Variables
     private boolean lockOpen;
@@ -75,7 +77,7 @@ public class CanvasController extends AnchorPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-
+        
         // Create context menu
         contextMenu = new ContextMenuController(master);
         
@@ -130,10 +132,10 @@ public class CanvasController extends AnchorPane {
             }
         });
         
-        // Set up drag handlers
+        // Setup drag handlers
         buildDragHandlers();
         
-        //Set up click handlers
+        // Setup click handlers
         buildClickHandlers();
         
         // Set up dragIcon
@@ -143,18 +145,19 @@ public class CanvasController extends AnchorPane {
         canvas.getChildren().add(dragIcon);
         
         // Set up dragConnection
-        dragConnection = new ToolboxPathController();
+        dragConnection = new ToolboxConnectionController();
         dragConnection.setVisible(false);
         dragConnection.setOpacity(0.35);
         canvas.getChildren().add(dragConnection);
         
+        // Setup bindings
+        draw.disableProperty().bind(master.modelAbsent);
     }
     
     /**
      * Build click handlers for the canvas
      */
     private void buildClickHandlers() {
-        
         canvas.setOnMouseClicked(new EventHandler <MouseEvent> () {
             @Override
             public void handle(MouseEvent event) {
@@ -162,6 +165,7 @@ public class CanvasController extends AnchorPane {
                     contextMenu.show(canvas, event.getScreenX(), event.getScreenY());
                 }
                 else if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    contextMenu.hide();
                     master.infobox.showDetails(CanvasController.this);
                 }
                 event.consume();
@@ -174,6 +178,16 @@ public class CanvasController extends AnchorPane {
      * Build drag handlers for the canvas
      */
     private void buildDragHandlers() {
+        
+        canvas.setOnDragDetected(new EventHandler <MouseEvent> (){
+            @Override
+            public void handle(MouseEvent event) {
+                Rectangle lassoo = new Rectangle();
+                //lassoo.
+                System.out.print("Not implemented yet");
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
         
         // Set drag done drag handler
         canvas.setOnDragDone(new EventHandler <DragEvent> (){
@@ -200,6 +214,9 @@ public class CanvasController extends AnchorPane {
                             // Put the canvas icon at the drop co-ordinated
                             Point2D cursorPoint = container.getValue("scene_coords");
                             component.relocateToPointInScene(new Point2D(cursorPoint.getX() - 32, cursorPoint.getY() - 32));
+                            
+                            // Bind visibility
+                            component.node_grid.visibleProperty().bind(master.nodeVisibility);
                             
                             // Show the component
                             component.setVisible(true);
@@ -249,7 +266,7 @@ public class CanvasController extends AnchorPane {
                         }
                         if ((startNode != null) & (endNode != null)) {
                             // Create canvas connection
-                            CanvasPathController connection = new CanvasPathController(master);
+                            CanvasConnectionController connection = new CanvasConnectionController(master);
                             canvas.getChildren().add(0,connection);
                             connection.bindEnds(startNode, endNode, null);
                             connection.setVisible(true);
@@ -320,8 +337,8 @@ public class CanvasController extends AnchorPane {
             // remove any connections that were deleted from the model as part of this operration
             canvas.getChildren().removeAll(getConnections().filter(c -> !(master.getModel().connectionsReadOnly.contains(c.connection))).collect(Collectors.toSet()));
         }
-        else if (node instanceof CanvasPathController) {
-            master.getModel().removeConnection(((CanvasPathController)node).connection);
+        else if (node instanceof CanvasConnectionController) {
+            master.getModel().removeConnection(((CanvasConnectionController)node).connection);
             canvas.getChildren().remove(node);
        }
        master.infobox.showDetails(this);
@@ -332,8 +349,8 @@ public class CanvasController extends AnchorPane {
      * Gets a stream of all the paths on the canvas.
      * @return A stream of all the path elements on the canvas.
      */
-    private Stream<CanvasPathController> getConnections() {
-        return canvas.getChildren().stream().filter(n -> n instanceof CanvasPathController).map(n -> (CanvasPathController)n);
+    private Stream<CanvasConnectionController> getConnections() {
+        return canvas.getChildren().stream().filter(n -> n instanceof CanvasConnectionController).map(n -> (CanvasConnectionController)n);
     }
     
     /**
@@ -367,7 +384,7 @@ public class CanvasController extends AnchorPane {
      * @param node The starting node
      * @return A stream on canvas path objects.
      */
-    private Stream<CanvasPathController> getPath(CanvasNodeController node) {
+    private Stream<CanvasConnectionController> getPath(CanvasNodeController node) {
         if (node.node instanceof thermocycle.FlowNode) {
             // set of flow nodes in the same path
             Set path = master.getModel().pathsReadOnly.stream().filter(p -> p.contains((thermocycle.FlowNode) node.node)).collect(Collectors.toSet());
@@ -389,16 +406,16 @@ public class CanvasController extends AnchorPane {
      * Clears the canvas
      */
     protected void clearCanvas() {
-        canvas.getChildren().removeAll(canvas.getChildren().stream().filter(n -> n instanceof CanvasComponentController | n instanceof CanvasPathController).collect(Collectors.toSet()));
+        canvas.getChildren().removeAll(canvas.getChildren().stream().filter(n -> n instanceof CanvasComponentController | n instanceof CanvasConnectionController).collect(Collectors.toSet()));
     }
     
     /**
      * Sets the node visibility for all nodes on the canvas.
      * @param visible true to show nodes and false to hide nodes
      */
-    protected void setNodeVisibility(boolean visible) {
-        canvas.getChildren().stream().filter(c -> c instanceof CanvasComponentController).forEach((c -> ((CanvasComponentController)c).node_grid.setVisible(visible)));
-    }
+    //protected void setNodeVisibility(boolean visible) {
+    //    canvas.getChildren().stream().filter(c -> c instanceof CanvasComponentController).forEach((c -> ((CanvasComponentController)c).node_grid.setVisible(visible)));
+    //}
     
     /**
      * This function builds the GUI from the underlying model
@@ -424,7 +441,7 @@ public class CanvasController extends AnchorPane {
         });
         master.getModel().connectionsReadOnly.stream().forEach(c -> {
             // Create new canvas path
-            CanvasPathController connection = new CanvasPathController(master);
+            CanvasConnectionController connection = new CanvasConnectionController(master);
             canvas.getChildren().add(0,connection);
             
             List<CanvasNodeController> nodes = getNodes().filter(n -> master.getModel().containsNode(c, n.node)).collect(Collectors.toList());

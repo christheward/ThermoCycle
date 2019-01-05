@@ -85,7 +85,7 @@ public class InfoboxBaseController extends StackPane {
         hideAll();
         
         if (node instanceof CanvasController) {
-            infoCycle.setVisible(master.isModel());
+            infoCycle.setVisible(master.modelAbsent.not().get());
         }
         else if (node instanceof CanvasNodeController) {
             thermocycle.Node n = (((CanvasNodeController) node).node);
@@ -106,8 +106,8 @@ public class InfoboxBaseController extends StackPane {
             infoComponent.showDetails(((CanvasComponentController) node).component);
             infoComponent.setVisible(true);
         }
-        else if (node instanceof CanvasPathController) {
-            thermocycle.Node n = ((CanvasPathController)node).start.node;
+        else if (node instanceof CanvasConnectionController) {
+            thermocycle.Node n = ((CanvasConnectionController)node).start.node;
             if (n instanceof HeatNode) {
                 infoHeat.showDetails((HeatNode)n);
                 infoHeat.setVisible(true);
