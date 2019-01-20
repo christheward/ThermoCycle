@@ -7,12 +7,13 @@ package thermocycle;
 
 import java.io.Serializable;
 import java.util.*;
+import thermocycle.Properties.Property;
 
 /**
  *
  * @author Chris
  */
-final class State implements Properties, Serializable {
+final class State implements Serializable {
     
     /**
      * Property map.

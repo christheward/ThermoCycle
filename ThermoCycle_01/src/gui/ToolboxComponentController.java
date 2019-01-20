@@ -6,7 +6,8 @@
 package gui;
 
 import java.io.IOException;
-import java.io.Serializable;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
@@ -19,7 +20,7 @@ import javafx.scene.layout.GridPane;
  *
  * @author Chris
  */
-public class ToolboxComponentController extends AnchorPane implements Serializable {
+public class ToolboxComponentController extends AnchorPane {
     
     // FXML variables
     @FXML protected AnchorPane base;
@@ -27,14 +28,27 @@ public class ToolboxComponentController extends AnchorPane implements Serializab
     @FXML protected GridPane node_grid;
     @FXML protected Label name;
     @FXML protected TextField input;
-        
+    private Point2D centerInLocal;
+    
+    // Properties
+    private DoubleProperty xCenterInLocal;
+    private DoubleProperty yCenterInLocal;
+    private DoubleProperty xCenterInParent;
+    private DoubleProperty yCenterInParent;
+    
     // Model variables
-    protected ComponentIcon iType;
+    private ComponentIcon iType;
     
     /**
      * Constructor
      */
     public ToolboxComponentController() {
+        
+        // Create properties
+        xCenterInLocal = new SimpleDoubleProperty();
+        yCenterInLocal = new SimpleDoubleProperty();
+        xCenterInParent = new SimpleDoubleProperty();
+        yCenterInParent = new SimpleDoubleProperty();
         
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ToolboxComponent.fxml"));
@@ -52,6 +66,11 @@ public class ToolboxComponentController extends AnchorPane implements Serializab
      * Initializer
      */
     @FXML private void initialize() {
+        
+        // Create bindings
+        xCenterInLocal.bind(this.widthProperty().divide(2.0));
+        yCenterInLocal.bind(this.heightProperty().divide(2.0));
+        
     }
     
     /**
@@ -60,6 +79,19 @@ public class ToolboxComponentController extends AnchorPane implements Serializab
      */
     protected ComponentIcon getType() {
         return iType;
+    }
+    
+    /**
+     * Sets the icon types
+     * @param iType The icon type to set.
+     */
+    protected final void setType(ComponentIcon iType) {
+        this.iType = iType;
+        icon.getStyleClass().clear();
+        icon.getStyleClass().add(iType.css);
+        icon.getStyleClass().add("icon");
+        icon.getStyleClass().add("icon-toolbox");
+        name.setText(iType.name);
     }
     
     /**
@@ -77,19 +109,6 @@ public class ToolboxComponentController extends AnchorPane implements Serializab
      */
     protected final Point2D getCenterPointInParent() {
         return localToParent(new Point2D ((int)((getBoundsInLocal().getMinX() + getBoundsInLocal().getMaxX()) / 2), (int)((getBoundsInLocal().getMinX() + getBoundsInLocal().getMaxX()) / 2)));
-    }
-    
-    /**
-     * Sets the icon types
-     * @param iType The icon type to set.
-     */
-    protected final void setType(ComponentIcon iType) {
-        this.iType = iType;
-        icon.getStyleClass().clear();
-        icon.getStyleClass().add(iType.css);
-        icon.getStyleClass().add("icon");
-        icon.getStyleClass().add("icon-toolbox");
-        name.setText(iType.name);
     }
     
 }

@@ -115,7 +115,7 @@ public class MenubarController extends MenuBar {
         fileClose.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                master.closeModel();
+                master.setModel(null);
             }
         });
         fileOpen.setOnAction(new EventHandler() {

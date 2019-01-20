@@ -13,23 +13,23 @@ import thermocycle.Attributes.Attribute;
  */
 public class BoundaryConditionAttribute extends BoundaryCondition {
     
-    private final Component component;
-    private final Attribute attribute;
-    private final Double value;
-
+    public final Component component;
+    public final Attribute attribute;
+    public final Double value;
+    
     public BoundaryConditionAttribute(Component component, Attribute attribute, Double value) {
         this.component = component;
         this.attribute = attribute;
         this.value = value;
     }
-
+    
     @Override
-    public void execute() {
+    protected void execute() {
         component.setAttribute(attribute, value);
     }
-
+    
     @Override
-    public boolean match(BoundaryCondition cnd) {
+    protected boolean match(BoundaryCondition cnd) {
         if (cnd instanceof BoundaryConditionAttribute) {
             if (this.component == (((BoundaryConditionAttribute) cnd).component)) {
                 if (this.attribute == (((BoundaryConditionAttribute) cnd).attribute)) {
@@ -39,10 +39,10 @@ public class BoundaryConditionAttribute extends BoundaryCondition {
         }
         return false;
     }
-
+    
     @Override
-    public Double value() {
+    public Double getValue() {
         return value;
     }
-
+    
 }

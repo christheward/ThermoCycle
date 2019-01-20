@@ -73,7 +73,7 @@ public class InfoboxWorkController extends AnchorPane {
      */
     private void refresh() {
         // Set work
-        workInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getWorkBoundaryCondition(node)));
+        workInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getBoundaryConditionWork(node)));
     }
     
     /**
@@ -83,7 +83,7 @@ public class InfoboxWorkController extends AnchorPane {
         buttonClearWork.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                master.getModel().removeBoundaryCondition(node);
+                //master.getModel().removeBoundaryCondition(node);
                 refresh();
                 event.consume();
             }
@@ -92,7 +92,7 @@ public class InfoboxWorkController extends AnchorPane {
         workInput.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                master.getModel().setWork(node, Double.valueOf(workInput.getText()));
+                master.getModel().setBoundaryConditionWork(node, Double.valueOf(workInput.getText()));
                 refresh();
                 event.consume();
             }

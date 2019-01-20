@@ -6,6 +6,7 @@
 package gui;
 
 import java.io.IOException;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import thermocycle.HeatNode;
 
 /**
  *
@@ -24,10 +26,12 @@ public class InfoboxHeatController extends AnchorPane {
     @FXML private TextField heatInput;
     @FXML private Button buttonClearHeat;
     
+    // Set master
     private final MasterSceneController master;
     
     // Model variables
-    protected thermocycle.HeatNode node;
+    private ReadOnlyObjectWrapper<HeatNode> node;
+    
     
     /**
      * Constructor
@@ -56,23 +60,13 @@ public class InfoboxHeatController extends AnchorPane {
      */
     public void initialize() {
     }
-        
-    public void showDetails(thermocycle.HeatNode node) {
-        
-        // Set component
-        this.node = node;
-        
-        // Populate the values
-        refresh();
-        
-    }
     
     /**
      * Populates the heat flux values.
      */
     private void refresh() {
         // Set heat flux
-        heatInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getHeatBoundaryCondition(node)));
+        heatInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getBoundaryConditionHeat(node.getValue())));
     }
     
     /**
@@ -82,7 +76,7 @@ public class InfoboxHeatController extends AnchorPane {
         buttonClearHeat.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                master.getModel().removeBoundaryCondition(node);
+                //master.getModel().removeBoundaryCondition(node.getValue());
                 refresh();
                 event.consume();
             }
@@ -91,7 +85,7 @@ public class InfoboxHeatController extends AnchorPane {
         heatInput.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                master.getModel().setHeat(node, Double.valueOf(heatInput.getText()));
+                master.getModel().setBoundaryConditionHeat(node.getValue(), Double.valueOf(heatInput.getText()));
                 refresh();
                 event.consume();
             }

@@ -20,12 +20,12 @@ public class BoundaryConditionWork extends BoundaryCondition {
     }
 
     @Override
-    public void execute() {
+    protected void execute() {
         node.setWork(value);
     }
 
     @Override
-    public boolean match(BoundaryCondition cnd) {
+    protected boolean match(BoundaryCondition cnd) {
         if (cnd instanceof BoundaryConditionWork) {
             if (this.node == ((BoundaryConditionWork)cnd).node) {
                 return true;
@@ -35,7 +35,7 @@ public class BoundaryConditionWork extends BoundaryCondition {
     }
 
     @Override
-    public Double value() {
+    public Double getValue() {
         return value;
     }
     

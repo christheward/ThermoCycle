@@ -6,6 +6,8 @@
 package thermocycle;
 
 import java.util.*;
+import static thermocycle.Attributes.Attribute.EFFICIENCY;
+import static thermocycle.Attributes.Attribute.PRATIO;
 import static thermocycle.Attributes.Attribute.SPLIT;
 import static thermocycle.Node.Port.*;
 import static thermocycle.Properties.Property.*;
@@ -29,7 +31,6 @@ final class Splitter extends Component {
         flowNodes.add(new FlowNode(OUTLET));
         internals.add(new Connection(flowNodes.get(0),flowNodes.get(1)));
         internals.add(new Connection(flowNodes.get(0),flowNodes.get(2)));
-        attributes.add(SPLIT);
     }
     
     /**
@@ -73,6 +74,13 @@ final class Splitter extends Component {
         paths.add(thermodynamicProcess(getInlet(), getOutlet2(), ENTHALPY, ENTROPY));
         return paths;
     }
+    
+    @Override
+    public Set<Attributes.Attribute> getAllowableAtributes() {
+        Set<Attributes.Attribute> attributes = new HashSet();
+        attributes.add(SPLIT);
+        return attributes;
+   }
     
     /**
      * Mass balance across the splitter.

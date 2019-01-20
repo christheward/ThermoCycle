@@ -33,8 +33,6 @@ public final class Turbine extends Component {
         equations.add(new Energy_Balance());
         equations.add(new Pressure_Ratio());
         equations.add(new Efficicnecy());
-        attributes.add(EFFICIENCY);
-        attributes.add(PRATIO);
     }
     
     /**
@@ -76,6 +74,14 @@ public final class Turbine extends Component {
         paths.add(thermodynamicProcess(getInlet(), getOutlet(), ENTHALPY, ENTROPY));
         return paths;
     }
+    
+    @Override
+    public Set<Attributes.Attribute> getAllowableAtributes() {
+        Set<Attributes.Attribute> attributes = new HashSet();
+        attributes.add(PRATIO);
+        attributes.add(EFFICIENCY);
+        return attributes;
+   }
     
     /**
      * Mass balance across turbine.

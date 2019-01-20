@@ -15,6 +15,6 @@ public abstract class BoundaryCondition implements Serializable {
     
     protected abstract void execute();
     protected abstract boolean match(BoundaryCondition cnd);
-    protected abstract Double value();
+    public abstract Double getValue();
     
 }

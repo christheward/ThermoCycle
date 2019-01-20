@@ -134,7 +134,7 @@ public class CanvasConnectionController extends ToolboxConnectionController {
      * Move the start of the path to the start CanvasNodeController
      */
     private void moveStart() {
-        Point2D point = sceneToLocal(start.sceneLocation());
+        Point2D point = sceneToLocal(start.getLocationInScene());
         ((MoveTo)first()).setX(point.getX());
         ((MoveTo)first()).setY(point.getY());
     }
@@ -143,7 +143,7 @@ public class CanvasConnectionController extends ToolboxConnectionController {
      * Move the start of the path to the end CanvasNodeController
      */
     private void moveEnd() {
-        Point2D point = sceneToLocal(end.sceneLocation());
+        Point2D point = sceneToLocal(end.getLocationInScene());
         ((LineTo)last()).setX(point.getX());
         ((LineTo)last()).setY(point.getY());
     }
@@ -164,7 +164,7 @@ public class CanvasConnectionController extends ToolboxConnectionController {
                     menu.show(CanvasConnectionController.this, event.getScreenX(), event.getScreenY());
                 }
                 else {
-                    master.infobox.showDetails(CanvasConnectionController.this);
+                    master.setFocus(CanvasConnectionController.this.start);
                 }
                 event.consume();
             }
@@ -189,11 +189,11 @@ public class CanvasConnectionController extends ToolboxConnectionController {
     
     private void generatePath() {
 
-        Point2D startOffset = start.sceneLocation().add(start.getDirection().vector.multiply(length));
-        Point2D endOffset = end.sceneLocation().subtract(end.getDirection().vector.multiply(length));
+        Point2D startOffset = start.getLocationInScene().add(start.getDirection().vector.multiply(length));
+        Point2D endOffset = end.getLocationInScene().subtract(end.getDirection().vector.multiply(length));
         Point2D diff = endOffset.subtract(startOffset);
         
-        intersection(start.sceneLocation(), start.getDirection().vector, end.sceneLocation(), end.getDirection().opposite.vector);
+        intersection(start.getLocationInScene(), start.getDirection().vector, end.getLocationInScene(), end.getDirection().opposite.vector);
         
         // free to continue in the same direction
         // infinite cost to reverse
@@ -202,10 +202,10 @@ public class CanvasConnectionController extends ToolboxConnectionController {
         
         this.getElements().clear();
         MoveTo elem = new MoveTo();
-        elem.setX(start.sceneLocation().getX());
+        elem.setX(start.getLocationInScene().getX());
         if (start.getDirection().equals(end.getDirection())) {
             // Facing the same direction
-            if (start.sceneLocation().dotProduct(start.getDirection().vector) > end.sceneLocation().dotProduct(end.getDirection().vector)) {
+            if (start.getLocationInScene().dotProduct(start.getDirection().vector) > end.getLocationInScene().dotProduct(end.getDirection().vector)) {
                 // start leg is shorter
             }
         }

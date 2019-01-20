@@ -6,6 +6,7 @@
 package thermocycle;
 
 import java.util.*;
+import thermocycle.Properties.Property;
 import static thermocycle.Properties.Property.*;
 
 /**
@@ -44,7 +45,7 @@ public final class Steam extends Fluid {
     }
     
     @Override
-    protected final Set<Property> getAllowableProperties() {
+    public final Set<Property> getAllowableProperties() {
         Set<Property> fluidState = new HashSet<>();
         fluidState.add(PRESSURE);
         fluidState.add(TEMPERATURE);

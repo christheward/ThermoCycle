@@ -81,6 +81,7 @@ public class InfoboxFlowController extends AnchorPane {
         unitsColumn.setCellValueFactory(new PropertyValueFactory("units"));
         
         // Set up links
+        //selectFluid.setItems(master.getModel().fluidsReadOnly); // But fluidsList might not exist
         selectProperty.setItems(propertyList);
         table.setItems(propertyTable);
         
@@ -107,15 +108,16 @@ public class InfoboxFlowController extends AnchorPane {
         
         // Set fluids list - can't put this in initialiser because model doesn't allways exit 
         selectFluid.setItems(master.getModel().fluidsReadOnly);
-                
+        
         // Set fluid
         if (master.getModel().isFluidSet(node)) {
             selectFluid.getSelectionModel().select(master.getModel().getFluid(node));
             propertyList.clear();
-            propertyList.addAll(master.getModel().getAllowableProperties(selectFluid.getValue()));
+            propertyList.addAll(selectFluid.getValue().getAllowableProperties());
         };
         
         refresh();
+        
     }
     
     /**
@@ -126,13 +128,13 @@ public class InfoboxFlowController extends AnchorPane {
         if (master.getModel().isFluidSet(node)) {
             
             // Update mass flow boundary condition
-            massInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getMassBoundaryCondition(node)));
+            massInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getBoundaryConditionFlow(node)));
 
             // Update propery boundary condition table
             if (!selectFluid.getSelectionModel().isEmpty()) {
                 propertyTable.clear();
-                master.getModel().getAllowableProperties(selectFluid.getValue()).forEach(p -> {
-                    OptionalDouble value = master.getModel().getPropertyBoundaryCondition(node, p);
+                selectFluid.getValue().getAllowableProperties().forEach(p -> {
+                    OptionalDouble value = master.getModel().getBoundaryConditionProperty(node, p);
                     if (value.isPresent()) {
                         propertyTable.add(new PropertyView(p, value));
                     }
@@ -141,7 +143,7 @@ public class InfoboxFlowController extends AnchorPane {
             
             // Update property boundary condition
             if (!selectProperty.getSelectionModel().isEmpty()) {
-                propertyInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getPropertyBoundaryCondition(node, selectProperty.getSelectionModel().getSelectedItem())));
+                propertyInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getBoundaryConditionProperty(node, selectProperty.getSelectionModel().getSelectedItem())));
                 propertyUnits.setText(selectProperty.getSelectionModel().getSelectedItem().units);
             }
             else {
@@ -172,7 +174,7 @@ public class InfoboxFlowController extends AnchorPane {
                 master.getModel().setFluid(node, selectFluid.getSelectionModel().getSelectedItem());
                 // Update property list
                 propertyList.clear();
-                propertyList.addAll(master.getModel().getAllowableProperties(selectFluid.getValue()));
+                propertyList.addAll(selectFluid.getValue().getAllowableProperties());
                 refresh();
                 event.consume();
             }        
@@ -181,7 +183,7 @@ public class InfoboxFlowController extends AnchorPane {
         massInput.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                master.getModel().setMass(node, Double.valueOf(massInput.getText()));
+                master.getModel().setBoundaryConditionFlow(node, Double.valueOf(massInput.getText()));
                 refresh();
                 event.consume();
             }
@@ -190,7 +192,7 @@ public class InfoboxFlowController extends AnchorPane {
         buttonClearMass.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                master.getModel().removeBoundaryCondition(node);
+                //master.getModel().removeBoundaryCondition(node);
                 refresh();
                 event.consume();
             }
@@ -207,7 +209,7 @@ public class InfoboxFlowController extends AnchorPane {
         propertyInput.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                master.getModel().setState(node, selectProperty.getSelectionModel().getSelectedItem(), Double.valueOf(propertyInput.getText()));
+                master.getModel().setBoundaryConditionProperty(node, selectProperty.getSelectionModel().getSelectedItem(), Double.valueOf(propertyInput.getText()));
                 refresh();
                 event.consume();
             }
@@ -216,7 +218,7 @@ public class InfoboxFlowController extends AnchorPane {
         buttonClearProperty.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                master.getModel().removeBoundaryCondition(node, selectProperty.getSelectionModel().getSelectedItem());
+                //master.getModel().removeBoundaryCondition(node, selectProperty.getSelectionModel().getSelectedItem());
                 refresh();
                 event.consume();
             }

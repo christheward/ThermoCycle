@@ -37,9 +37,6 @@ public final class HeatExchanger extends Component {
         equations.add(new Pressure_Loss_Cold());
         equations.add(new Effectiveness());
         equations.add(new Ideal_Heat_Transfer());
-        attributes.add(EFFECTIVENESS);
-        attributes.add(AHEATTRANSFER);
-        attributes.add(IHEATTRANSFER);
     }
     
     /**
@@ -91,6 +88,15 @@ public final class HeatExchanger extends Component {
         paths.add(thermodynamicProcess(getInletCold(), getOutletCold(), ENTHALPY, ENTROPY));
         return paths;
     }
+    
+    @Override
+    public Set<Attributes.Attribute> getAllowableAtributes() {
+        Set<Attributes.Attribute> attributes = new HashSet();
+        attributes.add(EFFECTIVENESS);
+        attributes.add(AHEATTRANSFER);
+        attributes.add(IHEATTRANSFER);
+        return attributes;
+   }
     
     /**
      * Mass balance on the hot side of the heat exchanger.

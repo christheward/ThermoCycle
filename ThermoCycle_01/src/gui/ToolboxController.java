@@ -37,6 +37,9 @@ public class ToolboxController extends StackPane{
      * @param canvas
      */
     public ToolboxController(CanvasController canvas) {
+
+        // Set canvas
+        this.canvas = canvas;
         
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Toolbox.fxml"));
@@ -48,7 +51,6 @@ public class ToolboxController extends StackPane{
         catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-        this.canvas = canvas;
         
     }
     
@@ -59,7 +61,9 @@ public class ToolboxController extends StackPane{
         
         // Populate toolbox with componet icons
         for (ComponentIcon componentType : ComponentIcon.values()) {
+            // Check component is not null (unknown component)
             if (componentType.type != null) {
+                // Check type is a sub-class of component
                 if (Component.class.isAssignableFrom(componentType.type)) {
                     ToolboxComponentController icon = new ToolboxComponentController(); 
                     addDragDetection(icon);
@@ -72,7 +76,7 @@ public class ToolboxController extends StackPane{
     }
     
     /**
-     * Add drag detection handlers to an icon
+     * Add drag detection handlers to a toolbox icon
      * @param icon The toolbox icon to add drag detection handlers to.
      */
     private void addDragDetection(ToolboxComponentController icon) {
@@ -84,7 +88,7 @@ public class ToolboxController extends StackPane{
                 // Get the source object
                 ToolboxComponentController source = (ToolboxComponentController)event.getSource();
                 
-                // Set drag handlers for the uunderlying canvas
+                // Set drag handlers for the underlying canvas
                 canvas.setOnDragOver(canvas.iconDragOverCanvas);
                 canvas.setOnDragDropped(canvas.iconDragDroppedCanvas);
                 
@@ -92,11 +96,11 @@ public class ToolboxController extends StackPane{
                 canvas.dragIcon.setType(source.getType());
                 canvas.dragIcon.relocateToPointInScene(new Point2D (event.getSceneX(), event.getSceneY()));
                 
-                // Put data in clipboard to identify icon type
+                // Put data in clipboard to identify icon type when dropped on canvas
                 ClipboardContent content = new ClipboardContent();
                 DragContainerController container = new DragContainerController();
                 container.addData("type", canvas.dragIcon.getType().toString());
-                content.put(DragContainerController.AddNode, container);
+                content.put(DragContainerController.CreateComponent, container);
                 
                 // Start the drag operation
                 canvas.dragIcon.startDragAndDrop(TransferMode.ANY).setContent(content);

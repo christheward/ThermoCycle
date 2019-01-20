@@ -6,8 +6,9 @@
 package gui;
 
 import java.io.IOException;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import thermocycle.FlowNode;
 import thermocycle.HeatNode;
@@ -54,7 +55,7 @@ public class InfoboxBaseController extends StackPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-                
+        
     }
     
     /**
@@ -64,70 +65,68 @@ public class InfoboxBaseController extends StackPane {
         
         // Create cycle infobox panel
         this.getChildren().addAll(infoCycle, infoHeat, infoWork, infoFlow, infoComponent);
-        hideAll();
         
-    }
-    
-    /**
-     * Hides all the children on the infobox.
-     */
-    private final void hideAll() {
-        this.getChildren().stream().forEach(c -> {
-            c.setVisible(false);
+        //Bindings.when(master.focusedProperty().)
+        infoCycle.visibleProperty().bind(new BooleanBinding() {
+            {
+                bind(master.focusProperty());
+            }
+            @Override
+            protected boolean computeValue() {
+                return Bindings.when(master.focusProperty().isNotNull()).then(master.getFocus() instanceof CanvasController).otherwise(false).getValue();
+            }
         });
-    }
-    
-    /**
-     * Shows details for the GUI node selected.
-     * @param node The GUI node to show details for.
-     */
-    public void showDetails(Node node) {
-        hideAll();
-        
-        if (node instanceof CanvasController) {
-            infoCycle.setVisible(master.modelAbsent.not().get());
-        }
-        else if (node instanceof CanvasNodeController) {
-            thermocycle.Node n = (((CanvasNodeController) node).node);
-            if (n instanceof HeatNode) {
-                infoHeat.showDetails((HeatNode)n);
-                infoHeat.setVisible(true);
+        infoComponent.visibleProperty().bind(new BooleanBinding() {
+            {
+                bind(master.focusProperty());
             }
-            else if (n instanceof WorkNode) {
-                infoWork.showDetails((WorkNode)n);
-                infoWork.setVisible(true);
+            @Override
+            protected boolean computeValue() {
+                return Bindings.when(master.focusProperty().isNotNull()).then(master.getFocus() instanceof CanvasComponentController).otherwise(false).getValue();
             }
-            else if (n instanceof FlowNode) {
-                infoFlow.showDetails((FlowNode)n);
-                infoFlow.setVisible(true);
+        });
+        infoHeat.visibleProperty().bind(new BooleanBinding() {
+            {
+                bind(master.focusProperty());
             }
-        }
-        else if (node instanceof CanvasComponentController) {
-            infoComponent.showDetails(((CanvasComponentController) node).component);
-            infoComponent.setVisible(true);
-        }
-        else if (node instanceof CanvasConnectionController) {
-            thermocycle.Node n = ((CanvasConnectionController)node).start.node;
-            if (n instanceof HeatNode) {
-                infoHeat.showDetails((HeatNode)n);
-                infoHeat.setVisible(true);
+            @Override
+            protected boolean computeValue() {
+                if (master.focusProperty().isNotNull().getValue()) {
+                    if (master.getFocus() instanceof CanvasNodeController) {
+                        return (((CanvasNodeController) master.getFocus()).node instanceof HeatNode);
+                    }
+                }
+                return false;
             }
-            else if (n instanceof WorkNode) {
-                infoWork.showDetails((WorkNode)n);
-                infoWork.setVisible(true);
+        });
+        infoWork.visibleProperty().bind(new BooleanBinding() {
+            {
+                bind(master.focusProperty());
             }
-            else if (n instanceof FlowNode) {
-                infoFlow.showDetails((FlowNode)n);
-                infoFlow.setVisible(true);
+            @Override
+            protected boolean computeValue() {
+                if (master.focusProperty().isNotNull().getValue()) {
+                    if (master.getFocus() instanceof CanvasNodeController) {
+                        return (((CanvasNodeController) master.getFocus()).node instanceof WorkNode);
+                    }
+                }
+                return false;
             }
-        }
-    }
-    
-    /**
-     * Connects the infobox to the underlying model.
-     */
-    protected void connectNewModel() {
-        infoCycle.connectNewModel();
+        });
+        infoFlow.visibleProperty().bind(new BooleanBinding() {
+            {
+                bind(master.focusProperty());
+            }
+            @Override
+            protected boolean computeValue() {
+                if (master.focusProperty().isNotNull().getValue()) {
+                    if (master.getFocus() instanceof CanvasNodeController) {
+                        return (((CanvasNodeController) master.getFocus()).node instanceof FlowNode);
+                    }
+                }
+                return false;
+            }
+        });
     }
     
 }

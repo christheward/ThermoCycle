@@ -10,14 +10,16 @@ import java.io.Serializable;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import thermocycle.Attributes.Attribute;
 import static thermocycle.Properties.Property.*;
 import static thermocycle.Node.Port.*;
+import thermocycle.Properties.Property;
 
 /**
  *
  * @author Chris
  */
-public abstract class Component implements Attributes, Properties, Serializable {
+public abstract class Component implements Serializable {
     
     /**
      * The logger instance.
@@ -32,7 +34,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
     /**
      * The component's name.
      */
-    public String name;
+    protected String name;
     
     /**
      * The component's unique reference number
@@ -68,12 +70,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * A list of all the heat nodes in this component.
      */
     public final List<HeatNode> heatNodes;
-    
-    /**
-     * A set of all the component's attributes.
-     */
-    protected final Set<Attribute> attributes;
-    
+        
     /**
      * A map containing the value of all component attributes that have been set.
      */
@@ -93,7 +90,6 @@ public abstract class Component implements Attributes, Properties, Serializable 
         this.heatNodes = new ArrayList();
         this.internals = new ArrayList();
         this.equations = new ArrayList();
-        this.attributes = new HashSet();
         this.condition = new HashMap();
     }
     
@@ -177,9 +173,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * Gets the set of component attributes.
      * @return A set of component attributes.
      */
-    protected final Set<Attribute> getAtributes() {
-        return attributes;
-    }
+    public abstract Set<Attribute> getAllowableAtributes();
     
     /**
      * Gets the value of an attribute if it has been set.
@@ -187,7 +181,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * @param attribute The attribute to get the value of.
      * @return The value of the attribute.
      */
-    protected final OptionalDouble getAttribute(Attribute attribute) {
+    public final OptionalDouble getAttribute(Attribute attribute) {
         if (condition.containsKey(attribute)) {
             return OptionalDouble.of(condition.get(attribute));
         }
@@ -215,7 +209,7 @@ public abstract class Component implements Attributes, Properties, Serializable 
      * Checks if the component is complete. A component is complete when all its nodes are complete and equations have been checked for compatibility.
      * @return true if the component is complete, false otherwise.
      */
-    protected final boolean isComplete() {
+    public final boolean isComplete() {
         if (getNodes().stream().allMatch(n -> n.isComplete())) {
             if (equations.stream().allMatch(equation -> equation.isSolved())) {
                 return true;
@@ -223,21 +217,6 @@ public abstract class Component implements Attributes, Properties, Serializable 
         }
         return false;
     }
-    
-    /**
-     * Checks if the component is compatible. A component is compatible if all its equations are compatible.
-     * @return Returns true is the component is compatible, false otherwise.
-     */
-    /**
-    protected final boolean isCompatible() {
-        equations.stream().forEach(equation -> {
-            if (!equation.isCompatible()) {
-                logger.error("Incompatible equation: " + equation.getClass().getSimpleName());
-            }
-        });
-        return equations.stream().allMatch(equation -> equation.isCompatible());
-    }
-    */
     
     /**
      * Updates the component by continually solving it's equations until all unknowns have been found.

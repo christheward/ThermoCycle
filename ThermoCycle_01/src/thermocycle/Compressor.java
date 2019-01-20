@@ -6,6 +6,7 @@
 package thermocycle;
 
 import java.util.*;
+import thermocycle.Attributes.Attribute;
 import static thermocycle.Attributes.Attribute.*;
 import static thermocycle.Properties.Property.*;
 import static thermocycle.Node.Port.*;
@@ -32,8 +33,6 @@ public final class Compressor extends Component {
         equations.add(new Energy_Balance());
         equations.add(new Pressure_Ratio());
         equations.add(new Efficiency());
-        attributes.add(PRATIO);
-        attributes.add(EFFICIENCY);
     }
     
     /**
@@ -74,6 +73,14 @@ public final class Compressor extends Component {
         paths.add(thermodynamicProcess(getInlet(), getOutlet(), ENTHALPY, ENTROPY));
         return paths;
     }
+
+    @Override
+    public Set<Attribute> getAllowableAtributes() {
+        Set<Attribute> attributes = new HashSet();
+        attributes.add(PRATIO);
+        attributes.add(EFFICIENCY);
+        return attributes;
+   }
     
     /**
      * Mass balance across the compressor.

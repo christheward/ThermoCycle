@@ -6,6 +6,7 @@
 package thermocycle;
 
 import java.util.*;
+import thermocycle.Properties.Property;
 import static thermocycle.Properties.Property.*;
 
 /**
@@ -41,7 +42,7 @@ final class VanDerWaalsGas extends Fluid {
     
     // abstract methods
     @Override
-    protected Set<Property> getAllowableProperties() {
+    public Set<Property> getAllowableProperties() {
         Set<Property> fluidState = new HashSet<>();
         fluidState.add(PRESSURE);
         fluidState.add(TEMPERATURE);

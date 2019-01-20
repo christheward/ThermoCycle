@@ -148,3 +148,9 @@ and open the template in the editor.
 .canvas {
     -fx-background-color: white;
 }
+
+
+.button-delete {
+    -fx-background-image: url("/images/ic_btn_delete.png");
+    -fx-background-size: cover;
+}

@@ -9,14 +9,11 @@ import gui.CanvasConnectionController.Direction;
 import static gui.CanvasConnectionController.Direction.*;
 import java.io.IOException;
 import java.io.Serializable;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
@@ -38,7 +35,6 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
     @FXML private Circle circle;
     
     // GUI variables
-    private ContextMenu menu;
     private Tooltip tip;
     private final MasterSceneController master;
     private final CanvasComponentController canvasIcon;
@@ -59,7 +55,10 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
         // Set master
         this.master = master;
         
+        // Set parent canvas icon
         this.canvasIcon = canvasIcon;
+        
+        // Set model node
         this.node = node;
         
         // Load FXML
@@ -82,7 +81,7 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
     /**
      * Initializer
      */
-    private void initialize() {    
+    private void initialize() {
     }
     
       /**
@@ -99,38 +98,26 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
         else if (node instanceof thermocycle.WorkNode) {
             circle.getStyleClass().add("node-work");
         }
-        else {
-            // Error
-        }
     }
     
     /**
      * Builds the tool tip for this node
      */
-    protected void buildTooltip() {
+    private void buildTooltip() {
         tip = new Tooltip();
-        Tooltip.install(base, tip);
-        tip.setOnShowing(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                tip.setText(node.getClass().getSimpleName() + " " + master.getModel().getNodePort(node) + "\n" + node.toString());
-            }
-        });
+        tip.setText(node.getClass().getSimpleName() + " " + master.getModel().getNodePort(node).name());
+        Tooltip.install(this, tip);
     }
     
     /**
      * Builds the click handlers for this node
      */
     private void buildNodeClickHandlers() {
-        base.setOnMouseClicked(new EventHandler <MouseEvent> () {
+        this.setOnMouseClicked(new EventHandler <MouseEvent> () {
             @Override
             public void handle(MouseEvent event) {
-                if (event.getButton().equals(MouseButton.SECONDARY)) {
-                    buildContextMenu();
-                    menu.show(base, event.getScreenX(), event.getScreenY());
-                }
-                else if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    master.infobox.showDetails(CanvasNodeController.this);
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    master.setFocus(CanvasNodeController.this);
                 }
                 event.consume();
             }
@@ -140,7 +127,7 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
     private void buildNodeDragHandlers() {
         
         //drag detection for node dragging
-        base.setOnDragDetected(new EventHandler <MouseEvent> () {
+        this.setOnDragDetected(new EventHandler <MouseEvent> () {
             @Override
             public void handle(MouseEvent event) {
                 
@@ -148,11 +135,7 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
                 CanvasNodeController source = (CanvasNodeController) event.getSource();
                 
                 // Set drag handlers for the uunderlying canvas
-                master.canvas.setOnDragDropped(null);
-                master.canvas.setOnDragOver(null);
-                base.setOnDragDropped(null);
                 master.canvas.setOnDragOver(master.canvas.connectionDragOverCanvas);
-                base.setOnDragDropped(connectionDragDroppedNode);
                 
                 // Bind the start to the node
                 master.canvas.dragConnection.startDrag(source);
@@ -162,7 +145,7 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
                 DragContainerController container = new DragContainerController();
                 container.addData("startIcon", source.canvasIcon.hashCode());
                 container.addData("startNode", source.hashCode());
-                content.put(DragContainerController.AddLink, container);
+                content.put(DragContainerController.CreateConnection, container);
                 
                 // Start the drag operation
                 master.canvas.dragConnection.startDragAndDrop(TransferMode.ANY).setContent(content);
@@ -177,7 +160,7 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
             }
         });
         
-        connectionDragDroppedNode = new EventHandler <DragEvent> (){
+        this.setOnDragDropped(new EventHandler <DragEvent> (){
             @Override
             public void handle (DragEvent event) {
                 
@@ -189,54 +172,31 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
                 
                 // Add drop coordinates to drag container
                 ClipboardContent content = new ClipboardContent();
-                DragContainerController container = (DragContainerController)event.getDragboard().getContent(DragContainerController.AddLink);
+                DragContainerController container = (DragContainerController)event.getDragboard().getContent(DragContainerController.CreateConnection);
                 container.addData("endIcon", source.canvasIcon.hashCode());
                 container.addData("endNode", source.hashCode());
-                content.put(DragContainerController.AddLink, container);
+                content.put(DragContainerController.CreateConnection, container);
                 event.getDragboard().setContent(content);
                 event.setDropCompleted(true);
                 
                 // Consume event
                 event.consume();
             }
-        };
-    }
-    
-    private void buildContextMenu() {
-        menu = new ContextMenu();
-        
-        MenuItem item = new MenuItem("Move Node");
-        item.setOnAction(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                canvasIcon.node_grid.setGridLinesVisible(true);
-                event.consume();
-            }
         });
-        menu.getItems().add(item);
         
-        item = new MenuItem("Info");
-        item.setOnAction(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                master.infobox.showDetails(CanvasNodeController.this);
-                event.consume();
-            }
-        });
-        menu.getItems().add(item);
     }
     
     /**
      * Gets the location of the CanvasNodeController in the scene
      * @return Returns the center of the CanvasNodeController,
      */
-    protected Point2D sceneLocation() {
+    protected Point2D getLocationInScene() {
         Bounds bounds = getBoundsInLocal();
         return localToScene(bounds.getMinX() + bounds.getWidth()/2, bounds.getMinY() + bounds.getHeight()/2);
     }
     
     /**
-     * Gets the nodes position in the CanvasIcons node_gris
+     * Gets the nodes position in the canvas icon's node grid
      */
     protected Direction getDirection() {
         Direction direction;

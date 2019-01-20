@@ -20,11 +20,10 @@ public class DragContainerController implements Serializable {
     /**
      * 
      */
-    private static final long serialVersionUID = -1458406119115196098L;
     private final ArrayList <Pair<String, Object> > mDataPairs = new ArrayList <Pair<String, Object> > ();
-    public static final DataFormat AddNode = new DataFormat("application.DragIcon.add");
-    public static final DataFormat DragNode = new DataFormat("application.DraggableNode.drag");
-    public static final DataFormat AddLink = new DataFormat("application.NodeLink.add");
+    public static final DataFormat CreateComponent = new DataFormat("application.DragIcon.add");
+    public static final DataFormat MoveComponent = new DataFormat("application.DraggableNode.drag");
+    public static final DataFormat CreateConnection = new DataFormat("application.NodeLink.add");
     
     /**
      * Constructor

@@ -30,7 +30,6 @@ public final class Combustor extends Component {
         equations.add(new Mass_Balance());
         equations.add(new Energy_Balance());
         equations.add(new Pressure_Loss());
-        attributes.add(PLOSS);
     }
     
     /**
@@ -71,6 +70,13 @@ public final class Combustor extends Component {
         paths.add(thermodynamicProcess(getInlet(), getOutlet(), ENTHALPY, PRESSURE));
         return paths;
     }
+    
+    @Override
+    public Set<Attributes.Attribute> getAllowableAtributes() {
+        Set<Attributes.Attribute> attributes = new HashSet();
+        attributes.add(PLOSS);
+        return attributes;
+   }
     
     /**
      * Mass balance across the combustor.

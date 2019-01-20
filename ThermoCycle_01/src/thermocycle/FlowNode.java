@@ -8,13 +8,14 @@ package thermocycle;
 import java.util.HashSet;
 import java.util.OptionalDouble;
 import java.util.Set;
+import thermocycle.Properties.Property;
 
 
 /**
  *
  * @author Chris
  */
-public final class FlowNode extends Node implements Properties {
+public final class FlowNode extends Node {
     
     /**
      * The fluid of this node.

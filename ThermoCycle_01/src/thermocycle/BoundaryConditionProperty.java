@@ -16,20 +16,20 @@ public class BoundaryConditionProperty extends BoundaryCondition {
     private final FlowNode node;
     private final Property property;
     private final Double value;
-
+    
     public BoundaryConditionProperty(FlowNode node, Property property, Double value) {
         this.node = node;
         this.property = property;
         this.value = value;
     }
-
+    
     @Override
-    public void execute() {
+    protected void execute() {
         node.setProperty(property, value);
     }
-
+    
     @Override
-    public boolean match(BoundaryCondition cnd) {
+    protected boolean match(BoundaryCondition cnd) {
         if (cnd instanceof BoundaryConditionProperty) {
             if (this.node == ((BoundaryConditionProperty) cnd).node) {
                 if (this.property == ((BoundaryConditionProperty) cnd).property)
@@ -38,10 +38,10 @@ public class BoundaryConditionProperty extends BoundaryCondition {
         }
         return false;
     }
-
+    
     @Override
-    public Double value() {
+    public Double getValue() {
         return value;
     }
-
+    
 }

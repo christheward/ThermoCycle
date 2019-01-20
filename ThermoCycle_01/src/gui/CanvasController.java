@@ -17,7 +17,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -45,13 +44,18 @@ public class CanvasController extends AnchorPane {
     
     // GUI variables
     private final MasterSceneController master;
-    private ContextMenuController contextMenu;
+    private final ContextMenuController contextMenu;
     private ToolboxController toolbox;
     protected ToolboxComponentController dragIcon;
     protected ToolboxConnectionController dragConnection;
     
     // Variables
     private boolean lockOpen;
+    
+    // Copy and paste
+    protected final ClipboardContent canvasClipboard;
+    
+    // Save and load variables
     private final Map<Component,Double[]> layout;
     
     // Event handlers
@@ -80,6 +84,9 @@ public class CanvasController extends AnchorPane {
         
         // Create context menu
         contextMenu = new ContextMenuController(master);
+        
+        // Set up clipboard
+        canvasClipboard = new ClipboardContent();
         
         // Set up layout
         layout = new HashMap();
@@ -152,6 +159,7 @@ public class CanvasController extends AnchorPane {
         
         // Setup bindings
         draw.disableProperty().bind(master.modelAbsent);
+               
     }
     
     /**
@@ -166,11 +174,20 @@ public class CanvasController extends AnchorPane {
                 }
                 else if (event.getButton().equals(MouseButton.PRIMARY)) {
                     contextMenu.hide();
-                    master.infobox.showDetails(CanvasController.this);
+                    master.setFocus(CanvasController.this);
                 }
                 event.consume();
             }
         });
+        /**
+        canvas.setOnContextMenuRequested(new EventHandler <ContextMenuEvent> () {
+            @Override
+            public void handle(ContextMenuEvent event) {
+                contextMenu.show(contextMenu, event.getSceneX(), event.getSceneY());
+            }
+            
+        });
+        */
         
     }
     
@@ -199,7 +216,7 @@ public class CanvasController extends AnchorPane {
                 dragConnection.setVisible(false);
                 
                 // For AddNode operations
-                DragContainerController container = (DragContainerController)event.getDragboard().getContent(DragContainerController.AddNode);
+                DragContainerController container = (DragContainerController)event.getDragboard().getContent(DragContainerController.CreateComponent);
                 // Create the new CanvasComponentController 
                 if (container != null) {
                     // If dragging within canvas then container will be null (no new component created).
@@ -228,7 +245,7 @@ public class CanvasController extends AnchorPane {
                 }
                 
                 // For AddLink operations
-                container = (DragContainerController)event.getDragboard().getContent(DragContainerController.AddLink);
+                container = (DragContainerController)event.getDragboard().getContent(DragContainerController.CreateConnection);
                 if (container != null) {
                     
                     // These will return null if they are in the container
@@ -301,10 +318,10 @@ public class CanvasController extends AnchorPane {
                 canvas.removeEventHandler(DragEvent.DRAG_DROPPED, iconDragDroppedCanvas);
                 
                 // Add drop coordinates to drag container
-                DragContainerController container = (DragContainerController)event.getDragboard().getContent(DragContainerController.AddNode);
+                DragContainerController container = (DragContainerController)event.getDragboard().getContent(DragContainerController.CreateComponent);
                 container.addData("scene_coords", new Point2D(event.getSceneX(), event.getSceneY()));
                 ClipboardContent content = new ClipboardContent();
-                content.put(DragContainerController.AddNode, container);
+                content.put(DragContainerController.CreateComponent, container);
                 event.getDragboard().setContent(content);
                 event.setDropCompleted(true);
                 
@@ -341,7 +358,6 @@ public class CanvasController extends AnchorPane {
             master.getModel().removeConnection(((CanvasConnectionController)node).connection);
             canvas.getChildren().remove(node);
        }
-       master.infobox.showDetails(this);
     }
     
     
@@ -357,18 +373,25 @@ public class CanvasController extends AnchorPane {
      * Gets a stream of all the components on the canvas
      * @return A stream of the components on the canvas.
      */
-    private Stream<CanvasComponentController>getComponents() {
+    private Stream<CanvasComponentController> getComponents() {
         return canvas.getChildren().stream().filter(n -> n instanceof CanvasComponentController).map(n -> (CanvasComponentController)n);
     }
     
     /**
-     * Disables nodes that an ineligible to be connnected to this node.
+     * Disables nodes that an ineligible to be connected to this node.
      * @param node 
      */
     protected void disableIneligibleNodes(CanvasNodeController node) {
-        // Need to inclue node that are already connected.
+        // Need to inclue nodes that are already connected.
         getNodes().filter(n -> (!(n.node.getClass().equals(node.node.getClass())) | (n.node.port.equals(node.node.port)))).forEach(n -> {
             n.disableProperty().set(true);
+        });
+        getComponents().filter(c -> c.node_grid.getChildren().contains(node)).forEach(c -> {
+            c.node_grid.getChildren().stream().forEach(n -> n.setDisable(true));
+        });
+        getConnections().forEach(c -> {
+            c.start.disableProperty().set(true);
+            c.end.disableProperty().set(true);
         });
     }
     
@@ -405,7 +428,7 @@ public class CanvasController extends AnchorPane {
     /**
      * Clears the canvas
      */
-    protected void clearCanvas() {
+    private void clearCanvas() {
         canvas.getChildren().removeAll(canvas.getChildren().stream().filter(n -> n instanceof CanvasComponentController | n instanceof CanvasConnectionController).collect(Collectors.toSet()));
     }
     

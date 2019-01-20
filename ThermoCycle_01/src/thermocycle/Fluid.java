@@ -7,13 +7,14 @@ package thermocycle;
 
 import java.io.Serializable;
 import java.util.*;
+import thermocycle.Properties.Property;
 import static thermocycle.Properties.Property.*;
 
 /**
  *
  * @author Chris
  */
-public abstract class Fluid implements Properties, Serializable {
+public abstract class Fluid implements Serializable {
     
     /**
      * The universal gas constant.
@@ -64,7 +65,7 @@ public abstract class Fluid implements Properties, Serializable {
      * Gets the set of valid properties for this fluid.
      * @return Returns the set of valid state properties.
      */
-    protected abstract Set<Property> getAllowableProperties();
+    public abstract Set<Property> getAllowableProperties();
     
     /**
      * Computes absent state properties from existing state properties for this fluid.

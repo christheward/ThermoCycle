@@ -8,9 +8,12 @@ package gui;
 import java.io.IOException;
 import java.util.OptionalDouble;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.HBox;
@@ -40,11 +43,11 @@ public class MasterSceneController extends VBox {
     protected ChartController chart;
     
     // Properties
+    private ReadOnlyObjectWrapper<Cycle> model;
     protected BooleanProperty modelAbsent;
     protected BooleanProperty nodeVisibility;
-    
-    // Model elements
-    private thermocycle.Cycle model;
+    private ReadOnlyObjectWrapper<Node> focus;
+    private BooleanProperty focusAbsent;
     
     // Logger
     static private final Logger logger = LogManager.getLogger("GUILog");
@@ -54,9 +57,12 @@ public class MasterSceneController extends VBox {
      */
     public MasterSceneController() {
         
-        // Create properties
+        // Create properties and bindings
+        model = new ReadOnlyObjectWrapper();
         modelAbsent = new SimpleBooleanProperty(true);
         nodeVisibility = new SimpleBooleanProperty(false);
+        focus = new ReadOnlyObjectWrapper();
+        focusAbsent = new SimpleBooleanProperty(true);
         
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/MasterScene.fxml"));
@@ -78,14 +84,13 @@ public class MasterSceneController extends VBox {
         // Set up menubar
         menubar = new MenubarController(this);
         vbox.getChildren().add(0, menubar);
-        menubar.setVisible(true);
         
         // Set up toolbar
         // Not implemented yet
         
         // Set up canvas
         canvas = new CanvasController(this);
-        canvas.setDisable(true);
+        canvas.disableProperty().bind(modelAbsent);
         splitpane.getItems().add(canvas);
         
         // Set up console
@@ -97,12 +102,61 @@ public class MasterSceneController extends VBox {
         
         // Setup infobox
         infobox = new InfoboxBaseController(this);
+        infobox.disableProperty().bind(modelAbsent);
         hbox.getChildren().add(infobox);
         
         // Setup bindings
-        canvas.disableProperty().bind(modelAbsent);
-        infobox.disableProperty().bind(modelAbsent);
+        modelAbsent.bind(model.isNull());
+        focusAbsent.bind(focus.isNull());
         
+    }
+    
+    /**
+     * Gets the current focus
+     * @return the node that is currently in focus
+     */
+    protected Node getFocus() {
+        return focus.getValue();
+    }
+    
+    /**
+     * Sets the focus.
+     * @param node The node that is the new focus.
+     */
+    protected void setFocus(Node node) {
+        focus.setValue(node);
+    }
+    
+    /**
+     * A read only property wrapping the focus object for binding.
+     * @return the read only object property wrapping the focus.
+     */
+    protected ReadOnlyObjectProperty<Node> focusProperty() {
+        return focus.getReadOnlyProperty();
+    }
+    
+    /**
+     * Gets the current model
+     * @return 
+     */
+    protected Cycle getModel() {
+        return model.getValue();
+    }
+    
+    /**
+     * Sets the model variable
+     * @param cycle The new model
+     */
+    protected void setModel(Cycle cycle) {
+        model.setValue(cycle);
+    }
+    
+    /**
+     * A read only object property wrapping the model for binding.
+     * @return the object property wrapping the model.
+     */
+    protected ReadOnlyObjectProperty<Cycle> modelProperty() {
+        return model.getReadOnlyProperty();
     }
     
     /**
@@ -125,36 +179,6 @@ public class MasterSceneController extends VBox {
         stage.setTitle("Chart");
         stage.setScene(new Scene(chart, 800, 600));
         stage.show();
-    }
-    
-    /**
-     * Sets the model variable
-     * @param model The new model
-     */
-    protected void setModel(Cycle model) {
-        this.model = model;
-        modelAbsent.setValue(false);
-        infobox.showDetails(canvas);
-        infobox.connectNewModel();
-    }
-    
-    /**
-     * Closes the model
-     * @param model Closes the model
-     */
-    protected void closeModel() {
-        this.model = null;
-        modelAbsent.setValue(true);
-        infobox.showDetails(canvas);
-        canvas.clearCanvas();
-    }
-    
-    /**
-     * Gets the current model
-     * @return 
-     */
-    protected Cycle getModel() {
-        return model;
     }
     
     /**

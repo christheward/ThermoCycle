@@ -7,6 +7,8 @@ package gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import thermocycle.Cycle;
 import thermocycle.Properties;
 
 /**
@@ -50,6 +53,24 @@ public class InfoboxCycleController extends AnchorPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+        
+        this.master.modelProperty().addListener(new ChangeListener<Cycle>() {
+            @Override
+            public void changed(ObservableValue<? extends Cycle> observable, Cycle oldValue, Cycle newValue) {
+                if (master.modelAbsent.not().get()) {
+                    // Connect gui to model lists
+                    listComponents.setItems(master.getModel().componentsReadOnly);
+                    listFluids.setItems(master.getModel().fluidsReadOnly);
+                    // Populate form
+                    refresh();
+                }
+                else {
+                    // Connnect to blank lists
+                    listComponents.setItems(FXCollections.observableList(new ArrayList<>()));
+                    listFluids.setItems(FXCollections.observableList(new ArrayList<>()));
+                }
+            }
+        });
         
     }
     
@@ -96,25 +117,6 @@ public class InfoboxCycleController extends AnchorPane {
             }
         });
         
-    }
-    
-    /**
-     * Connects the info panel to a new model
-     */
-    public void connectNewModel() {
-        // Check if model exists
-        if (master.modelAbsent.not().get()) {
-            // Connect to other lists
-            listComponents.setItems(master.getModel().componentsReadOnly);
-            listFluids.setItems(master.getModel().fluidsReadOnly);
-            // Populate form
-            refresh();
-        }
-        else {
-            // Connnect to blank lists
-            listComponents.setItems(FXCollections.observableList(new ArrayList<>()));
-            listFluids.setItems(FXCollections.observableList(new ArrayList<>()));
-        }
     }
     
 }
