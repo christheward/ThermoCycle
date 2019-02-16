@@ -28,10 +28,10 @@ import javafx.scene.shape.Circle;
  *
  * @author Chris
  */
-public final class CanvasNodeController extends AnchorPane implements Serializable {
+public final class CanvasNodeController extends AnchorPane {
     
     // FXML variables
-    @FXML private AnchorPane base;
+    //@FXML private AnchorPane base;
     @FXML private Circle circle;
     
     // GUI variables
@@ -41,7 +41,7 @@ public final class CanvasNodeController extends AnchorPane implements Serializab
             
     // Event handlers
     protected EventHandler connectionDragDroppedNode;
-            
+    
     // Model variables
     protected thermocycle.Node node;
     

@@ -523,10 +523,10 @@ public final class HeatExchanger extends Component {
         protected OptionalDouble solveVariable(String variable) {
             OptionalDouble value = OptionalDouble.empty();
             FlowNode hotOutletMin = new FlowNode(INTERNAL);
-            hotOutletMin.setFluid(HeatExchanger.this.getInletHot().getFluid());
+            hotOutletMin.setFluid(HeatExchanger.this.getInletHot().getFluid().get());
             OptionalDouble Q_ideal_h2c = OptionalDouble.of(0.0);
             FlowNode coldOutletMax = new FlowNode(INTERNAL);
-            coldOutletMax.setFluid(HeatExchanger.this.getInletCold().getFluid());
+            coldOutletMax.setFluid(HeatExchanger.this.getInletCold().getFluid().get());
             OptionalDouble Q_ideal_c2h = OptionalDouble.of(0.0);
             
             if (!variable.equals("T in cold") && !variable.equals("p out hot")) {

@@ -7,9 +7,8 @@ package gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -19,20 +18,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import javafx.util.converter.NumberStringConverter;
-import thermocycle.Attributes;
 import thermocycle.Component;
 
 /**
@@ -43,20 +36,20 @@ public class InfoboxComponentController extends AnchorPane {
 
     // FXML variables
     @FXML private TextField nameInput;
-    @FXML private TableView<BoundaryAttribute> table;
-    @FXML private TableColumn<BoundaryAttribute, Boolean> checkColumn;
-    @FXML private TableColumn<BoundaryAttribute, String> attributeColumn;
-    @FXML private TableColumn<BoundaryAttribute, Number> valueColumn;
-    @FXML private TableColumn<BoundaryAttribute, String> unitsColumn;
+    @FXML private TableView<BoundaryAttribute> attributeTable;
+    @FXML private TableColumn<BoundaryAttribute, String> attributeAttributeColumn;
+    @FXML private TableColumn<BoundaryAttribute, Number> attributeValueColumn;
+    @FXML private TableColumn<BoundaryAttribute, String> attributeUnitsColumn;
+    @FXML private TableColumn<BoundaryAttribute, Boolean> attributeClearColumn;
     
     // GUI variables
     private final MasterSceneController master;
     
     // Table data
-    private final ObservableList<BoundaryAttribute> tableData;
+    private final ObservableList<BoundaryAttribute> attributeTableData;
     
     // Properties
-    private ReadOnlyObjectWrapper<Component> component;
+    private final ReadOnlyObjectWrapper<Component> component;
     
     /**
      * Constructor
@@ -94,46 +87,36 @@ public class InfoboxComponentController extends AnchorPane {
         component.addListener(new ChangeListener<Component>() {
             @Override
             public void changed(ObservableValue<? extends Component> observable, Component oldValue, Component newValue) {
-                System.out.println("New component selected");
                 if (component.isNotNull().getValue()) {
                     nameInput.setText(master.getModel().getName(component.getValue()));
-                    tableData.clear();
+                    attributeTableData.clear();
                     component.getValue().getAllowableAtributes().stream().forEach(a -> {
                         // if boundary exists in mosel, use it
                         BoundaryAttribute boundary = new BoundaryAttribute(a);
-                        master.getModel().getBoundaryConditionAtt(component.getValue(), a).ifPresent(bc -> boundary.setBoundaryCondition(bc));
-                        tableData.add(boundary);
+                        master.getModel().getBoundaryConditionAttribute(component.getValue(), a).ifPresent(bc -> boundary.setBoundaryCondition(bc));
+                        attributeTableData.add(boundary);
                     });                    
                 }
             }
         });
         
         // Initialise form data
-        tableData = FXCollections.observableList(new ArrayList());
-        table.setItems(tableData);
-        table.setEditable(true);
-        
-        // Attributes column
-        attributeColumn.setCellValueFactory(cellData -> cellData.getValue().attributeProperty().asString());
-        
-        // Value Column
-        valueColumn.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
-        valueColumn.setCellFactory(TextFieldTableCell.forTableColumn(new NumberStringConverter()));
-        valueColumn.setOnEditCommit(event -> event.getRowValue().setBoundaryCondition(master.getModel().setBoundaryConditionAttribute(component.getValue(), event.getRowValue().attributeProperty().getValue(), event.getNewValue().doubleValue())));
-        valueColumn.setEditable(true);
-        
-        // Units column
-        unitsColumn.setCellValueFactory(cellData -> cellData.getValue().unitsProperty());
-        
-        // Clear column
-        checkColumn.setCellValueFactory(cellData -> cellData.getValue().presentProperty());
-        checkColumn.setCellFactory(new Callback<TableColumn<BoundaryAttribute,Boolean>,TableCell<BoundaryAttribute,Boolean>>() {
+        attributeTableData = FXCollections.observableList(new ArrayList());
+        attributeTable.setItems(attributeTableData);
+        attributeAttributeColumn.setCellValueFactory(cellData -> cellData.getValue().attributeProperty().asString());
+        attributeValueColumn.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
+        attributeValueColumn.setCellFactory(TextFieldTableCell.forTableColumn(new NumberStringConverter()));
+        attributeValueColumn.setOnEditCommit(event -> event.getRowValue().setBoundaryCondition(master.getModel().setBoundaryConditionAttribute(component.getValue(), event.getRowValue().attributeProperty().getValue(), new double[] {event.getNewValue().doubleValue()})));
+        attributeUnitsColumn.setCellValueFactory(cellData -> cellData.getValue().unitsProperty());
+        attributeClearColumn.setCellValueFactory(cellData -> cellData.getValue().presentProperty());
+        attributeClearColumn.setCellFactory(new Callback<TableColumn<BoundaryAttribute,Boolean>,TableCell<BoundaryAttribute,Boolean>>() {
             @Override
             public TableCell<BoundaryAttribute, Boolean> call(TableColumn<BoundaryAttribute, Boolean> param) {
-                final ButtonCell<BoundaryAttribute, Boolean> cell = new ButtonCell(table);
+                final ButtonCell<BoundaryAttribute, Boolean> cell = new ButtonCell();
                 cell.button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
+                        master.getModel().removeBoundaryCondition(cell.getTableView().getItems().get(cell.getIndex()).boundaryProperty().getValue());
                         cell.getTableView().getItems().get(cell.getIndex()).clearBoundaryCondition();
                     }
                 });
@@ -141,7 +124,6 @@ public class InfoboxComponentController extends AnchorPane {
                 return cell;
             }
         });
-        
     }
     
     /**
@@ -164,23 +146,6 @@ public class InfoboxComponentController extends AnchorPane {
             }
         });
         
-    }
-    
-    private Callback<TableColumn<BoundaryAttribute,Boolean>,TableCell<BoundaryAttribute,Boolean>> getAttributeCellFactory() {
-        return new Callback<TableColumn<BoundaryAttribute,Boolean>,TableCell<BoundaryAttribute,Boolean>>() {
-            @Override
-            public TableCell<BoundaryAttribute, Boolean> call(TableColumn<BoundaryAttribute, Boolean> param) {
-                final ButtonCell<BoundaryAttribute, Boolean> cell = new ButtonCell(table);
-                cell.button.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        cell.getTableView().getItems().get(cell.getIndex()).clearBoundaryCondition();
-                    }
-                });
-                cell.button.disableProperty().bind(cell.itemProperty().isNotEqualTo(true));
-                return cell;
-            }
-        };
     }
     
 }

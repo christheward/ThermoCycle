@@ -6,7 +6,6 @@
 package gui;
 
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -15,55 +14,45 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import thermocycle.BoundaryConditionProperty;
-import thermocycle.Properties.Property;
+import thermocycle.BoundaryConditionMass;
 
 /**
  *
  * @author Chris Ward <christheward@gmail.com>
  */
-public class BoundaryProperty {
+public class BoundaryMass {
     
-    private final ReadOnlyObjectWrapper<BoundaryConditionProperty> boundaryCondition;
+    private final ReadOnlyObjectWrapper<BoundaryConditionMass> boundaryCondition;
+    private final ReadOnlyStringWrapper mass;
     private final ReadOnlyBooleanWrapper present;
-    private final ReadOnlyObjectWrapper<Property> property;
     private final ReadOnlyDoubleWrapper value;
     private final ReadOnlyStringWrapper units;
     
-    public BoundaryProperty(Property p) {
+    public BoundaryMass() {
         this.boundaryCondition = new ReadOnlyObjectWrapper();
+        this.mass = new ReadOnlyStringWrapper();
         this.present = new ReadOnlyBooleanWrapper();
-        this.property = new ReadOnlyObjectWrapper(p);
         this.value = new ReadOnlyDoubleWrapper();
         this.units = new ReadOnlyStringWrapper();
         
-        // Setup binding
+        // Setup bindings
         this.present.bind(boundaryCondition.isNotNull());
+        this.mass.setValue("Mass");
         this.value.bind(new DoubleBinding() {
             {
                 bind(boundaryCondition);
             }
             @Override
             protected double computeValue() {
+                System.out.println(present.getValue());
                 return boundaryCondition.isNotNull().getValue() ? boundaryCondition.getValue().getValue() : 0.0;
             }
         });
-        this.units.bind(new StringBinding() {
-            {
-                bind(property);
-            }
-            @Override
-            protected String computeValue() {
-                return property.isNotNull().getValue() ? property.getValue().units : "";
-            }
-        });
-
+        this.units.setValue("kg/s");
     }
     
-    public void setBoundaryCondition(BoundaryConditionProperty boundary) {
-        if (boundary.property == property.getValue()) {
-            boundaryCondition.setValue(boundary);
-        }
+    public void setBoundaryCondition(BoundaryConditionMass boundary) {
+        boundaryCondition.setValue(boundary);
     }
     
     public void clearBoundaryCondition() {
@@ -72,7 +61,7 @@ public class BoundaryProperty {
         }
     }
     
-    public ReadOnlyObjectProperty<BoundaryConditionProperty> boundaryProperty() {
+    public ReadOnlyObjectProperty<BoundaryConditionMass> boundaryProperty() {
         return boundaryCondition.getReadOnlyProperty();
     }
     
@@ -80,8 +69,8 @@ public class BoundaryProperty {
         return present.getReadOnlyProperty();
     }
     
-    public ReadOnlyObjectProperty<Property> propertyProperty() {
-        return property.getReadOnlyProperty();
+    public ReadOnlyStringProperty massProperty() {
+        return mass.getReadOnlyProperty();
     }
     
     public ReadOnlyDoubleProperty valueProperty() {

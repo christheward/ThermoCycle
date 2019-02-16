@@ -5,8 +5,6 @@
  */
 package gui;
 
-import java.util.OptionalDouble;
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -32,10 +30,10 @@ public class BoundaryAttribute {
     private final ReadOnlyDoubleWrapper value;
     private final ReadOnlyStringWrapper units;
     
-    public BoundaryAttribute(Attribute at) {
+    public BoundaryAttribute(Attribute a) {
         this.boundaryCondition = new ReadOnlyObjectWrapper();
         this.present = new ReadOnlyBooleanWrapper();
-        this.attribute = new ReadOnlyObjectWrapper(at);
+        this.attribute = new ReadOnlyObjectWrapper(a);
         this.value = new ReadOnlyDoubleWrapper();
         this.units = new ReadOnlyStringWrapper();
         
@@ -47,7 +45,7 @@ public class BoundaryAttribute {
             }
             @Override
             protected double computeValue() {
-                return boundaryCondition.isNotNull().getValue() ? boundaryCondition.getValue().value : 0.0;
+                return boundaryCondition.isNotNull().getValue() ? boundaryCondition.getValue().getValue() : 0.0;
             }
         });
         this.units.bind(new StringBinding() {
@@ -74,7 +72,7 @@ public class BoundaryAttribute {
         }
     }
     
-    public ReadOnlyObjectProperty boundaryProperty() {
+    public ReadOnlyObjectProperty<BoundaryConditionAttribute> boundaryProperty() {
         return boundaryCondition.getReadOnlyProperty();
     }
     

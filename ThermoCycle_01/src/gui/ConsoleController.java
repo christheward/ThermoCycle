@@ -17,12 +17,19 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author Chris
  */
 public class ConsoleController extends VBox {
+    
+    /**
+     * The logger instance.
+     */
+    private static final Logger logger = LogManager.getLogger("GUILog");
     
     // FXML variables
     @FXML private TextField input;
@@ -59,6 +66,7 @@ public class ConsoleController extends VBox {
         text = new StringBuilder();
         // create new tui
         this.tui = new tui.TextUserInterface(this.master.getModel());
+        
     }
     
     /**
@@ -86,6 +94,8 @@ public class ConsoleController extends VBox {
                     // scroll to bottom on terminal
                     output.end();
                 }
+                System.out.println("Entered");
+                logger.info("Command entered");
                 historyIdx = 0;
                 showHistory();
             }

@@ -43,6 +43,7 @@ public class MenubarController extends MenuBar {
     @FXML private MenuItem cycleChart;
     @FXML private MenuItem cycleReport;
     @FXML private CheckMenuItem cycleNodeVisibility;
+    @FXML private CheckMenuItem cycleToolboxLock;
     
     // GUI variables
     private final MasterSceneController master;
@@ -99,7 +100,8 @@ public class MenubarController extends MenuBar {
         cycleReport.disableProperty().bind(master.modelAbsent);
         cycleNodeVisibility.disableProperty().bind(master.modelAbsent);
         master.nodeVisibility.bindBidirectional(cycleNodeVisibility.selectedProperty());
-        
+        cycleToolboxLock.disableProperty().bind(master.modelAbsent);
+        master.toolboxLock.bindBidirectional(cycleToolboxLock.selectedProperty());
     }
     
     /**
@@ -124,7 +126,7 @@ public class MenubarController extends MenuBar {
                 fileChooser.setTitle("Open Model File");
                 file = fileChooser.showOpenDialog(fileBrowserDialogue);
                 try {
-                    Cycle model = new Cycle("Loading");
+                    Cycle model = new Cycle(file.getName());
                     FileHandler.openReadStream(file);
                     FileHandler.loadModel(model);
                     FileHandler.loadLayout(master.canvas);
@@ -176,8 +178,12 @@ public class MenubarController extends MenuBar {
                 file = fileChooser.showSaveDialog(fileBrowserDialogue);
                 try {
                     FileHandler.openWriteStream(file);
+                    System.out.print("Saving model...");
                     FileHandler.saveModel(master.getModel());
+                    System.out.println("Done");
+                    System.out.print("Saving layout...");
                     FileHandler.saveLayout(master.canvas);
+                    System.out.println("Done");
                     FileHandler.closeWriteStream();
                 } catch (IOException ex) {
                     ex.printStackTrace();

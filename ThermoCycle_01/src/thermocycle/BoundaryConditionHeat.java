@@ -11,17 +11,16 @@ package thermocycle;
  */
 public class BoundaryConditionHeat extends BoundaryCondition {
     
-    protected final HeatNode node;
-    protected final Double value;
+    public final HeatNode node;
     
-    public BoundaryConditionHeat(HeatNode node, Double value) {
+    public BoundaryConditionHeat(HeatNode node, double[] values) {
+        super(values);
         this.node = node;
-        this.value = value;
     }
     
     @Override
     protected void execute() {
-        node.setHeat(value);
+        node.setHeat(values[idx]);
     }
     
     @Override
@@ -33,10 +32,5 @@ public class BoundaryConditionHeat extends BoundaryCondition {
         }
         return false;
     }
-    
-    @Override
-    public Double getValue() {
-        return value;
-    }
-    
+        
 }

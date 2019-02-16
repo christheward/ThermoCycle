@@ -104,10 +104,10 @@ public class GraphController extends VBox {
                     // Create new series
                     XYChart.Series series = new XYChart.Series();
                     path.forEach(n -> {
-                        OptionalDouble x = master.getModel().getProperty(n, xproperty.getSelectionModel().getSelectedItem());
-                        OptionalDouble y = master.getModel().getProperty(n, yproperty.getSelectionModel().getSelectedItem());
-                        series.getData().add(new XYChart.Data(x.orElse(Double.NaN), y.orElse(Double.NaN)));
-                        series.setName(c.getClass().getName());
+                        //OptionalDouble x = master.getModel().getProperty(n, xproperty.getSelectionModel().getSelectedItem());
+                        //OptionalDouble y = master.getModel().getProperty(n, yproperty.getSelectionModel().getSelectedItem());
+                        //series.getData().add(new XYChart.Data(x.orElse(Double.NaN), y.orElse(Double.NaN)));
+                        //series.setName(c.getClass().getName());
                     });
                     // Add series to dataset
                     dataset.add(series);

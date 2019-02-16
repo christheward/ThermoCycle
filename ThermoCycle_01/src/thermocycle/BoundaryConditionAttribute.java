@@ -15,17 +15,16 @@ public class BoundaryConditionAttribute extends BoundaryCondition {
     
     public final Component component;
     public final Attribute attribute;
-    public final Double value;
     
-    public BoundaryConditionAttribute(Component component, Attribute attribute, Double value) {
+    public BoundaryConditionAttribute(Component component, Attribute attribute, double[] values) {
+        super(values);
         this.component = component;
         this.attribute = attribute;
-        this.value = value;
     }
     
     @Override
     protected void execute() {
-        component.setAttribute(attribute, value);
+        component.setAttribute(attribute, values[idx]);
     }
     
     @Override
@@ -38,11 +37,6 @@ public class BoundaryConditionAttribute extends BoundaryCondition {
             }
         }
         return false;
-    }
-    
-    @Override
-    public Double getValue() {
-        return value;
     }
     
 }

@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
@@ -105,7 +106,6 @@ public class ToolboxController extends StackPane{
                 // Start the drag operation
                 canvas.dragIcon.startDragAndDrop(TransferMode.ANY).setContent(content);
                 canvas.dragIcon.setVisible(true);
-                canvas.dragIcon.setMouseTransparent(true);
                 
                 // Consume event
                 event.consume();

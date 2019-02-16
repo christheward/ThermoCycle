@@ -285,7 +285,7 @@ public final class Compressor extends Component {
         protected OptionalDouble solveVariable(String variable) {
             OptionalDouble value = OptionalDouble.empty();
             FlowNode isen = new FlowNode(INTERNAL);
-            isen.setFluid(Compressor.this.getInlet().getFluid());
+            isen.setFluid(Compressor.this.getInlet().getFluid().get());
             if (variable.equals("h in") | variable.equals("n") | variable.equals("W")) {
                 isen.setProperty(ENTROPY, Compressor.this.getInlet().getState(ENTROPY).getAsDouble());
                 isen.setProperty(PRESSURE, Compressor.this.getOutlet().getState(PRESSURE).getAsDouble());

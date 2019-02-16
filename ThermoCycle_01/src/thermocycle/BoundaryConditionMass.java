@@ -9,48 +9,43 @@ package thermocycle;
  *
  * @author Chris Ward
  */
-public class BoundaryConditionFlow extends BoundaryCondition {
+public class BoundaryConditionMass extends BoundaryCondition {
     
-    protected final FlowNode node;
-    protected final Double value;
+    public final FlowNode node;
     
-    public BoundaryConditionFlow(FlowNode node, Double value) {
+    public BoundaryConditionMass(FlowNode node, double[] values) {
+        super(values);
         this.node = node;
-        this.value = value;
     }
     
     @Override
     protected void execute() {
-        node.setMass(value);
+        node.setMass(values[idx]);
     }
     
     @Override
     protected boolean match(BoundaryCondition cnd) {
-        if (cnd instanceof BoundaryConditionFlow) {
-            if (this.node == ((BoundaryConditionFlow)cnd).node) {
+        if (cnd instanceof BoundaryConditionMass) {
+            if (this.node == ((BoundaryConditionMass)cnd).node) {
                 return true;
             }
         }
         return false;
     }
     
-    @Override
-    public Double getValue() {
-        return value;
-    }
-    
+    /**
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof BoundaryConditionFlow)) {
+        if (!(obj instanceof BoundaryConditionMass)) {
             return false;
         }
         if (obj == this) {
             return true;
         }
-        return ((BoundaryConditionFlow)obj).node.equals(this.node);
+        return ((BoundaryConditionMass)obj).node.equals(this.node);
     }
-    
+    */
 }

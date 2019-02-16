@@ -286,7 +286,7 @@ public final class Turbine extends Component {
         protected OptionalDouble solveVariable(String variable) {
             OptionalDouble value = OptionalDouble.empty();
             FlowNode isen = new FlowNode(INTERNAL);
-            isen.setFluid(Turbine.this.getInlet().getFluid());
+            isen.setFluid(Turbine.this.getInlet().getFluid().get());
             if (variable.equals("h in") || variable.equals("W") || variable.equals("n")) {
                 isen.setProperty(ENTROPY, Turbine.this.getInlet().getState(ENTROPY).getAsDouble());
                 isen.setProperty(PRESSURE, Turbine.this.getOutlet().getState(PRESSURE).getAsDouble());

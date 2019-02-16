@@ -189,29 +189,29 @@ public class TextUserInterface {
             switch(commands.get(1)) {
                 case "COMPRESSOR": {
                     Component comp = model.createCompressor(commands.get(2));
-                    model.setBoundaryConditionAttribute(comp, EFFICIENCY, Double.parseDouble(commands.get(3)));
-                    model.setBoundaryConditionAttribute(comp, PRATIO, Double.parseDouble(commands.get(4)));
+                    model.setBoundaryConditionAttribute(comp, EFFICIENCY, new double[] {Double.parseDouble(commands.get(3))});
+                    model.setBoundaryConditionAttribute(comp, PRATIO, new double[] {Double.parseDouble(commands.get(4))});
                     break;
                 }
                 case "TURBINE": {
                     Component comp = model.createTurbine(commands.get(2));
-                    model.setBoundaryConditionAttribute(comp, EFFICIENCY, Double.parseDouble(commands.get(3)));
-                    model.setBoundaryConditionAttribute(comp, PRATIO, Double.parseDouble(commands.get(4)));
+                    model.setBoundaryConditionAttribute(comp, EFFICIENCY, new double[] {Double.parseDouble(commands.get(3))});
+                    model.setBoundaryConditionAttribute(comp, PRATIO, new double[] {Double.parseDouble(commands.get(4))});
                     break;
                 }
                 case "COMBUSTOR": {
                     Component comp = model.createCombustor(commands.get(2));
-                    model.setBoundaryConditionAttribute(comp, PRATIO, Double.parseDouble(commands.get(3)));
+                    model.setBoundaryConditionAttribute(comp, PRATIO, new double[] {Double.parseDouble(commands.get(3))});
                     break;
                 }
                 case "HEAT_SINK": {
                     Component comp = model.createHeatSink(commands.get(2));
-                    model.setBoundaryConditionAttribute(comp, PRATIO, Double.parseDouble(commands.get(3)));
+                    model.setBoundaryConditionAttribute(comp, PRATIO, new double[] {Double.parseDouble(commands.get(3))});
                     break;
                 }
                 case "HEAT_EXCHANGER": {
                     Component comp = model.createHeatExchanger(commands.get(2));
-                    model.setBoundaryConditionAttribute(comp, EFFECTIVENESS, Double.parseDouble(commands.get(3)));
+                    model.setBoundaryConditionAttribute(comp, EFFECTIVENESS, new double[] {Double.parseDouble(commands.get(3))});
                     break;
                 }
                 default: {
@@ -261,23 +261,23 @@ public class TextUserInterface {
         try {
             switch (commands.get(1)) {
                 case "WORK": {
-                    model.setBoundaryConditionWork(model.getComponent(commands.get(2)).workNodes.get(Integer.parseInt(commands.get(3))), Double.parseDouble(commands.get(4)));
+                    model.setBoundaryConditionWork(model.getComponent(commands.get(2)).workNodes.get(Integer.parseInt(commands.get(3))), new double[] {Double.parseDouble(commands.get(4))});
                     break;
                 }
                 case "HEAT": {
-                    model.setBoundaryConditionHeat(model.getComponent(commands.get(2)).heatNodes.get(Integer.parseInt(commands.get(3))), Double.parseDouble(commands.get(4)));
+                    model.setBoundaryConditionHeat(model.getComponent(commands.get(2)).heatNodes.get(Integer.parseInt(commands.get(3))), new double[] {Double.parseDouble(commands.get(4))});
                     break;
                 }
                 case "MASS": {
-                    model.setBoundaryConditionFlow(model.getComponent(commands.get(2)).flowNodes.get(Integer.parseInt(commands.get(3))), Double.parseDouble(commands.get(4)));
+                    model.setBoundaryConditionMass(model.getComponent(commands.get(2)).flowNodes.get(Integer.parseInt(commands.get(3))), new double[] {Double.parseDouble(commands.get(4))});
                     break;
                 }
                 case "STATE": {
-                    model.setBoundaryConditionProperty(model.getComponent(commands.get(2)).flowNodes.get(Integer.parseInt(commands.get(3))), Property.valueOf(commands.get(4)), Double.parseDouble(commands.get(5)));
+                    model.setBoundaryConditionProperty(model.getComponent(commands.get(2)).flowNodes.get(Integer.parseInt(commands.get(3))), Property.valueOf(commands.get(4)), new double[] {Double.parseDouble(commands.get(5))});
                     break;
                 }
                 case "FLUID": {
-                    model.setFluid(model.getComponent(commands.get(2)).flowNodes.get(Integer.parseInt(commands.get(3))), model.getFluid(commands.get(4)));
+                    model.setFluid(model.getComponent(commands.get(2)).flowNodes.get(Integer.parseInt(commands.get(3))), model.getFluid(commands.get(4)).get());
                 }
                 default: {
                     throw new IllegalArgumentException("Invlaid SET type. Must be WORK, HEAT, MASS, STATE, or FLUID.");

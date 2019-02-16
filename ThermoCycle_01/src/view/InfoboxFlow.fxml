@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import com.jfoenix.controls.*?>
-<?import com.jfoenix.validation.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<fx:root type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
        <VBox id="VBox" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <padding>
@@ -32,44 +31,34 @@
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <HBox fx:id="flowUnitts" alignment="CENTER_LEFT" spacing="10.0">
-                     <children>
-                        <TextField fx:id="massInput" prefWidth="170.0" promptText="Value" />
-                        <Label text="kg/s" />
-                     </children>
-                  </HBox>
-                  <Button fx:id="buttonClearMass" mnemonicParsing="false" text="Clear Mass" />
+                  <TableView fx:id="massTable" editable="true" prefHeight="200.0">
+                     <columns>
+                        <TableColumn fx:id="massNameColumn" editable="false" maxWidth="500.0" minWidth="100.0" prefWidth="100.0" text="Name" />
+                        <TableColumn fx:id="massValueColumn" maxWidth="500.0" minWidth="100.0" prefWidth="100.0" sortable="false" text="Value" />
+                        <TableColumn fx:id="massUnitsColumn" editable="false" maxWidth="150.0" minWidth="75.0" prefWidth="75.0" sortable="false" text="Units" />
+                        <TableColumn fx:id="massClearColumn" editable="false" maxWidth="100.0" minWidth="50.0" prefWidth="50.0" sortable="false" text="Clear" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
                   <Separator layoutY="41.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                   <Label text="Properties" underline="true">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <TableView fx:id="table" layoutY="54.0" prefHeight="200.0">
+                  <TableView fx:id="propertyTable" editable="true" layoutY="54.0" prefHeight="200.0">
                     <columns>
-                      <TableColumn fx:id="propertyColumn" editable="false" maxWidth="500.0" minWidth="100.0" prefWidth="100.0" text="Property" />
-                      <TableColumn fx:id="valueColumn" maxWidth="500.0" minWidth="100.0" prefWidth="100.0" text="Value" />
-                        <TableColumn fx:id="unitsColumn" editable="false" maxWidth="150.0" minWidth="75.0" prefWidth="75.0" sortable="false" text="Units" />
+                      <TableColumn fx:id="propertyNameColumn" editable="false" maxWidth="500.0" minWidth="100.0" prefWidth="100.0" text="Name" />
+                      <TableColumn fx:id="propertyValueColumn" maxWidth="500.0" minWidth="100.0" prefWidth="100.0" sortable="false" text="Value" />
+                        <TableColumn fx:id="propertyUnitsColumn" editable="false" maxWidth="150.0" minWidth="75.0" prefWidth="75.0" sortable="false" text="Units" />
+                        <TableColumn fx:id="propertyClearColumn" editable="false" maxWidth="100.0" minWidth="50.0" prefWidth="50.0" sortable="false" text="Clear" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <ComboBox fx:id="selectProperty" layoutY="477.0" prefWidth="170.0" promptText="Select Property" />
-                  <HBox alignment="CENTER_LEFT" layoutY="518.0" spacing="10.0">
-                     <children>
-                        <TextField fx:id="propertyInput" prefWidth="170.0" promptText="Value" />
-                        <Label fx:id="propertyUnits" text="-" wrapText="true" />
-                     </children>
-                  </HBox>
-                  <HBox layoutY="559.0" spacing="10.0">
-                     <children>
-                        <Button fx:id="buttonClearProperty" mnemonicParsing="false" text="Clear Property" />
-                     </children>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </HBox>
                </children>
             </VBox>
          </children>

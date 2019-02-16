@@ -260,7 +260,7 @@ public abstract class Component implements Serializable {
             for (FlowNode n : getFlowInlets()) {
                 dead.clearState();
                 dead.setProperty(ambient);
-                n.getFluid().computeState(dead);
+                n.getFluid().get().computeState(dead);
                 E = E + n.getMass().getAsDouble() * ((n.getState(ENTHALPY).getAsDouble() - dead.getProperty(ENTHALPY).getAsDouble()) - (dead.getProperty(TEMPERATURE).getAsDouble() * (n.getState(ENTROPY).getAsDouble() - dead.getProperty(ENTROPY).getAsDouble())));
             }
             return E;
@@ -279,7 +279,7 @@ public abstract class Component implements Serializable {
             for (FlowNode n : getFlowOutlets()) {
                 dead.clearState();
                 dead.setProperty(ambient);
-                n.getFluid().computeState(dead);
+                n.getFluid().get().computeState(dead);
                 E = E + n.getMass().getAsDouble() * ((n.getState(ENTHALPY).getAsDouble() - dead.getProperty(ENTHALPY).getAsDouble()) - (dead.getProperty(TEMPERATURE).getAsDouble() * (n.getState(ENTROPY).getAsDouble() - dead.getProperty(ENTROPY).getAsDouble())));
             }
             return E;
@@ -378,7 +378,7 @@ public abstract class Component implements Serializable {
         List<FlowNode> process = new ArrayList();
         for (int i=0; i<Component.nIntStates; i++) {
             FlowNode node = new FlowNode(INTERNAL);
-            node.setFluid(start.getFluid());
+            node.setFluid(start.getFluid().get());
             process.add(node);
             process.get(i).setMass(start.getMass().getAsDouble());
             process.get(i).setProperty(x, start.getState(x).getAsDouble() + (i * (end.getState(x).getAsDouble() - start.getState(x).getAsDouble()) / (Component.nIntStates-1)));

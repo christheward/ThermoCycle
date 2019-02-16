@@ -13,19 +13,18 @@ import thermocycle.Properties.Property;
  */
 public class BoundaryConditionProperty extends BoundaryCondition {
     
-    private final FlowNode node;
-    private final Property property;
-    private final Double value;
+    public final FlowNode node;
+    public final Property property;
     
-    public BoundaryConditionProperty(FlowNode node, Property property, Double value) {
+    public BoundaryConditionProperty(FlowNode node, Property property, double[] values) {
+        super(values);
         this.node = node;
         this.property = property;
-        this.value = value;
     }
     
     @Override
     protected void execute() {
-        node.setProperty(property, value);
+        node.setProperty(property, values[idx]);
     }
     
     @Override
@@ -37,11 +36,6 @@ public class BoundaryConditionProperty extends BoundaryCondition {
             }
         }
         return false;
-    }
-    
-    @Override
-    public Double getValue() {
-        return value;
     }
     
 }

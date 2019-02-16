@@ -43,11 +43,12 @@ public class MasterSceneController extends VBox {
     protected ChartController chart;
     
     // Properties
-    private ReadOnlyObjectWrapper<Cycle> model;
-    protected BooleanProperty modelAbsent;
-    protected BooleanProperty nodeVisibility;
-    private ReadOnlyObjectWrapper<Node> focus;
-    private BooleanProperty focusAbsent;
+    private final ReadOnlyObjectWrapper<Cycle> model;
+    protected final BooleanProperty modelAbsent;
+    protected final BooleanProperty nodeVisibility;
+    protected final BooleanProperty toolboxLock;
+    private final ReadOnlyObjectWrapper<Node> focus;
+    private final BooleanProperty focusAbsent;
     
     // Logger
     static private final Logger logger = LogManager.getLogger("GUILog");
@@ -61,6 +62,7 @@ public class MasterSceneController extends VBox {
         model = new ReadOnlyObjectWrapper();
         modelAbsent = new SimpleBooleanProperty(true);
         nodeVisibility = new SimpleBooleanProperty(false);
+        toolboxLock = new SimpleBooleanProperty(false);
         focus = new ReadOnlyObjectWrapper();
         focusAbsent = new SimpleBooleanProperty(true);
         

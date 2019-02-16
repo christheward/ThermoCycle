@@ -7,7 +7,7 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.input.KeyCodeCombination?>
 
-<fx:root type="MenuBar" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="MenuBar" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <menus>
     <Menu mnemonicParsing="false" text="File">
       <items>
@@ -50,6 +50,11 @@
             <CheckMenuItem fx:id="cycleNodeVisibility" mnemonicParsing="false" text="Show Nodes">
                <accelerator>
                   <KeyCodeCombination alt="UP" code="H" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+               </accelerator>
+            </CheckMenuItem>
+            <CheckMenuItem fx:id="cycleToolboxLock" mnemonicParsing="false" text="Lock Toolbox">
+               <accelerator>
+                  <KeyCodeCombination alt="UP" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                </accelerator>
             </CheckMenuItem>
         </items>

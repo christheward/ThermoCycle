@@ -7,7 +7,6 @@ package gui;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
-import javafx.scene.control.TableView;
 
 /**
  *
@@ -19,7 +18,7 @@ public class ButtonCell<S,T> extends TableCell<S,T> {
     
     protected Button button;
     
-    public ButtonCell(final TableView<T> tableView) {
+    public ButtonCell() {
         super();
         button = new Button("X");
         button.getStyleClass().add("buttonn-delete");

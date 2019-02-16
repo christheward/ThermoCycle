@@ -13,8 +13,20 @@ import java.io.Serializable;
  */
 public abstract class BoundaryCondition implements Serializable {
     
+    public final double[] values;
+    protected int idx;
+    
+    public BoundaryCondition(double[] values) {
+        this.values = values;
+        this.idx = 0;
+    }
+    
+    // Gets the current boundary condition value
+    public final double getValue() {
+        return values[idx];
+    }
+
     protected abstract void execute();
     protected abstract boolean match(BoundaryCondition cnd);
-    public abstract Double getValue();
     
 }

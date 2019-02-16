@@ -16,7 +16,13 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.binding.NumberBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -26,11 +32,14 @@ import javafx.scene.Node;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import thermocycle.Component;
+import thermocycle.Cycle;
 
 /**
  *
@@ -48,9 +57,10 @@ public class CanvasController extends AnchorPane {
     private ToolboxController toolbox;
     protected ToolboxComponentController dragIcon;
     protected ToolboxConnectionController dragConnection;
+    protected final Rectangle lassoo;
     
     // Variables
-    private boolean lockOpen;
+    //private boolean lockOpen;
     
     // Copy and paste
     protected final ClipboardContent canvasClipboard;
@@ -59,9 +69,11 @@ public class CanvasController extends AnchorPane {
     private final Map<Component,Double[]> layout;
     
     // Event handlers
-    protected EventHandler iconDragOverCanvas;
-    protected EventHandler iconDragDroppedCanvas;
-    protected EventHandler connectionDragOverCanvas;
+    protected EventHandler<DragEvent> iconDragOverCanvas;
+    protected EventHandler<DragEvent> iconDragDroppedCanvas;
+    protected EventHandler<DragEvent> connectionDragOverCanvas;
+    protected EventHandler<DragEvent> lassooDragOverCanvas;
+    protected EventHandler<DragEvent> lassooDragDroppedCanvas;
     protected ChangeListener numericField;
     
     /**
@@ -71,6 +83,9 @@ public class CanvasController extends AnchorPane {
         
         // Set master
         this.master = master;
+        
+        // Set up lassoo
+        lassoo = new Rectangle();
         
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Canvas.fxml"));
@@ -100,6 +115,9 @@ public class CanvasController extends AnchorPane {
         // Add style
         canvas.getStyleClass().add("canvas");
         
+        // Set
+        
+        
         // Set up draw and add tooolbox to draw
         toolbox = new ToolboxController(this);
         draw.setSidePane(toolbox);
@@ -108,34 +126,43 @@ public class CanvasController extends AnchorPane {
         draw.getStyleClass().add("canvas");
         
         // Set up draw control
-        draw.setOnMouseEntered(new EventHandler() {
+        master.toolboxLock.addListener(new ChangeListener<Boolean>() {
             @Override
-            public void handle(Event event) {
-                draw.open();
-                event.consume();
-            }
-        });
-        draw.setOnMouseExited(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                if (!lockOpen) {
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    draw.open();
+                }
+                else if (!draw.hoverProperty().getValue()) {
                     draw.close();
                 }
-                event.consume();
             }
+        });
+        draw.hoverProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    draw.open();
+                }
+                else if (!master.toolboxLock.getValue()) {
+                    draw.close();
+                }
+            }
+            
         });
         toolbox.pin.setOnMouseClicked(new EventHandler() {
             @Override
             public void handle(Event event) {
-                if (lockOpen) {
-                    lockOpen = false;
-                    toolbox.unlock();
-                }
-                else {
-                    lockOpen = true;
-                    toolbox.lock();
-                }
+                master.toolboxLock.setValue(!master.toolboxLock.getValue());
                 event.consume();
+            }
+        });
+        toolbox.pin.rotateProperty().bind(new DoubleBinding() {
+            {
+                bind(master.toolboxLock);
+            }
+            @Override
+            protected double computeValue() {
+                return master.toolboxLock.getValue() ? 45.0 : 0.0;
             }
         });
         
@@ -149,17 +176,36 @@ public class CanvasController extends AnchorPane {
         dragIcon = new ToolboxComponentController();
         dragIcon.setVisible(false);
         dragIcon.setOpacity(0.5);
+        dragIcon.setMouseTransparent(true);
         canvas.getChildren().add(dragIcon);
         
         // Set up dragConnection
         dragConnection = new ToolboxConnectionController();
         dragConnection.setVisible(false);
         dragConnection.setOpacity(0.35);
+        dragConnection.setMouseTransparent(true);
         canvas.getChildren().add(dragConnection);
+        
+        // Add lasso to canvas
+        lassoo.setVisible(false);
+        lassoo.setFill(null);
+        lassoo.setStroke(Color.LIGHTGRAY);
+        lassoo.setStrokeWidth(2);
+        lassoo.getStrokeDashArray().add(20.0);
+        lassoo.getStrokeDashArray().add(5.0);
+        lassoo.setMouseTransparent(true);
+        canvas.getChildren().add(lassoo);
         
         // Setup bindings
         draw.disableProperty().bind(master.modelAbsent);
-               
+        
+        // If model changed then clear canvas.
+        master.modelProperty().addListener(new ChangeListener<Cycle>() {
+            @Override
+            public void changed(ObservableValue<? extends Cycle> observable, Cycle oldValue, Cycle newValue) {
+                CanvasController.this.clearCanvas();
+            }
+        });
     }
     
     /**
@@ -179,16 +225,6 @@ public class CanvasController extends AnchorPane {
                 event.consume();
             }
         });
-        /**
-        canvas.setOnContextMenuRequested(new EventHandler <ContextMenuEvent> () {
-            @Override
-            public void handle(ContextMenuEvent event) {
-                contextMenu.show(contextMenu, event.getSceneX(), event.getSceneY());
-            }
-            
-        });
-        */
-        
     }
     
     /**
@@ -196,13 +232,61 @@ public class CanvasController extends AnchorPane {
      */
     private void buildDragHandlers() {
         
+        lassooDragOverCanvas = new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                event.acceptTransferModes(TransferMode.ANY);
+                
+                lassoo.setHeight(event.getY());
+                lassoo.setWidth(event.getX());
+                System.out.print("mouseDrag");
+                System.out.println(event.getX());
+                
+                // Consume event
+                event.consume();
+            }
+        };
+        
+        lassooDragDroppedCanvas = new EventHandler <DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                System.out.println("drag done");
+                canvas.removeEventFilter(DragEvent.DRAG_OVER, lassooDragOverCanvas);
+                canvas.removeEventFilter(DragEvent.DRAG_DONE, lassooDragDroppedCanvas);
+                event.consume();
+            }
+        };
+        
         canvas.setOnDragDetected(new EventHandler <MouseEvent> (){
             @Override
             public void handle(MouseEvent event) {
-                Rectangle lassoo = new Rectangle();
-                //lassoo.
-                System.out.print("Not implemented yet");
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                
+                canvas.setOnDragOver(lassooDragOverCanvas);
+                canvas.setOnDragDropped(lassooDragDroppedCanvas);
+                
+                // Pin upper left corner of lassoo
+                lassoo.setX(event.getX());
+                lassoo.setY(event.getY());
+                
+                // Show lassoo
+                lassoo.setVisible(true);
+                
+                // Put data in clipboard 
+                ClipboardContent content = new ClipboardContent();
+                DragContainerController container = new DragContainerController();
+                container.addData("lassoo", "lassoo");
+                content.put(DragContainerController.MoveComponent, container);
+                
+                // Start the drag operation
+                lassoo.startDragAndDrop(TransferMode.ANY).setContent(content);
+                
+                // Consume event
+                event.consume();
+                
+                System.out.println(canvas.getOnDragOver());
+                System.out.println(canvas.getOnDragDropped());
+                System.out.println(canvas.getOnDragDone());
+                
             }
         });
         
@@ -298,7 +382,7 @@ public class CanvasController extends AnchorPane {
         
         // Drag over canvas drag handler
         // This is added to canvas when drag detected in ToolboxComponentController
-        iconDragOverCanvas = new EventHandler <DragEvent> () {
+        iconDragOverCanvas = new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent event) {
                 event.acceptTransferModes(TransferMode.ANY);
@@ -332,7 +416,7 @@ public class CanvasController extends AnchorPane {
         
         // Drag over canvas drag handler
         // This is added to canvas when drag detected in CanvasNodeController
-        connectionDragOverCanvas = new EventHandler <DragEvent> () {
+        connectionDragOverCanvas = new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent event) {
                 event.acceptTransferModes(TransferMode.ANY);
@@ -340,7 +424,7 @@ public class CanvasController extends AnchorPane {
                 event.consume();
             }
         };
-        
+                
     }
     
     /**
