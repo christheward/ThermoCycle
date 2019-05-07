@@ -185,7 +185,7 @@ public final class FlowNode extends Node {
                     state.setProperty(p,fn.state.getProperty(p).getAsDouble());
                     fluid.computeState(state);
                 }
-                else if (!Equation.withinTolerance(state.getProperty(p).getAsDouble(), fn.state.getProperty(p).getAsDouble())) {
+                else if (Properties.TOLERANCE < Math.abs(state.getProperty(p).getAsDouble() - fn.state.getProperty(p).getAsDouble())) {
                     throw new IllegalStateException("Node properties are incompatible (" + p.toString() + ") - Node: " + state.getProperty(p) + " / Node: " + fn.state.getProperty(p));
                 }
             });

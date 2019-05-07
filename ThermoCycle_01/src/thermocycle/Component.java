@@ -70,11 +70,11 @@ public abstract class Component implements Serializable {
      * A list of all the heat nodes in this component.
      */
     public final List<HeatNode> heatNodes;
-        
+    
     /**
      * A map containing the value of all component attributes that have been set.
      */
-    public final Map<Attribute, Double> condition;
+    public final Map<Attribute, Double> attributes;
     
     /**
      * Constructor
@@ -90,7 +90,7 @@ public abstract class Component implements Serializable {
         this.heatNodes = new ArrayList();
         this.internals = new ArrayList();
         this.equations = new ArrayList();
-        this.condition = new HashMap();
+        this.attributes = new HashMap();
     }
     
     /**
@@ -98,7 +98,7 @@ public abstract class Component implements Serializable {
      */
     protected final void clear() {
         // clear condition
-        condition.clear();
+        attributes.clear();
         // clear equations
         equations.stream().forEach(e -> {
             e.reset();
@@ -182,8 +182,8 @@ public abstract class Component implements Serializable {
      * @return The value of the attribute.
      */
     public final OptionalDouble getAttribute(Attribute attribute) {
-        if (condition.containsKey(attribute)) {
-            return OptionalDouble.of(condition.get(attribute));
+        if (attributes.containsKey(attribute)) {
+            return OptionalDouble.of(attributes.get(attribute));
         }
         return OptionalDouble.empty();
     }
@@ -194,7 +194,7 @@ public abstract class Component implements Serializable {
      * @param value The value to set the attribute to.
      */
     protected final void setAttribute(Attribute attribute, Double value) {
-        condition.put(attribute, value);
+        attributes.put(attribute, value);
     }
     
     /**
@@ -202,7 +202,7 @@ public abstract class Component implements Serializable {
      * @param attribute The component attribute to clear.
      */
     protected final void clearAttribute(Attribute attribute) {
-        condition.remove(attribute);
+        attributes.remove(attribute);
     }
     
     /**
@@ -219,8 +219,8 @@ public abstract class Component implements Serializable {
     }
     
     /**
-     * Updates the component by continually solving it's equations until all unknowns have been found.
-     * @return A set of the nodes that have been updated during the update.
+     * Updates the component by continually solving its equations until all unknowns have been found.
+     * @return a set of the nodes that have been updated during the update.
      */
     protected final Set<Node> update() {
         logger.info("Solving " + this);
@@ -231,7 +231,7 @@ public abstract class Component implements Serializable {
     
     /**
      * Solves the component's equations to find unknowns.
-     * @return A set of the nodes that have been updated during the solve.
+     * @return a set of the nodes that have been updated during the solve.
      */
     private final Set<Node> solve() {
         Set<Node> updatedNodes = new HashSet();

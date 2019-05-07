@@ -27,7 +27,6 @@ final class VanDerWaalsGas extends Fluid {
         this.a = a;     // Correction factor a
         this.b = b;     // Correction factor b
         this.M = M;     // Molar mass
-        this.cv = cv;   // Specific heat at contant volume
     }
     
     // getters

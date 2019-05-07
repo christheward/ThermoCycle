@@ -5,6 +5,8 @@
  */
 package thermocycle;
 
+import java.util.List;
+
 /**
  *
  * @author Chris Ward
@@ -13,14 +15,14 @@ public class BoundaryConditionMass extends BoundaryCondition {
     
     public final FlowNode node;
     
-    public BoundaryConditionMass(FlowNode node, double[] values) {
+    public BoundaryConditionMass(FlowNode node, List<Double> values) {
         super(values);
         this.node = node;
     }
     
     @Override
     protected void execute() {
-        node.setMass(values[idx]);
+        node.setMass(getValue());
     }
     
     @Override
@@ -33,19 +35,4 @@ public class BoundaryConditionMass extends BoundaryCondition {
         return false;
     }
     
-    /**
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof BoundaryConditionMass)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        return ((BoundaryConditionMass)obj).node.equals(this.node);
-    }
-    */
 }

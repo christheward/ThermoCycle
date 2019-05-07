@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import thermocycle.BoundaryCondition;
 
 /**
  *
@@ -72,7 +73,7 @@ public class ContextMenuController extends ContextMenu {
         contextSolve.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                master.getModel().solve();
+                master.getModel().solve(BoundaryCondition.getIdx());
                 event.consume();
             }
             

@@ -38,7 +38,7 @@ public abstract class Fluid implements Serializable {
     
     /**
      * Constructor.
-     * @param name The fluid name. 
+     * @param name the fluid name. 
      */
     protected Fluid(String name) {
         id = UUID.randomUUID();
@@ -47,7 +47,7 @@ public abstract class Fluid implements Serializable {
         
     /**
      * Gets the fluid name.
-     * @return Returns the fluid name.
+     * @return the fluid name.
      */
     protected final String getName() {
         return name;
@@ -55,7 +55,7 @@ public abstract class Fluid implements Serializable {
         
     /**
      * Sets the fluid name.
-     * @param name The fluid name.
+     * @param name the fluid name.
      */
     protected final void setName(String name) {
         this.name = name;
@@ -63,19 +63,19 @@ public abstract class Fluid implements Serializable {
     
     /**
      * Gets the set of valid properties for this fluid.
-     * @return Returns the set of valid state properties.
+     * @return the set of valid state properties.
      */
     public abstract Set<Property> getAllowableProperties();
     
     /**
      * Computes absent state properties from existing state properties for this fluid.
-     * @param state The state to compute.
+     * @param state the state to compute.
      */
     protected abstract void computeState(State state);
     
     /**
      * Calculates the fluid density, R, from the specific volume.
-     * @param state The state to compute density for.
+     * @param state the state to compute density for.
      */
     protected void calcR(State state) {
         // R = 1/V
@@ -86,7 +86,7 @@ public abstract class Fluid implements Serializable {
     
     /**
      * Calculates the fluid enthalpy, H, based on general state relationships. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
-     * @param state The state to compute enthalpy for.
+     * @param state the state to compute enthalpy for.
      */
     protected void calcH(State state) {
         // H = U + P.V
@@ -109,7 +109,7 @@ public abstract class Fluid implements Serializable {
 
     /**
      * Calculates the fluid internal energy, U, based on general state relationships. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
-     * @param state The state to compute internal energy for.
+     * @param state the state to compute internal energy for.
      */
     protected void calcU(State state) {
         // U = H - P.V
@@ -130,7 +130,7 @@ public abstract class Fluid implements Serializable {
     
     /**
      * Calculates the fluid Gibbs free energy, G, based on general state relationships. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
-     * @param state The state to compute Gibbs free energy for.
+     * @param state the state to compute Gibbs free energy for.
      */
     protected void calcG(State state) {
         // G = H - T.S
@@ -153,7 +153,7 @@ public abstract class Fluid implements Serializable {
     
     /**
      * Calculates the fluid Helmholtz free energy, F, based on general state relationships. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
-     * @param state The state to compute Helmholtz free energy for.
+     * @param state the state to compute Helmholtz free energy for.
      */
    protected void calcF(State state) {
         // F = U - T.S
@@ -176,7 +176,7 @@ public abstract class Fluid implements Serializable {
     
     /**
      * Calculates the fluid temperature, T, based on general state relationships. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
-     * @param state The state to compute temperature for.
+     * @param state the state to compute temperature for.
      */
     protected void calcT(State state) {
         if (state.contains(ENTROPY)) {
@@ -201,7 +201,7 @@ public abstract class Fluid implements Serializable {
     
     /**
      * Calculates the fluid entropy, S, based on general state relationships. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
-     * @param state The state to compute entropy for.
+     * @param state the state to compute entropy for.
      */
     protected void calcS(State state) {
         if (state.contains(TEMPERATURE)) {
@@ -226,7 +226,7 @@ public abstract class Fluid implements Serializable {
     
     /**
      * Calculates the fluid pressure from existing state properties if possible. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
-     * @param state The state to compute pressure for.
+     * @param state the state to compute pressure for.
      */
     protected void calcP(State state) {
         if (state.contains(VOLUME)) {
@@ -251,7 +251,7 @@ public abstract class Fluid implements Serializable {
     
     /**
      * Calculates the fluid specific volume, V, based on general state relationships. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
-     * @param state The state to compute specific volume for.
+     * @param state the state to compute specific volume for.
      */
     protected void calcV(State state) {
         if (state.contains(DENSITY)) {

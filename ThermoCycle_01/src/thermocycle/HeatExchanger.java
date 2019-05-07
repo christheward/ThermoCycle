@@ -106,7 +106,7 @@ public final class HeatExchanger extends Component {
         /**
          * Constructor.
          */
-        private Mass_Balance_Hot() {}
+        private Mass_Balance_Hot() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -117,19 +117,8 @@ public final class HeatExchanger extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "m in": {
-                    value = OptionalDouble.of(HeatExchanger.this.getOutletHot().getMass().getAsDouble());
-                    break;
-                }
-                case "m out": {
-                    value = OptionalDouble.of(HeatExchanger.this.getInletHot().getMass().getAsDouble());
-                    break;
-                }
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("m in").getAsDouble() - variables.get("m out").getAsDouble();
         }
         
         @Override
@@ -156,7 +145,7 @@ public final class HeatExchanger extends Component {
         /**
          * Constructor.
          */
-        private Mass_Balance_Cold() {}
+        private Mass_Balance_Cold() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -167,19 +156,8 @@ public final class HeatExchanger extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "m in": {
-                    value = OptionalDouble.of(HeatExchanger.this.getOutletCold().getMass().getAsDouble());
-                    break;
-                }
-                case "m out": {
-                    value = OptionalDouble.of(HeatExchanger.this.getInletCold().getMass().getAsDouble());
-                    break;
-                }
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("m in").getAsDouble() - variables.get("m out").getAsDouble();
         }
         
         @Override
@@ -206,7 +184,7 @@ public final class HeatExchanger extends Component {
         /**
          * Constructor.
          */
-        private Pressure_Loss_Hot() {}
+        private Pressure_Loss_Hot() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -217,19 +195,8 @@ public final class HeatExchanger extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "p in": {
-                    value = OptionalDouble.of(HeatExchanger.this.getOutletHot().getState(PRESSURE).getAsDouble());
-                    break;
-                }
-                case "p out": {
-                    value = OptionalDouble.of(HeatExchanger.this.getInletHot().getState(PRESSURE).getAsDouble());
-                    break;
-                }
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("p in").getAsDouble() - variables.get("p out").getAsDouble();
         }
         
         @Override
@@ -256,7 +223,7 @@ public final class HeatExchanger extends Component {
         /**
          * Constructor.
          */
-        private Pressure_Loss_Cold() {}
+        private Pressure_Loss_Cold() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -267,21 +234,10 @@ public final class HeatExchanger extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "p in": {
-                    value = OptionalDouble.of(HeatExchanger.this.getOutletCold().getState(PRESSURE).getAsDouble());
-                    break;
-                }
-                case "p out": {
-                    value = OptionalDouble.of(HeatExchanger.this.getInletCold().getState(PRESSURE).getAsDouble());
-                    break;
-                }
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("p in").getAsDouble() - variables.get("p out").getAsDouble();
         }
-        
+                
         @Override
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
@@ -306,7 +262,7 @@ public final class HeatExchanger extends Component {
         /**
          * Constructor.
          */
-        private Effectiveness() {}
+        private Effectiveness() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -318,23 +274,8 @@ public final class HeatExchanger extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "e": {
-                    value = OptionalDouble.of(HeatExchanger.this.getAttribute(AHEATTRANSFER).getAsDouble() / HeatExchanger.this.getAttribute(IHEATTRANSFER).getAsDouble());
-                    break;
-                }
-                case "Q actual": {
-                    value = OptionalDouble.of(HeatExchanger.this.getAttribute(IHEATTRANSFER).getAsDouble() * HeatExchanger.this.getAttribute(EFFECTIVENESS).getAsDouble());
-                    break;
-                }
-                case "Q ideal": {
-                    value = OptionalDouble.of(HeatExchanger.this.getAttribute(AHEATTRANSFER).getAsDouble() / HeatExchanger.this.getAttribute(EFFECTIVENESS).getAsDouble());
-                    break;
-                }
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("Q ideal").getAsDouble()*variables.get("e").getAsDouble() - variables.get("Q actual").getAsDouble();
         }
         
         @Override
@@ -365,7 +306,7 @@ public final class HeatExchanger extends Component {
         /**
          * Constructor.
          */
-        private Energy_Balance_Hot() {}
+        private Energy_Balance_Hot() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -378,27 +319,8 @@ public final class HeatExchanger extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "m": {
-                    value = OptionalDouble.of(HeatExchanger.this.getAttribute(AHEATTRANSFER).getAsDouble() / (HeatExchanger.this.getInletHot().getState(ENTHALPY).getAsDouble() - HeatExchanger.this.getOutletHot().getState(ENTHALPY).getAsDouble()));
-                    break;
-                }
-                case "h in": {
-                    value = OptionalDouble.of((HeatExchanger.this.getOutletHot().getState(ENTHALPY).getAsDouble() + HeatExchanger.this.getAttribute(AHEATTRANSFER).getAsDouble()) / HeatExchanger.this.getInletHot().getMass().getAsDouble());
-                    break;
-                }
-                case "h out": {
-                    value = OptionalDouble.of((HeatExchanger.this.getInletHot().getState(ENTHALPY).getAsDouble() - HeatExchanger.this.getAttribute(AHEATTRANSFER).getAsDouble()) / HeatExchanger.this.getInletHot().getMass().getAsDouble());
-                    break;
-                }
-                case "Q": {
-                    value = OptionalDouble.of(HeatExchanger.this.getInletHot().getMass().getAsDouble() * (HeatExchanger.this.getInletHot().getState(ENTHALPY).getAsDouble() - HeatExchanger.this.getOutletHot().getState(ENTHALPY).getAsDouble()));
-                    break;
-                }
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("Q").getAsDouble() - variables.get("m").getAsDouble()*(variables.get("h in").getAsDouble() - variables.get("h out").getAsDouble());
         }
         
         @Override
@@ -433,7 +355,7 @@ public final class HeatExchanger extends Component {
         /**
          * Constructor.
          */
-        private Energy_Balance_Cold() {}
+        private Energy_Balance_Cold() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -446,28 +368,8 @@ public final class HeatExchanger extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "m": {
-                    value = OptionalDouble.of(HeatExchanger.this.getAttribute(AHEATTRANSFER).getAsDouble() / (HeatExchanger.this.getOutletCold().getState(ENTHALPY).getAsDouble() - HeatExchanger.this.getInletCold().getState(ENTHALPY).getAsDouble()));
-                    break;
-                }
-                case "h in": {
-                    value = OptionalDouble.of((HeatExchanger.this.getOutletCold().getState(ENTHALPY).getAsDouble() - HeatExchanger.this.getAttribute(AHEATTRANSFER).getAsDouble() / HeatExchanger.this.getInletCold().getMass().getAsDouble()));
-                    break;
-                }
-                case "h out": {
-                    value = OptionalDouble.of((HeatExchanger.this.getInletCold().getState(ENTHALPY).getAsDouble() + HeatExchanger.this.getAttribute(AHEATTRANSFER).getAsDouble() / HeatExchanger.this.getInletCold().getMass().getAsDouble()));
-                    break;
-                }
-                case "Q": {
-                    value = OptionalDouble.of(HeatExchanger.this.getInletCold().getMass().getAsDouble() * (HeatExchanger.this.getOutletCold().getState(ENTHALPY).getAsDouble() - HeatExchanger.this.getInletCold().getState(ENTHALPY).getAsDouble()));
-                    break;
-                }
-
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("Q").getAsDouble() - variables.get("m").getAsDouble() * (variables.get("h out").getAsDouble() - variables.get("h in").getAsDouble());
         }
                 
         @Override
@@ -502,7 +404,7 @@ public final class HeatExchanger extends Component {
         /**
          * Constructor.
          */
-        private Ideal_Heat_Transfer() {}
+        private Ideal_Heat_Transfer() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -520,8 +422,8 @@ public final class HeatExchanger extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
+        protected Double function(Map<String, OptionalDouble> variables) {
+            
             FlowNode hotOutletMin = new FlowNode(INTERNAL);
             hotOutletMin.setFluid(HeatExchanger.this.getInletHot().getFluid().get());
             OptionalDouble Q_ideal_h2c = OptionalDouble.of(0.0);
@@ -529,42 +431,16 @@ public final class HeatExchanger extends Component {
             coldOutletMax.setFluid(HeatExchanger.this.getInletCold().getFluid().get());
             OptionalDouble Q_ideal_c2h = OptionalDouble.of(0.0);
             
-            if (!variable.equals("T in cold") && !variable.equals("p out hot")) {
-                hotOutletMin.setProperty(TEMPERATURE, HeatExchanger.this.getInletCold().getState(TEMPERATURE).getAsDouble());
-                hotOutletMin.setProperty(PRESSURE, HeatExchanger.this.getOutletHot().getState(PRESSURE).getAsDouble());
-                if (!variable.equals("h in hot") && !variable.equals("m hot")) {
-                    Q_ideal_h2c = OptionalDouble.of(HeatExchanger.this.getInletHot().getMass().getAsDouble() * (HeatExchanger.this.getInletHot().getState(ENTHALPY).getAsDouble() - hotOutletMin.getState(ENTHALPY).getAsDouble()));
-                }
-            }
-            if (!variable.equals("T in hot") && !variable.equals("p out cold")) {
-                coldOutletMax.setProperty(TEMPERATURE, HeatExchanger.this.getInletHot().getState(TEMPERATURE).getAsDouble());
-                coldOutletMax.setProperty(PRESSURE, HeatExchanger.this.getOutletCold().getState(PRESSURE).getAsDouble());
-                if (!variable.equals("h in cold") && !variable.equals("m cold")) {
-                    Q_ideal_c2h = OptionalDouble.of(HeatExchanger.this.getInletCold().getMass().getAsDouble() * (coldOutletMax.getState(ENTHALPY).getAsDouble() - HeatExchanger.this.getInletCold().getState(ENTHALPY).getAsDouble()));
-                }
-            }
+            hotOutletMin.setProperty(TEMPERATURE, variables.get("T in cold").getAsDouble());
+            hotOutletMin.setProperty(PRESSURE, variables.get("p out hot").getAsDouble());
+            Q_ideal_h2c = OptionalDouble.of(variables.get("m hot").getAsDouble() * variables.get("h in hot").getAsDouble() - hotOutletMin.getState(ENTHALPY).getAsDouble());
+
+            coldOutletMax.setProperty(TEMPERATURE, variables.get("T in hot").getAsDouble());
+            coldOutletMax.setProperty(PRESSURE, variables.get("p out cold").getAsDouble());
+            Q_ideal_c2h = OptionalDouble.of(variables.get("m hot").getAsDouble() * variables.get("h in hot").getAsDouble() - hotOutletMin.getState(ENTHALPY).getAsDouble());
             
-            switch (variable) {
-                case "Q ideal":
-                    value = OptionalDouble.of(Math.min(Q_ideal_h2c.getAsDouble(),Q_ideal_c2h.getAsDouble()));
-                    break;
-                case "h in hot":
-                    if (Q_ideal_c2h.getAsDouble() > HeatExchanger.this.getAttribute(IHEATTRANSFER).getAsDouble()) {
-                        // hot side limits heat transfer
-                        value = OptionalDouble.of(hotOutletMin.getState(ENTHALPY).getAsDouble() + (HeatExchanger.this.getAttribute(IHEATTRANSFER).getAsDouble() / HeatExchanger.this.getInletHot().getMass().getAsDouble()));
-                    }
-                    break;
-                case "h in cold":
-                    if (Q_ideal_h2c.getAsDouble() > HeatExchanger.this.getAttribute(IHEATTRANSFER).getAsDouble()) {
-                        // cold side limits heat transfer
-                        value = OptionalDouble.of(coldOutletMax.getState(ENTHALPY).getAsDouble() - (HeatExchanger.this.getAttribute(IHEATTRANSFER).getAsDouble() / HeatExchanger.this.getInletCold().getMass().getAsDouble()));
-                    }
-                    break;
-                default: {
-                    break;
-                }
-            }
-            return value;
+            return variables.get("Q ideal").getAsDouble() - Math.min(Q_ideal_h2c.getAsDouble(),Q_ideal_c2h.getAsDouble());
+            
         }
         
         @Override

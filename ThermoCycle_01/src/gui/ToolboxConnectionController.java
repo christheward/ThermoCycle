@@ -21,7 +21,7 @@ public class ToolboxConnectionController extends Path{
     /**
      * Constructor
      */
-    public void ToolboxPath() {
+    public void ToolboxConenctionController() {
     }
     
     /**

@@ -18,6 +18,7 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import thermocycle.BoundaryCondition;
 import thermocycle.Cycle;
 import utilities.FileHandler;
 
@@ -43,6 +44,7 @@ public class MenubarController extends MenuBar {
     @FXML private MenuItem cycleChart;
     @FXML private MenuItem cycleReport;
     @FXML private CheckMenuItem cycleNodeVisibility;
+    @FXML private CheckMenuItem cycleNameVisibility;
     @FXML private CheckMenuItem cycleToolboxLock;
     
     // GUI variables
@@ -100,6 +102,8 @@ public class MenubarController extends MenuBar {
         cycleReport.disableProperty().bind(master.modelAbsent);
         cycleNodeVisibility.disableProperty().bind(master.modelAbsent);
         master.nodeVisibility.bindBidirectional(cycleNodeVisibility.selectedProperty());
+        cycleNameVisibility.disableProperty().bind(master.modelAbsent);
+        master.nameVisibility.bindBidirectional(cycleNameVisibility.selectedProperty());
         cycleToolboxLock.disableProperty().bind(master.modelAbsent);
         master.toolboxLock.bindBidirectional(cycleToolboxLock.selectedProperty());
     }
@@ -225,7 +229,7 @@ public class MenubarController extends MenuBar {
         cycleSolve.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                master.getModel().solve();
+                master.getModel().solve(BoundaryCondition.getIdx());
                 event.consume();
             }
         });

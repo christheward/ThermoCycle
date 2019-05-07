@@ -8,7 +8,6 @@ package gui;
 import gui.CanvasConnectionController.Direction;
 import static gui.CanvasConnectionController.Direction.*;
 import java.io.IOException;
-import java.io.Serializable;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,9 +37,6 @@ public final class CanvasNodeController extends AnchorPane {
     private Tooltip tip;
     private final MasterSceneController master;
     private final CanvasComponentController canvasIcon;
-            
-    // Event handlers
-    protected EventHandler connectionDragDroppedNode;
     
     // Model variables
     protected thermocycle.Node node;
@@ -124,6 +120,9 @@ public final class CanvasNodeController extends AnchorPane {
         });
     }
         
+    /**
+     * Builds drag handlers for this node
+     */
     private void buildNodeDragHandlers() {
         
         //drag detection for node dragging
@@ -131,32 +130,23 @@ public final class CanvasNodeController extends AnchorPane {
             @Override
             public void handle(MouseEvent event) {
                 
-                // Get the source object
-                CanvasNodeController source = (CanvasNodeController) event.getSource();
-                
-                // Set drag handlers for the uunderlying canvas
-                master.canvas.setOnDragOver(master.canvas.connectionDragOverCanvas);
-                
-                // Bind the start to the node
-                master.canvas.dragConnection.startDrag(source);
-                
-                // Put icon type in clipboard
+                // Put data in clipboard to identify icon type when dropped on canvas
+                DragContainerController dragContainer = new DragContainerController();
+                dragContainer.addData(DragContainerController.DATA_TYPE.NODE, CanvasNodeController.this);
                 ClipboardContent content = new ClipboardContent();
-                DragContainerController container = new DragContainerController();
-                container.addData("startIcon", source.canvasIcon.hashCode());
-                container.addData("startNode", source.hashCode());
-                content.put(DragContainerController.CreateConnection, container);
+                content.put(DragContainerController.CREATE_CONNECTION, dragContainer);
                 
-                // Start the drag operation
-                master.canvas.dragConnection.startDragAndDrop(TransferMode.ANY).setContent(content);
+                // Start drag and drop operation
+                startDragAndDrop(TransferMode.ANY).setContent(content);
+                
+                // Prepare the cnavas connection
+                master.canvas.dragConnection.startDrag((CanvasNodeController) event.getSource());
                 master.canvas.dragConnection.setVisible(true);
-                master.canvas.dragConnection.setMouseTransparent(true);
-                
-                // Disable inligible nodes
                 master.canvas.disableIneligibleNodes(CanvasNodeController.this);
                 
                 // Consume event
                 event.consume();
+                
             }
         });
         
@@ -164,24 +154,35 @@ public final class CanvasNodeController extends AnchorPane {
             @Override
             public void handle (DragEvent event) {
                 
-                // Get source object
-                CanvasNodeController source = (CanvasNodeController)event.getSource();
+                // Acceptable transferable modes
+                event.acceptTransferModes(TransferMode.NONE);
                 
-                // Remomve drag handlers
-                master.canvas.setOnDragOver(null);
+                // Only accept create connection events
+                if (event.getDragboard().getContent(DragContainerController.CREATE_CONNECTION) != null) {
+                    
+                    // Prepare drag clipboard
+                    DragContainerController dragContainer = new DragContainerController();
+                    dragContainer.addData((DragContainerController) event.getDragboard().getContent(DragContainerController.CREATE_CONNECTION));
+                    ClipboardContent content = new ClipboardContent();
+                    content.put(DragContainerController.CREATE_CONNECTION, dragContainer);
                 
-                // Add drop coordinates to drag container
-                ClipboardContent content = new ClipboardContent();
-                DragContainerController container = (DragContainerController)event.getDragboard().getContent(DragContainerController.CreateConnection);
-                container.addData("endIcon", source.canvasIcon.hashCode());
-                container.addData("endNode", source.hashCode());
-                content.put(DragContainerController.CreateConnection, container);
-                event.getDragboard().setContent(content);
-                event.setDropCompleted(true);
+                    event.setDropCompleted(true);
+                    
+                }
                 
                 // Consume event
                 event.consume();
+                
             }
+        });
+        
+        this.setOnDragDone(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                System.out.println("Toolbox connection drag done.");
+                master.canvas.dragConnection.setVisible(false);
+            }
+            
         });
         
     }

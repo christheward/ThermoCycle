@@ -17,13 +17,17 @@ import javafx.util.Pair;
  */
 public class DragContainerController implements Serializable {
     
-    /**
-     * 
-     */
-    private final ArrayList <Pair<String, Object> > mDataPairs = new ArrayList <Pair<String, Object> > ();
-    public static final DataFormat CreateComponent = new DataFormat("application.DragIcon.add");
-    public static final DataFormat MoveComponent = new DataFormat("application.DraggableNode.drag");
-    public static final DataFormat CreateConnection = new DataFormat("application.NodeLink.add");
+    // Drag container data
+    private final ArrayList<Pair<DATA_TYPE, Object>> mDataPairs = new ArrayList();
+    
+    // Drag data formats
+    public static final DataFormat CREATE_COMPONENT = new DataFormat("application.CreateComponent");
+    public static final DataFormat MOVE_COMPONENT = new DataFormat("application.MoveComponent");
+    public static final DataFormat CREATE_CONNECTION = new DataFormat("application.CreateConnection");
+    public static final DataFormat SELECT = new DataFormat("application.Select");
+    
+    // Drag data types
+    public static enum DATA_TYPE {LOCATION, NODE, COMPONENT};
     
     /**
      * Constructor
@@ -36,8 +40,16 @@ public class DragContainerController implements Serializable {
      * @param key The key for the DragContainerController object
      * @param value The object to add to the DragContainerController
      */
-    public void addData (String key, Object value) {
-        mDataPairs.add(new Pair<String, Object>(key, value));        
+    public void addData(DATA_TYPE key, Object value) {
+        mDataPairs.add(new Pair(key, value));        
+    }
+    
+    /**
+     * Add data to the DragContainerController object
+     * @param values The values to add to the DragCOntainerController object
+     */
+    public void addData(DragContainerController values) {
+        mDataPairs.addAll(values.mDataPairs);
     }
     
     /**
@@ -46,8 +58,8 @@ public class DragContainerController implements Serializable {
      * @param key The key for the object to retrieve
      * @return Returns the object from the DragContainerController
      */
-    public  <T> T getValue (String key) {
-        for (Pair<String, Object> data: mDataPairs) {
+    public  <T> T getValue (DATA_TYPE key) {
+        for (Pair<DATA_TYPE, Object> data: mDataPairs) {
             if (data.getKey().equals(key)) {
                 return (T) data.getValue();
             }
@@ -59,7 +71,7 @@ public class DragContainerController implements Serializable {
      * Get a list of the key-object pairs in the DragContainerController object
      * @return Returns the list of key-object pairs
      */
-    public List <Pair<String, Object> > getData () {
+    public List <Pair<DATA_TYPE, Object> > getData () {
         return mDataPairs;
     }
 }

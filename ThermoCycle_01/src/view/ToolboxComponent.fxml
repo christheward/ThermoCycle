@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<fx:root fx:id="base" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root fx:id="base" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -38,20 +35,11 @@
                     </rowConstraints>
                   </GridPane>
                </children></AnchorPane>
-            <StackPane>
-               <children>
-                  <Label fx:id="name" alignment="CENTER" prefHeight="0.0" prefWidth="64.0" text="Label" VBox.vgrow="ALWAYS">
-                     <font>
-                        <Font size="9.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="input" alignment="CENTER" prefHeight="0.0" prefWidth="64.0" promptText="Input" visible="false">
-                     <font>
-                        <Font size="9.0" />
-                     </font>
-                  </TextField>
-               </children>
-            </StackPane>
+            <Label fx:id="name" alignment="CENTER" prefHeight="0.0" prefWidth="64.0" text="Label" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="9.0" />
+               </font>
+            </Label>
          </children>
       </VBox>
    </children>

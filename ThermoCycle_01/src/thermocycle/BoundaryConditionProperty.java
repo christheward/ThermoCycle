@@ -5,6 +5,7 @@
  */
 package thermocycle;
 
+import java.util.List;
 import thermocycle.Properties.Property;
 
 /**
@@ -16,7 +17,7 @@ public class BoundaryConditionProperty extends BoundaryCondition {
     public final FlowNode node;
     public final Property property;
     
-    public BoundaryConditionProperty(FlowNode node, Property property, double[] values) {
+    public BoundaryConditionProperty(FlowNode node, Property property, List<Double> values) {
         super(values);
         this.node = node;
         this.property = property;
@@ -24,7 +25,7 @@ public class BoundaryConditionProperty extends BoundaryCondition {
     
     @Override
     protected void execute() {
-        node.setProperty(property, values[idx]);
+        node.setProperty(property, getValue());
     }
     
     @Override

@@ -12,6 +12,11 @@ package thermocycle;
 public interface Properties {
     
     /**
+     * Tolerance
+     */
+    public final static double TOLERANCE = 1e-5;
+    
+    /**
      * Properties for states
      */
     public enum Property {

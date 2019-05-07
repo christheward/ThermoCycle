@@ -86,7 +86,7 @@ public final class Combustor extends Component {
         /**
          * Constructor.
          */
-        private Mass_Balance() {}
+        private Mass_Balance() {super(1e-3);}
         
         @Override
         protected Map<String,OptionalDouble> getVariables() {
@@ -97,21 +97,10 @@ public final class Combustor extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "m in": {
-                    value = OptionalDouble.of(Combustor.this.getOutlet().getMass().getAsDouble());
-                    break;
-                }
-                case "m out": {
-                    value = OptionalDouble.of(Combustor.this.getInlet().getMass().getAsDouble());
-                    break;
-                }
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("m in").getAsDouble() - variables.get("m out").getAsDouble();
         }
-        
+                
         @Override
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
@@ -136,7 +125,7 @@ public final class Combustor extends Component {
         /**
          * Constructor.
          */
-        private Energy_Balance() {}
+        private Energy_Balance() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -149,28 +138,10 @@ public final class Combustor extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "Q": {
-                    value = OptionalDouble.of(Combustor.this.getInlet().getMass().getAsDouble() * (Combustor.this.getOutlet().getState(ENTHALPY).getAsDouble() - Combustor.this.getInlet().getState(ENTHALPY).getAsDouble()));
-                    break;
-                }
-                case "m": {
-                    value = OptionalDouble.of(Combustor.this.getSupply().getHeat().getAsDouble() / (Combustor.this.getOutlet().getState(ENTHALPY).getAsDouble() - Combustor.this.getInlet().getState(ENTHALPY).getAsDouble()));
-                    break;
-                }
-                case "h in": {
-                    value = OptionalDouble.of(Combustor.this.getOutlet().getState(ENTHALPY).getAsDouble() - (Combustor.this.getSupply().getHeat().getAsDouble() / Combustor.this.getInlet().getMass().getAsDouble()));
-                    break;}
-                case "h out": {
-                    value = OptionalDouble.of(Combustor.this.getInlet().getState(ENTHALPY).getAsDouble() + (Combustor.this.getSupply().getHeat().getAsDouble() / Combustor.this.getInlet().getMass().getAsDouble()));
-                    break;
-                }
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("Q").getAsDouble() - variables.get("m").getAsDouble()*(variables.get("h out").getAsDouble() - variables.get("h in").getAsDouble());
         }
-        
+                
         @Override
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
@@ -199,7 +170,7 @@ public final class Combustor extends Component {
         /**
          * Constructor.
          */
-        private Pressure_Loss() {}
+        private Pressure_Loss() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -211,22 +182,10 @@ public final class Combustor extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "pr": {
-                    value = OptionalDouble.of(1 - (Combustor.this.getOutlet().getState(PRESSURE).getAsDouble() / Combustor.this.getInlet().getState(PRESSURE).getAsDouble()));
-                    break;}
-                case "p in": {
-                    value = OptionalDouble.of(Combustor.this.getOutlet().getState(PRESSURE).getAsDouble() / (1 - Combustor.this.getAttribute(PLOSS).getAsDouble()));
-                    break;}
-                case "p out": {
-                    value = OptionalDouble.of(Combustor.this.getInlet().getState(PRESSURE).getAsDouble() * (1 - Combustor.this.getAttribute(PLOSS).getAsDouble()));
-                    break;}
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("p in").getAsDouble()*(1-variables.get("pr").getAsDouble()) - variables.get("p out").getAsDouble();
         }
-        
+                
         @Override
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {

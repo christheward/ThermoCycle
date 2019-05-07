@@ -50,13 +50,6 @@ public class Main extends Application {
         }
         root.setCenter(new MasterSceneController());
         
-        // Set up welome stage
-        //welcomeStage = new Stage();
-        //welcomeStage.setAlwaysOnTop(true);
-        //welcomeStage.setTitle("Welcome to thermocycle.");
-        //stage.setScene(new Scene(graph, 800, 600));
-        //stage.show();
-        
     }
     
 }

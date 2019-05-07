@@ -88,7 +88,7 @@ public final class HeatSink extends Component {
         /**
          * Constructor
          */
-        private Mass_Balance() {}
+        private Mass_Balance() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -99,19 +99,8 @@ public final class HeatSink extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "m in": {
-                    value = HeatSink.this.getOutlet().getMass();
-                    break;
-                }
-                case "m out": {
-                    value = HeatSink.this.getInlet().getMass();
-                    break;
-                }
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("m in").getAsDouble() - variables.get("m out").getAsDouble();
         }
         
         @Override
@@ -138,7 +127,7 @@ public final class HeatSink extends Component {
         /**
          * Constructor
          */
-        private Energy_Balance() {}
+        private Energy_Balance() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -151,29 +140,8 @@ public final class HeatSink extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "Q": {
-                    value = OptionalDouble.of(HeatSink.this.getInlet().getMass().getAsDouble() * (HeatSink.this.getInlet().getState(ENTHALPY).getAsDouble() - HeatSink.this.getOutlet().getState(ENTHALPY).getAsDouble()));
-                    break;
-                }
-                case "m": {
-                    if (!HeatSink.this.getSink().getHeat().equals(Double.valueOf(0))) {
-                        value = OptionalDouble.of(HeatSink.this.getSink().getHeat().getAsDouble() / (HeatSink.this.getInlet().getState(ENTHALPY).getAsDouble() - (HeatSink.this.getOutlet().getState(ENTHALPY).getAsDouble())));
-                    }
-                    break;
-                }
-                case "h in": {
-                    value = OptionalDouble.of(HeatSink.this.getOutlet().getState(ENTHALPY).getAsDouble() + (HeatSink.this.getSink().getHeat().getAsDouble() / (HeatSink.this.getInlet().getMass().getAsDouble())));
-                    break;
-                }
-                case "h out": {
-                    value = OptionalDouble.of(HeatSink.this.getInlet().getState(ENTHALPY).getAsDouble() - (HeatSink.this.getSink().getHeat().getAsDouble() / (HeatSink.this.getInlet().getMass().getAsDouble())));
-                    break;
-                }
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("Q").getAsDouble() - variables.get("m").getAsDouble()*(variables.get("h in").getAsDouble() - variables.get("h out").getAsDouble());
         }
         
         @Override
@@ -208,7 +176,7 @@ public final class HeatSink extends Component {
         /**
          * Constructor
          */
-        private Pressure_Loss() {}
+        private Pressure_Loss() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -220,23 +188,8 @@ public final class HeatSink extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "pr": {
-                    value = OptionalDouble.of(1 - (HeatSink.this.getOutlet().getState(PRESSURE).getAsDouble() / HeatSink.this.getInlet().getState(PRESSURE).getAsDouble()));
-                    break;
-                }
-                case "p in": {
-                    value = OptionalDouble.of((HeatSink.this.getOutlet().getState(PRESSURE).getAsDouble() / (1 - HeatSink.this.getAttribute(PLOSS).getAsDouble())));
-                    break;
-                }
-                case "p out": {
-                    value = OptionalDouble.of((HeatSink.this.getInlet().getState(PRESSURE).getAsDouble() * (1 - HeatSink.this.getAttribute(PLOSS).getAsDouble())));
-                    break;
-                }
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("p in").getAsDouble()*(1 - variables.get("pr").getAsDouble()) - variables.get("p out").getAsDouble();
         }
         
         @Override

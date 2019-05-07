@@ -22,7 +22,7 @@ import thermocycle.Properties.Property;
  *s
  * @author Chris
  */
-public class TextUserInterface {
+public final class TextUserInterface {
 
     private Cycle model;
     private final List<List<String>> outputs;
@@ -33,6 +33,10 @@ public class TextUserInterface {
     public TextUserInterface(Cycle model) {
         this.model = model;
         this.outputs = new ArrayList();
+    }
+    
+    private void createMenu() {
+        new MenuItem()
     }
     
     /**
@@ -189,8 +193,9 @@ public class TextUserInterface {
             switch(commands.get(1)) {
                 case "COMPRESSOR": {
                     Component comp = model.createCompressor(commands.get(2));
-                    model.setBoundaryConditionAttribute(comp, EFFICIENCY, new double[] {Double.parseDouble(commands.get(3))});
-                    model.setBoundaryConditionAttribute(comp, PRATIO, new double[] {Double.parseDouble(commands.get(4))});
+                    model.setBoundaryConditionAttribute(comp, EFFICIENCY, Arrays.asList(a)new Double[] {});
+                    model.setBoundaryConditionAttribute(comp, EFFICIENCY, new Double[] {Double.parseDouble(commands.get(3))});
+                    model.setBoundaryConditionAttribute(comp, PRATIO, new Double[] {Double.parseDouble(commands.get(4))});
                     break;
                 }
                 case "TURBINE": {
@@ -293,6 +298,10 @@ public class TextUserInterface {
      * @param commands Command line string
      */
     private void solve(ArrayList<String> commands) {
-        model.solve();
+        model.solveParametric();
+    }
+    
+    private void readData() {
+        
     }
 }

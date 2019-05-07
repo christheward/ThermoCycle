@@ -5,14 +5,22 @@
  */
 package gui;
 
+import static gui.ThermoCycleClipboardContent.*;
 import java.io.IOException;
+import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
@@ -27,14 +35,18 @@ public class ToolboxComponentController extends AnchorPane {
     @FXML protected AnchorPane icon;
     @FXML protected GridPane node_grid;
     @FXML protected Label name;
-    @FXML protected TextField input;
-    private Point2D centerInLocal;
+    
+    // Set master
+    protected final MasterSceneController master;
     
     // Properties
-    private DoubleProperty xCenterInLocal;
-    private DoubleProperty yCenterInLocal;
-    private DoubleProperty xCenterInParent;
-    private DoubleProperty yCenterInParent;
+    private ObjectProperty<Point2D> centerInLocal;
+    private ObjectProperty<Point2D> centerInParent;
+    
+    // Drag handlers
+    protected EventHandler<DragEvent> componentDraggedOverCanvas;
+    protected EventHandler<DragEvent> componentDroppedOnCanvas;
+    protected EventHandler<DragEvent> componentDragDoneOnCanvas;
     
     // Model variables
     private ComponentIcon iType;
@@ -42,13 +54,14 @@ public class ToolboxComponentController extends AnchorPane {
     /**
      * Constructor
      */
-    public ToolboxComponentController() {
+    public ToolboxComponentController(MasterSceneController master) {
+        
+        // Set master
+        this.master = master;
         
         // Create properties
-        xCenterInLocal = new SimpleDoubleProperty();
-        yCenterInLocal = new SimpleDoubleProperty();
-        xCenterInParent = new SimpleDoubleProperty();
-        yCenterInParent = new SimpleDoubleProperty();
+        centerInLocal = new SimpleObjectProperty();
+        centerInParent = new SimpleObjectProperty();
         
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ToolboxComponent.fxml"));
@@ -60,6 +73,8 @@ public class ToolboxComponentController extends AnchorPane {
             throw new RuntimeException(exception);
         }
         
+        // Build drag handlers
+        buildDragHandlers();
     }
     
     /**
@@ -68,8 +83,25 @@ public class ToolboxComponentController extends AnchorPane {
     @FXML private void initialize() {
         
         // Create bindings
-        xCenterInLocal.bind(this.widthProperty().divide(2.0));
-        yCenterInLocal.bind(this.heightProperty().divide(2.0));
+        centerInLocal.bind(new ObjectBinding<Point2D>() {
+            {
+                bind(ToolboxComponentController.this.widthProperty(), ToolboxComponentController.this.heightProperty());
+            }
+            @Override
+            protected Point2D computeValue() {
+                return new Point2D(icon.getWidth()/2.0, icon.getHeight()/2.0);
+            }
+        });
+        
+        centerInParent.bind(new ObjectBinding<Point2D>() {
+            {
+                bind(centerInLocal, ToolboxComponentController.this.localToParentTransformProperty());
+            }
+            @Override
+            protected Point2D computeValue() {
+                return ToolboxComponentController.this.localToParent(centerInLocal.getValue().getX(), centerInLocal.getValue().getY());
+            }
+        });
         
     }
     
@@ -102,13 +134,52 @@ public class ToolboxComponentController extends AnchorPane {
         Point2D localCoords = getParent().sceneToLocal(p);
         this.relocate((int) (localCoords.getX() - (getBoundsInLocal().getWidth() / 2)), (int) (localCoords.getY() - (getBoundsInLocal().getHeight() / 2)));
     }
-    
+
     /**
      * Gets the centre of this component in the parents co-ordinate system.
      * @return The centre point of the component in the parents co-ordinate system.
      */
     protected final Point2D getCenterPointInParent() {
-        return localToParent(new Point2D ((int)((getBoundsInLocal().getMinX() + getBoundsInLocal().getMaxX()) / 2), (int)((getBoundsInLocal().getMinX() + getBoundsInLocal().getMaxX()) / 2)));
+        return centerInParent.getValue();
+    }
+    
+    private final void buildDragHandlers() {
+        
+       this.setOnDragDetected (new EventHandler <MouseEvent> () {
+            @Override
+            public void handle(MouseEvent event) {
+                
+                // Put data in clipboard to identify icon type when dropped on canvas
+                ThermoCycleClipboardContent content = new ThermoCycleClipboardContent();
+                content.putAction(OPERATION.CREATE);
+                content.putComponentType(iType);
+                
+                // Start drag and drop operation
+                startDragAndDrop(TransferMode.ANY).setContent(content);
+                ToolboxComponentController.this.startFullDrag();
+                
+                // Note sure if these are needed
+                startFullDrag();
+                setMouseTransparent(true);
+                
+                // Prepare the canvas component
+                master.canvas.dragIcon.setType(iType);
+                master.canvas.dragIcon.relocateToPointInScene(new Point2D (event.getSceneX(), event.getSceneY()));
+                master.canvas.dragIcon.setVisible(true);
+                
+                // Consume event to make make sure canvas drag detected isn't fired
+                event.consume();
+                
+            }
+        });
+        
+        this.setOnDragDone(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                master.canvas.dragIcon.setVisible(false);
+            }
+        });
+        
     }
     
 }

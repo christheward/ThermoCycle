@@ -32,7 +32,7 @@ public final class Turbine extends Component {
         equations.add(new Mass_Balance());
         equations.add(new Energy_Balance());
         equations.add(new Pressure_Ratio());
-        equations.add(new Efficicnecy());
+        equations.add(new Efficiency());
     }
     
     /**
@@ -91,7 +91,7 @@ public final class Turbine extends Component {
         /**
          * Constructor.
          */
-        private Mass_Balance() {}
+        private Mass_Balance() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -102,19 +102,8 @@ public final class Turbine extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "m in": {
-                    value = OptionalDouble.of(Turbine.this.getOutlet().getMass().getAsDouble());
-                    break;
-                }
-                case "m out": {
-                    value = OptionalDouble.of(Turbine.this.getInlet().getMass().getAsDouble());
-                    break;
-                }
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("m in").getAsDouble() - variables.get("m out").getAsDouble();
         }
         
         @Override
@@ -141,7 +130,7 @@ public final class Turbine extends Component {
         /**
          * Constructor.
          */
-        private Energy_Balance() {}
+        private Energy_Balance() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -154,27 +143,8 @@ public final class Turbine extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "W": {
-                    value = OptionalDouble.of(Turbine.this.getInlet().getMass().getAsDouble() * (Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - Turbine.this.getOutlet().getState(ENTHALPY).getAsDouble()));
-                    break;
-                }
-                case "m": {
-                    value = OptionalDouble.of(Turbine.this.getShaft().getWork().getAsDouble() / (Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - Turbine.this.getOutlet().getState(ENTHALPY).getAsDouble()));
-                    break;
-                }
-                case "h in": {
-                    value = OptionalDouble.of(Turbine.this.getOutlet().getState(ENTHALPY).getAsDouble() + (Turbine.this.getShaft().getWork().getAsDouble() / Turbine.this.getInlet().getMass().getAsDouble()));
-                    break;
-                }
-                case "h out": {
-                    value = OptionalDouble.of(Turbine.this.getInlet().getState(ENTHALPY).getAsDouble()  - (Turbine.this.getShaft().getWork().getAsDouble() / Turbine.this.getInlet().getMass().getAsDouble()));
-                    break;
-                }
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("W").getAsDouble() - variables.get("m").getAsDouble()*(variables.get("h in").getAsDouble() - variables.get("h out").getAsDouble());
         }
         
         @Override
@@ -209,7 +179,7 @@ public final class Turbine extends Component {
         /**
          * Constructor.
          */
-        private Pressure_Ratio() {}
+        private Pressure_Ratio() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -221,23 +191,8 @@ public final class Turbine extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "pr": {
-                    value = OptionalDouble.of(Turbine.this.getInlet().getState(PRESSURE).getAsDouble() / Turbine.this.getOutlet().getState(PRESSURE).getAsDouble());
-                    break;
-                }
-                case "p in": {
-                    value = OptionalDouble.of(Turbine.this.getOutlet().getState(PRESSURE).getAsDouble() * Turbine.this.getAttribute(PRATIO).getAsDouble());
-                    break;
-                }
-                case "p out": {
-                    value = OptionalDouble.of(Turbine.this.getInlet().getState(PRESSURE).getAsDouble() / Turbine.this.getAttribute(PRATIO).getAsDouble());
-                    break;
-                }
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("p in").getAsDouble() - variables.get("p out").getAsDouble()*variables.get("pr").getAsDouble();
         }
         
         @Override
@@ -263,12 +218,12 @@ public final class Turbine extends Component {
     /**
      * Efficiency of the turbine.
      */
-    private class Efficicnecy extends Equation{
+    private class Efficiency extends Equation{
         
         /**
          * Constructor.
          */
-        private Efficicnecy() {}
+        private Efficiency() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -283,48 +238,16 @@ public final class Turbine extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
+        protected Double function(Map<String, OptionalDouble> variables) {
+            
             FlowNode isen = new FlowNode(INTERNAL);
             isen.setFluid(Turbine.this.getInlet().getFluid().get());
-            if (variable.equals("h in") || variable.equals("W") || variable.equals("n")) {
-                isen.setProperty(ENTROPY, Turbine.this.getInlet().getState(ENTROPY).getAsDouble());
-                isen.setProperty(PRESSURE, Turbine.this.getOutlet().getState(PRESSURE).getAsDouble());
-            }
-            else {
-                isen.setProperty(ENTHALPY, Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - (Turbine.this.getShaft().getWork().getAsDouble() / (Turbine.this.getAttribute(EFFICIENCY).getAsDouble() * Turbine.this.getInlet().getMass().getAsDouble())));
-            }
-            switch (variable) {
-                case "W": {
-                    value = OptionalDouble.of(Turbine.this.getAttribute(EFFICIENCY).getAsDouble() * Turbine.this.getInlet().getMass().getAsDouble() * (Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - (isen.getState(ENTHALPY).getAsDouble())));
-                    break;
-                }
-                case "n": {
-                    value = OptionalDouble.of(Turbine.this.getShaft().getWork().getAsDouble() / (Turbine.this.getInlet().getMass().getAsDouble() * (Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - (isen.getState(ENTHALPY).getAsDouble()))));
-                    break;
-                }
-                case "m": {
-                    value = OptionalDouble.of(Turbine.this.getShaft().getWork().getAsDouble() / (Turbine.this.getAttribute(EFFICIENCY).getAsDouble() * (Turbine.this.getInlet().getState(ENTHALPY).getAsDouble() - (isen.getState(ENTHALPY).getAsDouble()))));
-                    break;
-                }
-                case "h in": {
-                    value = OptionalDouble.of(isen.getState(ENTHALPY).getAsDouble() + (Turbine.this.getShaft().getWork().getAsDouble() / (Turbine.this.getAttribute(EFFICIENCY).getAsDouble() * (Turbine.this.getInlet().getMass().getAsDouble()))));
-                    break;
-                }
-                case "s in": {
-                    isen.setProperty(PRESSURE, Turbine.this.getOutlet().getState(PRESSURE).getAsDouble());
-                    value = OptionalDouble.of(isen.getState(ENTROPY).getAsDouble());
-                    break;
-                }
-                case "p out": {
-                    isen.setProperty(ENTROPY, Turbine.this.getInlet().getState(ENTROPY).getAsDouble());
-                    value = OptionalDouble.of(isen.getState(PRESSURE).getAsDouble());
-                    break;
-                }
-            }
-            return value;
+            isen.setProperty(ENTROPY, variables.get("s in").getAsDouble());
+            isen.setProperty(PRESSURE, variables.get("p out").getAsDouble());
+            
+            return variables.get("W").getAsDouble() - (variables.get("h in").getAsDouble() - isen.getState(ENTHALPY).getAsDouble())*variables.get("n").getAsDouble();
         }
-        
+                
         @Override
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {

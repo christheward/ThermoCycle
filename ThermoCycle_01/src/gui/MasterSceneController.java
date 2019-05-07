@@ -46,6 +46,7 @@ public class MasterSceneController extends VBox {
     private final ReadOnlyObjectWrapper<Cycle> model;
     protected final BooleanProperty modelAbsent;
     protected final BooleanProperty nodeVisibility;
+    protected final BooleanProperty nameVisibility;
     protected final BooleanProperty toolboxLock;
     private final ReadOnlyObjectWrapper<Node> focus;
     private final BooleanProperty focusAbsent;
@@ -62,6 +63,7 @@ public class MasterSceneController extends VBox {
         model = new ReadOnlyObjectWrapper();
         modelAbsent = new SimpleBooleanProperty(true);
         nodeVisibility = new SimpleBooleanProperty(false);
+        nameVisibility = new SimpleBooleanProperty(true);
         toolboxLock = new SimpleBooleanProperty(false);
         focus = new ReadOnlyObjectWrapper();
         focusAbsent = new SimpleBooleanProperty(true);

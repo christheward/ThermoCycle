@@ -52,6 +52,7 @@
                   <KeyCodeCombination alt="UP" code="H" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                </accelerator>
             </CheckMenuItem>
+            <CheckMenuItem fx:id="cycleNameVisibility" mnemonicParsing="false" text="Show Names" />
             <CheckMenuItem fx:id="cycleToolboxLock" mnemonicParsing="false" text="Lock Toolbox">
                <accelerator>
                   <KeyCodeCombination alt="UP" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP" />

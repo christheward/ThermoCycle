@@ -8,9 +8,6 @@ package gui;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -33,7 +30,6 @@ import thermocycle.Component;
 public class CanvasComponentController extends ToolboxComponentController{
     
     // FXML variables
-    private final MasterSceneController master;
     private ContextMenu menu;
     private Tooltip tip;
     
@@ -51,10 +47,7 @@ public class CanvasComponentController extends ToolboxComponentController{
      * @throws Exception 
      */
     public CanvasComponentController(MasterSceneController master, ComponentIcon iType) throws Exception {
-        super();
-        
-        // Set master
-        this.master = master;
+        super(master);
         
         // set icon type
         setType(iType);
@@ -69,12 +62,12 @@ public class CanvasComponentController extends ToolboxComponentController{
         // build handlers
         buildDragHandlers();
         buildClickHandlers();
+        
+        // Bind name visibility
+        this.name.visibleProperty().bind(master.nameVisibility);
     }
     public CanvasComponentController(MasterSceneController master, thermocycle.Component component) throws Exception {
-        super();
-        
-        // set master
-        this.master = master;
+        super(master);
         
         // set compoennt
         this.component = component;
@@ -89,6 +82,10 @@ public class CanvasComponentController extends ToolboxComponentController{
         // build handlers
         buildDragHandlers();
         buildClickHandlers();
+        
+        // Bind name visibility
+        this.name.visibleProperty().bind(master.nameVisibility);
+        
     }
     
     /**
@@ -167,27 +164,29 @@ public class CanvasComponentController extends ToolboxComponentController{
      */
     private void buildDragHandlers() {
         
-        //drag detection for node dragging
-        icon.setOnDragDetected (new EventHandler <MouseEvent> () {
+        this.setOnDragDetected (new EventHandler <MouseEvent> () {
             @Override
             public void handle(MouseEvent event) {
                 
-                // Apply the drag handlers to teh canvas
-                master.canvas.setOnDragOver (iconDragOverCanvas);
-                master.canvas.setOnDragDropped (iconDragDroppedCanvas);
-                
-                // Put icon type in clipboard
+                // Put data in clipboard to identify icon type when dropped on canvas
+                DragContainerController dragContainer = new DragContainerController();
+                dragContainer.addData(DragContainerController.DATA_TYPE.COMPONENT, getType());
                 ClipboardContent content = new ClipboardContent();
-                DragContainerController container = new DragContainerController();
-                container.addData("type", getType().toString());
-                content.put(DragContainerController.MoveComponent, container);
+                content.put(DragContainerController.MOVE_COMPONENT, dragContainer);
                 
-                // Start drag operations
-                relocateToPointInScene(new Point2D(event.getSceneX(), event.getSceneY()));
+                // Start drag and drop
                 startDragAndDrop(TransferMode.ANY).setContent(content);
                 
                 // Consume event
-                event.consume();                    
+                event.consume();
+                
+            }
+        });
+        
+        this.setOnDragDone(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                System.out.println("Canvas icon drag done.");
             }
         });
         
@@ -195,7 +194,7 @@ public class CanvasComponentController extends ToolboxComponentController{
         iconDragOverCanvas = new EventHandler <DragEvent> () {
             @Override
             public void handle(DragEvent event) {
-                //event.acceptTransferModes(TransferMode.ANY);                
+                event.acceptTransferModes(TransferMode.ANY);                
                 relocateToPointInScene(new Point2D( event.getSceneX(), event.getSceneY()));
                 event.consume();
             }
@@ -240,39 +239,7 @@ public class CanvasComponentController extends ToolboxComponentController{
      */
     private void buildContextMenu() {
         menu = new ContextMenu();
-        MenuItem item = new MenuItem("Rename");
-        item.setOnAction(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                input.focusedProperty().addListener(new ChangeListener<Boolean>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                        if (!newPropertyValue) {
-                            name.setVisible(true);
-                            input.setVisible(false);
-                        }
-                    }
-                });
-                input.setPromptText(name.getText());
-                name.setVisible(false);
-                input.setVisible(true);
-                input.requestFocus();
-                input.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        name.setText(input.getText());
-                        input.setVisible(false);
-                        name.setVisible(true);
-                        master.getModel().setName(component, name.getText());
-                    }
-                });
-                event.consume();
-            }
-        });   
-        menu.getItems().add(item);
-        
-        menu.getItems().add(new SeparatorMenuItem());
-        item = new MenuItem("Delete");
+        MenuItem item = new MenuItem("Delete");
         item.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {

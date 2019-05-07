@@ -5,6 +5,8 @@
  */
 package thermocycle;
 
+import java.util.List;
+
 /**
  *
  * @author Chris Ward
@@ -13,14 +15,14 @@ public class BoundaryConditionHeat extends BoundaryCondition {
     
     public final HeatNode node;
     
-    public BoundaryConditionHeat(HeatNode node, double[] values) {
+    public BoundaryConditionHeat(HeatNode node, List<Double> values) {
         super(values);
         this.node = node;
     }
     
     @Override
     protected void execute() {
-        node.setHeat(values[idx]);
+        node.setHeat(getValue());
     }
     
     @Override

@@ -5,6 +5,7 @@
  */
 package thermocycle;
 
+import java.util.List;
 import thermocycle.Attributes.Attribute;
 
 /**
@@ -16,7 +17,7 @@ public class BoundaryConditionAttribute extends BoundaryCondition {
     public final Component component;
     public final Attribute attribute;
     
-    public BoundaryConditionAttribute(Component component, Attribute attribute, double[] values) {
+    public BoundaryConditionAttribute(Component component, Attribute attribute, List<Double> values) {
         super(values);
         this.component = component;
         this.attribute = attribute;
@@ -24,7 +25,7 @@ public class BoundaryConditionAttribute extends BoundaryCondition {
     
     @Override
     protected void execute() {
-        component.setAttribute(attribute, values[idx]);
+        component.setAttribute(attribute, getValue());
     }
     
     @Override

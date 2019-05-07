@@ -6,8 +6,6 @@
 package thermocycle;
 
 import java.util.*;
-import static thermocycle.Attributes.Attribute.EFFICIENCY;
-import static thermocycle.Attributes.Attribute.PRATIO;
 import static thermocycle.Attributes.Attribute.SPLIT;
 import static thermocycle.Node.Port.*;
 import static thermocycle.Properties.Property.*;
@@ -90,7 +88,7 @@ final class Splitter extends Component {
         /**
          * Constructor.
          */
-        private Eqn_Mass() {}
+        private Eqn_Mass() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -100,25 +98,10 @@ final class Splitter extends Component {
             variables.put("m out 2", Splitter.this.getOutlet2().getMass());
             return variables;
         }
-                
+        
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "m in": {
-                    value = OptionalDouble.of(Splitter.this.getOutlet1().getMass().getAsDouble() + Splitter.this.getOutlet2().getMass().getAsDouble());
-                    break;
-                }
-                case "m out 1": {
-                    value = OptionalDouble.of(Splitter.this.getInlet().getMass().getAsDouble() - Splitter.this.getOutlet2().getMass().getAsDouble());
-                    break;
-                }
-                case "m out 2": {
-                    value = OptionalDouble.of(Splitter.this.getInlet().getMass().getAsDouble() - Splitter.this.getOutlet1().getMass().getAsDouble());
-                    break;
-                }
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("m out 1").getAsDouble() + variables.get("m out 2").getAsDouble() - variables.get("m in").getAsDouble();
         }
         
         @Override
@@ -143,12 +126,12 @@ final class Splitter extends Component {
     /**
      * Mass split across the first branch in splitter.
      */
-    private class Eqn_Split1 extends Equation{
+    private class Eqn_Split extends Equation{
         
         /**
          * Constructor.
          */
-        private Eqn_Split1() {}
+        private Eqn_Split() {super(1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -160,24 +143,10 @@ final class Splitter extends Component {
         }
         
         @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "split": {
-                    value = OptionalDouble.of(Splitter.this.getOutlet1().getMass().getAsDouble() / Splitter.this.getInlet().getMass().getAsDouble());
-                    break;}
-                case "m in": {
-                    value = OptionalDouble.of(Splitter.this.getOutlet1().getMass().getAsDouble() / Splitter.this.getAttribute(SPLIT).getAsDouble());
-                    break;
-                }
-                case "m out 1": {
-                    value = OptionalDouble.of(Splitter.this.getInlet().getMass().getAsDouble() * Splitter.this.getAttribute(SPLIT).getAsDouble());
-                    break;
-                }
-            }
-            return value;
+        protected Double function(Map<String, OptionalDouble> variables) {
+            return variables.get("m in").getAsDouble()*variables.get("split").getAsDouble() - variables.get("m out 1").getAsDouble();
         }
-        
+                
         @Override
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
@@ -198,62 +167,4 @@ final class Splitter extends Component {
         }
     }
     
-    /**
-     * Mass split across the second branch in the splitter.
-     */
-    private class Eqn_Split2 extends Equation{
-        
-        /**
-         * Constructor.
-         */
-        private Eqn_Split2() {}
-        
-        @Override
-        protected Map<String, OptionalDouble> getVariables() {
-            Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("split", Splitter.this.getAttribute(SPLIT));
-            variables.put("m in", Splitter.this.getInlet().getMass());
-            variables.put("m out 2", Splitter.this.getOutlet2().getMass());
-            return variables;
-        }
-        
-        @Override
-        protected OptionalDouble solveVariable(String variable) {
-            OptionalDouble value = OptionalDouble.empty();
-            switch (variable) {
-                case "split": {
-                    value = OptionalDouble.of((1 - Splitter.this.getOutlet2().getMass().getAsDouble()) / Splitter.this.getInlet().getMass().getAsDouble());
-                    break;
-                }
-                case "m in": {
-                    value = OptionalDouble.of(Splitter.this.getOutlet2().getMass().getAsDouble()  / (1 - Splitter.this.getAttribute(SPLIT).getAsDouble()));
-                    break;
-                }
-                case "mc out 2": {
-                    value = OptionalDouble.of(Splitter.this.getInlet().getMass().getAsDouble() * (1 - Splitter.this.getAttribute(SPLIT).getAsDouble()));
-                    break;}
-            }
-            return value;
-        }
-        
-        @Override
-        protected Node saveVariable(String variable, Double value) {
-            switch (variable) {
-                case "split": {
-                    Splitter.this.setAttribute(SPLIT, value);
-                    return null;
-                }
-                case "m in": {
-                    Splitter.this.getInlet().setMass(value);
-                    return Splitter.this.getInlet();
-                }
-                case "m out 2": {
-                    Splitter.this.getOutlet1().setMass(value);
-                    return Splitter.this.getOutlet1();
-                
-                }
-            }
-            return null;
-        }
-    }
 }
