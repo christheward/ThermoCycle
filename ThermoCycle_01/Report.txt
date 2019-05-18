@@ -7,8 +7,8 @@
                                                  __/ |            
                                                 |___/              
 
-Heat Sink Test
-==============
+Gas Turbine Test
+================
 
 Ambient conditions
 ------------------
@@ -18,19 +18,92 @@ Ambient conditions
 Fluids
 ------
 	Air
-		Gamma: 1.4 -
+		Gamma: 1.4 
 		R: 287.0 J/Kg
 		Cv: 717.5000000000001 J/Kg.K
 		Cp: 1004.5000000000001 J/Kg.K
 
+Paths
+-----
+	Number of streams: 1
+	Air: 1 streams
+
 Components
 ----------
+	Compressor
+		Status: Solved
+		Type: Compressor
+		Attributes
+			Efficiency: 0.9 
+			Pressure Ratio: 5.0 
+		Equations
+			Efficiency: Solved
+			Pressure Ratio: Solved
+			Mass Balance: Solved
+			Energy Balance: Solved
+		Heat
+			No heat connections: 
+		Work
+			INLET: 195482.46157701555 W
+		Mass
+			OUTLET: 1.0 kg/s
+			INLET: 1.0 kg/s
+	Combustor
+		Status: Solved
+		Type: Combustor
+		Attributes
+			Pressure Loss: 0.05 
+		Equations
+			Mass Balance: Solved
+			Energy Balance: Solved
+			Pressure Loss: Solved
+		Heat
+			INLET: 809017.5384229848 W
+		Work
+			No work connections: 
+		Mass
+			OUTLET: 1.0 kg/s
+			INLET: 1.0 kg/s
+	Turbine
+		Status: Solved
+		Type: Turbine
+		Attributes
+			Efficiency: 0.95 
+			Pressure Ratio: 4.512500000000955 
+		Equations
+			Efficiency: Solved
+			Pressure Ratio: Solved
+			Mass Balance: Solved
+			Energy Balance: Solved
+		Heat
+			No heat connections: 
+		Work
+			OUTLET: 433990.3120124324 W
+		Mass
+			OUTLET: 1.0 kg/s
+			INLET: 1.0 kg/s
 	Heat Sink
 		Status: Solved
 		Type: HeatSink
 		Attributes
-			Pressure Loss: 0.05 -
+			Pressure Loss: 0.05 
 		Equations
-			Q = m (h in - h out): Solved
-			p in = (1 - pr) p out: Solved
-			m in = m out: Solved
+			Mass Balance: Solved
+			Energy Balance: Solved
+			Pressure Loss: Solved
+		Heat
+			OUTLET: 570509.6879875676 W
+		Work
+			No work connections: 
+		Mass
+			OUTLET: 1.0 kg/s
+			INLET: 1.0 kg/s
+
+Cycle performance
+-----------------
+	Thermal efficiency: : 0.29481171805043854 
+	Work input: : 195482.46157701555 W
+	Heat input: : 809017.5384229848 W
+	Work output: : 433990.3120124324 W
+	Rational efficiency: : 0.4606098036780382 
+	Heat output: : 570509.6879875676 W

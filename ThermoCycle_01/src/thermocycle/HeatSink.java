@@ -88,29 +88,29 @@ public final class HeatSink extends Component {
         /**
          * Constructor
          */
-        private Mass_Balance() {super("m in = m out", 1e-3);}
+        private Mass_Balance() {super("m_in = m_out", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("m in", HeatSink.this.getInlet().getMass());
-            variables.put("m out", HeatSink.this.getOutlet().getMass());
+            variables.put("m_in", HeatSink.this.getInlet().getMass());
+            variables.put("m_out", HeatSink.this.getOutlet().getMass());
             return variables;
         }
         
         @Override
         protected Double function(Map<String, OptionalDouble> variables) {
-            return variables.get("m in").getAsDouble() - variables.get("m out").getAsDouble();
+            return variables.get("m_in").getAsDouble() - variables.get("m_out").getAsDouble();
         }
         
         @Override
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
-                case "m in": {
+                case "m_in": {
                     HeatSink.this.getInlet().setMass(value);
                     return HeatSink.this.getInlet();
                 }
-                case "m out": {
+                case "m_out": {
                     HeatSink.this.getOutlet().setMass(value);
                     return HeatSink.this.getOutlet();
                 }
@@ -127,21 +127,21 @@ public final class HeatSink extends Component {
         /**
          * Constructor
          */
-        private Energy_Balance() {super("Q = m (h in - h out)", 1e-3);}
+        private Energy_Balance() {super("Q = m (h_in - h_out)", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
             variables.put("Q", HeatSink.this.getSink().getHeat());
             variables.put("m", HeatSink.this.getInlet().getMass());
-            variables.put("h in", HeatSink.this.getInlet().getState(ENTHALPY));
-            variables.put("h out", HeatSink.this.getOutlet().getState(ENTHALPY));
+            variables.put("h_in", HeatSink.this.getInlet().getState(ENTHALPY));
+            variables.put("h_out", HeatSink.this.getOutlet().getState(ENTHALPY));
             return variables;
         }
         
         @Override
         protected Double function(Map<String, OptionalDouble> variables) {
-            return variables.get("Q").getAsDouble() - variables.get("m").getAsDouble()*(variables.get("h in").getAsDouble() - variables.get("h out").getAsDouble());
+            return variables.get("Q").getAsDouble() - variables.get("m").getAsDouble()*(variables.get("h_in").getAsDouble() - variables.get("h_out").getAsDouble());
         }
         
         @Override
@@ -155,11 +155,11 @@ public final class HeatSink extends Component {
                     HeatSink.this.getInlet().setMass(value);
                     return HeatSink.this.getInlet();
                 }
-                case "h in": {
+                case "h_in": {
                     HeatSink.this.getInlet().setProperty(ENTHALPY,value);
                     return HeatSink.this.getInlet();
                 }
-                case "h out": {
+                case "h_out": {
                     HeatSink.this.getOutlet().setProperty(ENTHALPY,value);
                     return HeatSink.this.getOutlet();
                 }
@@ -176,20 +176,20 @@ public final class HeatSink extends Component {
         /**
          * Constructor
          */
-        private Pressure_Loss() {super("p in = (1 - pr) p out", 1e-3);}
+        private Pressure_Loss() {super("p_in = (1 - pr) p_out", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
             variables.put("pr", HeatSink.this.getAttribute(PLOSS));
-            variables.put("p in", HeatSink.this.getInlet().getState(PRESSURE));
-            variables.put("p out", HeatSink.this.getOutlet().getState(PRESSURE));
+            variables.put("p_in", HeatSink.this.getInlet().getState(PRESSURE));
+            variables.put("p_out", HeatSink.this.getOutlet().getState(PRESSURE));
             return variables;
         }
         
         @Override
         protected Double function(Map<String, OptionalDouble> variables) {
-            return variables.get("p in").getAsDouble()*(1 - variables.get("pr").getAsDouble()) - variables.get("p out").getAsDouble();
+            return variables.get("p_in").getAsDouble()*(1 - variables.get("pr").getAsDouble()) - variables.get("p_out").getAsDouble();
         }
         
         @Override
@@ -199,11 +199,11 @@ public final class HeatSink extends Component {
                     HeatSink.this.setAttribute(PLOSS, value);
                     return null;
                 }
-                case "p in": {
+                case "p_in": {
                     HeatSink.this.getInlet().setProperty(PRESSURE,value);
                     return HeatSink.this.getInlet();
                 }
-                case "p out": {
+                case "p_out": {
                     HeatSink.this.getOutlet().setProperty(PRESSURE,value);
                     return HeatSink.this.getOutlet();
                 }

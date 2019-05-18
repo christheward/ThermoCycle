@@ -114,16 +114,16 @@ abstract class ComponentEquation implements Serializable {
             case 0: {
                 if (compatible()) {
                     state = STATE.COMPATIBLE;
-                    logger.info(this.getClass().getSimpleName() + " equation is compatible");
+                    logger.info(this + " equation is compatible");
                 }
                 else {
                     state = state.INCOMPATIBLE;
-                    logger.error(this.getClass().getSimpleName() + " equation is not compatible");
+                    logger.error(this + " equation is not compatible");
                 }
                 return null;}
             // if 1 unknown solve for single unknown
             case 1: {
-                logger.info("Solving " + writtenEquation + " for " + unknowns().get(0));
+                logger.trace("Solving " + writtenEquation + " for " + unknowns().get(0));
                 return saveVariable(unknowns().get(0), solveVariable(unknowns().get(0), 1000.0).getAsDouble());
             }
             // if more than one unknown do nothing.
@@ -188,14 +188,12 @@ abstract class ComponentEquation implements Serializable {
             }
         }
         
-        // Update log
-        logger.debug(unknownVariable + " = " + xVariables.getLast());
         return OptionalDouble.of(xVariables.getLast());
     };
     
     @Override
     public String toString() {
-        return writtenEquation;
+        return this.getClass().getSimpleName().replace("_", " ");
     }
     
     /**
@@ -206,5 +204,5 @@ abstract class ComponentEquation implements Serializable {
         Map<String,OptionalDouble> variables = getVariables();
         return variables.keySet().stream().filter(name -> !variables.get(name).isPresent()).collect(Collectors.toList());
     }
-    
+        
 }

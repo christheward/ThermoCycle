@@ -646,7 +646,6 @@ public class Cycle extends Observable implements Serializable, Reportable {
             // Solve inital conditions
             getFlowNodes().forEach(n -> {n.computeState();});                                              // update all flow node states (ensures all nodes states are internally compatible first).
             connections.stream().forEach(x -> {x.update();});                                              // update all node connections (ensures state values are transfered between nodes, checks for inconsistencies).
-            //Set<Component> unsolved = new HashSet<>(components);                                           // update all connections (updates nodes across components)
             Set<Node> updatedNodes = new HashSet<>();
             // Loop until converged or max itterations reached
             Integer iteration = 0;
@@ -663,9 +662,6 @@ public class Cycle extends Observable implements Serializable, Reportable {
                         x.update();
                     });
                 });
-                // remove complete components from the unsolved list
-                //unsolved.removeAll(unsolved.stream().filter(c -> c.isComplete()).collect(Collectors.toSet()));
-                components.forEach(c -> logger.info(c.name + " " + c.isComplete()));
             } while(updatedNodes.size() > 0 && iteration < Cycle.maxIterations);
             
             // Check to see if itteration limit reached
@@ -762,18 +758,6 @@ public class Cycle extends Observable implements Serializable, Reportable {
             logger.error("Class not found. " + e.getMessage());
         }
     }
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     /**
      * Calculate the thermal efficiency of the cycle
@@ -928,23 +912,44 @@ public class Cycle extends Observable implements Serializable, Reportable {
         
         ReportDataBlock rdb = new ReportDataBlock(name);
         
-        ReportDataBlock amb = new ReportDataBlock("Ambient conditions");
-        amb.addData("Pressure", DimensionedDouble.valueOfSI(ambient.getProperty(PRESSURE).getAsDouble(), UNITS_TYPE.PRESSURE));
-        amb.addData("Temperature", DimensionedDouble.valueOfSI(ambient.getProperty(TEMPERATURE).getAsDouble(), UNITS_TYPE.TEMPERATURE));
-        rdb.addDataBlock(amb);
+        // Report ambient conditions
+        ReportDataBlock ambientDataBlock = new ReportDataBlock("Ambient conditions");
+        ambientDataBlock.addData("Pressure", DimensionedDouble.valueOfSI(ambient.getProperty(PRESSURE).getAsDouble(), UNITS_TYPE.PRESSURE));
+        ambientDataBlock.addData("Temperature", DimensionedDouble.valueOfSI(ambient.getProperty(TEMPERATURE).getAsDouble(), UNITS_TYPE.TEMPERATURE));
+        rdb.addDataBlock(ambientDataBlock);
         
-        ReportDataBlock fls = new ReportDataBlock("Fluids");
+        // Report fluids
+        ReportDataBlock fluidsDataBlock = new ReportDataBlock("Fluids");
         fluids.stream().forEach(f -> {
-            fls.addDataBlock(f.getReportData());
+            fluidsDataBlock.addDataBlock(f.getReportData());
         });
-        rdb.addDataBlock(fls);
+        rdb.addDataBlock(fluidsDataBlock);
         
-        ReportDataBlock cmpts = new ReportDataBlock("Components");
+        // Report paths
+        ReportDataBlock pathsDataBlock = new ReportDataBlock("Paths");
+        pathsDataBlock.addData("Number of streams", paths.size());
+        fluids.stream().forEach(f -> {
+            Long nStreams = paths.stream().map(p -> p.stream().findFirst().get().getFluid()).filter(o -> o.isPresent()).map(s -> s.get()).filter(r -> r.equals(f)).count();
+            pathsDataBlock.addData(f.name, nStreams + " streams");
+        });
+        rdb.addDataBlock(pathsDataBlock);
+        
+        // Report components
+        ReportDataBlock componentsDataBlock = new ReportDataBlock("Components");
         components.stream().forEach(c -> {
-            cmpts.addDataBlock(c.getReportData());
+            componentsDataBlock.addDataBlock(c.getReportData());
         });
-        rdb.addDataBlock(cmpts);
+        rdb.addDataBlock(componentsDataBlock);
         
+        // Report cycle performance
+        ReportDataBlock performanceDataBlock = new ReportDataBlock("Cycle performance");
+        performanceDataBlock.addData("Thermal efficiency: ", DimensionedDouble.valueOfSI(efficiencyThermal(), UNITS_TYPE.DIMENSIONLESS));
+        performanceDataBlock.addData("Rational efficiency: ", DimensionedDouble.valueOfSI(efficiencyRational(), UNITS_TYPE.DIMENSIONLESS));
+        performanceDataBlock.addData("Heat input: ", DimensionedDouble.valueOfSI(this.heatIn(), UNITS_TYPE.POWER));
+        performanceDataBlock.addData("Heat output: ", DimensionedDouble.valueOfSI(this.heatOut(), UNITS_TYPE.POWER));
+        performanceDataBlock.addData("Work input: ", DimensionedDouble.valueOfSI(this.workIn(), UNITS_TYPE.POWER));
+        performanceDataBlock.addData("Work output: ", DimensionedDouble.valueOfSI(this.workOut(), UNITS_TYPE.POWER));
+        rdb.addDataBlock(performanceDataBlock);
         
         return rdb;
     }

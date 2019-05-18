@@ -118,7 +118,7 @@ abstract class FluidEquation implements Serializable {
     protected final boolean solve(State state) {
         if (unknowns(state).size() == 1) {
             Property variable = unknowns(state).get(0);
-            logger.trace("Solving " + writtenEquation + " for " + variable);
+            logger.trace("Solving " + writtenEquation + " for " + variable.symbol);
             state.setProperty(variable, solveVariable(state, variable, 1000.0).getAsDouble());
             return true;
         }
@@ -171,7 +171,7 @@ abstract class FluidEquation implements Serializable {
             fVariables.remove();
             
             // Update log
-            logger.trace(unknownVariable + " = " + xVariables.getLast() + " (Iteration " + iteration + ")");
+            logger.trace(unknownVariable.symbol + " = " + xVariables.getLast() + " (Iteration " + iteration + ")");
             
             // Check iteration limit
             if (iteration > iterationLimit) {
@@ -183,8 +183,6 @@ abstract class FluidEquation implements Serializable {
             }
         }
         
-        // Update log
-        logger.trace(unknownVariable + " = " + xVariables.getLast());
         return OptionalDouble.of(xVariables.getLast());
     };
     

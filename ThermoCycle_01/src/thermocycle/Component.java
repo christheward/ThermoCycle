@@ -16,6 +16,7 @@ import thermocycle.Attributes.Attribute;
 import static thermocycle.Properties.Property.*;
 import static thermocycle.Node.Port.*;
 import thermocycle.Properties.Property;
+import thermocycle.Units.UNITS_TYPE;
 
 /**
  *
@@ -425,33 +426,44 @@ public abstract class Component implements Serializable, Reportable {
         
         ReportDataBlock eqs = new ReportDataBlock("Equations");
         equations.stream().forEach(e -> {
-            eqs.addData(e.writtenEquation, e.isSolved()? "Solved" : "Unsolved");
+            eqs.addData(e.toString(), e.isSolved()? "Solved" : "Unsolved");
         });
         rdb.addDataBlock(eqs);
+        
+        ReportDataBlock htn = new ReportDataBlock("Heat");
+        if (heatNodes.size() > 0) {
+            heatNodes.stream().forEach(h -> {
+                htn.addData(h.port.toString(), h.getHeat().isPresent() ? DimensionedDouble.valueOfSI(h.getHeat().getAsDouble(), UNITS_TYPE.POWER) : "Unsolved");
+            });
+        }
+        else {
+            htn.addData("No heat connections", "");
+        }
+        rdb.addDataBlock(htn);
+        
+        ReportDataBlock wkn = new ReportDataBlock("Work");
+        if (workNodes.size() > 0) {
+            workNodes.stream().forEach(w -> {
+                wkn.addData(w.port.toString(), w.getWork().isPresent() ? DimensionedDouble.valueOfSI(w.getWork().getAsDouble(), UNITS_TYPE.POWER) : "Unsolved");
+            });
+        }
+        else {
+            wkn.addData("No work connections", "");
+        }
+        rdb.addDataBlock(wkn);
+        
+        ReportDataBlock fln = new ReportDataBlock("Mass");
+        if (flowNodes.size() > 0) {
+            flowNodes.stream().forEach(f -> {
+                fln.addData(f.port.toString(), f.getMass().isPresent() ? DimensionedDouble.valueOfSI(f.getMass().getAsDouble(), UNITS_TYPE.FLOW_RATE) : "Unsolved");
+            });
+        }
+        else {
+            fln.addData("No flow connections", "");
+        }
+        rdb.addDataBlock(fln);
         
         return rdb;
     }
     
-    /**
-     * Gets data for reporting.
-     * @return a map of data for reporting.
-     */
-    public Map<String, String> reportData() {
-        Map<String, String> data = new LinkedHashMap();
-        data.put("Name", name);
-        data.put("Type", getClass().getSimpleName());
-        data.put("Complete", isComplete()? "Solved" : "Unsolved");
-        getAllowableAtributes().stream().forEach(a -> {
-            if (attributes.containsKey(a)) {
-                data.put("Attribute " + a.fullName, Double.toString(attributes.get(a)));
-            }
-            else {
-                data.put("Attribute " + a.fullName, "Unknown");
-            }
-        });
-        equations.stream().forEach(e -> {
-            data.put("Equation " + e.getClass().getSimpleName(), e.isSolved() ? "Solved" : "Unsolved");
-        });
-        return data;
-    }
 }

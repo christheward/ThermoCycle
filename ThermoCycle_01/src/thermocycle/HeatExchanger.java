@@ -223,29 +223,29 @@ public final class HeatExchanger extends Component {
         /**
          * Constructor.
          */
-        private Pressure_Loss_Cold() {super("p in = p out", 1e-3);}
+        private Pressure_Loss_Cold() {super("p_in = p_out", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("p in", HeatExchanger.this.getInletCold().getState(PRESSURE));
-            variables.put("p out", HeatExchanger.this.getOutletCold().getState(PRESSURE));
+            variables.put("p_in", HeatExchanger.this.getInletCold().getState(PRESSURE));
+            variables.put("p_out", HeatExchanger.this.getOutletCold().getState(PRESSURE));
             return variables;
         }
         
         @Override
         protected Double function(Map<String, OptionalDouble> variables) {
-            return variables.get("p in").getAsDouble() - variables.get("p out").getAsDouble();
+            return variables.get("p_in").getAsDouble() - variables.get("p_out").getAsDouble();
         }
                 
         @Override
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
-                case "p in": {
+                case "p_in": {
                     HeatExchanger.this.getInletCold().setProperty(PRESSURE,value);
                     return HeatExchanger.this.getInletCold();
                 }
-                case "p out": {
+                case "p_out": {
                     HeatExchanger.this.getOutletCold().setProperty(PRESSURE,value);
                     return HeatExchanger.this.getOutletCold();
                 }
@@ -262,34 +262,34 @@ public final class HeatExchanger extends Component {
         /**
          * Constructor.
          */
-        private Effectiveness() {super("Q actual = Q ideal * U+03B5", 1e-3);}
+        private Effectiveness() {super("Q_actual = Q_ideal * \u03B5", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("e", HeatExchanger.this.getAttribute(EFFECTIVENESS));
-            variables.put("Q actual", HeatExchanger.this.getAttribute(AHEATTRANSFER));
-            variables.put("Q ideal", HeatExchanger.this.getAttribute(IHEATTRANSFER));
+            variables.put("\u03B5", HeatExchanger.this.getAttribute(EFFECTIVENESS));
+            variables.put("Q_actual", HeatExchanger.this.getAttribute(AHEATTRANSFER));
+            variables.put("Q_ideal", HeatExchanger.this.getAttribute(IHEATTRANSFER));
             return variables;
         }
         
         @Override
         protected Double function(Map<String, OptionalDouble> variables) {
-            return variables.get("Q ideal").getAsDouble()*variables.get("e").getAsDouble() - variables.get("Q actual").getAsDouble();
+            return variables.get("Q_ideal").getAsDouble()*variables.get("\u03B5").getAsDouble() - variables.get("Q_actual").getAsDouble();
         }
         
         @Override
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
-                case "e": {
+                case "\u03B5": {
                     HeatExchanger.this.setAttribute(EFFECTIVENESS,value);
                     return null;
                 }
-                case "Q actual": {
+                case "Q_actual": {
                     HeatExchanger.this.setAttribute(AHEATTRANSFER,value);
                     return null;
                 }
-                case "Q ideal": {
+                case "Q_ideal": {
                     HeatExchanger.this.setAttribute(IHEATTRANSFER,value);
                     return null;
                 }
