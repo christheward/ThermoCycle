@@ -26,9 +26,9 @@ public class EndToEndTest {
     
     @Test
     public void Turbine_Test() throws InterruptedException, ExecutionException {
-        
+                
         // create cycle
-        Cycle gasTurb = new Cycle("Gas Turbine");
+        Cycle gasTurb = new Cycle("Turbine Test");
         gasTurb.setAmbient(101325,300);
         
         // create fluids
@@ -59,7 +59,7 @@ public class EndToEndTest {
     public void Compressor_Test() throws InterruptedException, ExecutionException {
         
         // create cycle
-        Cycle gasTurb = new Cycle("Gas Turbine");
+        Cycle gasTurb = new Cycle("Compressor Test");
         gasTurb.setAmbient(101325,300);
         
         // create fluids
@@ -90,7 +90,7 @@ public class EndToEndTest {
     public void Combustor_Test() throws InterruptedException, ExecutionException {
         
         // create cycle
-        Cycle gasTurb = new Cycle("Gas Turbine");
+        Cycle gasTurb = new Cycle("Combustor Test");
         gasTurb.setAmbient(101325,300);
         
         // create fluids
@@ -121,7 +121,7 @@ public class EndToEndTest {
     public void HeatSink_Test() throws InterruptedException, ExecutionException {
         
         // create cycle
-        Cycle gasTurb = new Cycle("Gas Turbine");
+        Cycle gasTurb = new Cycle("Heat Sink Test");
         gasTurb.setAmbient(101325,300);
         
         // create fluids
@@ -152,7 +152,7 @@ public class EndToEndTest {
     public void HeatExchanger_Test() throws InterruptedException, ExecutionException {
         
         // create cycle
-        Cycle gasTurb = new Cycle("Gas Turbine");
+        Cycle gasTurb = new Cycle("Heat exchanger test");
         gasTurb.setAmbient(101325,300);
         
         // create fluids
@@ -186,7 +186,7 @@ public class EndToEndTest {
     public void GT_Test() throws InterruptedException, ExecutionException {
         
         // create cycle
-        Cycle gasTurb = new Cycle("Gas Turbine");
+        Cycle gasTurb = new Cycle("Gas Turbine Test");
         gasTurb.setAmbient(101325,300);
         
         // create fluids
@@ -230,7 +230,7 @@ public class EndToEndTest {
     public void GT_Test_ReheatInterCool() throws InterruptedException, ExecutionException {
         
         // create cycle
-        Cycle gasTurb = new Cycle("Gas Turbine");
+        Cycle gasTurb = new Cycle("Gas Turbine with Reheat and Intercooler Test");
         gasTurb.setAmbient(101325,300);
         
         // create fluids

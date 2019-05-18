@@ -102,7 +102,7 @@ public class InfoboxWorkController extends AnchorPane {
         workNameColumn.setCellValueFactory(cellData -> cellData.getValue().workProperty());
         workValueColumn.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
         workValueColumn.setCellFactory(TextFieldTableCell.forTableColumn(new NumberStringConverter()));
-        workValueColumn.setOnEditCommit(event -> event.getRowValue().setBoundaryCondition(master.getModel().setBoundaryConditionWork(node.getValue(), new double[] {event.getNewValue().doubleValue()})));
+        //workValueColumn.setOnEditCommit(event -> event.getRowValue().setBoundaryCondition(master.getModel().setBoundaryConditionWork(node.getValue(), new double[] {event.getNewValue().doubleValue()})));
         workValueColumn.setEditable(true);
         workUnitsColumn.setCellValueFactory(cellData -> cellData.getValue().unitsProperty());
         workClearColumn.setCellValueFactory(cellData -> cellData.getValue().presentProperty());

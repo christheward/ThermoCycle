@@ -106,7 +106,7 @@ public class InfoboxComponentController extends AnchorPane {
         attributeAttributeColumn.setCellValueFactory(cellData -> cellData.getValue().attributeProperty().asString());
         attributeValueColumn.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
         attributeValueColumn.setCellFactory(TextFieldTableCell.forTableColumn(new NumberStringConverter()));
-        attributeValueColumn.setOnEditCommit(event -> event.getRowValue().setBoundaryCondition(master.getModel().setBoundaryConditionAttribute(component.getValue(), event.getRowValue().attributeProperty().getValue(), new double[] {event.getNewValue().doubleValue()})));
+        //attributeValueColumn.setOnEditCommit(event -> event.getRowValue().setBoundaryCondition(master.getModel().setBoundaryConditionAttribute(component.getValue(), event.getRowValue().attributeProperty().getValue(), new double[] {event.getNewValue().doubleValue()})));
         attributeUnitsColumn.setCellValueFactory(cellData -> cellData.getValue().unitsProperty());
         attributeClearColumn.setCellValueFactory(cellData -> cellData.getValue().presentProperty());
         attributeClearColumn.setCellFactory(new Callback<TableColumn<BoundaryAttribute,Boolean>,TableCell<BoundaryAttribute,Boolean>>() {

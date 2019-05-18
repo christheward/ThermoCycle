@@ -39,10 +39,6 @@ public abstract class BoundaryCondition implements Serializable {
      */
     public BoundaryCondition(List<Double> values) {
         this.values = new ArrayList(values);
-        logger.debug("Boundary condition values are: ");
-        this.values.stream().forEach(v -> {
-            logger.debug(" - " + v.toString());
-        });
     }
     
     /**

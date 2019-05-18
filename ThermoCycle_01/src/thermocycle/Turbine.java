@@ -86,12 +86,12 @@ public final class Turbine extends Component {
     /**
      * Mass balance across turbine.
      */
-    private class Mass_Balance extends Equation{
+    private class Mass_Balance extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Mass_Balance() {super(1e-3);}
+        private Mass_Balance() {super("m_in = m_out", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -125,12 +125,12 @@ public final class Turbine extends Component {
     /**
      * Energy balance across turbine.
      */
-    private class Energy_Balance extends Equation{
+    private class Energy_Balance extends ComponentEquation{
                 
         /**
          * Constructor.
          */
-        private Energy_Balance() {super(1e-3);}
+        private Energy_Balance() {super("W = m (h_in - h_out)", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -174,12 +174,12 @@ public final class Turbine extends Component {
     /**
      * Pressure ratio across the turbine.
      */
-    private class Pressure_Ratio extends Equation{
+    private class Pressure_Ratio extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Pressure_Ratio() {super(1e-3);}
+        private Pressure_Ratio() {super("pr = p_in / p_out", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -218,12 +218,12 @@ public final class Turbine extends Component {
     /**
      * Efficiency of the turbine.
      */
-    private class Efficiency extends Equation{
+    private class Efficiency extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Efficiency() {super(1e-3);}
+        private Efficiency() {super("W = m eta (h_in - h_out,isen), h_out,isen = f(s_in, p_out)", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {

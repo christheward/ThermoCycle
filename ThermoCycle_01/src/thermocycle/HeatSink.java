@@ -83,12 +83,12 @@ public final class HeatSink extends Component {
     /**
      * Mass balance across Heat Sink 
      */
-    private class Mass_Balance extends Equation{
+    private class Mass_Balance extends ComponentEquation{
         
         /**
          * Constructor
          */
-        private Mass_Balance() {super(1e-3);}
+        private Mass_Balance() {super("m in = m out", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -122,12 +122,12 @@ public final class HeatSink extends Component {
     /**
      * Heat  Sink energy balance
      */
-    private class Energy_Balance extends Equation{
+    private class Energy_Balance extends ComponentEquation{
         
         /**
          * Constructor
          */
-        private Energy_Balance() {super(1e-3);}
+        private Energy_Balance() {super("Q = m (h in - h out)", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -171,12 +171,12 @@ public final class HeatSink extends Component {
     /**
      * Pressure loss across heat sink
      */
-    private class Pressure_Loss extends Equation{
+    private class Pressure_Loss extends ComponentEquation{
         
         /**
          * Constructor
          */
-        private Pressure_Loss() {super(1e-3);}
+        private Pressure_Loss() {super("p in = (1 - pr) p out", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {

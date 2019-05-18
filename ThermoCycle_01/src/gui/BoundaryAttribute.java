@@ -54,7 +54,7 @@ public class BoundaryAttribute {
             }
             @Override
             protected String computeValue() {
-                return attribute.isNotNull().getValue() ? attribute.getValue().units : "";
+                return attribute.isNotNull().getValue() ? attribute.getValue().type.getSI().toString() : "";
             }
         });
         

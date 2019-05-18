@@ -85,12 +85,12 @@ public final class Compressor extends Component {
     /**
      * Mass balance across the compressor.
      */
-    private class Mass_Balance extends Equation{
+    private class Mass_Balance extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Mass_Balance() {super(1e-3);}
+        private Mass_Balance() {super("m in = m out", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -124,12 +124,12 @@ public final class Compressor extends Component {
     /**
      * Energy balance across the compressor
      */
-    private class Energy_Balance extends Equation{
+    private class Energy_Balance extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Energy_Balance() {super(1e-3);}
+        private Energy_Balance() {super("W = m * (h out - h in)", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -173,12 +173,12 @@ public final class Compressor extends Component {
     /**
      * Pressure ratio across compressor.
      */
-    private class Pressure_Ratio extends Equation{
+    private class Pressure_Ratio extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Pressure_Ratio() {super(1e-3);}
+        private Pressure_Ratio() {super("p out = p in * pr", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -217,12 +217,12 @@ public final class Compressor extends Component {
     /**
      * Efficiency of compressor.
      */
-    private class Efficiency extends Equation{
+    private class Efficiency extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Efficiency() {super(1e-3);}
+        private Efficiency() {super("W = m * n * (h_out,isen - h_in), h_out,isen = f(s_in, p out)", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -242,7 +242,7 @@ public final class Compressor extends Component {
             isen.setFluid(Compressor.this.getInlet().getFluid().get());
             isen.setProperty(ENTROPY, variables.get("s in").getAsDouble());
             isen.setProperty(PRESSURE, variables.get("p out").getAsDouble());
-            return variables.get("W").getAsDouble() - (isen.getState(ENTHALPY).getAsDouble() - variables.get("h in").getAsDouble())*variables.get("n").getAsDouble();
+            return variables.get("W").getAsDouble() - (isen.getState(ENTHALPY).getAsDouble() - variables.get("h in").getAsDouble())/variables.get("n").getAsDouble();
         }
         
         @Override

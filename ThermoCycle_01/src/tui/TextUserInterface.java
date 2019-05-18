@@ -23,20 +23,50 @@ import thermocycle.Properties.Property;
  * @author Chris
  */
 public final class TextUserInterface {
-
+    
+    /**
+     * The model controlled by this TUI.
+     */
     private Cycle model;
-    private final List<List<String>> outputs;
     
     /**
      * Constructor
      */
     public TextUserInterface(Cycle model) {
         this.model = model;
-        this.outputs = new ArrayList();
     }
     
     private void createMenu() {
-        new MenuItem()
+        /**
+        MenuItem root = new MenuItem("Root", null);
+        MenuItem file = new MenuItem("File", root);
+        MenuItem open = new MenuItem("Open", file);
+        MenuItem close = new MenuItem("Close", file);
+        MenuItem cycle = new MenuItem("Cycle", root);
+        MenuItem solve = new MenuItem("Solve", cycle);
+        MenuItem fluid = new MenuItem("Fluid", root);
+        MenuItem ideal = new MenuItem("IdealGas", fluid);
+        MenuItem steam = new MenuItem("Steam", fluid);
+        MenuItem vanderwaals = new MenuItem("VanDerWaals", fluid);
+        MenuItem component = new MenuItem("Component", root);
+        MenuItem compressor = new MenuItem("Compressor", component);
+        MenuItem turbine = new MenuItem("Turbine", component);
+        MenuItem combustor = new MenuItem("Combustor", component);
+        MenuItem heatsink = new MenuItem("HeatSink", component);
+        MenuItem heatexchanger = new MenuItem("HeatExchanger", component);
+        MenuItem connect = new MenuItem("Connect", root);
+        MenuItem flownodes = new MenuItem("FlowNodes", connect);
+        MenuItem worknodes = new MenuItem("WorkNodes", connect);
+        MenuItem heatnodes = new MenuItem("HeatNodes", connect);
+        MenuItem set = new MenuItem("Set", root);
+        MenuItem mass = new MenuItem("Mass", set);
+        MenuItem work = new MenuItem("Work", set);
+        MenuItem head = new MenuItem("Heat", set);
+        MenuItem state = new MenuItem("State", set);
+        MenuItem fluid2 = new MenuItem("Fluid", set);
+        MenuItem attribute = new MenuItem("Attribute", set);
+        MenuItem plot = new MenuItem("Plot", root);
+        */
     }
     
     /**
@@ -63,7 +93,7 @@ public final class TextUserInterface {
                     break;
                 }
                 case "COMPONENT": {
-                    component(commands);
+                    //component(commands);
                     break;
                 }
                 case "CONNECT": {
@@ -188,6 +218,7 @@ public final class TextUserInterface {
      * Commands for creating a component
      * @param commands Command line string
      */
+    /**
     private void component(ArrayList<String> commands) {
         try {
             switch(commands.get(1)) {
@@ -266,23 +297,23 @@ public final class TextUserInterface {
         try {
             switch (commands.get(1)) {
                 case "WORK": {
-                    model.setBoundaryConditionWork(model.getComponent(commands.get(2)).workNodes.get(Integer.parseInt(commands.get(3))), new double[] {Double.parseDouble(commands.get(4))});
+                    //model.setBoundaryConditionWork(model.getComponent(commands.get(2)).workNodes.get(Integer.parseInt(commands.get(3))), new double[] {Double.parseDouble(commands.get(4))});
                     break;
                 }
                 case "HEAT": {
-                    model.setBoundaryConditionHeat(model.getComponent(commands.get(2)).heatNodes.get(Integer.parseInt(commands.get(3))), new double[] {Double.parseDouble(commands.get(4))});
+                    //model.setBoundaryConditionHeat(model.getComponent(commands.get(2)).heatNodes.get(Integer.parseInt(commands.get(3))), new double[] {Double.parseDouble(commands.get(4))});
                     break;
                 }
                 case "MASS": {
-                    model.setBoundaryConditionMass(model.getComponent(commands.get(2)).flowNodes.get(Integer.parseInt(commands.get(3))), new double[] {Double.parseDouble(commands.get(4))});
+                    //model.setBoundaryConditionMass(model.getComponent(commands.get(2)).flowNodes.get(Integer.parseInt(commands.get(3))), new double[] {Double.parseDouble(commands.get(4))});
                     break;
                 }
                 case "STATE": {
-                    model.setBoundaryConditionProperty(model.getComponent(commands.get(2)).flowNodes.get(Integer.parseInt(commands.get(3))), Property.valueOf(commands.get(4)), new double[] {Double.parseDouble(commands.get(5))});
+                    //model.setBoundaryConditionProperty(model.getComponent(commands.get(2)).flowNodes.get(Integer.parseInt(commands.get(3))), Property.valueOf(commands.get(4)), new double[] {Double.parseDouble(commands.get(5))});
                     break;
                 }
                 case "FLUID": {
-                    model.setFluid(model.getComponent(commands.get(2)).flowNodes.get(Integer.parseInt(commands.get(3))), model.getFluid(commands.get(4)).get());
+                    //model.setFluid(model.getComponent(commands.get(2)).flowNodes.get(Integer.parseInt(commands.get(3))), model.getFluid(commands.get(4)).get());
                 }
                 default: {
                     throw new IllegalArgumentException("Invlaid SET type. Must be WORK, HEAT, MASS, STATE, or FLUID.");

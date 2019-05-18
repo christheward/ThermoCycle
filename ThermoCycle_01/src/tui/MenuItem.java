@@ -16,29 +16,24 @@ import java.util.stream.Collectors;
  */
 public class MenuItem {
     
-    private final MenuItem parentMenuItem;
-    private final Set<MenuItem> childMenuItems;
     private final String name;
-    private final String help;
+    private final Set<String> alliases;
+    private final MenuCommand command;
     
-    public MenuItem(String name, MenuItem parent, String help) {
+    public MenuItem(String name, MenuCommand command) {
         this.name = name;
-        this.parentMenuItem = parent;
-        this.childMenuItems = new HashSet();
-        this.help = help;
+        this.alliases = new HashSet();
+        this.command = command;
     }
     
-    protected void addChildMenuItem(MenuItem child) {
-        this.childMenuItems.add(child);
+    protected void execute() {
+        if (command != null) {
+            command.execute();
+        }
     }
     
-    protected void parse() {
+    protected void addAllias(String allias) {
+        alliases.add(allias);
+    }
         
-    }
-    
-    public Set<MenuItem> getChildren() {
-        return childMenuItems;
-    }
-    
-    
 }

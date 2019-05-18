@@ -5,6 +5,7 @@
  */
 package thermocycle;
 
+import report.Reportable;
 import java.io.Serializable;
 import java.util.*;
 import thermocycle.Properties.Property;
@@ -14,7 +15,7 @@ import static thermocycle.Properties.Property.*;
  *
  * @author Chris
  */
-public abstract class Fluid implements Serializable {
+public abstract class Fluid implements Serializable, Reportable {
     
     /**
      * The universal gas constant.
@@ -29,12 +30,17 @@ public abstract class Fluid implements Serializable {
     /**
      * The fluid name.
      */
-    private String name;
+    public final String name;
     
     /**
      * The component unique reference number
      */
     public final UUID id;
+    
+    /**
+     * A list of all the equations relating to this component.
+     */
+    protected final List<FluidEquation> equations;
     
     /**
      * Constructor.
@@ -43,22 +49,11 @@ public abstract class Fluid implements Serializable {
     protected Fluid(String name) {
         id = UUID.randomUUID();
         this.name = name;
-    }
-        
-    /**
-     * Gets the fluid name.
-     * @return the fluid name.
-     */
-    protected final String getName() {
-        return name;
-    }
-        
-    /**
-     * Sets the fluid name.
-     * @param name the fluid name.
-     */
-    protected final void setName(String name) {
-        this.name = name;
+        equations = new ArrayList();
+        equations.add(new R_V());
+        equations.add(new H_UPV());
+        equations.add(new F_UTS());
+        equations.add(new G_HTS());
     }
     
     /**
@@ -71,216 +66,82 @@ public abstract class Fluid implements Serializable {
      * Computes absent state properties from existing state properties for this fluid.
      * @param state the state to compute.
      */
-    protected abstract void computeState(State state);
-    
-    /**
-     * Calculates the fluid density, R, from the specific volume.
-     * @param state the state to compute density for.
-     */
-    protected void calcR(State state) {
-        // R = 1/V
-        if (state.contains(VOLUME)) {
-            state.setProperty(DENSITY, 1.0/state.getProperty(VOLUME).getAsDouble());
-        }
+    protected final void computeState(State state) {
+        // Keep solving the equations untill no unknowns are being updated.
+        while(!equations.stream().allMatch(e -> (e.solve(state) == false))) {}
     }
     
-    /**
-     * Calculates the fluid enthalpy, H, based on general state relationships. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
-     * @param state the state to compute enthalpy for.
-     */
-    protected void calcH(State state) {
-        // H = U + P.V
-        if (state.contains(ENERGY, PRESSURE, VOLUME)) {
-            state.setProperty(ENTHALPY, state.getProperty(ENERGY).getAsDouble() + state.getProperty(PRESSURE).getAsDouble() * state.getProperty(VOLUME).getAsDouble());
-        }
-        // H = G + T.S
-        else if (state.contains(GIBBS, TEMPERATURE, ENTROPY)) {
-            state.setProperty(ENTHALPY, state.getProperty(GIBBS).getAsDouble() + state.getProperty(TEMPERATURE).getAsDouble() * state.getProperty(ENTROPY).getAsDouble());
-        }
-        // H = G + U - F
-        else if (state.contains(GIBBS, ENERGY, HELMHOLTZ)) {
-            state.setProperty(ENTHALPY, state.getProperty(GIBBS).getAsDouble() + state.getProperty(ENERGY).getAsDouble() - state.getProperty(HELMHOLTZ).getAsDouble());
-        }
-        // H = F + T.S + P.V
-        else if (state.contains(HELMHOLTZ, TEMPERATURE, ENTROPY, PRESSURE, VOLUME)) {
-            state.setProperty(ENTHALPY, state.getProperty(HELMHOLTZ).getAsDouble() + state.getProperty(TEMPERATURE).getAsDouble() * state.getProperty(ENTROPY).getAsDouble() + state.getProperty(PRESSURE).getAsDouble() * state.getProperty(VOLUME).getAsDouble());
-        }
-    }
-
-    /**
-     * Calculates the fluid internal energy, U, based on general state relationships. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
-     * @param state the state to compute internal energy for.
-     */
-    protected void calcU(State state) {
-        // U = H - P.V
-        if (state.contains(ENTHALPY, PRESSURE, VOLUME)) {
-            state.setProperty(ENERGY, state.getProperty(ENTHALPY).getAsDouble() - state.getProperty(PRESSURE).getAsDouble() * state.getProperty(VOLUME).getAsDouble());
-        }
-        // U = F + T.sS
-        else if (state.contains(HELMHOLTZ, TEMPERATURE, ENTROPY)) {
-            state.setProperty(ENERGY, state.getProperty(HELMHOLTZ).getAsDouble() + state.getProperty(TEMPERATURE).getAsDouble() * state.getProperty(ENTROPY).getAsDouble());
-        }
-        // U = F + H - G
-        else if (state.contains(HELMHOLTZ, ENTHALPY, GIBBS)) {
-            state.setProperty(ENERGY, state.getProperty(HELMHOLTZ).getAsDouble() + state.getProperty(ENTHALPY).getAsDouble() - state.getProperty(GIBBS).getAsDouble());
-        }
-        // U = G + T.S - P.V
-        else if (state.contains(GIBBS, TEMPERATURE, ENTROPY, PRESSURE, VOLUME)) {state.setProperty(ENERGY, state.getProperty(GIBBS).getAsDouble() + state.getProperty(TEMPERATURE).getAsDouble() * state.getProperty(ENTROPY).getAsDouble() - state.getProperty(PRESSURE).getAsDouble() * state.getProperty(VOLUME).getAsDouble());}
-    }
-    
-    /**
-     * Calculates the fluid Gibbs free energy, G, based on general state relationships. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
-     * @param state the state to compute Gibbs free energy for.
-     */
-    protected void calcG(State state) {
-        // G = H - T.S
-        if (state.contains(ENTHALPY, TEMPERATURE, ENTROPY)) {
-            state.setProperty(GIBBS, state.getProperty(ENTHALPY).getAsDouble() - state.getProperty(TEMPERATURE).getAsDouble() * state.getProperty(ENTROPY).getAsDouble());
-        }
-        // G = U + PV - T.S
-        else if (state.contains(ENERGY, PRESSURE, VOLUME, TEMPERATURE, ENTROPY)) {
-            state.setProperty(GIBBS, state.getProperty(ENERGY).getAsDouble() + state.getProperty(PRESSURE).getAsDouble() * state.getProperty(VOLUME).getAsDouble() - state.getProperty(TEMPERATURE).getAsDouble()*state.getProperty(ENTROPY).getAsDouble());
-        }
-        // G = F + P.V
-        else if (state.contains(HELMHOLTZ, PRESSURE, VOLUME)) {
-            state.setProperty(GIBBS, state.getProperty(HELMHOLTZ).getAsDouble() + state.getProperty(PRESSURE).getAsDouble() * state.getProperty(VOLUME).getAsDouble());
-        }
-        // G = H - U + F
-        else if (state.contains(ENTHALPY, ENERGY, HELMHOLTZ)) {
-            state.setProperty(GIBBS, state.getProperty(ENTHALPY).getAsDouble() - state.getProperty(ENERGY).getAsDouble() + state.getProperty(HELMHOLTZ).getAsDouble());
-        }
-    }
-    
-    /**
-     * Calculates the fluid Helmholtz free energy, F, based on general state relationships. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
-     * @param state the state to compute Helmholtz free energy for.
-     */
-   protected void calcF(State state) {
-        // F = U - T.S
-        if (state.contains(ENERGY, TEMPERATURE, ENTROPY)) {
-            state.setProperty(HELMHOLTZ, state.getProperty(ENERGY).getAsDouble() - state.getProperty(TEMPERATURE).getAsDouble() * state.getProperty(ENTROPY).getAsDouble());
-        }
-        // F = H - P.V - T.S
-        else if (state.contains(ENTHALPY, PRESSURE, VOLUME, TEMPERATURE, ENTROPY)) {
-            state.setProperty(HELMHOLTZ, state.getProperty(ENTHALPY).getAsDouble() - state.getProperty(PRESSURE).getAsDouble() * state.getProperty(VOLUME).getAsDouble() - state.getProperty(TEMPERATURE).getAsDouble() * state.getProperty(ENTROPY).getAsDouble());
-        }
-        // F = G - P.V
-        else if (state.contains(GIBBS, PRESSURE, VOLUME)) {
-            state.setProperty(HELMHOLTZ, state.getProperty(GIBBS).getAsDouble() - state.getProperty(PRESSURE).getAsDouble() * state.getProperty(VOLUME).getAsDouble());
-        }
-        // F = U - H + G
-        else if (state.contains(ENERGY, ENTHALPY, GIBBS)) {
-            state.setProperty(HELMHOLTZ, state.getProperty(ENERGY).getAsDouble() - state.getProperty(ENTHALPY).getAsDouble() + state.getProperty(GIBBS).getAsDouble());
-        }
-    }
-    
-    /**
-     * Calculates the fluid temperature, T, based on general state relationships. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
-     * @param state the state to compute temperature for.
-     */
-    protected void calcT(State state) {
-        if (state.contains(ENTROPY)) {
-            // T = (U - F)/S
-            if (state.contains(ENERGY, HELMHOLTZ)) {
-                state.setProperty(TEMPERATURE, (state.getProperty(ENERGY).getAsDouble() - state.getProperty(HELMHOLTZ).getAsDouble()) / state.getProperty(ENTROPY).getAsDouble());
-            }
-            // T = (H - G)/S
-            else if (state.contains(ENTHALPY, GIBBS)) {
-                state.setProperty(TEMPERATURE, (state.getProperty(ENTHALPY).getAsDouble() - state.getProperty(GIBBS).getAsDouble()) / state.getProperty(ENTROPY).getAsDouble());
-            }
-            // T = (U + P.V - G)/S
-            else if (state.contains(ENERGY, PRESSURE, VOLUME, GIBBS)) {
-                state.setProperty(TEMPERATURE, (state.getProperty(ENERGY).getAsDouble() + state.getProperty(PRESSURE).getAsDouble() * state.getProperty(VOLUME).getAsDouble() - state.getProperty(GIBBS).getAsDouble()) / state.getProperty(ENTROPY).getAsDouble());
-            }
-            // T = (H - P.V - F)/S
-            else if (state.contains(ENTHALPY, PRESSURE, VOLUME, HELMHOLTZ)) {
-                state.setProperty(TEMPERATURE, (state.getProperty(ENERGY).getAsDouble() - state.getProperty(PRESSURE).getAsDouble() * state.getProperty(VOLUME).getAsDouble() - state.getProperty(HELMHOLTZ).getAsDouble()) / state.getProperty(ENTROPY).getAsDouble());
-            }
-        }
-    }
-    
-    /**
-     * Calculates the fluid entropy, S, based on general state relationships. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
-     * @param state the state to compute entropy for.
-     */
-    protected void calcS(State state) {
-        if (state.contains(TEMPERATURE)) {
-            // S = (U - F)/T
-            if (state.contains(ENERGY, HELMHOLTZ)) {
-                state.setProperty(ENTROPY, (state.getProperty(ENERGY).getAsDouble() - state.getProperty(HELMHOLTZ).getAsDouble()) / state.getProperty(TEMPERATURE).getAsDouble());
-            }
-            // T = (H - G)/S
-            else if (state.contains(ENTHALPY, GIBBS)) {
-                state.setProperty(ENTROPY, (state.getProperty(ENTHALPY).getAsDouble() - state.getProperty(GIBBS).getAsDouble()) / state.getProperty(TEMPERATURE).getAsDouble());
-            }
-            // T = (U + P.V - G)/S
-            else if (state.contains(ENERGY, PRESSURE, VOLUME, GIBBS)) {
-                state.setProperty(ENTROPY, (state.getProperty(ENERGY).getAsDouble() + state.getProperty(PRESSURE).getAsDouble() * state.getProperty(VOLUME).getAsDouble() - state.getProperty(GIBBS).getAsDouble()) / state.getProperty(TEMPERATURE).getAsDouble());
-            }
-            // T = (H - P.V - F)/S
-            else if (state.contains(ENTHALPY, PRESSURE, VOLUME, HELMHOLTZ)) {
-                state.setProperty(ENTROPY, (state.getProperty(ENERGY).getAsDouble() - state.getProperty(PRESSURE).getAsDouble() * state.getProperty(VOLUME).getAsDouble() - state.getProperty(HELMHOLTZ).getAsDouble()) / state.getProperty(TEMPERATURE).getAsDouble());
-            }
-        }
-    }
-    
-    /**
-     * Calculates the fluid pressure from existing state properties if possible. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
-     * @param state the state to compute pressure for.
-     */
-    protected void calcP(State state) {
-        if (state.contains(VOLUME)) {
-            // P = (H - U)/V
-            if (state.contains(ENTHALPY, ENERGY)) {
-                state.setProperty(PRESSURE, (state.getProperty(ENTHALPY).getAsDouble() - state.getProperty(ENERGY).getAsDouble()) / state.getProperty(VOLUME).getAsDouble());
-            }
-            // P = (G - F)/V
-            else if (state.contains(GIBBS, HELMHOLTZ)) {
-                state.setProperty(PRESSURE, (state.getProperty(GIBBS).getAsDouble() - state.getProperty(HELMHOLTZ).getAsDouble()) / state.getProperty(VOLUME).getAsDouble());
-            }
-            // P = (G + T.S - U)/V
-            else if (state.contains(GIBBS, TEMPERATURE, ENTROPY, ENERGY)) {
-                state.setProperty(PRESSURE, (state.getProperty(GIBBS).getAsDouble() - state.getProperty(TEMPERATURE).getAsDouble() * state.getProperty(ENTROPY).getAsDouble() - state.getProperty(ENERGY).getAsDouble()) / state.getProperty(VOLUME).getAsDouble());
-            }
-            // P = (H - F - TS)/V
-            else if (state.contains(ENTHALPY, HELMHOLTZ, TEMPERATURE, ENTROPY)) {
-                state.setProperty(PRESSURE, (state.getProperty(ENTHALPY).getAsDouble() - state.getProperty(HELMHOLTZ).getAsDouble() - state.getProperty(TEMPERATURE).getAsDouble() * state.getProperty(ENTROPY).getAsDouble()) / state.getProperty(VOLUME).getAsDouble());
-            }
-        }
-    }
-    
-    /**
-     * Calculates the fluid specific volume, V, based on general state relationships. The general relationship considered are, <br> - H = U + P.V <br> - F = U - T.S <br> - G = H - T.S
-     * @param state the state to compute specific volume for.
-     */
-    protected void calcV(State state) {
-        if (state.contains(DENSITY)) {
-            // V = 1/R;
-            state.setProperty(VOLUME, 1.0/state.getProperty(DENSITY).getAsDouble());
-        }
-        if (state.contains(PRESSURE)) {
-            // V = (H - U)/P
-            if (state.contains(ENTHALPY, ENERGY)) {
-                state.setProperty(VOLUME, (state.getProperty(ENTHALPY).getAsDouble() - state.getProperty(ENERGY).getAsDouble()) / state.getProperty(PRESSURE).getAsDouble());
-            }
-            // V = (G - F)/P
-            else if (state.contains(GIBBS, HELMHOLTZ)) {
-                state.setProperty(VOLUME, (state.getProperty(GIBBS).getAsDouble() - state.getProperty(HELMHOLTZ).getAsDouble()) / state.getProperty(PRESSURE).getAsDouble());
-            }
-            // V = (G + T.S - U)/P
-            else if (state.contains(GIBBS, TEMPERATURE, ENTROPY, ENERGY)) {
-                state.setProperty(VOLUME, (state.getProperty(GIBBS).getAsDouble() - state.getProperty(TEMPERATURE).getAsDouble() * state.getProperty(ENTROPY).getAsDouble() - state.getProperty(ENERGY).getAsDouble()) / state.getProperty(PRESSURE).getAsDouble());
-            }
-            // V = (H - F - T.S)/P
-            else if (state.contains(ENTHALPY, HELMHOLTZ, TEMPERATURE, ENTROPY)) {
-                state.setProperty(VOLUME, (state.getProperty(ENTHALPY).getAsDouble() - state.getProperty(HELMHOLTZ).getAsDouble() - state.getProperty(TEMPERATURE).getAsDouble() * state.getProperty(ENTROPY).getAsDouble())/state.getProperty(PRESSURE).getAsDouble());
-            }
-        }
-    }
-        
     @Override
     public String toString() {
         return (name + " (" + getClass().getSimpleName() + ")");
+    }
+    
+    // R = 1 / V
+    private class R_V extends FluidEquation {
+
+        public R_V() {super(FluidEquation.equationString(DENSITY, VOLUME), DENSITY.convergenceTolerance);}
+        
+        @Override
+        protected  Map<Property, OptionalDouble> getVariables(State state) {
+            return getVariables(state, DENSITY, VOLUME);
+        }
+        
+        @Override
+        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+            return OptionalDouble.of(variables.get(VOLUME).getAsDouble()*variables.get(DENSITY).getAsDouble() - 1);
+        }
+        
+    }
+    
+    // H = U + P V
+    private class H_UPV extends FluidEquation {
+        
+        public H_UPV() {super(FluidEquation.equationString(ENTHALPY, ENERGY, PRESSURE, VOLUME), ENTHALPY.convergenceTolerance);}
+
+        @Override
+        protected Map<Property, OptionalDouble> getVariables(State state) {
+            return getVariables(state, ENTHALPY, ENERGY, PRESSURE, VOLUME);
+        }
+
+        @Override
+        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+            return OptionalDouble.of(variables.get(ENTHALPY).getAsDouble() - variables.get(ENERGY).getAsDouble() - variables.get(PRESSURE).getAsDouble()*variables.get(VOLUME).getAsDouble());
+        }
+        
+    }
+            
+    // F = U - T S
+    private class F_UTS extends FluidEquation {
+
+        public F_UTS() {super(FluidEquation.equationString(HELMHOLTZ, ENERGY, TEMPERATURE, ENTROPY), HELMHOLTZ.convergenceTolerance);}
+
+        @Override
+        protected Map<Property, OptionalDouble> getVariables(State state) {
+            return getVariables(state, HELMHOLTZ, ENERGY, TEMPERATURE, ENTROPY);
+        }
+
+        @Override
+        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+            return OptionalDouble.of(variables.get(HELMHOLTZ).getAsDouble() - variables.get(ENERGY).getAsDouble() + variables.get(TEMPERATURE).getAsDouble()*variables.get(ENTROPY).getAsDouble());
+        }
+        
+    }
+    
+    // G = H - T S
+    private class G_HTS extends FluidEquation {
+
+        public G_HTS() {super(FluidEquation.equationString(GIBBS, ENTHALPY, TEMPERATURE, ENTROPY),1e-5);}
+
+        @Override
+        protected Map<Property, OptionalDouble> getVariables(State state) {
+            return getVariables(state, GIBBS, ENTHALPY, TEMPERATURE, ENTROPY);
+        }
+
+        @Override
+        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+            return OptionalDouble.of(variables.get(GIBBS).getAsDouble() - variables.get(ENTHALPY).getAsDouble() + variables.get(TEMPERATURE).getAsDouble()*variables.get(ENTROPY).getAsDouble());
+        }
+        
     }
     
 }

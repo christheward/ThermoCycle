@@ -165,7 +165,7 @@ public class InfoboxFlowController extends AnchorPane {
         massNameColumn.setCellValueFactory(cellData -> cellData.getValue().massProperty());
         massValueColumn.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
         massValueColumn.setCellFactory(TextFieldTableCell.forTableColumn(new NumberStringConverter()));
-        massValueColumn.setOnEditCommit(event -> event.getRowValue().setBoundaryCondition(master.getModel().setBoundaryConditionMass(node.getValue(), new double[] {event.getNewValue().doubleValue()})));
+        //massValueColumn.setOnEditCommit(event -> event.getRowValue().setBoundaryCondition(master.getModel().setBoundaryConditionMass(node.getValue(), new double[] {event.getNewValue().doubleValue()})));
         massValueColumn.setEditable(true);
         massUnitsColumn.setCellValueFactory(cellData -> cellData.getValue().unitsProperty());
         massClearColumn.setCellValueFactory(cellData -> cellData.getValue().presentProperty());
@@ -189,7 +189,7 @@ public class InfoboxFlowController extends AnchorPane {
         propertyNameColumn.setCellValueFactory(cellData -> cellData.getValue().propertyProperty());
         propertyValueColumn.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
         propertyValueColumn.setCellFactory(TextFieldTableCell.forTableColumn(new NumberStringConverter()));
-        propertyValueColumn.setOnEditCommit(event -> event.getRowValue().setBoundaryCondition(master.getModel().setBoundaryConditionProperty(node.getValue(), event.getRowValue().propertyProperty().getValue(), new double[] {event.getNewValue().doubleValue()})));
+        //propertyValueColumn.setOnEditCommit(event -> event.getRowValue().setBoundaryCondition(master.getModel().setBoundaryConditionProperty(node.getValue(), event.getRowValue().propertyProperty().getValue(), new double[] {event.getNewValue().doubleValue()})));
         propertyValueColumn.setEditable(true);
         propertyUnitsColumn.setCellValueFactory(cellData -> cellData.getValue().unitsProperty());
         propertyClearColumn.setCellValueFactory(cellData -> cellData.getValue().presentProperty());

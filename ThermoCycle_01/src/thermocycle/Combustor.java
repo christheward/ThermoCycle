@@ -81,12 +81,12 @@ public final class Combustor extends Component {
     /**
      * Mass balance across the combustor.
      */
-    private class Mass_Balance extends Equation{
+    private class Mass_Balance extends ComponentEquation{
                 
         /**
          * Constructor.
          */
-        private Mass_Balance() {super(1e-3);}
+        private Mass_Balance() {super("m in = m out", 1e-3);}
         
         @Override
         protected Map<String,OptionalDouble> getVariables() {
@@ -120,12 +120,12 @@ public final class Combustor extends Component {
     /**
      * Energy balance across the combustor.
      */
-    private class Energy_Balance extends Equation{
+    private class Energy_Balance extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Energy_Balance() {super(1e-3);}
+        private Energy_Balance() {super("Q = m * (h out - h in)", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -165,12 +165,12 @@ public final class Combustor extends Component {
     /**
      * Pressure loss across the combustor.
      */
-    private class Pressure_Loss extends Equation{
+    private class Pressure_Loss extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Pressure_Loss() {super(1e-3);}
+        private Pressure_Loss() {super("p out = p in * (1 - pr)", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {

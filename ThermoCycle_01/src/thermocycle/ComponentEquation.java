@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Chris
  */
-abstract class Equation implements Serializable {
+abstract class ComponentEquation implements Serializable {
     
     /**
      * Logger.
@@ -42,6 +42,11 @@ abstract class Equation implements Serializable {
     private STATE state;
     
     /**
+     * A description of the equation.
+     */
+    public final String writtenEquation;
+    
+    /**
      * Convergence limit for the equation.
      */
     private final double convergenceLimit;
@@ -49,10 +54,26 @@ abstract class Equation implements Serializable {
     /**
      * Constructor
      */
-    protected Equation(double limit) {
-        state = STATE.UNSOLVED;
+    protected ComponentEquation(String name, double limit) {
+        writtenEquation = name;
         convergenceLimit = limit;
+        state = STATE.UNSOLVED;
     }
+    
+    /**
+     * Checks to see if the equation is compatible. This is required because equation variables may be set by other equations.
+     * @return true if the equation is compatible within tolerance.
+     */
+    protected final boolean compatible() {
+        return (Math.abs(function(getVariables())) < convergenceLimit) ? true : false;
+    }
+    
+    /**
+     * Calculates the current function value.
+     * @param variable a map of function variables and their current values.
+     * @return the current function value.
+     */
+    protected abstract Double function(Map<String, OptionalDouble> variables);
     
     /**
      * Gets the equation variables and their current values.
@@ -61,11 +82,12 @@ abstract class Equation implements Serializable {
     protected abstract Map<String, OptionalDouble> getVariables();
     
     /**
-     * Calculates the current function value.
-     * @param variable a map of function variables and their current values.
-     * @return the current function value.
+     * Determine if the equation has been solved.
+     * @return true if the equation is solved.
      */
-    protected abstract Double function(Map<String, OptionalDouble> variables);
+    protected final boolean isSolved() {
+        return (state.equals(state.UNSOLVED)) ? false : true;
+    }
     
     /**
      * Saves the value to the equation variable.
@@ -78,24 +100,15 @@ abstract class Equation implements Serializable {
     /**
      * Resets the state of the equation to unsolved.
      */
-    protected void reset() {
+    protected final void reset() {
         state = STATE.UNSOLVED;
-    }
-    
-    /**
-     * Determines the unknown variables.
-     * @return a list of the unknown equation variables.
-     */
-    private List<String> unknowns() {
-        Map<String,OptionalDouble> variables = getVariables();
-        return variables.keySet().stream().filter(name -> !variables.get(name).isPresent()).collect(Collectors.toList());
     }
     
     /**
      * Checks to see how many unknown variables there are. If there is only one unknown then solves the equation for the unknown variable. If there are no unknowns then checks for compatability.
      * @return the updated node else returns null.
      */
-    protected Node solve() {
+    protected final Node solve() {
         switch (unknowns().size()) {
             // if 0 unknowns check compatability
             case 0: {
@@ -110,7 +123,7 @@ abstract class Equation implements Serializable {
                 return null;}
             // if 1 unknown solve for single unknown
             case 1: {
-                logger.info("Solving " + this.getClass().getSimpleName() + " for " + unknowns().get(0));
+                logger.info("Solving " + writtenEquation + " for " + unknowns().get(0));
                 return saveVariable(unknowns().get(0), solveVariable(unknowns().get(0), 1000.0).getAsDouble());
             }
             // if more than one unknown do nothing.
@@ -121,19 +134,11 @@ abstract class Equation implements Serializable {
     }
     
     /**
-     * Checks to see if the equation is compatible. This is required because equation variables may be set by other equations.
-     * @return true if the equation is compatible within tolerance.
-     */
-    protected final boolean compatible() {
-        return (Math.abs(function(getVariables())) < convergenceLimit) ? true : false;
-    }
-    
-    /**
      * Solves the equation for the unknown variable. The function assumes that there is only 1 unknown variable.
      * @param varaible the variable to solve for.
      * @return the variable value.
      */
-    protected final OptionalDouble solveVariable(String unknownVariable, double initialGuess) {
+    private final OptionalDouble solveVariable(String unknownVariable, double initialGuess) {
         
         // Get the equation variables
         Map<String, OptionalDouble> variables = getVariables();
@@ -175,7 +180,7 @@ abstract class Equation implements Serializable {
             
             // Check iteration limit
             if (iteration > iterationLimit) {
-                logger.debug("Maximum number of iterations reach for equation convergence.");
+                logger.debug("Maximum number of iterations reached for equation convergence.");
                 return OptionalDouble.empty();
             }
             else {
@@ -187,17 +192,19 @@ abstract class Equation implements Serializable {
         logger.debug(unknownVariable + " = " + xVariables.getLast());
         return OptionalDouble.of(xVariables.getLast());
     };
-        
-    /**
-     * Determine if the equation has been solved.
-     * @return true if the equation is solved.
-     */
-    protected boolean isSolved() {
-        return (state.equals(state.UNSOLVED)) ? false : true;
-    }
     
     @Override
     public String toString() {
-        return (getClass().getSimpleName() + " is " + state);
+        return writtenEquation;
     }
+    
+    /**
+     * Determines the unknown variables.
+     * @return a list of the unknown equation variables.
+     */
+    private final List<String> unknowns() {
+        Map<String,OptionalDouble> variables = getVariables();
+        return variables.keySet().stream().filter(name -> !variables.get(name).isPresent()).collect(Collectors.toList());
+    }
+    
 }

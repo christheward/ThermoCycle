@@ -105,7 +105,7 @@ public class InfoboxHeatController extends AnchorPane {
         heatNameColumn.setCellValueFactory(cellData -> cellData.getValue().heatProperty());
         heatValueColumn.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
         heatValueColumn.setCellFactory(TextFieldTableCell.forTableColumn(new NumberStringConverter()));
-        heatValueColumn.setOnEditCommit(event -> event.getRowValue().setBoundaryCondition(master.getModel().setBoundaryConditionHeat(node.getValue(), new double[] {event.getNewValue().doubleValue()})));
+        //heatValueColumn.setOnEditCommit(event -> event.getRowValue().setBoundaryCondition(master.getModel().setBoundaryConditionHeat(node.getValue(), new double[] {event.getNewValue().doubleValue()})));
         heatValueColumn.setEditable(true);
         heatUnitsColumn.setCellValueFactory(cellData -> cellData.getValue().unitsProperty());
         heatClearColumn.setCellValueFactory(cellData -> cellData.getValue().presentProperty());

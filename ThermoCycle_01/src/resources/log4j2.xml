@@ -10,6 +10,9 @@
         <File name="ErrorFile" fileName="thermocycle.e.log" immediateFlush="false" append="false">
             <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </File>
+        <File name="TraceFile" fileName="thermocycle.t.log" immediateFlush="false" append="false">
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
         <File name="GUIFile" fileName="thermocycle.g.log" immediateFlush="false" append="false">
             <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </File>
@@ -21,8 +24,9 @@
         <Root level="trace">
         </Root>
         <Logger name="DebugLog" level="trace">
-            <AppenderRef ref="OutFile" level="trace"/>
+            <AppenderRef ref="OutFile" level="info"/>
             <AppenderRef ref="ErrorFile" level="error"/>
+            <AppenderRef ref="TraceFile" level="trace"/>
         </Logger>
         <logger name="GUILog" level="trace">
             <AppenderRef ref="GUIFile" level="trace"/>

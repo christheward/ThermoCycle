@@ -101,12 +101,12 @@ public final class HeatExchanger extends Component {
     /**
      * Mass balance on the hot side of the heat exchanger.
      */
-    private class Mass_Balance_Hot extends Equation{
+    private class Mass_Balance_Hot extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Mass_Balance_Hot() {super(1e-3);}
+        private Mass_Balance_Hot() {super("m in = m out", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -140,12 +140,12 @@ public final class HeatExchanger extends Component {
     /**
      * Mass balance on the cold side of the heat exchanger.
      */
-    private class Mass_Balance_Cold extends Equation{
+    private class Mass_Balance_Cold extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Mass_Balance_Cold() {super(1e-3);}
+        private Mass_Balance_Cold() {super("m in = m out", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -179,12 +179,12 @@ public final class HeatExchanger extends Component {
     /**
      * Pressure loss on the hot side of the heat exchanger.
      */
-    private class Pressure_Loss_Hot extends Equation{
+    private class Pressure_Loss_Hot extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Pressure_Loss_Hot() {super(1e-3);}
+        private Pressure_Loss_Hot() {super("p in = p out", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -218,12 +218,12 @@ public final class HeatExchanger extends Component {
     /**
      * Pressure loss on the cold side of the heat exchanger.
      */
-    private class Pressure_Loss_Cold extends Equation{
+    private class Pressure_Loss_Cold extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Pressure_Loss_Cold() {super(1e-3);}
+        private Pressure_Loss_Cold() {super("p in = p out", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -257,12 +257,12 @@ public final class HeatExchanger extends Component {
     /**
      * Heat exchanger effectiveness.
      */
-    private class Effectiveness extends Equation{
+    private class Effectiveness extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Effectiveness() {super(1e-3);}
+        private Effectiveness() {super("Q actual = Q ideal * U+03B5", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -301,12 +301,12 @@ public final class HeatExchanger extends Component {
     /**
      * Energy balance on the hot side of the heat exchanger.
      */
-    private class Energy_Balance_Hot extends Equation{
+    private class Energy_Balance_Hot extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Energy_Balance_Hot() {super(1e-3);}
+        private Energy_Balance_Hot() {super("Q = m * (h out - h in)", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -350,12 +350,12 @@ public final class HeatExchanger extends Component {
     /**
      * Energy balance on the cold side of the heat exchanger.
      */
-    private class Energy_Balance_Cold extends Equation{
+    private class Energy_Balance_Cold extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Energy_Balance_Cold() {super(1e-3);}
+        private Energy_Balance_Cold() {super("Q = m * (h out - h in)", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -399,12 +399,12 @@ public final class HeatExchanger extends Component {
     /**
      * Ideal heat transfer through the heat exchanger.
      */
-    private class Ideal_Heat_Transfer extends Equation{
+    private class Ideal_Heat_Transfer extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Ideal_Heat_Transfer() {super(1e-3);}
+        private Ideal_Heat_Transfer() {super("Q ideal = f(h in hot, T in cold, p out hot, m hot, h in cold, T in hot, p out cold, m cold)", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {

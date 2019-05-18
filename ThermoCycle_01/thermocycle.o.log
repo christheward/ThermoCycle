@@ -1,591 +1,310 @@
-2019-05-06 12:36:34.199 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-05-06 12:36:34.199 [main] INFO  DebugLog - Created N2 (IdealGas)
-2019-05-06 12:36:34.199 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-05-06 12:36:34.215 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.215 [main] INFO  DebugLog - Created LP Compressor (Compressor)
-2019-05-06 12:36:34.215 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.215 [main] INFO  DebugLog - Created HP Compressor (Compressor)
-2019-05-06 12:36:34.230 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.230 [main] INFO  DebugLog - Created Intercooler (HeatSink)
-2019-05-06 12:36:34.230 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.230 [main] INFO  DebugLog - Created Combustor (Combustor)
-2019-05-06 12:36:34.230 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.230 [main] INFO  DebugLog - Created Reheat (Combustor)
-2019-05-06 12:36:34.246 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.246 [main] INFO  DebugLog - Created HP Turbine (Turbine)
-2019-05-06 12:36:34.246 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.246 [main] INFO  DebugLog - Created LP Turbine (Turbine)
-2019-05-06 12:36:34.246 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.246 [main] INFO  DebugLog - Created Heat Sink (HeatSink)
-2019-05-06 12:36:34.246 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.246 [main] TRACE DebugLog - Created connection
-2019-05-06 12:36:34.262 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.262 [main] TRACE DebugLog - Created connection
-2019-05-06 12:36:34.262 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.262 [main] TRACE DebugLog - Created connection
-2019-05-06 12:36:34.262 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.262 [main] TRACE DebugLog - Created connection
-2019-05-06 12:36:34.262 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.262 [main] TRACE DebugLog - Created connection
-2019-05-06 12:36:34.262 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.262 [main] TRACE DebugLog - Created connection
-2019-05-06 12:36:34.262 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.262 [main] TRACE DebugLog - Created connection
-2019-05-06 12:36:34.262 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.262 [main] TRACE DebugLog - Created connection
-2019-05-06 12:36:34.262 [main] INFO  DebugLog - Setting fluid to Air
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 5.0
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 0.9
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 4.0
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 0.9
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 1.0
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 101325.0
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 300.0
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 300.0
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 1300.0
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 506625.0
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 1300.0
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 0.05
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 0.05
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 0.95
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 0.95
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 0.05
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog -  - 0.05
-2019-05-06 12:36:34.262 [main] TRACE DebugLog - Performing parametric solve.
-2019-05-06 12:36:34.262 [main] TRACE DebugLog - Solving for boundary condition Set 1
-2019-05-06 12:36:34.262 [main] INFO  DebugLog - Applying boundary conditions.
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 5.0
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.9
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 4.0
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.9
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionMass is 1.0
-2019-05-06 12:36:34.262 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 101325.0
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 300.0
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 300.0
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 1300.0
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 506625.0
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 1300.0
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.05
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.05
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.95
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.95
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.05
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.05
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving system.
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Reheat (Combustor)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Pressure_Loss for p out
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - p out = 481293.75 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - p out = 481293.75
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Pressure_Loss equation is compatible
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Intercooler (HeatSink)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Combustor (Combustor)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving LP Turbine (Turbine)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving HP Compressor (Compressor)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving LP Compressor (Compressor)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Mass_Balance for m out
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - m out = 1.0
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Pressure_Ratio for p out
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - p out = 506625.0 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - p out = 506625.0
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Efficiency for W
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - W = 158340.6351916286 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - W = 158340.6351916286
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Mass_Balance equation is compatible
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Energy_Balance for h out
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - h out = 459690.63519162853 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - h out = 459690.63519162853
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Efficiency equation is compatible
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving HP Turbine (Turbine)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Mass_Balance for m in
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - m in = 1.0 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - m in = 1.0
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Pressure_Loss for p in
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - p in = 106657.8947368421 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - p in = 106657.8947368421
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Mass_Balance equation is compatible
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Pressure_Loss equation is compatible
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Reheat (Combustor)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Intercooler (HeatSink)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Mass_Balance for m out
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - m out = 1.0
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Energy_Balance for Q
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - Q = 158340.63519162853 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - Q = 158340.63519162853
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Pressure_Loss for p out
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - p out = 481293.75 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - p out = 481293.75
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Mass_Balance equation is compatible
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Energy_Balance equation is compatible
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Pressure_Loss equation is compatible
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Combustor (Combustor)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving LP Turbine (Turbine)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Mass_Balance for m in
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - m in = 1.0 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - m in = 1.0
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Pressure_Ratio for pr
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - pr = 4.512500000000955 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - pr = 4.512500000000955
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Efficiency for W
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - W = 433990.30998259305 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - W = 433990.30998259305
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Mass_Balance equation is compatible
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Energy_Balance for h out
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - h out = 871859.6900174073 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - h out = 871859.6900174073
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Efficiency equation is compatible
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Energy_Balance equation is compatible
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving HP Compressor (Compressor)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving LP Compressor (Compressor)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Energy_Balance equation is compatible
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving HP Turbine (Turbine)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Reheat (Combustor)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Mass_Balance for m in
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - m in = 1.0 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - m in = 1.0
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Mass_Balance equation is compatible
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Combustor (Combustor)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving HP Compressor (Compressor)
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Mass_Balance for m out
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - m out = 1.0
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Pressure_Ratio for p out
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - p out = 1925175.0 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - p out = 1925175.0
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Efficiency for W
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - W = 131808.94112827827 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - W = 131808.94112827827
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Mass_Balance equation is compatible
-2019-05-06 12:36:34.277 [main] INFO  DebugLog - Solving Energy_Balance for h out
-2019-05-06 12:36:34.277 [main] TRACE DebugLog - h out = 433158.9411282783 (Iteration 1)
-2019-05-06 12:36:34.277 [main] DEBUG DebugLog - h out = 433158.9411282783
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Efficiency equation is compatible
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving HP Turbine (Turbine)
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Energy_Balance for Q
-2019-05-06 12:36:34.293 [main] TRACE DebugLog - Q = 570509.6900174073 (Iteration 1)
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - Q = 570509.6900174073
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Energy_Balance equation is compatible
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Reheat (Combustor)
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Combustor (Combustor)
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Mass_Balance for m out
-2019-05-06 12:36:34.293 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - m out = 1.0
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Energy_Balance for Q
-2019-05-06 12:36:34.293 [main] TRACE DebugLog - Q = 872691.058871722 (Iteration 1)
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - Q = 872691.058871722
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Pressure_Loss for p out
-2019-05-06 12:36:34.293 [main] TRACE DebugLog - p out = 1828916.25 (Iteration 1)
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - p out = 1828916.25
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Mass_Balance equation is compatible
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Energy_Balance equation is compatible
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Pressure_Loss equation is compatible
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving HP Compressor (Compressor)
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Energy_Balance equation is compatible
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving HP Turbine (Turbine)
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Mass_Balance for m in
-2019-05-06 12:36:34.293 [main] TRACE DebugLog - m in = 1.0 (Iteration 1)
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - m in = 1.0
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Mass_Balance equation is compatible
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Reheat (Combustor)
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving HP Turbine (Turbine)
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Pressure_Ratio for pr
-2019-05-06 12:36:34.293 [main] TRACE DebugLog - pr = 3.6100000000000136 (Iteration 1)
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - pr = 3.6100000000000136
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Efficiency for W
-2019-05-06 12:36:34.293 [main] TRACE DebugLog - W = 380892.73501677543 (Iteration 1)
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - W = 380892.73501677543
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Energy_Balance for h out
-2019-05-06 12:36:34.293 [main] TRACE DebugLog - h out = 924957.2649832249 (Iteration 1)
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - h out = 924957.2649832249
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Efficiency equation is compatible
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Energy_Balance equation is compatible
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Reheat (Combustor)
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Energy_Balance for Q
-2019-05-06 12:36:34.293 [main] TRACE DebugLog - Q = 380892.73501677526 (Iteration 1)
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - Q = 380892.73501677526
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Energy_Balance equation is compatible
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - System solved.
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - TO DO: Store parametric results.
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Created N2 (IdealGas)
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-05-06 12:36:34.293 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Created Combustor (Combustor)
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Setting fluid to Air
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog -  - 1.0
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog -  - 101325.0
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog -  - 300.0
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog -  - 0.05
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog -  - 2000.0
-2019-05-06 12:36:34.293 [main] TRACE DebugLog - Performing parametric solve.
-2019-05-06 12:36:34.293 [main] TRACE DebugLog - Solving for boundary condition Set 1
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Applying boundary conditions.
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionMass is 1.0
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 101325.0
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 300.0
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.05
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionHeat is 2000.0
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving system.
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Combustor (Combustor)
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Mass_Balance for m out
-2019-05-06 12:36:34.293 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - m out = 1.0
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Energy_Balance for h out
-2019-05-06 12:36:34.293 [main] TRACE DebugLog - h out = 303350.0 (Iteration 1)
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - h out = 303350.0
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Solving Pressure_Loss for p out
-2019-05-06 12:36:34.293 [main] TRACE DebugLog - p out = 96258.75 (Iteration 1)
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - p out = 96258.75
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Mass_Balance equation is compatible
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Energy_Balance equation is compatible
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Pressure_Loss equation is compatible
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - System solved.
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - TO DO: Store parametric results.
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Created N2 (IdealGas)
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-05-06 12:36:34.293 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Created Compressor (Compressor)
-2019-05-06 12:36:34.293 [main] INFO  DebugLog - Setting fluid to Air
-2019-05-06 12:36:34.293 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog -  - 1.0
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog -  - 101325.0
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog -  - 300.0
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog -  - 5.0
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog -  - 0.9
-2019-05-06 12:36:34.309 [main] TRACE DebugLog - Performing parametric solve.
-2019-05-06 12:36:34.309 [main] TRACE DebugLog - Solving for boundary condition Set 1
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Applying boundary conditions.
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionMass is 1.0
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 101325.0
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 300.0
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 5.0
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.9
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Solving system.
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Solving Compressor (Compressor)
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Solving Mass_Balance for m out
-2019-05-06 12:36:34.309 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - m out = 1.0
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Solving Pressure_Ratio for p out
-2019-05-06 12:36:34.309 [main] TRACE DebugLog - p out = 506625.0 (Iteration 1)
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - p out = 506625.0
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Solving Efficiency for W
-2019-05-06 12:36:34.309 [main] TRACE DebugLog - W = 158340.6351916286 (Iteration 1)
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - W = 158340.6351916286
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Mass_Balance equation is compatible
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Solving Energy_Balance for h out
-2019-05-06 12:36:34.309 [main] TRACE DebugLog - h out = 459690.63519162853 (Iteration 1)
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - h out = 459690.63519162853
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Efficiency equation is compatible
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Solving Compressor (Compressor)
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Energy_Balance equation is compatible
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - System solved.
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - TO DO: Store parametric results.
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Created N2 (IdealGas)
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-05-06 12:36:34.309 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Created Turbine (Turbine)
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Setting fluid to Air
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog -  - 1.0
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog -  - 1000000.0
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog -  - 900.0
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog -  - 101325.0
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog -  - 0.95
-2019-05-06 12:36:34.309 [main] TRACE DebugLog - Performing parametric solve.
-2019-05-06 12:36:34.309 [main] TRACE DebugLog - Solving for boundary condition Set 1
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Applying boundary conditions.
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionMass is 1.0
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 1000000.0
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 900.0
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 101325.0
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.95
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Solving system.
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Solving Turbine (Turbine)
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Solving Mass_Balance for m out
-2019-05-06 12:36:34.309 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - m out = 1.0
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Solving Pressure_Ratio for pr
-2019-05-06 12:36:34.309 [main] TRACE DebugLog - pr = 9.869232667160077 (Iteration 1)
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - pr = 9.869232667160077
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Solving Efficiency for W
-2019-05-06 12:36:34.309 [main] TRACE DebugLog - W = 412333.49216212466 (Iteration 1)
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - W = 412333.49216212466
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Mass_Balance equation is compatible
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Solving Energy_Balance for h out
-2019-05-06 12:36:34.309 [main] TRACE DebugLog - h out = 491716.5078378755 (Iteration 1)
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - h out = 491716.5078378755
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Efficiency equation is compatible
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Solving Turbine (Turbine)
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Energy_Balance equation is compatible
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - System solved.
-2019-05-06 12:36:34.309 [main] DEBUG DebugLog - TO DO: Store parametric results.
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Created N2 (IdealGas)
-2019-05-06 12:36:34.309 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Created WHRU (HeatExchanger)
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Setting fluid to Air
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Setting fluid to Air
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog -  - 1.0
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog -  - 1.0
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog -  - 0.95
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog -  - 101325.0
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog -  - 300.0
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog -  - 300000.0
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog -  - 500.0
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Performing parametric solve.
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Solving for boundary condition Set 1
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Applying boundary conditions.
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionMass is 1.0
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionMass is 1.0
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.95
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 101325.0
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 300.0
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 300000.0
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 500.0
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Solving system.
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Solving WHRU (HeatExchanger)
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Solving Mass_Balance_Hot for m out
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - m out = 1.0
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Solving Mass_Balance_Cold for m out
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - m out = 1.0
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Solving Pressure_Loss_Hot for p out
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - p out = 300000.0 (Iteration 1)
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - p out = 300000.0
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Solving Pressure_Loss_Cold for p out
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - p out = 101325.0 (Iteration 1)
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - p out = 101325.0
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Solving Ideal_Heat_Transfer for Q ideal
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Q ideal = 200900.0 (Iteration 1)
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - Q ideal = 200900.0
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Mass_Balance_Hot equation is compatible
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Mass_Balance_Cold equation is compatible
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Pressure_Loss_Hot equation is compatible
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Pressure_Loss_Cold equation is compatible
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Solving Effectiveness for Q actual
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Q actual = 190855.0 (Iteration 1)
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - Q actual = 190855.0
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Ideal_Heat_Transfer equation is compatible
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Solving WHRU (HeatExchanger)
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Solving Energy_Balance_Hot for h out
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - h out = 311395.00000000006 (Iteration 1)
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - h out = 311395.00000000006
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Solving Energy_Balance_Cold for h out
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - h out = 492205.0 (Iteration 1)
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - h out = 492205.0
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Effectiveness equation is compatible
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Energy_Balance_Hot equation is compatible
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Energy_Balance_Cold equation is compatible
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - System solved.
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - TO DO: Store parametric results.
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Created N2 (IdealGas)
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Created Compressor (Compressor)
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Created Combustor (Combustor)
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Created Turbine (Turbine)
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Created Heat Sink (HeatSink)
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Created connection
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Created connection
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Created connection
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.340 [main] TRACE DebugLog - Created connection
-2019-05-06 12:36:34.340 [main] INFO  DebugLog - Setting fluid to Air
-2019-05-06 12:36:34.340 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog -  - 1.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog -  - 101325.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog -  - 300.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog -  - 1300.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog -  - 5.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog -  - 0.9
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog -  - 0.05
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog -  - 0.95
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog -  - 0.05
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - Performing parametric solve.
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - Solving for boundary condition Set 1
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Applying boundary conditions.
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionMass is 1.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 101325.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 300.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 1300.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 5.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.9
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.05
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.95
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.05
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving system.
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Compressor (Compressor)
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Mass_Balance for m out
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - m out = 1.0
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Pressure_Ratio for p out
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - p out = 506625.0 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - p out = 506625.0
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Efficiency for W
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - W = 158340.6351916286 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - W = 158340.6351916286
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Mass_Balance equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Energy_Balance for h out
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - h out = 459690.63519162853 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - h out = 459690.63519162853
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Efficiency equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Turbine (Turbine)
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Mass_Balance for m in
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - m in = 1.0 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - m in = 1.0
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Pressure_Loss for p in
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - p in = 106657.8947368421 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - p in = 106657.8947368421
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Mass_Balance equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Pressure_Loss equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Combustor (Combustor)
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Compressor (Compressor)
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Energy_Balance equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Turbine (Turbine)
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Mass_Balance for m in
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - m in = 1.0 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - m in = 1.0
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Mass_Balance equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Combustor (Combustor)
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Mass_Balance for m out
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - m out = 1.0
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Energy_Balance for Q
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - Q = 846159.3648083716 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - Q = 846159.3648083716
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Pressure_Loss for p out
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - p out = 481293.75 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - p out = 481293.75
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Mass_Balance equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Energy_Balance equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Pressure_Loss equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Turbine (Turbine)
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Pressure_Ratio for pr
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - pr = 4.512500000000955 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - pr = 4.512500000000955
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Efficiency for W
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - W = 433990.30998259305 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - W = 433990.30998259305
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Energy_Balance for h out
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - h out = 871859.6900174073 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - h out = 871859.6900174073
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Efficiency equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Energy_Balance equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Energy_Balance for Q
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - Q = 570509.6900174073 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - Q = 570509.6900174073
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Energy_Balance equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - System solved.
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - TO DO: Store parametric results.
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Created N2 (IdealGas)
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - Cycle change notification.
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Created Heat Sink (HeatSink)
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Setting fluid to Air
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog -  - 1.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog -  - 300.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog -  - 101325.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog -  - 500.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - Boundary condition values are: 
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog -  - 0.05
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - Performing parametric solve.
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - Solving for boundary condition Set 1
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Applying boundary conditions.
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionMass is 1.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 300.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 101325.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionProperty is 500.0
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - class thermocycle.BoundaryConditionAttribute is 0.05
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving system.
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Mass_Balance for m out
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - m out = 1.0
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Energy_Balance for Q
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - Q = 200900.0 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - Q = 200900.0
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Solving Pressure_Loss for p in
-2019-05-06 12:36:34.355 [main] TRACE DebugLog - p in = 106657.8947368421 (Iteration 1)
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - p in = 106657.8947368421
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Mass_Balance equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Energy_Balance equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - Pressure_Loss equation is compatible
-2019-05-06 12:36:34.355 [main] INFO  DebugLog - System solved.
-2019-05-06 12:36:34.355 [main] DEBUG DebugLog - TO DO: Store parametric results.
+2019-05-18 21:04:36.464 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-05-18 21:04:36.477 [main] INFO  DebugLog - Created LP Compressor (Compressor)
+2019-05-18 21:04:36.478 [main] INFO  DebugLog - Created HP Compressor (Compressor)
+2019-05-18 21:04:36.479 [main] INFO  DebugLog - Created Intercooler (HeatSink)
+2019-05-18 21:04:36.481 [main] INFO  DebugLog - Created Combustor (Combustor)
+2019-05-18 21:04:36.481 [main] INFO  DebugLog - Created Reheat (Combustor)
+2019-05-18 21:04:36.484 [main] INFO  DebugLog - Created HP Turbine (Turbine)
+2019-05-18 21:04:36.484 [main] INFO  DebugLog - Created LP Turbine (Turbine)
+2019-05-18 21:04:36.485 [main] INFO  DebugLog - Created Heat Sink (HeatSink)
+2019-05-18 21:04:36.490 [main] INFO  DebugLog - Setting fluid to Air
+2019-05-18 21:04:36.494 [main] INFO  DebugLog - Performing parametric solve for Gas Turbine with Reheat and Intercooler Test
+2019-05-18 21:04:36.514 [main] INFO  DebugLog - Solving LP Compressor (Compressor)
+2019-05-18 21:04:36.515 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.516 [main] INFO  DebugLog - Solving p out = p in * pr for p out
+2019-05-18 21:04:36.516 [main] INFO  DebugLog - Solving W = m * n * (h_out,isen - h_in), h_out,isen = f(s_in, p out) for W
+2019-05-18 21:04:36.522 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.523 [main] INFO  DebugLog - Solving W = m * (h out - h in) for h out
+2019-05-18 21:04:36.524 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
+2019-05-18 21:04:36.526 [main] INFO  DebugLog - Efficiency equation is compatible
+2019-05-18 21:04:36.526 [main] INFO  DebugLog - Solving HP Compressor (Compressor)
+2019-05-18 21:04:36.526 [main] INFO  DebugLog - Solving Intercooler (HeatSink)
+2019-05-18 21:04:36.527 [main] INFO  DebugLog - Solving Combustor (Combustor)
+2019-05-18 21:04:36.527 [main] INFO  DebugLog - Solving Reheat (Combustor)
+2019-05-18 21:04:36.527 [main] INFO  DebugLog - Solving p out = p in * (1 - pr) for p out
+2019-05-18 21:04:36.528 [main] INFO  DebugLog - Pressure_Loss equation is compatible
+2019-05-18 21:04:36.528 [main] INFO  DebugLog - Solving HP Turbine (Turbine)
+2019-05-18 21:04:36.528 [main] INFO  DebugLog - Solving LP Turbine (Turbine)
+2019-05-18 21:04:36.528 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
+2019-05-18 21:04:36.528 [main] INFO  DebugLog - Solving m in = m out for m in
+2019-05-18 21:04:36.529 [main] INFO  DebugLog - Solving p in = (1 - pr) p out for p in
+2019-05-18 21:04:36.529 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.529 [main] INFO  DebugLog - Pressure_Loss equation is compatible
+2019-05-18 21:04:36.532 [main] INFO  DebugLog - LP Compressor false
+2019-05-18 21:04:36.532 [main] INFO  DebugLog - HP Compressor false
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Intercooler false
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Combustor false
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Reheat false
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - HP Turbine false
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - LP Turbine false
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Heat Sink false
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Solving LP Compressor (Compressor)
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Solving HP Compressor (Compressor)
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Solving Intercooler (HeatSink)
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Solving Q = m (h in - h out) for Q
+2019-05-18 21:04:36.534 [main] INFO  DebugLog - Solving p in = (1 - pr) p out for p out
+2019-05-18 21:04:36.538 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.538 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.538 [main] INFO  DebugLog - Pressure_Loss equation is compatible
+2019-05-18 21:04:36.538 [main] INFO  DebugLog - Solving Combustor (Combustor)
+2019-05-18 21:04:36.538 [main] INFO  DebugLog - Solving Reheat (Combustor)
+2019-05-18 21:04:36.538 [main] INFO  DebugLog - Solving HP Turbine (Turbine)
+2019-05-18 21:04:36.538 [main] INFO  DebugLog - Solving LP Turbine (Turbine)
+2019-05-18 21:04:36.538 [main] INFO  DebugLog - Solving m_in = m_out for m in
+2019-05-18 21:04:36.539 [main] INFO  DebugLog - Solving pr = p_in / p_out for pr
+2019-05-18 21:04:36.539 [main] INFO  DebugLog - Solving W = m eta (h_in - h_out,isen), h_out,isen = f(s_in, p_out) for W
+2019-05-18 21:04:36.544 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.544 [main] INFO  DebugLog - Solving W = m (h_in - h_out) for h out
+2019-05-18 21:04:36.546 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
+2019-05-18 21:04:36.547 [main] INFO  DebugLog - Efficiency equation is compatible
+2019-05-18 21:04:36.547 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.548 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
+2019-05-18 21:04:36.550 [main] INFO  DebugLog - LP Compressor true
+2019-05-18 21:04:36.550 [main] INFO  DebugLog - HP Compressor false
+2019-05-18 21:04:36.550 [main] INFO  DebugLog - Intercooler true
+2019-05-18 21:04:36.550 [main] INFO  DebugLog - Combustor false
+2019-05-18 21:04:36.550 [main] INFO  DebugLog - Reheat false
+2019-05-18 21:04:36.550 [main] INFO  DebugLog - HP Turbine false
+2019-05-18 21:04:36.550 [main] INFO  DebugLog - LP Turbine true
+2019-05-18 21:04:36.550 [main] INFO  DebugLog - Heat Sink false
+2019-05-18 21:04:36.551 [main] INFO  DebugLog - Solving HP Compressor (Compressor)
+2019-05-18 21:04:36.551 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.551 [main] INFO  DebugLog - Solving p out = p in * pr for p out
+2019-05-18 21:04:36.551 [main] INFO  DebugLog - Solving W = m * n * (h_out,isen - h_in), h_out,isen = f(s_in, p out) for W
+2019-05-18 21:04:36.555 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.555 [main] INFO  DebugLog - Solving W = m * (h out - h in) for h out
+2019-05-18 21:04:36.556 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Efficiency equation is compatible
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Solving Combustor (Combustor)
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Solving Reheat (Combustor)
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Solving m in = m out for m in
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Solving HP Turbine (Turbine)
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Solving Q = m (h in - h out) for Q
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - LP Compressor true
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - HP Compressor false
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - Intercooler true
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - Combustor false
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - Reheat false
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - HP Turbine false
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - LP Turbine true
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - Solving HP Compressor (Compressor)
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.561 [main] INFO  DebugLog - Solving Combustor (Combustor)
+2019-05-18 21:04:36.561 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.561 [main] INFO  DebugLog - Solving Q = m * (h out - h in) for Q
+2019-05-18 21:04:36.561 [main] INFO  DebugLog - Solving p out = p in * (1 - pr) for p out
+2019-05-18 21:04:36.562 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.562 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.562 [main] INFO  DebugLog - Pressure_Loss equation is compatible
+2019-05-18 21:04:36.562 [main] INFO  DebugLog - Solving Reheat (Combustor)
+2019-05-18 21:04:36.562 [main] INFO  DebugLog - Solving HP Turbine (Turbine)
+2019-05-18 21:04:36.562 [main] INFO  DebugLog - Solving m_in = m_out for m in
+2019-05-18 21:04:36.562 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.563 [main] INFO  DebugLog - LP Compressor true
+2019-05-18 21:04:36.563 [main] INFO  DebugLog - HP Compressor true
+2019-05-18 21:04:36.563 [main] INFO  DebugLog - Intercooler true
+2019-05-18 21:04:36.563 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.563 [main] INFO  DebugLog - Reheat false
+2019-05-18 21:04:36.563 [main] INFO  DebugLog - HP Turbine false
+2019-05-18 21:04:36.564 [main] INFO  DebugLog - LP Turbine true
+2019-05-18 21:04:36.564 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.564 [main] INFO  DebugLog - Solving Reheat (Combustor)
+2019-05-18 21:04:36.564 [main] INFO  DebugLog - Solving HP Turbine (Turbine)
+2019-05-18 21:04:36.564 [main] INFO  DebugLog - Solving pr = p_in / p_out for pr
+2019-05-18 21:04:36.564 [main] INFO  DebugLog - Solving W = m eta (h_in - h_out,isen), h_out,isen = f(s_in, p_out) for W
+2019-05-18 21:04:36.567 [main] INFO  DebugLog - Solving W = m (h_in - h_out) for h out
+2019-05-18 21:04:36.567 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
+2019-05-18 21:04:36.568 [main] INFO  DebugLog - Efficiency equation is compatible
+2019-05-18 21:04:36.568 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - LP Compressor true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - HP Compressor true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Intercooler true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Reheat false
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - HP Turbine true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - LP Turbine true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Solving Reheat (Combustor)
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Solving Q = m * (h out - h in) for Q
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - LP Compressor true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - HP Compressor true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Intercooler true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Reheat true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - HP Turbine true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - LP Turbine true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - LP Compressor true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - HP Compressor true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - Intercooler true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - Reheat true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - HP Turbine true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - LP Turbine true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - System solved.
+2019-05-18 21:04:36.583 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-05-18 21:04:36.583 [main] INFO  DebugLog - Created Combustor (Combustor)
+2019-05-18 21:04:36.583 [main] INFO  DebugLog - Setting fluid to Air
+2019-05-18 21:04:36.583 [main] INFO  DebugLog - Performing parametric solve for Combustor Test
+2019-05-18 21:04:36.584 [main] INFO  DebugLog - Solving Combustor (Combustor)
+2019-05-18 21:04:36.584 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.584 [main] INFO  DebugLog - Solving Q = m * (h out - h in) for h out
+2019-05-18 21:04:36.584 [main] INFO  DebugLog - Solving p out = p in * (1 - pr) for p out
+2019-05-18 21:04:36.585 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.585 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.585 [main] INFO  DebugLog - Pressure_Loss equation is compatible
+2019-05-18 21:04:36.585 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.585 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.585 [main] INFO  DebugLog - System solved.
+2019-05-18 21:04:36.591 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-05-18 21:04:36.591 [main] INFO  DebugLog - Created Compressor (Compressor)
+2019-05-18 21:04:36.591 [main] INFO  DebugLog - Setting fluid to Air
+2019-05-18 21:04:36.591 [main] INFO  DebugLog - Performing parametric solve for Compressor Test
+2019-05-18 21:04:36.592 [main] INFO  DebugLog - Solving Compressor (Compressor)
+2019-05-18 21:04:36.592 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.592 [main] INFO  DebugLog - Solving p out = p in * pr for p out
+2019-05-18 21:04:36.592 [main] INFO  DebugLog - Solving W = m * n * (h_out,isen - h_in), h_out,isen = f(s_in, p out) for W
+2019-05-18 21:04:36.594 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.594 [main] INFO  DebugLog - Solving W = m * (h out - h in) for h out
+2019-05-18 21:04:36.594 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
+2019-05-18 21:04:36.594 [main] INFO  DebugLog - Efficiency equation is compatible
+2019-05-18 21:04:36.594 [main] INFO  DebugLog - Compressor false
+2019-05-18 21:04:36.594 [main] INFO  DebugLog - Solving Compressor (Compressor)
+2019-05-18 21:04:36.594 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.595 [main] INFO  DebugLog - Compressor true
+2019-05-18 21:04:36.595 [main] INFO  DebugLog - Compressor true
+2019-05-18 21:04:36.595 [main] INFO  DebugLog - System solved.
+2019-05-18 21:04:36.602 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-05-18 21:04:36.602 [main] INFO  DebugLog - Created Turbine (Turbine)
+2019-05-18 21:04:36.602 [main] INFO  DebugLog - Setting fluid to Air
+2019-05-18 21:04:36.602 [main] INFO  DebugLog - Performing parametric solve for Turbine Test
+2019-05-18 21:04:36.603 [main] INFO  DebugLog - Solving Turbine (Turbine)
+2019-05-18 21:04:36.603 [main] INFO  DebugLog - Solving m_in = m_out for m out
+2019-05-18 21:04:36.603 [main] INFO  DebugLog - Solving pr = p_in / p_out for pr
+2019-05-18 21:04:36.603 [main] INFO  DebugLog - Solving W = m eta (h_in - h_out,isen), h_out,isen = f(s_in, p_out) for W
+2019-05-18 21:04:36.605 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.605 [main] INFO  DebugLog - Solving W = m (h_in - h_out) for h out
+2019-05-18 21:04:36.605 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
+2019-05-18 21:04:36.606 [main] INFO  DebugLog - Efficiency equation is compatible
+2019-05-18 21:04:36.606 [main] INFO  DebugLog - Turbine false
+2019-05-18 21:04:36.606 [main] INFO  DebugLog - Solving Turbine (Turbine)
+2019-05-18 21:04:36.606 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.606 [main] INFO  DebugLog - Turbine true
+2019-05-18 21:04:36.606 [main] INFO  DebugLog - Turbine true
+2019-05-18 21:04:36.606 [main] INFO  DebugLog - System solved.
+2019-05-18 21:04:36.612 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-05-18 21:04:36.615 [main] INFO  DebugLog - Created WHRU (HeatExchanger)
+2019-05-18 21:04:36.615 [main] INFO  DebugLog - Setting fluid to Air
+2019-05-18 21:04:36.616 [main] INFO  DebugLog - Setting fluid to Air
+2019-05-18 21:04:36.616 [main] INFO  DebugLog - Performing parametric solve for Heat exchanger test
+2019-05-18 21:04:36.616 [main] INFO  DebugLog - Solving WHRU (HeatExchanger)
+2019-05-18 21:04:36.616 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.616 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.617 [main] INFO  DebugLog - Solving p in = p out for p out
+2019-05-18 21:04:36.617 [main] INFO  DebugLog - Solving p in = p out for p out
+2019-05-18 21:04:36.617 [main] INFO  DebugLog - Solving Q ideal = f(h in hot, T in cold, p out hot, m hot, h in cold, T in hot, p out cold, m cold) for Q ideal
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - Mass_Balance_Hot equation is compatible
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - Mass_Balance_Cold equation is compatible
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - Pressure_Loss_Hot equation is compatible
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - Pressure_Loss_Cold equation is compatible
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - Solving Q actual = Q ideal * U+03B5 for Q actual
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - Ideal_Heat_Transfer equation is compatible
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - WHRU false
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - Solving WHRU (HeatExchanger)
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - Solving Q = m * (h out - h in) for h out
+2019-05-18 21:04:36.620 [main] INFO  DebugLog - Solving Q = m * (h out - h in) for h out
+2019-05-18 21:04:36.621 [main] INFO  DebugLog - Effectiveness equation is compatible
+2019-05-18 21:04:36.621 [main] INFO  DebugLog - Energy_Balance_Hot equation is compatible
+2019-05-18 21:04:36.621 [main] INFO  DebugLog - Energy_Balance_Cold equation is compatible
+2019-05-18 21:04:36.621 [main] INFO  DebugLog - WHRU true
+2019-05-18 21:04:36.621 [main] INFO  DebugLog - WHRU true
+2019-05-18 21:04:36.621 [main] INFO  DebugLog - System solved.
+2019-05-18 21:04:36.629 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-05-18 21:04:36.629 [main] INFO  DebugLog - Created Compressor (Compressor)
+2019-05-18 21:04:36.629 [main] INFO  DebugLog - Created Combustor (Combustor)
+2019-05-18 21:04:36.629 [main] INFO  DebugLog - Created Turbine (Turbine)
+2019-05-18 21:04:36.630 [main] INFO  DebugLog - Created Heat Sink (HeatSink)
+2019-05-18 21:04:36.630 [main] INFO  DebugLog - Setting fluid to Air
+2019-05-18 21:04:36.630 [main] INFO  DebugLog - Performing parametric solve for Gas Turbine Test
+2019-05-18 21:04:36.631 [main] INFO  DebugLog - Solving Compressor (Compressor)
+2019-05-18 21:04:36.631 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.631 [main] INFO  DebugLog - Solving p out = p in * pr for p out
+2019-05-18 21:04:36.631 [main] INFO  DebugLog - Solving W = m * n * (h_out,isen - h_in), h_out,isen = f(s_in, p out) for W
+2019-05-18 21:04:36.632 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.632 [main] INFO  DebugLog - Solving W = m * (h out - h in) for h out
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Efficiency equation is compatible
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Solving Combustor (Combustor)
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Solving Turbine (Turbine)
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Solving m in = m out for m in
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Solving p in = (1 - pr) p out for p in
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Pressure_Loss equation is compatible
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Compressor false
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Combustor false
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Turbine false
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Heat Sink false
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving Compressor (Compressor)
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving Combustor (Combustor)
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving Q = m * (h out - h in) for Q
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving p out = p in * (1 - pr) for p out
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Pressure_Loss equation is compatible
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving Turbine (Turbine)
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving m_in = m_out for m in
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Compressor true
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Turbine false
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Heat Sink false
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving Turbine (Turbine)
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving pr = p_in / p_out for pr
+2019-05-18 21:04:36.635 [main] INFO  DebugLog - Solving W = m eta (h_in - h_out,isen), h_out,isen = f(s_in, p_out) for W
+2019-05-18 21:04:36.635 [main] INFO  DebugLog - Solving W = m (h_in - h_out) for h out
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Efficiency equation is compatible
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Compressor true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Turbine true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Heat Sink false
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Solving Q = m (h in - h out) for Q
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Compressor true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Turbine true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Compressor true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Turbine true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - System solved.
+2019-05-18 21:04:36.646 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-05-18 21:04:36.647 [main] INFO  DebugLog - Created Heat Sink (HeatSink)
+2019-05-18 21:04:36.647 [main] INFO  DebugLog - Setting fluid to Air
+2019-05-18 21:04:36.647 [main] INFO  DebugLog - Performing parametric solve for Heat Sink Test
+2019-05-18 21:04:36.647 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
+2019-05-18 21:04:36.647 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.647 [main] INFO  DebugLog - Solving Q = m (h in - h out) for Q
+2019-05-18 21:04:36.647 [main] INFO  DebugLog - Solving p in = (1 - pr) p out for p in
+2019-05-18 21:04:36.648 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.648 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.648 [main] INFO  DebugLog - Pressure_Loss equation is compatible
+2019-05-18 21:04:36.648 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.648 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.648 [main] INFO  DebugLog - System solved.

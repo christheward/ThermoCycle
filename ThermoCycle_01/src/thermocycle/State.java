@@ -127,7 +127,7 @@ final class State implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         state.keySet().stream().forEach(property -> {
-            sb.append(String.format("%-13s",property.toString())).append(": ").append(getProperty(property).getAsDouble()).append(" ").append(property.units).append(System.lineSeparator());
+            sb.append(String.format("%-13s",property.toString())).append(": ").append(getProperty(property).getAsDouble()).append(" ").append(property.type).append(System.lineSeparator());
         });
         return sb.toString();
     }

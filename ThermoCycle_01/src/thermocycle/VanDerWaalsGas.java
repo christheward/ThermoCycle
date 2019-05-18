@@ -5,6 +5,7 @@
  */
 package thermocycle;
 
+import report.ReportDataBlock;
 import java.util.*;
 import thermocycle.Properties.Property;
 import static thermocycle.Properties.Property.*;
@@ -53,23 +54,15 @@ final class VanDerWaalsGas extends Fluid {
         fluidState.add(HELMHOLTZ);
         return fluidState;
     }
+    
     @Override
-    protected void computeState(State state) {
-        Set<Property> unknowns = this.getAllowableProperties();
-        unknowns.removeAll(state.properties());
-        do {
-            unknowns.forEach(p -> {
-                switch (p) {
-                    case TEMPERATURE: {this.calcT(state); break;}
-                    case PRESSURE: {this.calcP(state); break;}
-                    case VOLUME: {this.calcV(state); break;}
-                    case ENTROPY: {this.calcS(state); break;}
-                    case ENERGY: {this.calcU(state); break;}
-                    case ENTHALPY: {this.calcH(state); break;}
-                    case HELMHOLTZ: {this.calcF(state); break;}
-                    case GIBBS: {this.calcG(state); break;}
-                }});
-        } while (unknowns.removeAll(state.properties()));
+    public ReportDataBlock getReportData() {
+        ReportDataBlock rdb = new ReportDataBlock(name);
+        rdb.addData("A", Double.toString(getA()));
+        rdb.addData("B", Double.toString(getB()));
+        rdb.addData("M", Double.toString(getM()));
+        rdb.addData("Cv", Double.toString(getCv()));
+        return rdb;
     }
     
     // private methods - state relationships
@@ -77,33 +70,5 @@ final class VanDerWaalsGas extends Fluid {
     // U = Cv.T - a/(V.M);
     // H = Cv.T + R.T.Vm/(Vm-b) - 2.a.(V/Vm)/Vm
     // S = R ln((Vm-b)/(-b)) + cRln((u + a/Vm)/(a/Vm))
-    @Override
-    protected void calcT(State state) {
-        super.calcT(state);
-    }
-    @Override
-    protected void calcP(State state) {
-        super.calcP(state);
-    }
-    @Override
-    protected void calcV(State state) {
-        super.calcV(state);
-    }
-    @Override
-    protected void calcS(State state) {
-        super.calcS(state);
-    }
-    @Override
-    protected void calcU(State state) {
-        super.calcU(state);
-    }
-    @Override
-    protected void calcH(State state) {
-    }
-    @Override
-    protected void calcF(State state) {
-    }
-    @Override
-    protected void calcG(State state) {
-    }
+    
 }

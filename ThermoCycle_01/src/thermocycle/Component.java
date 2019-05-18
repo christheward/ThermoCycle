@@ -5,6 +5,8 @@
  */
 package thermocycle;
 
+import report.ReportDataBlock;
+import report.Reportable;
 import java.util.*;
 import java.io.Serializable;
 import java.util.stream.Collectors;
@@ -19,7 +21,7 @@ import thermocycle.Properties.Property;
  *
  * @author Chris
  */
-public abstract class Component implements Serializable {
+public abstract class Component implements Serializable, Reportable {
     
     /**
      * The logger instance.
@@ -54,7 +56,7 @@ public abstract class Component implements Serializable {
     /**
      * A list of all the equations relating to this component.
      */
-    protected final List<Equation> equations;
+    protected final List<ComponentEquation> equations;
     
     /**
      * A list of all the flow nodes in this component.
@@ -407,5 +409,49 @@ public abstract class Component implements Serializable {
     @Override
     public final String toString() {
         return (name + " (" + getClass().getSimpleName() + ")");
+    }
+    
+    @Override
+    public ReportDataBlock getReportData() {
+        ReportDataBlock rdb = new ReportDataBlock(name);
+        rdb.addData("Type", this.getClass().getSimpleName());
+        rdb.addData("Status", isComplete()? "Solved" : "Unsolved");
+        
+        ReportDataBlock atbs = new ReportDataBlock("Attributes");
+        getAllowableAtributes().stream().forEach(a -> {
+            atbs.addData(a.fullName, this.getAttribute(a).isPresent() ? DimensionedDouble.valueOfSI(getAttribute(a).getAsDouble(), a.type) : "Unsolved");
+        });
+        rdb.addDataBlock(atbs);
+        
+        ReportDataBlock eqs = new ReportDataBlock("Equations");
+        equations.stream().forEach(e -> {
+            eqs.addData(e.writtenEquation, e.isSolved()? "Solved" : "Unsolved");
+        });
+        rdb.addDataBlock(eqs);
+        
+        return rdb;
+    }
+    
+    /**
+     * Gets data for reporting.
+     * @return a map of data for reporting.
+     */
+    public Map<String, String> reportData() {
+        Map<String, String> data = new LinkedHashMap();
+        data.put("Name", name);
+        data.put("Type", getClass().getSimpleName());
+        data.put("Complete", isComplete()? "Solved" : "Unsolved");
+        getAllowableAtributes().stream().forEach(a -> {
+            if (attributes.containsKey(a)) {
+                data.put("Attribute " + a.fullName, Double.toString(attributes.get(a)));
+            }
+            else {
+                data.put("Attribute " + a.fullName, "Unknown");
+            }
+        });
+        equations.stream().forEach(e -> {
+            data.put("Equation " + e.getClass().getSimpleName(), e.isSolved() ? "Solved" : "Unsolved");
+        });
+        return data;
     }
 }

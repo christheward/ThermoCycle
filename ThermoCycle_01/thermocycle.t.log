@@ -1,0 +1,2203 @@
+2019-05-18 21:04:36.464 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-05-18 21:04:36.477 [main] INFO  DebugLog - Created LP Compressor (Compressor)
+2019-05-18 21:04:36.478 [main] INFO  DebugLog - Created HP Compressor (Compressor)
+2019-05-18 21:04:36.479 [main] INFO  DebugLog - Created Intercooler (HeatSink)
+2019-05-18 21:04:36.481 [main] INFO  DebugLog - Created Combustor (Combustor)
+2019-05-18 21:04:36.481 [main] INFO  DebugLog - Created Reheat (Combustor)
+2019-05-18 21:04:36.484 [main] INFO  DebugLog - Created HP Turbine (Turbine)
+2019-05-18 21:04:36.484 [main] INFO  DebugLog - Created LP Turbine (Turbine)
+2019-05-18 21:04:36.485 [main] INFO  DebugLog - Created Heat Sink (HeatSink)
+2019-05-18 21:04:36.486 [main] TRACE DebugLog - Created connection
+2019-05-18 21:04:36.486 [main] TRACE DebugLog - Created connection
+2019-05-18 21:04:36.487 [main] TRACE DebugLog - Created connection
+2019-05-18 21:04:36.488 [main] TRACE DebugLog - Created connection
+2019-05-18 21:04:36.488 [main] TRACE DebugLog - Created connection
+2019-05-18 21:04:36.489 [main] TRACE DebugLog - Created connection
+2019-05-18 21:04:36.489 [main] TRACE DebugLog - Created connection
+2019-05-18 21:04:36.490 [main] TRACE DebugLog - Created connection
+2019-05-18 21:04:36.490 [main] INFO  DebugLog - Setting fluid to Air
+2019-05-18 21:04:36.494 [main] INFO  DebugLog - Performing parametric solve for Gas Turbine with Reheat and Intercooler Test
+2019-05-18 21:04:36.496 [main] TRACE DebugLog - Solving for boundary condition Set 1 of 1
+2019-05-18 21:04:36.496 [main] TRACE DebugLog - Applying boundary conditions.
+2019-05-18 21:04:36.498 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.498 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006 (Iteration 1)
+2019-05-18 21:04:36.498 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006
+2019-05-18 21:04:36.498 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.498 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003 (Iteration 1)
+2019-05-18 21:04:36.499 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003
+2019-05-18 21:04:36.499 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.499 [main] TRACE DebugLog - Specific volume = 0.8497409326424759 (Iteration 1)
+2019-05-18 21:04:36.499 [main] TRACE DebugLog - Specific volume = 0.8497409326424759
+2019-05-18 21:04:36.499 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.499 [main] TRACE DebugLog - Density = 1.1768292682927495 (Iteration 1)
+2019-05-18 21:04:36.499 [main] TRACE DebugLog - Density = 1.1768292682927495
+2019-05-18 21:04:36.499 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.499 [main] TRACE DebugLog - Specific entropy = 2421.462110212656 (Iteration 1)
+2019-05-18 21:04:36.499 [main] TRACE DebugLog - Specific entropy = 2421.462110212656
+2019-05-18 21:04:36.499 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.500 [main] TRACE DebugLog - Specific helmholtz energy = -511188.6330637969 (Iteration 1)
+2019-05-18 21:04:36.500 [main] TRACE DebugLog - Specific helmholtz energy = -511188.6330637969
+2019-05-18 21:04:36.500 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.500 [main] TRACE DebugLog - Specific gibbs energy = -425088.63306379685 (Iteration 1)
+2019-05-18 21:04:36.500 [main] TRACE DebugLog - Specific gibbs energy = -425088.63306379685
+2019-05-18 21:04:36.500 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.500 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006 (Iteration 1)
+2019-05-18 21:04:36.501 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006
+2019-05-18 21:04:36.501 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.501 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003 (Iteration 1)
+2019-05-18 21:04:36.501 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003
+2019-05-18 21:04:36.501 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.501 [main] TRACE DebugLog - Specific enthalpy = 1305850.0000000002 (Iteration 1)
+2019-05-18 21:04:36.501 [main] TRACE DebugLog - Specific enthalpy = 1305850.0000000002
+2019-05-18 21:04:36.501 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.502 [main] TRACE DebugLog - Specific internal energy = 932750.0000000001 (Iteration 1)
+2019-05-18 21:04:36.502 [main] TRACE DebugLog - Specific internal energy = 932750.0000000001
+2019-05-18 21:04:36.502 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.502 [main] TRACE DebugLog - Specific enthalpy = 1305850.0000000002 (Iteration 1)
+2019-05-18 21:04:36.502 [main] TRACE DebugLog - Specific enthalpy = 1305850.0000000002
+2019-05-18 21:04:36.502 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.502 [main] TRACE DebugLog - Specific internal energy = 932750.0000000001 (Iteration 1)
+2019-05-18 21:04:36.502 [main] TRACE DebugLog - Specific internal energy = 932750.0000000001
+2019-05-18 21:04:36.506 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.506 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006 (Iteration 1)
+2019-05-18 21:04:36.506 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006
+2019-05-18 21:04:36.506 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.506 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003 (Iteration 1)
+2019-05-18 21:04:36.506 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003
+2019-05-18 21:04:36.506 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.506 [main] TRACE DebugLog - Specific enthalpy = 1305850.0000000002 (Iteration 1)
+2019-05-18 21:04:36.506 [main] TRACE DebugLog - Specific enthalpy = 1305850.0000000002
+2019-05-18 21:04:36.507 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.507 [main] TRACE DebugLog - Specific internal energy = 932750.0000000001 (Iteration 1)
+2019-05-18 21:04:36.507 [main] TRACE DebugLog - Specific internal energy = 932750.0000000001
+2019-05-18 21:04:36.507 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.507 [main] TRACE DebugLog - Specific enthalpy = 1305850.0000000002 (Iteration 1)
+2019-05-18 21:04:36.507 [main] TRACE DebugLog - Specific enthalpy = 1305850.0000000002
+2019-05-18 21:04:36.507 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.508 [main] TRACE DebugLog - Specific internal energy = 932750.0000000001 (Iteration 1)
+2019-05-18 21:04:36.508 [main] TRACE DebugLog - Specific internal energy = 932750.0000000001
+2019-05-18 21:04:36.508 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.508 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006 (Iteration 1)
+2019-05-18 21:04:36.508 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006
+2019-05-18 21:04:36.508 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.508 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003 (Iteration 1)
+2019-05-18 21:04:36.508 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003
+2019-05-18 21:04:36.508 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.509 [main] TRACE DebugLog - Specific volume = 0.8497409326424759 (Iteration 1)
+2019-05-18 21:04:36.509 [main] TRACE DebugLog - Specific volume = 0.8497409326424759
+2019-05-18 21:04:36.509 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.509 [main] TRACE DebugLog - Density = 1.1768292682927495 (Iteration 1)
+2019-05-18 21:04:36.509 [main] TRACE DebugLog - Density = 1.1768292682927495
+2019-05-18 21:04:36.509 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.509 [main] TRACE DebugLog - Specific entropy = 2421.462110212656 (Iteration 1)
+2019-05-18 21:04:36.509 [main] TRACE DebugLog - Specific entropy = 2421.462110212656
+2019-05-18 21:04:36.509 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.509 [main] TRACE DebugLog - Specific helmholtz energy = -511188.6330637969 (Iteration 1)
+2019-05-18 21:04:36.510 [main] TRACE DebugLog - Specific helmholtz energy = -511188.6330637969
+2019-05-18 21:04:36.510 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.510 [main] TRACE DebugLog - Specific gibbs energy = -425088.63306379685 (Iteration 1)
+2019-05-18 21:04:36.510 [main] TRACE DebugLog - Specific gibbs energy = -425088.63306379685
+2019-05-18 21:04:36.514 [main] INFO  DebugLog - Solving LP Compressor (Compressor)
+2019-05-18 21:04:36.515 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.515 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
+2019-05-18 21:04:36.515 [main] DEBUG DebugLog - m out = 1.0
+2019-05-18 21:04:36.516 [main] INFO  DebugLog - Solving p out = p in * pr for p out
+2019-05-18 21:04:36.516 [main] TRACE DebugLog - p out = 506625.0 (Iteration 1)
+2019-05-18 21:04:36.516 [main] DEBUG DebugLog - p out = 506625.0
+2019-05-18 21:04:36.516 [main] INFO  DebugLog - Solving W = m * n * (h_out,isen - h_in), h_out,isen = f(s_in, p out) for W
+2019-05-18 21:04:36.516 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.516 [main] TRACE DebugLog - Temperature = 274.62896499590704 (Iteration 1)
+2019-05-18 21:04:36.516 [main] TRACE DebugLog - Temperature = 582.3272579677191 (Iteration 2)
+2019-05-18 21:04:36.516 [main] TRACE DebugLog - Temperature = 499.05402657366784 (Iteration 3)
+2019-05-18 21:04:36.517 [main] TRACE DebugLog - Temperature = 472.56273266600465 (Iteration 4)
+2019-05-18 21:04:36.517 [main] TRACE DebugLog - Temperature = 475.210398751657 (Iteration 5)
+2019-05-18 21:04:36.517 [main] TRACE DebugLog - Temperature = 475.1460581576048 (Iteration 6)
+2019-05-18 21:04:36.517 [main] TRACE DebugLog - Temperature = 475.1460581576048
+2019-05-18 21:04:36.517 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.517 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404 (Iteration 1)
+2019-05-18 21:04:36.517 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404
+2019-05-18 21:04:36.517 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.517 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252 (Iteration 1)
+2019-05-18 21:04:36.517 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252
+2019-05-18 21:04:36.517 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.517 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815 (Iteration 1)
+2019-05-18 21:04:36.518 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815
+2019-05-18 21:04:36.518 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.518 [main] TRACE DebugLog - Specific volume = 0.2691673697335091 (Iteration 1)
+2019-05-18 21:04:36.518 [main] TRACE DebugLog - Specific volume = 0.2691673697335091
+2019-05-18 21:04:36.518 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.518 [main] TRACE DebugLog - Density = 3.7151605745899587 (Iteration 1)
+2019-05-18 21:04:36.518 [main] TRACE DebugLog - Density = 3.7151605745899587
+2019-05-18 21:04:36.518 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.518 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577 (Iteration 1)
+2019-05-18 21:04:36.518 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577
+2019-05-18 21:04:36.518 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.519 [main] TRACE DebugLog - Temperature = 274.62896499590704 (Iteration 1)
+2019-05-18 21:04:36.519 [main] TRACE DebugLog - Temperature = 582.3272579677191 (Iteration 2)
+2019-05-18 21:04:36.519 [main] TRACE DebugLog - Temperature = 499.05402657366784 (Iteration 3)
+2019-05-18 21:04:36.519 [main] TRACE DebugLog - Temperature = 472.56273266600465 (Iteration 4)
+2019-05-18 21:04:36.519 [main] TRACE DebugLog - Temperature = 475.210398751657 (Iteration 5)
+2019-05-18 21:04:36.519 [main] TRACE DebugLog - Temperature = 475.1460581576048 (Iteration 6)
+2019-05-18 21:04:36.519 [main] TRACE DebugLog - Temperature = 475.1460581576048
+2019-05-18 21:04:36.519 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.519 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404 (Iteration 1)
+2019-05-18 21:04:36.519 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404
+2019-05-18 21:04:36.519 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.519 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252 (Iteration 1)
+2019-05-18 21:04:36.519 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252
+2019-05-18 21:04:36.519 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.519 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815 (Iteration 1)
+2019-05-18 21:04:36.519 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815
+2019-05-18 21:04:36.520 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.520 [main] TRACE DebugLog - Specific volume = 0.2691673697335091 (Iteration 1)
+2019-05-18 21:04:36.520 [main] TRACE DebugLog - Specific volume = 0.2691673697335091
+2019-05-18 21:04:36.520 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.520 [main] TRACE DebugLog - Density = 3.7151605745899587 (Iteration 1)
+2019-05-18 21:04:36.520 [main] TRACE DebugLog - Density = 3.7151605745899587
+2019-05-18 21:04:36.520 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.520 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577 (Iteration 1)
+2019-05-18 21:04:36.520 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577
+2019-05-18 21:04:36.520 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.520 [main] TRACE DebugLog - Temperature = 274.62896499590704 (Iteration 1)
+2019-05-18 21:04:36.520 [main] TRACE DebugLog - Temperature = 582.3272579677191 (Iteration 2)
+2019-05-18 21:04:36.520 [main] TRACE DebugLog - Temperature = 499.05402657366784 (Iteration 3)
+2019-05-18 21:04:36.520 [main] TRACE DebugLog - Temperature = 472.56273266600465 (Iteration 4)
+2019-05-18 21:04:36.520 [main] TRACE DebugLog - Temperature = 475.210398751657 (Iteration 5)
+2019-05-18 21:04:36.521 [main] TRACE DebugLog - Temperature = 475.1460581576048 (Iteration 6)
+2019-05-18 21:04:36.521 [main] TRACE DebugLog - Temperature = 475.1460581576048
+2019-05-18 21:04:36.521 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.521 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404 (Iteration 1)
+2019-05-18 21:04:36.521 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404
+2019-05-18 21:04:36.521 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.521 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252 (Iteration 1)
+2019-05-18 21:04:36.521 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252
+2019-05-18 21:04:36.521 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.521 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815 (Iteration 1)
+2019-05-18 21:04:36.521 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815
+2019-05-18 21:04:36.521 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.521 [main] TRACE DebugLog - Specific volume = 0.2691673697335091 (Iteration 1)
+2019-05-18 21:04:36.521 [main] TRACE DebugLog - Specific volume = 0.2691673697335091
+2019-05-18 21:04:36.522 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.522 [main] TRACE DebugLog - Density = 3.7151605745899587 (Iteration 1)
+2019-05-18 21:04:36.522 [main] TRACE DebugLog - Density = 3.7151605745899587
+2019-05-18 21:04:36.522 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.522 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577 (Iteration 1)
+2019-05-18 21:04:36.522 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577
+2019-05-18 21:04:36.522 [main] TRACE DebugLog - W = 195482.46157701555 (Iteration 1)
+2019-05-18 21:04:36.522 [main] DEBUG DebugLog - W = 195482.46157701555
+2019-05-18 21:04:36.522 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.523 [main] INFO  DebugLog - Solving W = m * (h out - h in) for h out
+2019-05-18 21:04:36.523 [main] TRACE DebugLog - h out = 496832.4615770156 (Iteration 1)
+2019-05-18 21:04:36.523 [main] DEBUG DebugLog - h out = 496832.4615770156
+2019-05-18 21:04:36.523 [main] TRACE DebugLog - Solving h = ƒ(T) for Temperature
+2019-05-18 21:04:36.523 [main] TRACE DebugLog - Temperature = 494.60673128622744 (Iteration 1)
+2019-05-18 21:04:36.523 [main] TRACE DebugLog - Temperature = 494.60673128622744
+2019-05-18 21:04:36.523 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.523 [main] TRACE DebugLog - Specific internal energy = 354880.3296978682 (Iteration 1)
+2019-05-18 21:04:36.523 [main] TRACE DebugLog - Specific internal energy = 354880.3296978682
+2019-05-18 21:04:36.523 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.523 [main] TRACE DebugLog - Specific volume = 0.2801917234228313 (Iteration 1)
+2019-05-18 21:04:36.523 [main] TRACE DebugLog - Specific volume = 0.2801917234228313
+2019-05-18 21:04:36.523 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.523 [main] TRACE DebugLog - Density = 3.568984792926699 (Iteration 1)
+2019-05-18 21:04:36.524 [main] TRACE DebugLog - Density = 3.568984792926699
+2019-05-18 21:04:36.524 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.524 [main] TRACE DebugLog - Specific entropy = 2461.7838314427554 (Iteration 1)
+2019-05-18 21:04:36.524 [main] TRACE DebugLog - Specific entropy = 2461.7838314427554
+2019-05-18 21:04:36.524 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.524 [main] TRACE DebugLog - Specific helmholtz energy = -862734.5243053181 (Iteration 1)
+2019-05-18 21:04:36.524 [main] TRACE DebugLog - Specific helmholtz energy = -862734.5243053181
+2019-05-18 21:04:36.524 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.524 [main] TRACE DebugLog - Specific gibbs energy = -720782.3924261708 (Iteration 1)
+2019-05-18 21:04:36.524 [main] TRACE DebugLog - Specific gibbs energy = -720782.3924261708
+2019-05-18 21:04:36.524 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
+2019-05-18 21:04:36.524 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.524 [main] TRACE DebugLog - Temperature = 274.62896499590704 (Iteration 1)
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Temperature = 582.3272579677191 (Iteration 2)
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Temperature = 499.05402657366784 (Iteration 3)
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Temperature = 472.56273266600465 (Iteration 4)
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Temperature = 475.210398751657 (Iteration 5)
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Temperature = 475.1460581576048 (Iteration 6)
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Temperature = 475.1460581576048
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404 (Iteration 1)
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252 (Iteration 1)
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815 (Iteration 1)
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.525 [main] TRACE DebugLog - Specific volume = 0.2691673697335091 (Iteration 1)
+2019-05-18 21:04:36.526 [main] TRACE DebugLog - Specific volume = 0.2691673697335091
+2019-05-18 21:04:36.526 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.526 [main] TRACE DebugLog - Density = 3.7151605745899587 (Iteration 1)
+2019-05-18 21:04:36.526 [main] TRACE DebugLog - Density = 3.7151605745899587
+2019-05-18 21:04:36.526 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.526 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577 (Iteration 1)
+2019-05-18 21:04:36.526 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577
+2019-05-18 21:04:36.526 [main] INFO  DebugLog - Efficiency equation is compatible
+2019-05-18 21:04:36.526 [main] INFO  DebugLog - Solving HP Compressor (Compressor)
+2019-05-18 21:04:36.526 [main] INFO  DebugLog - Solving Intercooler (HeatSink)
+2019-05-18 21:04:36.527 [main] INFO  DebugLog - Solving Combustor (Combustor)
+2019-05-18 21:04:36.527 [main] INFO  DebugLog - Solving Reheat (Combustor)
+2019-05-18 21:04:36.527 [main] INFO  DebugLog - Solving p out = p in * (1 - pr) for p out
+2019-05-18 21:04:36.527 [main] TRACE DebugLog - p out = 481293.75 (Iteration 1)
+2019-05-18 21:04:36.527 [main] DEBUG DebugLog - p out = 481293.75
+2019-05-18 21:04:36.527 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.527 [main] TRACE DebugLog - Specific volume = 0.7752022543405701 (Iteration 1)
+2019-05-18 21:04:36.527 [main] TRACE DebugLog - Specific volume = 0.7752022543405701
+2019-05-18 21:04:36.527 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.527 [main] TRACE DebugLog - Density = 1.2899859287053914 (Iteration 1)
+2019-05-18 21:04:36.527 [main] TRACE DebugLog - Density = 1.2899859287053914
+2019-05-18 21:04:36.527 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.527 [main] TRACE DebugLog - Specific entropy = 3447.2101904362944 (Iteration 1)
+2019-05-18 21:04:36.527 [main] TRACE DebugLog - Specific entropy = 3447.2101904362944
+2019-05-18 21:04:36.528 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.528 [main] TRACE DebugLog - Specific helmholtz energy = -3548623.2475671824 (Iteration 1)
+2019-05-18 21:04:36.528 [main] TRACE DebugLog - Specific helmholtz energy = -3548623.2475671824
+2019-05-18 21:04:36.528 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.528 [main] TRACE DebugLog - Specific gibbs energy = -3175523.2475671824 (Iteration 1)
+2019-05-18 21:04:36.528 [main] TRACE DebugLog - Specific gibbs energy = -3175523.2475671824
+2019-05-18 21:04:36.528 [main] INFO  DebugLog - Pressure_Loss equation is compatible
+2019-05-18 21:04:36.528 [main] INFO  DebugLog - Solving HP Turbine (Turbine)
+2019-05-18 21:04:36.528 [main] INFO  DebugLog - Solving LP Turbine (Turbine)
+2019-05-18 21:04:36.528 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
+2019-05-18 21:04:36.528 [main] INFO  DebugLog - Solving m in = m out for m in
+2019-05-18 21:04:36.529 [main] TRACE DebugLog - m in = 1.0 (Iteration 1)
+2019-05-18 21:04:36.529 [main] DEBUG DebugLog - m in = 1.0
+2019-05-18 21:04:36.529 [main] INFO  DebugLog - Solving p in = (1 - pr) p out for p in
+2019-05-18 21:04:36.529 [main] TRACE DebugLog - p in = 106657.8947368421 (Iteration 1)
+2019-05-18 21:04:36.529 [main] DEBUG DebugLog - p in = 106657.8947368421
+2019-05-18 21:04:36.529 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.529 [main] INFO  DebugLog - Pressure_Loss equation is compatible
+2019-05-18 21:04:36.530 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.530 [main] TRACE DebugLog - Specific enthalpy = 496832.4615770155 (Iteration 1)
+2019-05-18 21:04:36.530 [main] TRACE DebugLog - Specific enthalpy = 496832.4615770155
+2019-05-18 21:04:36.530 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.530 [main] TRACE DebugLog - Specific internal energy = 354880.3296978682 (Iteration 1)
+2019-05-18 21:04:36.530 [main] TRACE DebugLog - Specific internal energy = 354880.3296978682
+2019-05-18 21:04:36.530 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.530 [main] TRACE DebugLog - Specific volume = 0.2801917234228313 (Iteration 1)
+2019-05-18 21:04:36.530 [main] TRACE DebugLog - Specific volume = 0.2801917234228313
+2019-05-18 21:04:36.530 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Density = 3.568984792926699 (Iteration 1)
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Density = 3.568984792926699
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Specific entropy = 2461.7838314427554 (Iteration 1)
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Specific entropy = 2461.7838314427554
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Specific helmholtz energy = -862734.5243053181 (Iteration 1)
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Specific helmholtz energy = -862734.5243053181
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Specific gibbs energy = -720782.3924261709 (Iteration 1)
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Specific gibbs energy = -720782.3924261709
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Specific volume = 0.7752022543405701 (Iteration 1)
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Specific volume = 0.7752022543405701
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Density = 1.2899859287053914 (Iteration 1)
+2019-05-18 21:04:36.531 [main] TRACE DebugLog - Density = 1.2899859287053914
+2019-05-18 21:04:36.532 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.532 [main] TRACE DebugLog - Specific entropy = 3447.2101904362944 (Iteration 1)
+2019-05-18 21:04:36.532 [main] TRACE DebugLog - Specific entropy = 3447.2101904362944
+2019-05-18 21:04:36.532 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.532 [main] TRACE DebugLog - Specific helmholtz energy = -3548623.2475671824 (Iteration 1)
+2019-05-18 21:04:36.532 [main] TRACE DebugLog - Specific helmholtz energy = -3548623.2475671824
+2019-05-18 21:04:36.532 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.532 [main] TRACE DebugLog - Specific gibbs energy = -3175523.2475671824 (Iteration 1)
+2019-05-18 21:04:36.532 [main] TRACE DebugLog - Specific gibbs energy = -3175523.2475671824
+2019-05-18 21:04:36.532 [main] INFO  DebugLog - LP Compressor false
+2019-05-18 21:04:36.532 [main] INFO  DebugLog - HP Compressor false
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Intercooler false
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Combustor false
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Reheat false
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - HP Turbine false
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - LP Turbine false
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Heat Sink false
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Solving LP Compressor (Compressor)
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Solving HP Compressor (Compressor)
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Solving Intercooler (HeatSink)
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.533 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
+2019-05-18 21:04:36.533 [main] DEBUG DebugLog - m out = 1.0
+2019-05-18 21:04:36.533 [main] INFO  DebugLog - Solving Q = m (h in - h out) for Q
+2019-05-18 21:04:36.534 [main] TRACE DebugLog - Q = 195482.46157701543 (Iteration 1)
+2019-05-18 21:04:36.534 [main] DEBUG DebugLog - Q = 195482.46157701543
+2019-05-18 21:04:36.534 [main] INFO  DebugLog - Solving p in = (1 - pr) p out for p out
+2019-05-18 21:04:36.534 [main] TRACE DebugLog - p out = 481293.75 (Iteration 1)
+2019-05-18 21:04:36.534 [main] DEBUG DebugLog - p out = 481293.75
+2019-05-18 21:04:36.534 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.534 [main] TRACE DebugLog - Specific volume = 0.1788928279247557 (Iteration 1)
+2019-05-18 21:04:36.534 [main] TRACE DebugLog - Specific volume = 0.1788928279247557
+2019-05-18 21:04:36.534 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.534 [main] TRACE DebugLog - Density = 5.589939024389537 (Iteration 1)
+2019-05-18 21:04:36.534 [main] TRACE DebugLog - Density = 5.589939024389537
+2019-05-18 21:04:36.534 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.534 [main] TRACE DebugLog - Specific entropy = 1974.2746048332965 (Iteration 1)
+2019-05-18 21:04:36.534 [main] TRACE DebugLog - Specific entropy = 1974.2746048332965
+2019-05-18 21:04:36.534 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.534 [main] TRACE DebugLog - Specific helmholtz energy = -377032.3814499889 (Iteration 1)
+2019-05-18 21:04:36.534 [main] TRACE DebugLog - Specific helmholtz energy = -377032.3814499889
+2019-05-18 21:04:36.535 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.537 [main] TRACE DebugLog - Specific gibbs energy = -290932.38144998887 (Iteration 1)
+2019-05-18 21:04:36.537 [main] TRACE DebugLog - Specific gibbs energy = -290932.38144998887
+2019-05-18 21:04:36.538 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.538 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.538 [main] INFO  DebugLog - Pressure_Loss equation is compatible
+2019-05-18 21:04:36.538 [main] INFO  DebugLog - Solving Combustor (Combustor)
+2019-05-18 21:04:36.538 [main] INFO  DebugLog - Solving Reheat (Combustor)
+2019-05-18 21:04:36.538 [main] INFO  DebugLog - Solving HP Turbine (Turbine)
+2019-05-18 21:04:36.538 [main] INFO  DebugLog - Solving LP Turbine (Turbine)
+2019-05-18 21:04:36.538 [main] INFO  DebugLog - Solving m_in = m_out for m in
+2019-05-18 21:04:36.539 [main] TRACE DebugLog - m in = 1.0 (Iteration 1)
+2019-05-18 21:04:36.539 [main] DEBUG DebugLog - m in = 1.0
+2019-05-18 21:04:36.539 [main] INFO  DebugLog - Solving pr = p_in / p_out for pr
+2019-05-18 21:04:36.539 [main] TRACE DebugLog - pr = 4.512500000000955 (Iteration 1)
+2019-05-18 21:04:36.539 [main] DEBUG DebugLog - pr = 4.512500000000955
+2019-05-18 21:04:36.539 [main] INFO  DebugLog - Solving W = m eta (h_in - h_out,isen), h_out,isen = f(s_in, p_out) for W
+2019-05-18 21:04:36.539 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.539 [main] TRACE DebugLog - Temperature = 836.0753709063939 (Iteration 1)
+2019-05-18 21:04:36.539 [main] TRACE DebugLog - Temperature = 846.0295438056253 (Iteration 2)
+2019-05-18 21:04:36.539 [main] TRACE DebugLog - Temperature = 845.2190420148357 (Iteration 3)
+2019-05-18 21:04:36.539 [main] TRACE DebugLog - Temperature = 845.2146267979018 (Iteration 4)
+2019-05-18 21:04:36.540 [main] TRACE DebugLog - Temperature = 845.2146267979018
+2019-05-18 21:04:36.540 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.540 [main] TRACE DebugLog - Specific enthalpy = 849018.0926184924 (Iteration 1)
+2019-05-18 21:04:36.540 [main] TRACE DebugLog - Specific enthalpy = 849018.0926184924
+2019-05-18 21:04:36.540 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.540 [main] TRACE DebugLog - Specific gibbs energy = -2064614.381985044 (Iteration 1)
+2019-05-18 21:04:36.540 [main] TRACE DebugLog - Specific gibbs energy = -2064614.381985044
+2019-05-18 21:04:36.540 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.540 [main] TRACE DebugLog - Specific internal energy = 606441.4947274947 (Iteration 1)
+2019-05-18 21:04:36.540 [main] TRACE DebugLog - Specific internal energy = 606441.4947274947
+2019-05-18 21:04:36.540 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.540 [main] TRACE DebugLog - Specific volume = 2.2743426399856617 (Iteration 1)
+2019-05-18 21:04:36.540 [main] TRACE DebugLog - Specific volume = 2.2743426399856617
+2019-05-18 21:04:36.541 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.541 [main] TRACE DebugLog - Density = 0.43968748702104676 (Iteration 1)
+2019-05-18 21:04:36.541 [main] TRACE DebugLog - Density = 0.43968748702104676
+2019-05-18 21:04:36.541 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.541 [main] TRACE DebugLog - Specific helmholtz energy = -2307190.979876042 (Iteration 1)
+2019-05-18 21:04:36.541 [main] TRACE DebugLog - Specific helmholtz energy = -2307190.979876042
+2019-05-18 21:04:36.541 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.541 [main] TRACE DebugLog - Temperature = 836.0753709063939 (Iteration 1)
+2019-05-18 21:04:36.541 [main] TRACE DebugLog - Temperature = 846.0295438056253 (Iteration 2)
+2019-05-18 21:04:36.541 [main] TRACE DebugLog - Temperature = 845.2190420148357 (Iteration 3)
+2019-05-18 21:04:36.541 [main] TRACE DebugLog - Temperature = 845.2146267979018 (Iteration 4)
+2019-05-18 21:04:36.541 [main] TRACE DebugLog - Temperature = 845.2146267979018
+2019-05-18 21:04:36.541 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.541 [main] TRACE DebugLog - Specific enthalpy = 849018.0926184924 (Iteration 1)
+2019-05-18 21:04:36.541 [main] TRACE DebugLog - Specific enthalpy = 849018.0926184924
+2019-05-18 21:04:36.542 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.542 [main] TRACE DebugLog - Specific gibbs energy = -2064614.381985044 (Iteration 1)
+2019-05-18 21:04:36.542 [main] TRACE DebugLog - Specific gibbs energy = -2064614.381985044
+2019-05-18 21:04:36.542 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.542 [main] TRACE DebugLog - Specific internal energy = 606441.4947274947 (Iteration 1)
+2019-05-18 21:04:36.542 [main] TRACE DebugLog - Specific internal energy = 606441.4947274947
+2019-05-18 21:04:36.542 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.542 [main] TRACE DebugLog - Specific volume = 2.2743426399856617 (Iteration 1)
+2019-05-18 21:04:36.542 [main] TRACE DebugLog - Specific volume = 2.2743426399856617
+2019-05-18 21:04:36.542 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.542 [main] TRACE DebugLog - Density = 0.43968748702104676 (Iteration 1)
+2019-05-18 21:04:36.542 [main] TRACE DebugLog - Density = 0.43968748702104676
+2019-05-18 21:04:36.542 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.542 [main] TRACE DebugLog - Specific helmholtz energy = -2307190.979876042 (Iteration 1)
+2019-05-18 21:04:36.543 [main] TRACE DebugLog - Specific helmholtz energy = -2307190.979876042
+2019-05-18 21:04:36.543 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.543 [main] TRACE DebugLog - Temperature = 836.0753709063939 (Iteration 1)
+2019-05-18 21:04:36.543 [main] TRACE DebugLog - Temperature = 846.0295438056253 (Iteration 2)
+2019-05-18 21:04:36.543 [main] TRACE DebugLog - Temperature = 845.2190420148357 (Iteration 3)
+2019-05-18 21:04:36.543 [main] TRACE DebugLog - Temperature = 845.2146267979018 (Iteration 4)
+2019-05-18 21:04:36.543 [main] TRACE DebugLog - Temperature = 845.2146267979018
+2019-05-18 21:04:36.543 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.543 [main] TRACE DebugLog - Specific enthalpy = 849018.0926184924 (Iteration 1)
+2019-05-18 21:04:36.543 [main] TRACE DebugLog - Specific enthalpy = 849018.0926184924
+2019-05-18 21:04:36.543 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.543 [main] TRACE DebugLog - Specific gibbs energy = -2064614.381985044 (Iteration 1)
+2019-05-18 21:04:36.543 [main] TRACE DebugLog - Specific gibbs energy = -2064614.381985044
+2019-05-18 21:04:36.544 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.544 [main] TRACE DebugLog - Specific internal energy = 606441.4947274947 (Iteration 1)
+2019-05-18 21:04:36.544 [main] TRACE DebugLog - Specific internal energy = 606441.4947274947
+2019-05-18 21:04:36.544 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.544 [main] TRACE DebugLog - Specific volume = 2.2743426399856617 (Iteration 1)
+2019-05-18 21:04:36.544 [main] TRACE DebugLog - Specific volume = 2.2743426399856617
+2019-05-18 21:04:36.544 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.544 [main] TRACE DebugLog - Density = 0.43968748702104676 (Iteration 1)
+2019-05-18 21:04:36.544 [main] TRACE DebugLog - Density = 0.43968748702104676
+2019-05-18 21:04:36.544 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.544 [main] TRACE DebugLog - Specific helmholtz energy = -2307190.979876042 (Iteration 1)
+2019-05-18 21:04:36.544 [main] TRACE DebugLog - Specific helmholtz energy = -2307190.979876042
+2019-05-18 21:04:36.544 [main] TRACE DebugLog - W = 433990.3120124324 (Iteration 1)
+2019-05-18 21:04:36.544 [main] DEBUG DebugLog - W = 433990.3120124324
+2019-05-18 21:04:36.544 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.544 [main] INFO  DebugLog - Solving W = m (h_in - h_out) for h out
+2019-05-18 21:04:36.545 [main] TRACE DebugLog - h out = 871859.6879875677 (Iteration 1)
+2019-05-18 21:04:36.545 [main] DEBUG DebugLog - h out = 871859.6879875677
+2019-05-18 21:04:36.545 [main] TRACE DebugLog - Solving h = ƒ(T) for Temperature
+2019-05-18 21:04:36.545 [main] TRACE DebugLog - Temperature = 867.9538954580066 (Iteration 1)
+2019-05-18 21:04:36.545 [main] TRACE DebugLog - Temperature = 867.9538954580066
+2019-05-18 21:04:36.545 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.545 [main] TRACE DebugLog - Specific internal energy = 622756.9199911199 (Iteration 1)
+2019-05-18 21:04:36.545 [main] TRACE DebugLog - Specific internal energy = 622756.9199911199
+2019-05-18 21:04:36.545 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.545 [main] TRACE DebugLog - Specific volume = 2.3355305166219296 (Iteration 1)
+2019-05-18 21:04:36.545 [main] TRACE DebugLog - Specific volume = 2.3355305166219296
+2019-05-18 21:04:36.545 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.545 [main] TRACE DebugLog - Density = 0.42816824395265485 (Iteration 1)
+2019-05-18 21:04:36.545 [main] TRACE DebugLog - Density = 0.42816824395265485
+2019-05-18 21:04:36.545 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.546 [main] TRACE DebugLog - Specific entropy = 3473.8776600375218 (Iteration 1)
+2019-05-18 21:04:36.546 [main] TRACE DebugLog - Specific entropy = 3473.8776600375218
+2019-05-18 21:04:36.546 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.546 [main] TRACE DebugLog - Specific helmholtz energy = -2392408.727382992 (Iteration 1)
+2019-05-18 21:04:36.546 [main] TRACE DebugLog - Specific helmholtz energy = -2392408.727382992
+2019-05-18 21:04:36.546 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.546 [main] TRACE DebugLog - Specific gibbs energy = -2143305.959386544 (Iteration 1)
+2019-05-18 21:04:36.546 [main] TRACE DebugLog - Specific gibbs energy = -2143305.959386544
+2019-05-18 21:04:36.546 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
+2019-05-18 21:04:36.546 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Temperature = 836.0753709063939 (Iteration 1)
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Temperature = 846.0295438056253 (Iteration 2)
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Temperature = 845.2190420148357 (Iteration 3)
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Temperature = 845.2146267979018 (Iteration 4)
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Temperature = 845.2146267979018
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Specific enthalpy = 849018.0926184924 (Iteration 1)
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Specific enthalpy = 849018.0926184924
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Specific gibbs energy = -2064614.381985044 (Iteration 1)
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Specific gibbs energy = -2064614.381985044
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Specific internal energy = 606441.4947274947 (Iteration 1)
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Specific internal energy = 606441.4947274947
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Specific volume = 2.2743426399856617 (Iteration 1)
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Specific volume = 2.2743426399856617
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Density = 0.43968748702104676 (Iteration 1)
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Density = 0.43968748702104676
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Specific helmholtz energy = -2307190.979876042 (Iteration 1)
+2019-05-18 21:04:36.547 [main] TRACE DebugLog - Specific helmholtz energy = -2307190.979876042
+2019-05-18 21:04:36.547 [main] INFO  DebugLog - Efficiency equation is compatible
+2019-05-18 21:04:36.547 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.548 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
+2019-05-18 21:04:36.548 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.548 [main] TRACE DebugLog - Specific volume = 0.1788928279247557 (Iteration 1)
+2019-05-18 21:04:36.548 [main] TRACE DebugLog - Specific volume = 0.1788928279247557
+2019-05-18 21:04:36.548 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.548 [main] TRACE DebugLog - Density = 5.589939024389537 (Iteration 1)
+2019-05-18 21:04:36.548 [main] TRACE DebugLog - Density = 5.589939024389537
+2019-05-18 21:04:36.548 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.548 [main] TRACE DebugLog - Specific entropy = 1974.2746048332965 (Iteration 1)
+2019-05-18 21:04:36.548 [main] TRACE DebugLog - Specific entropy = 1974.2746048332965
+2019-05-18 21:04:36.548 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.548 [main] TRACE DebugLog - Specific helmholtz energy = -377032.3814499889 (Iteration 1)
+2019-05-18 21:04:36.548 [main] TRACE DebugLog - Specific helmholtz energy = -377032.3814499889
+2019-05-18 21:04:36.548 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.548 [main] TRACE DebugLog - Specific gibbs energy = -290932.38144998887 (Iteration 1)
+2019-05-18 21:04:36.548 [main] TRACE DebugLog - Specific gibbs energy = -290932.38144998887
+2019-05-18 21:04:36.549 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.549 [main] TRACE DebugLog - Specific enthalpy = 871859.6879875677 (Iteration 1)
+2019-05-18 21:04:36.549 [main] TRACE DebugLog - Specific enthalpy = 871859.6879875677
+2019-05-18 21:04:36.549 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.549 [main] TRACE DebugLog - Specific internal energy = 622756.9199911199 (Iteration 1)
+2019-05-18 21:04:36.549 [main] TRACE DebugLog - Specific internal energy = 622756.9199911199
+2019-05-18 21:04:36.549 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.549 [main] TRACE DebugLog - Specific volume = 2.3355305166219296 (Iteration 1)
+2019-05-18 21:04:36.549 [main] TRACE DebugLog - Specific volume = 2.3355305166219296
+2019-05-18 21:04:36.549 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.549 [main] TRACE DebugLog - Density = 0.42816824395265485 (Iteration 1)
+2019-05-18 21:04:36.549 [main] TRACE DebugLog - Density = 0.42816824395265485
+2019-05-18 21:04:36.549 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.549 [main] TRACE DebugLog - Specific entropy = 3473.8776600375218 (Iteration 1)
+2019-05-18 21:04:36.549 [main] TRACE DebugLog - Specific entropy = 3473.8776600375218
+2019-05-18 21:04:36.550 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.550 [main] TRACE DebugLog - Specific helmholtz energy = -2392408.727382992 (Iteration 1)
+2019-05-18 21:04:36.550 [main] TRACE DebugLog - Specific helmholtz energy = -2392408.727382992
+2019-05-18 21:04:36.550 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.550 [main] TRACE DebugLog - Specific gibbs energy = -2143305.959386544 (Iteration 1)
+2019-05-18 21:04:36.550 [main] TRACE DebugLog - Specific gibbs energy = -2143305.959386544
+2019-05-18 21:04:36.550 [main] INFO  DebugLog - LP Compressor true
+2019-05-18 21:04:36.550 [main] INFO  DebugLog - HP Compressor false
+2019-05-18 21:04:36.550 [main] INFO  DebugLog - Intercooler true
+2019-05-18 21:04:36.550 [main] INFO  DebugLog - Combustor false
+2019-05-18 21:04:36.550 [main] INFO  DebugLog - Reheat false
+2019-05-18 21:04:36.550 [main] INFO  DebugLog - HP Turbine false
+2019-05-18 21:04:36.550 [main] INFO  DebugLog - LP Turbine true
+2019-05-18 21:04:36.550 [main] INFO  DebugLog - Heat Sink false
+2019-05-18 21:04:36.551 [main] INFO  DebugLog - Solving HP Compressor (Compressor)
+2019-05-18 21:04:36.551 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.551 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
+2019-05-18 21:04:36.551 [main] DEBUG DebugLog - m out = 1.0
+2019-05-18 21:04:36.551 [main] INFO  DebugLog - Solving p out = p in * pr for p out
+2019-05-18 21:04:36.551 [main] TRACE DebugLog - p out = 1925175.0 (Iteration 1)
+2019-05-18 21:04:36.551 [main] DEBUG DebugLog - p out = 1925175.0
+2019-05-18 21:04:36.551 [main] INFO  DebugLog - Solving W = m * n * (h_out,isen - h_in), h_out,isen = f(s_in, p out) for W
+2019-05-18 21:04:36.551 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.551 [main] TRACE DebugLog - Temperature = 212.48117244647506 (Iteration 1)
+2019-05-18 21:04:36.551 [main] TRACE DebugLog - Temperature = 589.2395994474792 (Iteration 2)
+2019-05-18 21:04:36.551 [main] TRACE DebugLog - Temperature = 486.19546112998455 (Iteration 3)
+2019-05-18 21:04:36.551 [main] TRACE DebugLog - Temperature = 439.6947047780087 (Iteration 4)
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Temperature = 446.071470455625 (Iteration 5)
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Temperature = 445.8001609744526 (Iteration 6)
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Temperature = 445.798286166881 (Iteration 7)
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Temperature = 445.798286166881
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Specific enthalpy = 447804.378454632 (Iteration 1)
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Specific enthalpy = 447804.378454632
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Specific gibbs energy = -432323.8568028478 (Iteration 1)
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Specific gibbs energy = -432323.8568028478
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Specific internal energy = 319860.2703247372 (Iteration 1)
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Specific internal energy = 319860.2703247372
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Specific volume = 0.06645843008027441 (Iteration 1)
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Specific volume = 0.06645843008027441
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Density = 15.04700003885307 (Iteration 1)
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Density = 15.04700003885307
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Specific helmholtz energy = -560267.9649327426 (Iteration 1)
+2019-05-18 21:04:36.552 [main] TRACE DebugLog - Specific helmholtz energy = -560267.9649327426
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Temperature = 212.48117244647506 (Iteration 1)
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Temperature = 589.2395994474792 (Iteration 2)
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Temperature = 486.19546112998455 (Iteration 3)
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Temperature = 439.6947047780087 (Iteration 4)
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Temperature = 446.071470455625 (Iteration 5)
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Temperature = 445.8001609744526 (Iteration 6)
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Temperature = 445.798286166881 (Iteration 7)
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Temperature = 445.798286166881
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Specific enthalpy = 447804.378454632 (Iteration 1)
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Specific enthalpy = 447804.378454632
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Specific gibbs energy = -432323.8568028478 (Iteration 1)
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Specific gibbs energy = -432323.8568028478
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Specific internal energy = 319860.2703247372 (Iteration 1)
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Specific internal energy = 319860.2703247372
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Specific volume = 0.06645843008027441 (Iteration 1)
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Specific volume = 0.06645843008027441
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Density = 15.04700003885307 (Iteration 1)
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Density = 15.04700003885307
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Specific helmholtz energy = -560267.9649327426 (Iteration 1)
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Specific helmholtz energy = -560267.9649327426
+2019-05-18 21:04:36.553 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Temperature = 212.48117244647506 (Iteration 1)
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Temperature = 589.2395994474792 (Iteration 2)
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Temperature = 486.19546112998455 (Iteration 3)
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Temperature = 439.6947047780087 (Iteration 4)
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Temperature = 446.071470455625 (Iteration 5)
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Temperature = 445.8001609744526 (Iteration 6)
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Temperature = 445.798286166881 (Iteration 7)
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Temperature = 445.798286166881
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Specific enthalpy = 447804.378454632 (Iteration 1)
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Specific enthalpy = 447804.378454632
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Specific gibbs energy = -432323.8568028478 (Iteration 1)
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Specific gibbs energy = -432323.8568028478
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Specific internal energy = 319860.2703247372 (Iteration 1)
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Specific internal energy = 319860.2703247372
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Specific volume = 0.06645843008027441 (Iteration 1)
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Specific volume = 0.06645843008027441
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Density = 15.04700003885307 (Iteration 1)
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Density = 15.04700003885307
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.554 [main] TRACE DebugLog - Specific helmholtz energy = -560267.9649327426 (Iteration 1)
+2019-05-18 21:04:36.555 [main] TRACE DebugLog - Specific helmholtz energy = -560267.9649327426
+2019-05-18 21:04:36.555 [main] TRACE DebugLog - W = 162727.08717181327 (Iteration 1)
+2019-05-18 21:04:36.555 [main] DEBUG DebugLog - W = 162727.08717181327
+2019-05-18 21:04:36.555 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.555 [main] INFO  DebugLog - Solving W = m * (h out - h in) for h out
+2019-05-18 21:04:36.555 [main] TRACE DebugLog - h out = 464077.0871718133 (Iteration 1)
+2019-05-18 21:04:36.555 [main] DEBUG DebugLog - h out = 464077.0871718133
+2019-05-18 21:04:36.555 [main] TRACE DebugLog - Solving h = ƒ(T) for Temperature
+2019-05-18 21:04:36.555 [main] TRACE DebugLog - Temperature = 461.9980957409782 (Iteration 1)
+2019-05-18 21:04:36.555 [main] TRACE DebugLog - Temperature = 461.9980957409782
+2019-05-18 21:04:36.555 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.555 [main] TRACE DebugLog - Specific internal energy = 331483.63369415194 (Iteration 1)
+2019-05-18 21:04:36.555 [main] TRACE DebugLog - Specific internal energy = 331483.63369415194
+2019-05-18 21:04:36.555 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.555 [main] TRACE DebugLog - Specific volume = 0.06887345486904906 (Iteration 1)
+2019-05-18 21:04:36.555 [main] TRACE DebugLog - Specific volume = 0.06887345486904906
+2019-05-18 21:04:36.555 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.556 [main] TRACE DebugLog - Density = 14.519381986881967 (Iteration 1)
+2019-05-18 21:04:36.556 [main] TRACE DebugLog - Density = 14.519381986881967
+2019-05-18 21:04:36.556 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.556 [main] TRACE DebugLog - Specific entropy = 2010.1294201620558 (Iteration 1)
+2019-05-18 21:04:36.556 [main] TRACE DebugLog - Specific entropy = 2010.1294201620558
+2019-05-18 21:04:36.556 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.556 [main] TRACE DebugLog - Specific helmholtz energy = -597192.3306136345 (Iteration 1)
+2019-05-18 21:04:36.556 [main] TRACE DebugLog - Specific helmholtz energy = -597192.3306136345
+2019-05-18 21:04:36.556 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.556 [main] TRACE DebugLog - Specific gibbs energy = -464598.87713597313 (Iteration 1)
+2019-05-18 21:04:36.556 [main] TRACE DebugLog - Specific gibbs energy = -464598.87713597313
+2019-05-18 21:04:36.556 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
+2019-05-18 21:04:36.556 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.556 [main] TRACE DebugLog - Temperature = 212.48117244647506 (Iteration 1)
+2019-05-18 21:04:36.556 [main] TRACE DebugLog - Temperature = 589.2395994474792 (Iteration 2)
+2019-05-18 21:04:36.556 [main] TRACE DebugLog - Temperature = 486.19546112998455 (Iteration 3)
+2019-05-18 21:04:36.556 [main] TRACE DebugLog - Temperature = 439.6947047780087 (Iteration 4)
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Temperature = 446.071470455625 (Iteration 5)
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Temperature = 445.8001609744526 (Iteration 6)
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Temperature = 445.798286166881 (Iteration 7)
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Temperature = 445.798286166881
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Specific enthalpy = 447804.378454632 (Iteration 1)
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Specific enthalpy = 447804.378454632
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Specific gibbs energy = -432323.8568028478 (Iteration 1)
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Specific gibbs energy = -432323.8568028478
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Specific internal energy = 319860.2703247372 (Iteration 1)
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Specific internal energy = 319860.2703247372
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Specific volume = 0.06645843008027441 (Iteration 1)
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Specific volume = 0.06645843008027441
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Density = 15.04700003885307 (Iteration 1)
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Density = 15.04700003885307
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.557 [main] TRACE DebugLog - Specific helmholtz energy = -560267.9649327426 (Iteration 1)
+2019-05-18 21:04:36.558 [main] TRACE DebugLog - Specific helmholtz energy = -560267.9649327426
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Efficiency equation is compatible
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Solving Combustor (Combustor)
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Solving Reheat (Combustor)
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Solving m in = m out for m in
+2019-05-18 21:04:36.558 [main] TRACE DebugLog - m in = 1.0 (Iteration 1)
+2019-05-18 21:04:36.558 [main] DEBUG DebugLog - m in = 1.0
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Solving HP Turbine (Turbine)
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Solving Q = m (h in - h out) for Q
+2019-05-18 21:04:36.558 [main] TRACE DebugLog - Q = 570509.6879875676 (Iteration 1)
+2019-05-18 21:04:36.558 [main] DEBUG DebugLog - Q = 570509.6879875676
+2019-05-18 21:04:36.558 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Specific enthalpy = 464077.08717181266 (Iteration 1)
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Specific enthalpy = 464077.08717181266
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Specific internal energy = 331483.63369415194 (Iteration 1)
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Specific internal energy = 331483.63369415194
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Specific volume = 0.06887345486904906 (Iteration 1)
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Specific volume = 0.06887345486904906
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Density = 14.519381986881967 (Iteration 1)
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Density = 14.519381986881967
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Specific entropy = 2010.1294201620558 (Iteration 1)
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Specific entropy = 2010.1294201620558
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Specific helmholtz energy = -597192.3306136345 (Iteration 1)
+2019-05-18 21:04:36.559 [main] TRACE DebugLog - Specific helmholtz energy = -597192.3306136345
+2019-05-18 21:04:36.560 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.560 [main] TRACE DebugLog - Specific gibbs energy = -464598.8771359738 (Iteration 1)
+2019-05-18 21:04:36.560 [main] TRACE DebugLog - Specific gibbs energy = -464598.8771359738
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - LP Compressor true
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - HP Compressor false
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - Intercooler true
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - Combustor false
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - Reheat false
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - HP Turbine false
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - LP Turbine true
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - Solving HP Compressor (Compressor)
+2019-05-18 21:04:36.560 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.561 [main] INFO  DebugLog - Solving Combustor (Combustor)
+2019-05-18 21:04:36.561 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.561 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
+2019-05-18 21:04:36.561 [main] DEBUG DebugLog - m out = 1.0
+2019-05-18 21:04:36.561 [main] INFO  DebugLog - Solving Q = m * (h out - h in) for Q
+2019-05-18 21:04:36.561 [main] TRACE DebugLog - Q = 841772.9128281877 (Iteration 1)
+2019-05-18 21:04:36.561 [main] DEBUG DebugLog - Q = 841772.9128281877
+2019-05-18 21:04:36.561 [main] INFO  DebugLog - Solving p out = p in * (1 - pr) for p out
+2019-05-18 21:04:36.561 [main] TRACE DebugLog - p out = 1828916.25 (Iteration 1)
+2019-05-18 21:04:36.561 [main] DEBUG DebugLog - p out = 1828916.25
+2019-05-18 21:04:36.561 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.561 [main] TRACE DebugLog - Specific volume = 0.20400059324754238 (Iteration 1)
+2019-05-18 21:04:36.561 [main] TRACE DebugLog - Specific volume = 0.20400059324754238
+2019-05-18 21:04:36.561 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.561 [main] TRACE DebugLog - Density = 4.901946529079737 (Iteration 1)
+2019-05-18 21:04:36.561 [main] TRACE DebugLog - Density = 4.901946529079737
+2019-05-18 21:04:36.561 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.561 [main] TRACE DebugLog - Specific entropy = 3064.064884284113 (Iteration 1)
+2019-05-18 21:04:36.561 [main] TRACE DebugLog - Specific entropy = 3064.064884284113
+2019-05-18 21:04:36.561 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.561 [main] TRACE DebugLog - Specific helmholtz energy = -3050534.3495693468 (Iteration 1)
+2019-05-18 21:04:36.562 [main] TRACE DebugLog - Specific helmholtz energy = -3050534.3495693468
+2019-05-18 21:04:36.562 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.562 [main] TRACE DebugLog - Specific gibbs energy = -2677434.3495693468 (Iteration 1)
+2019-05-18 21:04:36.562 [main] TRACE DebugLog - Specific gibbs energy = -2677434.3495693468
+2019-05-18 21:04:36.562 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.562 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.562 [main] INFO  DebugLog - Pressure_Loss equation is compatible
+2019-05-18 21:04:36.562 [main] INFO  DebugLog - Solving Reheat (Combustor)
+2019-05-18 21:04:36.562 [main] INFO  DebugLog - Solving HP Turbine (Turbine)
+2019-05-18 21:04:36.562 [main] INFO  DebugLog - Solving m_in = m_out for m in
+2019-05-18 21:04:36.562 [main] TRACE DebugLog - m in = 1.0 (Iteration 1)
+2019-05-18 21:04:36.562 [main] DEBUG DebugLog - m in = 1.0
+2019-05-18 21:04:36.562 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.562 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.563 [main] TRACE DebugLog - Specific volume = 0.20400059324754238 (Iteration 1)
+2019-05-18 21:04:36.563 [main] TRACE DebugLog - Specific volume = 0.20400059324754238
+2019-05-18 21:04:36.563 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.563 [main] TRACE DebugLog - Density = 4.901946529079737 (Iteration 1)
+2019-05-18 21:04:36.563 [main] TRACE DebugLog - Density = 4.901946529079737
+2019-05-18 21:04:36.563 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.563 [main] TRACE DebugLog - Specific entropy = 3064.064884284113 (Iteration 1)
+2019-05-18 21:04:36.563 [main] TRACE DebugLog - Specific entropy = 3064.064884284113
+2019-05-18 21:04:36.563 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.563 [main] TRACE DebugLog - Specific helmholtz energy = -3050534.3495693468 (Iteration 1)
+2019-05-18 21:04:36.563 [main] TRACE DebugLog - Specific helmholtz energy = -3050534.3495693468
+2019-05-18 21:04:36.563 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.563 [main] TRACE DebugLog - Specific gibbs energy = -2677434.3495693468 (Iteration 1)
+2019-05-18 21:04:36.563 [main] TRACE DebugLog - Specific gibbs energy = -2677434.3495693468
+2019-05-18 21:04:36.563 [main] INFO  DebugLog - LP Compressor true
+2019-05-18 21:04:36.563 [main] INFO  DebugLog - HP Compressor true
+2019-05-18 21:04:36.563 [main] INFO  DebugLog - Intercooler true
+2019-05-18 21:04:36.563 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.563 [main] INFO  DebugLog - Reheat false
+2019-05-18 21:04:36.563 [main] INFO  DebugLog - HP Turbine false
+2019-05-18 21:04:36.564 [main] INFO  DebugLog - LP Turbine true
+2019-05-18 21:04:36.564 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.564 [main] INFO  DebugLog - Solving Reheat (Combustor)
+2019-05-18 21:04:36.564 [main] INFO  DebugLog - Solving HP Turbine (Turbine)
+2019-05-18 21:04:36.564 [main] INFO  DebugLog - Solving pr = p_in / p_out for pr
+2019-05-18 21:04:36.564 [main] TRACE DebugLog - pr = 3.6100000000000136 (Iteration 1)
+2019-05-18 21:04:36.564 [main] DEBUG DebugLog - pr = 3.6100000000000136
+2019-05-18 21:04:36.564 [main] INFO  DebugLog - Solving W = m eta (h_in - h_out,isen), h_out,isen = f(s_in, p_out) for W
+2019-05-18 21:04:36.564 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.564 [main] TRACE DebugLog - Temperature = 898.2231634558261 (Iteration 1)
+2019-05-18 21:04:36.564 [main] TRACE DebugLog - Temperature = 900.9988761844995 (Iteration 2)
+2019-05-18 21:04:36.564 [main] TRACE DebugLog - Temperature = 900.8566333102079 (Iteration 3)
+2019-05-18 21:04:36.564 [main] TRACE DebugLog - Temperature = 900.8566333102079
+2019-05-18 21:04:36.564 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.564 [main] TRACE DebugLog - Specific enthalpy = 904910.488160104 (Iteration 1)
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Specific enthalpy = 904910.488160104
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Specific gibbs energy = -1855372.6877401138 (Iteration 1)
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Specific gibbs energy = -1855372.6877401138
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Specific internal energy = 646364.6344000743 (Iteration 1)
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Specific internal energy = 646364.6344000743
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Specific volume = 0.5103298371774372 (Iteration 1)
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Specific volume = 0.5103298371774372
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Density = 1.9595170165454192 (Iteration 1)
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Density = 1.9595170165454192
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Specific helmholtz energy = -2113918.5415001432 (Iteration 1)
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Specific helmholtz energy = -2113918.5415001432
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Temperature = 898.2231634558261 (Iteration 1)
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Temperature = 900.9988761844995 (Iteration 2)
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Temperature = 900.8566333102079 (Iteration 3)
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Temperature = 900.8566333102079
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Specific enthalpy = 904910.488160104 (Iteration 1)
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Specific enthalpy = 904910.488160104
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Specific gibbs energy = -1855372.6877401138 (Iteration 1)
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Specific gibbs energy = -1855372.6877401138
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Specific internal energy = 646364.6344000743 (Iteration 1)
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Specific internal energy = 646364.6344000743
+2019-05-18 21:04:36.565 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Specific volume = 0.5103298371774372 (Iteration 1)
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Specific volume = 0.5103298371774372
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Density = 1.9595170165454192 (Iteration 1)
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Density = 1.9595170165454192
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Specific helmholtz energy = -2113918.5415001432 (Iteration 1)
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Specific helmholtz energy = -2113918.5415001432
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Temperature = 898.2231634558261 (Iteration 1)
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Temperature = 900.9988761844995 (Iteration 2)
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Temperature = 900.8566333102079 (Iteration 3)
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Temperature = 900.8566333102079
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Specific enthalpy = 904910.488160104 (Iteration 1)
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Specific enthalpy = 904910.488160104
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Specific gibbs energy = -1855372.6877401138 (Iteration 1)
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Specific gibbs energy = -1855372.6877401138
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Specific internal energy = 646364.6344000743 (Iteration 1)
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Specific internal energy = 646364.6344000743
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Specific volume = 0.5103298371774372 (Iteration 1)
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Specific volume = 0.5103298371774372
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Density = 1.9595170165454192 (Iteration 1)
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Density = 1.9595170165454192
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Specific helmholtz energy = -2113918.5415001432 (Iteration 1)
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - Specific helmholtz energy = -2113918.5415001432
+2019-05-18 21:04:36.566 [main] TRACE DebugLog - W = 380892.5362479014 (Iteration 1)
+2019-05-18 21:04:36.566 [main] DEBUG DebugLog - W = 380892.5362479014
+2019-05-18 21:04:36.567 [main] INFO  DebugLog - Solving W = m (h_in - h_out) for h out
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - h out = 924957.4637520988 (Iteration 1)
+2019-05-18 21:04:36.567 [main] DEBUG DebugLog - h out = 924957.4637520988
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Solving h = ƒ(T) for Temperature
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Temperature = 920.8138016446976 (Iteration 1)
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Temperature = 920.8138016446976
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Specific internal energy = 660683.9026800706 (Iteration 1)
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Specific internal energy = 660683.9026800706
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Specific volume = 0.5216354523998916 (Iteration 1)
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Specific volume = 0.5216354523998916
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Density = 1.917047615148249 (Iteration 1)
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Density = 1.917047615148249
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Specific entropy = 3086.0754399084963 (Iteration 1)
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Specific entropy = 3086.0754399084963
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Specific helmholtz energy = -2181016.9553044043 (Iteration 1)
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Specific helmholtz energy = -2181016.9553044043
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Specific gibbs energy = -1916743.394232376 (Iteration 1)
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Specific gibbs energy = -1916743.394232376
+2019-05-18 21:04:36.567 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Temperature = 898.2231634558261 (Iteration 1)
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Temperature = 900.9988761844995 (Iteration 2)
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Temperature = 900.8566333102079 (Iteration 3)
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Temperature = 900.8566333102079
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Specific enthalpy = 904910.488160104 (Iteration 1)
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Specific enthalpy = 904910.488160104
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Specific gibbs energy = -1855372.6877401138 (Iteration 1)
+2019-05-18 21:04:36.567 [main] TRACE DebugLog - Specific gibbs energy = -1855372.6877401138
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Specific internal energy = 646364.6344000743 (Iteration 1)
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Specific internal energy = 646364.6344000743
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Specific volume = 0.5103298371774372 (Iteration 1)
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Specific volume = 0.5103298371774372
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Density = 1.9595170165454192 (Iteration 1)
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Density = 1.9595170165454192
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Specific helmholtz energy = -2113918.5415001432 (Iteration 1)
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Specific helmholtz energy = -2113918.5415001432
+2019-05-18 21:04:36.568 [main] INFO  DebugLog - Efficiency equation is compatible
+2019-05-18 21:04:36.568 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Specific enthalpy = 924957.4637520988 (Iteration 1)
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Specific enthalpy = 924957.4637520988
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Specific internal energy = 660683.9026800706 (Iteration 1)
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Specific internal energy = 660683.9026800706
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Specific volume = 0.5216354523998916 (Iteration 1)
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Specific volume = 0.5216354523998916
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Density = 1.917047615148249 (Iteration 1)
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Density = 1.917047615148249
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Specific entropy = 3086.0754399084963 (Iteration 1)
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Specific entropy = 3086.0754399084963
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.568 [main] TRACE DebugLog - Specific helmholtz energy = -2181016.9553044043 (Iteration 1)
+2019-05-18 21:04:36.569 [main] TRACE DebugLog - Specific helmholtz energy = -2181016.9553044043
+2019-05-18 21:04:36.569 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.569 [main] TRACE DebugLog - Specific gibbs energy = -1916743.394232376 (Iteration 1)
+2019-05-18 21:04:36.569 [main] TRACE DebugLog - Specific gibbs energy = -1916743.394232376
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - LP Compressor true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - HP Compressor true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Intercooler true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Reheat false
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - HP Turbine true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - LP Turbine true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Solving Reheat (Combustor)
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Solving Q = m * (h out - h in) for Q
+2019-05-18 21:04:36.569 [main] TRACE DebugLog - Q = 380892.5362479014 (Iteration 1)
+2019-05-18 21:04:36.569 [main] DEBUG DebugLog - Q = 380892.5362479014
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - LP Compressor true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - HP Compressor true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Intercooler true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Reheat true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - HP Turbine true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - LP Turbine true
+2019-05-18 21:04:36.569 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - LP Compressor true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - HP Compressor true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - Intercooler true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - Reheat true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - HP Turbine true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - LP Turbine true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.570 [main] INFO  DebugLog - System solved.
+2019-05-18 21:04:36.570 [main] DEBUG DebugLog - TO DO: Store parametric results.
+2019-05-18 21:04:36.583 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-05-18 21:04:36.583 [main] INFO  DebugLog - Created Combustor (Combustor)
+2019-05-18 21:04:36.583 [main] INFO  DebugLog - Setting fluid to Air
+2019-05-18 21:04:36.583 [main] INFO  DebugLog - Performing parametric solve for Combustor Test
+2019-05-18 21:04:36.583 [main] TRACE DebugLog - Solving for boundary condition Set 1 of 1
+2019-05-18 21:04:36.583 [main] TRACE DebugLog - Applying boundary conditions.
+2019-05-18 21:04:36.583 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.583 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006 (Iteration 1)
+2019-05-18 21:04:36.583 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006
+2019-05-18 21:04:36.583 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003 (Iteration 1)
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Specific volume = 0.8497409326424759 (Iteration 1)
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Specific volume = 0.8497409326424759
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Density = 1.1768292682927495 (Iteration 1)
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Density = 1.1768292682927495
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Specific entropy = 2421.462110212656 (Iteration 1)
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Specific entropy = 2421.462110212656
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Specific helmholtz energy = -511188.6330637969 (Iteration 1)
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Specific helmholtz energy = -511188.6330637969
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Specific gibbs energy = -425088.63306379685 (Iteration 1)
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Specific gibbs energy = -425088.63306379685
+2019-05-18 21:04:36.584 [main] INFO  DebugLog - Solving Combustor (Combustor)
+2019-05-18 21:04:36.584 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
+2019-05-18 21:04:36.584 [main] DEBUG DebugLog - m out = 1.0
+2019-05-18 21:04:36.584 [main] INFO  DebugLog - Solving Q = m * (h out - h in) for h out
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - h out = 303350.00000000006 (Iteration 1)
+2019-05-18 21:04:36.584 [main] DEBUG DebugLog - h out = 303350.00000000006
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Solving h = ƒ(T) for Temperature
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Temperature = 301.99104031856643 (Iteration 1)
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Temperature = 301.99104031856643
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Specific internal energy = 216678.57142857145 (Iteration 1)
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Specific internal energy = 216678.57142857145
+2019-05-18 21:04:36.584 [main] INFO  DebugLog - Solving p out = p in * (1 - pr) for p out
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - p out = 96258.75 (Iteration 1)
+2019-05-18 21:04:36.584 [main] DEBUG DebugLog - p out = 96258.75
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Specific volume = 0.9004005201753671 (Iteration 1)
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Specific volume = 0.9004005201753671
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Density = 1.1106168617108096 (Iteration 1)
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Density = 1.1106168617108096
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.584 [main] TRACE DebugLog - Specific entropy = 2442.8279270962043 (Iteration 1)
+2019-05-18 21:04:36.585 [main] TRACE DebugLog - Specific entropy = 2442.8279270962043
+2019-05-18 21:04:36.585 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.585 [main] TRACE DebugLog - Specific helmholtz energy = -521033.5755944584 (Iteration 1)
+2019-05-18 21:04:36.585 [main] TRACE DebugLog - Specific helmholtz energy = -521033.5755944584
+2019-05-18 21:04:36.585 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.585 [main] TRACE DebugLog - Specific gibbs energy = -434362.1470230298 (Iteration 1)
+2019-05-18 21:04:36.585 [main] TRACE DebugLog - Specific gibbs energy = -434362.1470230298
+2019-05-18 21:04:36.585 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.585 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.585 [main] INFO  DebugLog - Pressure_Loss equation is compatible
+2019-05-18 21:04:36.585 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.585 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.585 [main] INFO  DebugLog - System solved.
+2019-05-18 21:04:36.585 [main] DEBUG DebugLog - TO DO: Store parametric results.
+2019-05-18 21:04:36.591 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-05-18 21:04:36.591 [main] INFO  DebugLog - Created Compressor (Compressor)
+2019-05-18 21:04:36.591 [main] INFO  DebugLog - Setting fluid to Air
+2019-05-18 21:04:36.591 [main] INFO  DebugLog - Performing parametric solve for Compressor Test
+2019-05-18 21:04:36.591 [main] TRACE DebugLog - Solving for boundary condition Set 1 of 1
+2019-05-18 21:04:36.591 [main] TRACE DebugLog - Applying boundary conditions.
+2019-05-18 21:04:36.591 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006 (Iteration 1)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003 (Iteration 1)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific volume = 0.8497409326424759 (Iteration 1)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific volume = 0.8497409326424759
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Density = 1.1768292682927495 (Iteration 1)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Density = 1.1768292682927495
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific entropy = 2421.462110212656 (Iteration 1)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific entropy = 2421.462110212656
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific helmholtz energy = -511188.6330637969 (Iteration 1)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific helmholtz energy = -511188.6330637969
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific gibbs energy = -425088.63306379685 (Iteration 1)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific gibbs energy = -425088.63306379685
+2019-05-18 21:04:36.592 [main] INFO  DebugLog - Solving Compressor (Compressor)
+2019-05-18 21:04:36.592 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
+2019-05-18 21:04:36.592 [main] DEBUG DebugLog - m out = 1.0
+2019-05-18 21:04:36.592 [main] INFO  DebugLog - Solving p out = p in * pr for p out
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - p out = 506625.0 (Iteration 1)
+2019-05-18 21:04:36.592 [main] DEBUG DebugLog - p out = 506625.0
+2019-05-18 21:04:36.592 [main] INFO  DebugLog - Solving W = m * n * (h_out,isen - h_in), h_out,isen = f(s_in, p out) for W
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Temperature = 274.62896499590704 (Iteration 1)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Temperature = 582.3272579677191 (Iteration 2)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Temperature = 499.05402657366784 (Iteration 3)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Temperature = 472.56273266600465 (Iteration 4)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Temperature = 475.210398751657 (Iteration 5)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Temperature = 475.1460581576048 (Iteration 6)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Temperature = 475.1460581576048
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404 (Iteration 1)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252 (Iteration 1)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815 (Iteration 1)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific volume = 0.2691673697335091 (Iteration 1)
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Specific volume = 0.2691673697335091
+2019-05-18 21:04:36.592 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Density = 3.7151605745899587 (Iteration 1)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Density = 3.7151605745899587
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577 (Iteration 1)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Temperature = 274.62896499590704 (Iteration 1)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Temperature = 582.3272579677191 (Iteration 2)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Temperature = 499.05402657366784 (Iteration 3)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Temperature = 472.56273266600465 (Iteration 4)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Temperature = 475.210398751657 (Iteration 5)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Temperature = 475.1460581576048 (Iteration 6)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Temperature = 475.1460581576048
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404 (Iteration 1)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252 (Iteration 1)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815 (Iteration 1)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific volume = 0.2691673697335091 (Iteration 1)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific volume = 0.2691673697335091
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Density = 3.7151605745899587 (Iteration 1)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Density = 3.7151605745899587
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577 (Iteration 1)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Temperature = 274.62896499590704 (Iteration 1)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Temperature = 582.3272579677191 (Iteration 2)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Temperature = 499.05402657366784 (Iteration 3)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Temperature = 472.56273266600465 (Iteration 4)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Temperature = 475.210398751657 (Iteration 5)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Temperature = 475.1460581576048 (Iteration 6)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Temperature = 475.1460581576048
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404 (Iteration 1)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252 (Iteration 1)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815 (Iteration 1)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific volume = 0.2691673697335091 (Iteration 1)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific volume = 0.2691673697335091
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Density = 3.7151605745899587 (Iteration 1)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Density = 3.7151605745899587
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577 (Iteration 1)
+2019-05-18 21:04:36.593 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - W = 195482.46157701555 (Iteration 1)
+2019-05-18 21:04:36.594 [main] DEBUG DebugLog - W = 195482.46157701555
+2019-05-18 21:04:36.594 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.594 [main] INFO  DebugLog - Solving W = m * (h out - h in) for h out
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - h out = 496832.4615770156 (Iteration 1)
+2019-05-18 21:04:36.594 [main] DEBUG DebugLog - h out = 496832.4615770156
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Solving h = ƒ(T) for Temperature
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Temperature = 494.60673128622744 (Iteration 1)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Temperature = 494.60673128622744
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific internal energy = 354880.3296978682 (Iteration 1)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific internal energy = 354880.3296978682
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific volume = 0.2801917234228313 (Iteration 1)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific volume = 0.2801917234228313
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Density = 3.568984792926699 (Iteration 1)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Density = 3.568984792926699
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific entropy = 2461.7838314427554 (Iteration 1)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific entropy = 2461.7838314427554
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific helmholtz energy = -862734.5243053181 (Iteration 1)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific helmholtz energy = -862734.5243053181
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific gibbs energy = -720782.3924261708 (Iteration 1)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific gibbs energy = -720782.3924261708
+2019-05-18 21:04:36.594 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Temperature = 274.62896499590704 (Iteration 1)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Temperature = 582.3272579677191 (Iteration 2)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Temperature = 499.05402657366784 (Iteration 3)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Temperature = 472.56273266600465 (Iteration 4)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Temperature = 475.210398751657 (Iteration 5)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Temperature = 475.1460581576048 (Iteration 6)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Temperature = 475.1460581576048
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404 (Iteration 1)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252 (Iteration 1)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815 (Iteration 1)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific volume = 0.2691673697335091 (Iteration 1)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific volume = 0.2691673697335091
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Density = 3.7151605745899587 (Iteration 1)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Density = 3.7151605745899587
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577 (Iteration 1)
+2019-05-18 21:04:36.594 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577
+2019-05-18 21:04:36.594 [main] INFO  DebugLog - Efficiency equation is compatible
+2019-05-18 21:04:36.594 [main] INFO  DebugLog - Compressor false
+2019-05-18 21:04:36.594 [main] INFO  DebugLog - Solving Compressor (Compressor)
+2019-05-18 21:04:36.594 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.595 [main] INFO  DebugLog - Compressor true
+2019-05-18 21:04:36.595 [main] INFO  DebugLog - Compressor true
+2019-05-18 21:04:36.595 [main] INFO  DebugLog - System solved.
+2019-05-18 21:04:36.595 [main] DEBUG DebugLog - TO DO: Store parametric results.
+2019-05-18 21:04:36.602 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-05-18 21:04:36.602 [main] INFO  DebugLog - Created Turbine (Turbine)
+2019-05-18 21:04:36.602 [main] INFO  DebugLog - Setting fluid to Air
+2019-05-18 21:04:36.602 [main] INFO  DebugLog - Performing parametric solve for Turbine Test
+2019-05-18 21:04:36.602 [main] TRACE DebugLog - Solving for boundary condition Set 1 of 1
+2019-05-18 21:04:36.602 [main] TRACE DebugLog - Applying boundary conditions.
+2019-05-18 21:04:36.602 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.602 [main] TRACE DebugLog - Specific enthalpy = 904050.0000000001 (Iteration 1)
+2019-05-18 21:04:36.602 [main] TRACE DebugLog - Specific enthalpy = 904050.0000000001
+2019-05-18 21:04:36.602 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.602 [main] TRACE DebugLog - Specific internal energy = 645750.0000000001 (Iteration 1)
+2019-05-18 21:04:36.602 [main] TRACE DebugLog - Specific internal energy = 645750.0000000001
+2019-05-18 21:04:36.602 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.602 [main] TRACE DebugLog - Specific volume = 0.2582999999999629 (Iteration 1)
+2019-05-18 21:04:36.602 [main] TRACE DebugLog - Specific volume = 0.2582999999999629
+2019-05-18 21:04:36.602 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.602 [main] TRACE DebugLog - Density = 3.871467286101961 (Iteration 1)
+2019-05-18 21:04:36.602 [main] TRACE DebugLog - Density = 3.871467286101961
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Specific entropy = 2867.954009623525 (Iteration 1)
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Specific entropy = 2867.954009623525
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Specific helmholtz energy = -1935408.6086611724 (Iteration 1)
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Specific helmholtz energy = -1935408.6086611724
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Specific gibbs energy = -1677108.6086611724 (Iteration 1)
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Specific gibbs energy = -1677108.6086611724
+2019-05-18 21:04:36.603 [main] INFO  DebugLog - Solving Turbine (Turbine)
+2019-05-18 21:04:36.603 [main] INFO  DebugLog - Solving m_in = m_out for m out
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
+2019-05-18 21:04:36.603 [main] DEBUG DebugLog - m out = 1.0
+2019-05-18 21:04:36.603 [main] INFO  DebugLog - Solving pr = p_in / p_out for pr
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - pr = 9.869232667160077 (Iteration 1)
+2019-05-18 21:04:36.603 [main] DEBUG DebugLog - pr = 9.869232667160077
+2019-05-18 21:04:36.603 [main] INFO  DebugLog - Solving W = m eta (h_in - h_out,isen), h_out,isen = f(s_in, p_out) for W
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Temperature = 259.6682211836061 (Iteration 1)
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Temperature = 582.9956735897969 (Iteration 2)
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Temperature = 495.0830689962751 (Iteration 3)
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Temperature = 464.721109113871 (Iteration 4)
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Temperature = 468.0009616033356 (Iteration 5)
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Temperature = 467.9094670066713 (Iteration 6)
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Temperature = 467.9094670066713
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Specific enthalpy = 470015.0596082014 (Iteration 1)
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Specific enthalpy = 470015.0596082014
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Specific gibbs energy = -871927.772434388 (Iteration 1)
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Specific gibbs energy = -871927.772434388
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Specific internal energy = 335725.0425772867 (Iteration 1)
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Specific internal energy = 335725.0425772867
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Specific volume = 1.3253394229549258 (Iteration 1)
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Specific volume = 1.3253394229549258
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Density = 0.7545236961038881 (Iteration 1)
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Density = 0.7545236961038881
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Specific helmholtz energy = -1006217.7894653028 (Iteration 1)
+2019-05-18 21:04:36.603 [main] TRACE DebugLog - Specific helmholtz energy = -1006217.7894653028
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Temperature = 259.6682211836061 (Iteration 1)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Temperature = 582.9956735897969 (Iteration 2)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Temperature = 495.0830689962751 (Iteration 3)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Temperature = 464.721109113871 (Iteration 4)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Temperature = 468.0009616033356 (Iteration 5)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Temperature = 467.9094670066713 (Iteration 6)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Temperature = 467.9094670066713
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific enthalpy = 470015.0596082014 (Iteration 1)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific enthalpy = 470015.0596082014
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific gibbs energy = -871927.772434388 (Iteration 1)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific gibbs energy = -871927.772434388
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific internal energy = 335725.0425772867 (Iteration 1)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific internal energy = 335725.0425772867
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific volume = 1.3253394229549258 (Iteration 1)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific volume = 1.3253394229549258
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Density = 0.7545236961038881 (Iteration 1)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Density = 0.7545236961038881
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific helmholtz energy = -1006217.7894653028 (Iteration 1)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific helmholtz energy = -1006217.7894653028
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Temperature = 259.6682211836061 (Iteration 1)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Temperature = 582.9956735897969 (Iteration 2)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Temperature = 495.0830689962751 (Iteration 3)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Temperature = 464.721109113871 (Iteration 4)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Temperature = 468.0009616033356 (Iteration 5)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Temperature = 467.9094670066713 (Iteration 6)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Temperature = 467.9094670066713
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific enthalpy = 470015.0596082014 (Iteration 1)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific enthalpy = 470015.0596082014
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific gibbs energy = -871927.772434388 (Iteration 1)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific gibbs energy = -871927.772434388
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific internal energy = 335725.0425772867 (Iteration 1)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific internal energy = 335725.0425772867
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific volume = 1.3253394229549258 (Iteration 1)
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Specific volume = 1.3253394229549258
+2019-05-18 21:04:36.604 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Density = 0.7545236961038881 (Iteration 1)
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Density = 0.7545236961038881
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Specific helmholtz energy = -1006217.7894653028 (Iteration 1)
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Specific helmholtz energy = -1006217.7894653028
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - W = 412333.1933722088 (Iteration 1)
+2019-05-18 21:04:36.605 [main] DEBUG DebugLog - W = 412333.1933722088
+2019-05-18 21:04:36.605 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.605 [main] INFO  DebugLog - Solving W = m (h_in - h_out) for h out
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - h out = 491716.8066277913 (Iteration 1)
+2019-05-18 21:04:36.605 [main] DEBUG DebugLog - h out = 491716.8066277913
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Solving h = ƒ(T) for Temperature
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Temperature = 489.51399365633773 (Iteration 1)
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Temperature = 489.51399365633773
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Specific internal energy = 351226.29044842237 (Iteration 1)
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Specific internal energy = 351226.29044842237
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Specific volume = 1.3865335917035964 (Iteration 1)
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Specific volume = 1.3865335917035964
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Density = 0.7212230601433021 (Iteration 1)
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Density = 0.7212230601433021
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Specific entropy = 2913.296022357314 (Iteration 1)
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Specific entropy = 2913.296022357314
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Specific helmholtz energy = -1074872.88015883 (Iteration 1)
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Specific helmholtz energy = -1074872.88015883
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Specific gibbs energy = -934382.3639794609 (Iteration 1)
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Specific gibbs energy = -934382.3639794609
+2019-05-18 21:04:36.605 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Temperature = 259.6682211836061 (Iteration 1)
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Temperature = 582.9956735897969 (Iteration 2)
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Temperature = 495.0830689962751 (Iteration 3)
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Temperature = 464.721109113871 (Iteration 4)
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Temperature = 468.0009616033356 (Iteration 5)
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Temperature = 467.9094670066713 (Iteration 6)
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Temperature = 467.9094670066713
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Specific enthalpy = 470015.0596082014 (Iteration 1)
+2019-05-18 21:04:36.605 [main] TRACE DebugLog - Specific enthalpy = 470015.0596082014
+2019-05-18 21:04:36.606 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.606 [main] TRACE DebugLog - Specific gibbs energy = -871927.772434388 (Iteration 1)
+2019-05-18 21:04:36.606 [main] TRACE DebugLog - Specific gibbs energy = -871927.772434388
+2019-05-18 21:04:36.606 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.606 [main] TRACE DebugLog - Specific internal energy = 335725.0425772867 (Iteration 1)
+2019-05-18 21:04:36.606 [main] TRACE DebugLog - Specific internal energy = 335725.0425772867
+2019-05-18 21:04:36.606 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.606 [main] TRACE DebugLog - Specific volume = 1.3253394229549258 (Iteration 1)
+2019-05-18 21:04:36.606 [main] TRACE DebugLog - Specific volume = 1.3253394229549258
+2019-05-18 21:04:36.606 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.606 [main] TRACE DebugLog - Density = 0.7545236961038881 (Iteration 1)
+2019-05-18 21:04:36.606 [main] TRACE DebugLog - Density = 0.7545236961038881
+2019-05-18 21:04:36.606 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.606 [main] TRACE DebugLog - Specific helmholtz energy = -1006217.7894653028 (Iteration 1)
+2019-05-18 21:04:36.606 [main] TRACE DebugLog - Specific helmholtz energy = -1006217.7894653028
+2019-05-18 21:04:36.606 [main] INFO  DebugLog - Efficiency equation is compatible
+2019-05-18 21:04:36.606 [main] INFO  DebugLog - Turbine false
+2019-05-18 21:04:36.606 [main] INFO  DebugLog - Solving Turbine (Turbine)
+2019-05-18 21:04:36.606 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.606 [main] INFO  DebugLog - Turbine true
+2019-05-18 21:04:36.606 [main] INFO  DebugLog - Turbine true
+2019-05-18 21:04:36.606 [main] INFO  DebugLog - System solved.
+2019-05-18 21:04:36.606 [main] DEBUG DebugLog - TO DO: Store parametric results.
+2019-05-18 21:04:36.612 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-05-18 21:04:36.615 [main] INFO  DebugLog - Created WHRU (HeatExchanger)
+2019-05-18 21:04:36.615 [main] INFO  DebugLog - Setting fluid to Air
+2019-05-18 21:04:36.616 [main] INFO  DebugLog - Setting fluid to Air
+2019-05-18 21:04:36.616 [main] INFO  DebugLog - Performing parametric solve for Heat exchanger test
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Solving for boundary condition Set 1 of 1
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Applying boundary conditions.
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006 (Iteration 1)
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003 (Iteration 1)
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific volume = 0.8497409326424759 (Iteration 1)
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific volume = 0.8497409326424759
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Density = 1.1768292682927495 (Iteration 1)
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Density = 1.1768292682927495
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific entropy = 2421.462110212656 (Iteration 1)
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific entropy = 2421.462110212656
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific helmholtz energy = -511188.6330637969 (Iteration 1)
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific helmholtz energy = -511188.6330637969
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific gibbs energy = -425088.63306379685 (Iteration 1)
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific gibbs energy = -425088.63306379685
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific enthalpy = 502250.00000000006 (Iteration 1)
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific enthalpy = 502250.00000000006
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific internal energy = 358750.00000000006 (Iteration 1)
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific internal energy = 358750.00000000006
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific volume = 0.47833333333335304 (Iteration 1)
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific volume = 0.47833333333335304
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Density = 2.0905923344946586 (Iteration 1)
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Density = 2.0905923344946586
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific entropy = 2623.062499570889 (Iteration 1)
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific entropy = 2623.062499570889
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific helmholtz energy = -952781.2497854445 (Iteration 1)
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific helmholtz energy = -952781.2497854445
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific gibbs energy = -809281.2497854445 (Iteration 1)
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - Specific gibbs energy = -809281.2497854445
+2019-05-18 21:04:36.616 [main] INFO  DebugLog - Solving WHRU (HeatExchanger)
+2019-05-18 21:04:36.616 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.616 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
+2019-05-18 21:04:36.616 [main] DEBUG DebugLog - m out = 1.0
+2019-05-18 21:04:36.616 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
+2019-05-18 21:04:36.617 [main] DEBUG DebugLog - m out = 1.0
+2019-05-18 21:04:36.617 [main] INFO  DebugLog - Solving p in = p out for p out
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - p out = 300000.0 (Iteration 1)
+2019-05-18 21:04:36.617 [main] DEBUG DebugLog - p out = 300000.0
+2019-05-18 21:04:36.617 [main] INFO  DebugLog - Solving p in = p out for p out
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - p out = 101325.0 (Iteration 1)
+2019-05-18 21:04:36.617 [main] DEBUG DebugLog - p out = 101325.0
+2019-05-18 21:04:36.617 [main] INFO  DebugLog - Solving Q ideal = f(h in hot, T in cold, p out hot, m hot, h in cold, T in hot, p out cold, m cold) for Q ideal
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006 (Iteration 1)
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003 (Iteration 1)
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific volume = 0.28700000000003456 (Iteration 1)
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific volume = 0.28700000000003456
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Density = 3.4843205574908325 (Iteration 1)
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Density = 3.4843205574908325
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific entropy = 2109.9381604979512 (Iteration 1)
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific entropy = 2109.9381604979512
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific helmholtz energy = -417731.4481493854 (Iteration 1)
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific helmholtz energy = -417731.4481493854
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific gibbs energy = -331631.44814938534 (Iteration 1)
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific gibbs energy = -331631.44814938534
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific enthalpy = 502250.00000000006 (Iteration 1)
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific enthalpy = 502250.00000000006
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific internal energy = 358750.00000000006 (Iteration 1)
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific internal energy = 358750.00000000006
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific volume = 1.4162348877374598 (Iteration 1)
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific volume = 1.4162348877374598
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Density = 0.7060975609756497 (Iteration 1)
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Density = 0.7060975609756497
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific entropy = 2934.586449285594 (Iteration 1)
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific entropy = 2934.586449285594
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific helmholtz energy = -1108543.224642797 (Iteration 1)
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific helmholtz energy = -1108543.224642797
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific gibbs energy = -965043.2246427969 (Iteration 1)
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific gibbs energy = -965043.2246427969
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006 (Iteration 1)
+2019-05-18 21:04:36.617 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific volume = 0.28700000000003456 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific volume = 0.28700000000003456
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Density = 3.4843205574908325 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Density = 3.4843205574908325
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific entropy = 2109.9381604979512 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific entropy = 2109.9381604979512
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific helmholtz energy = -417731.4481493854 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific helmholtz energy = -417731.4481493854
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific gibbs energy = -331631.44814938534 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific gibbs energy = -331631.44814938534
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific enthalpy = 502250.00000000006 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific enthalpy = 502250.00000000006
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific internal energy = 358750.00000000006 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific internal energy = 358750.00000000006
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific volume = 1.4162348877374598 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific volume = 1.4162348877374598
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Density = 0.7060975609756497 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Density = 0.7060975609756497
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific entropy = 2934.586449285594 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific entropy = 2934.586449285594
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific helmholtz energy = -1108543.224642797 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific helmholtz energy = -1108543.224642797
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific gibbs energy = -965043.2246427969 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific gibbs energy = -965043.2246427969
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific volume = 0.28700000000003456 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific volume = 0.28700000000003456
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Density = 3.4843205574908325 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Density = 3.4843205574908325
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific entropy = 2109.9381604979512 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific entropy = 2109.9381604979512
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific helmholtz energy = -417731.4481493854 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific helmholtz energy = -417731.4481493854
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific gibbs energy = -331631.44814938534 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific gibbs energy = -331631.44814938534
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific enthalpy = 502250.00000000006 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific enthalpy = 502250.00000000006
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific internal energy = 358750.00000000006 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific internal energy = 358750.00000000006
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific volume = 1.4162348877374598 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific volume = 1.4162348877374598
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Density = 0.7060975609756497 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Density = 0.7060975609756497
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific entropy = 2934.586449285594 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific entropy = 2934.586449285594
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific helmholtz energy = -1108543.224642797 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific helmholtz energy = -1108543.224642797
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific gibbs energy = -965043.2246427969 (Iteration 1)
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Specific gibbs energy = -965043.2246427969
+2019-05-18 21:04:36.618 [main] TRACE DebugLog - Q ideal = 200900.0 (Iteration 1)
+2019-05-18 21:04:36.618 [main] DEBUG DebugLog - Q ideal = 200900.0
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - Mass_Balance_Hot equation is compatible
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - Mass_Balance_Cold equation is compatible
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - Pressure_Loss_Hot equation is compatible
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - Pressure_Loss_Cold equation is compatible
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - Solving Q actual = Q ideal * U+03B5 for Q actual
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Q actual = 190855.0 (Iteration 1)
+2019-05-18 21:04:36.619 [main] DEBUG DebugLog - Q actual = 190855.0
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006 (Iteration 1)
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003 (Iteration 1)
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific volume = 0.28700000000003456 (Iteration 1)
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific volume = 0.28700000000003456
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Density = 3.4843205574908325 (Iteration 1)
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Density = 3.4843205574908325
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific entropy = 2109.9381604979512 (Iteration 1)
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific entropy = 2109.9381604979512
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific helmholtz energy = -417731.4481493854 (Iteration 1)
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific helmholtz energy = -417731.4481493854
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific gibbs energy = -331631.44814938534 (Iteration 1)
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific gibbs energy = -331631.44814938534
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific enthalpy = 502250.00000000006 (Iteration 1)
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific enthalpy = 502250.00000000006
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific internal energy = 358750.00000000006 (Iteration 1)
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific internal energy = 358750.00000000006
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific volume = 1.4162348877374598 (Iteration 1)
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific volume = 1.4162348877374598
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Density = 0.7060975609756497 (Iteration 1)
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Density = 0.7060975609756497
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific entropy = 2934.586449285594 (Iteration 1)
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific entropy = 2934.586449285594
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific helmholtz energy = -1108543.224642797 (Iteration 1)
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific helmholtz energy = -1108543.224642797
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific gibbs energy = -965043.2246427969 (Iteration 1)
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific gibbs energy = -965043.2246427969
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - Ideal_Heat_Transfer equation is compatible
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - WHRU false
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - Solving WHRU (HeatExchanger)
+2019-05-18 21:04:36.619 [main] INFO  DebugLog - Solving Q = m * (h out - h in) for h out
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - h out = 311395.00000000006 (Iteration 1)
+2019-05-18 21:04:36.619 [main] DEBUG DebugLog - h out = 311395.00000000006
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving h = ƒ(T) for Temperature
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Temperature = 310.0 (Iteration 1)
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Temperature = 310.0
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific internal energy = 222425.00000000003 (Iteration 1)
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific internal energy = 222425.00000000003
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.619 [main] TRACE DebugLog - Specific volume = 0.2965666666666493 (Iteration 1)
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Specific volume = 0.2965666666666493
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Density = 3.371923120153042 (Iteration 1)
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Density = 3.371923120153042
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Specific entropy = 2142.8755375236465 (Iteration 1)
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Specific entropy = 2142.8755375236465
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Specific helmholtz energy = -441866.4166323304 (Iteration 1)
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Specific helmholtz energy = -441866.4166323304
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Specific gibbs energy = -352896.41663233034 (Iteration 1)
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Specific gibbs energy = -352896.41663233034
+2019-05-18 21:04:36.620 [main] INFO  DebugLog - Solving Q = m * (h out - h in) for h out
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - h out = 492205.00000000006 (Iteration 1)
+2019-05-18 21:04:36.620 [main] DEBUG DebugLog - h out = 492205.00000000006
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Solving h = ƒ(T) for Temperature
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Temperature = 489.99999999999994 (Iteration 1)
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Temperature = 489.99999999999994
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Specific internal energy = 351575.0 (Iteration 1)
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Specific internal energy = 351575.0
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Specific volume = 1.3879101899826765 (Iteration 1)
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Specific volume = 1.3879101899826765
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Density = 0.7205077152812009 (Iteration 1)
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Density = 0.7205077152812009
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Specific entropy = 2914.2928297851454 (Iteration 1)
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Specific entropy = 2914.2928297851454
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Specific helmholtz energy = -1076428.486594721 (Iteration 1)
+2019-05-18 21:04:36.620 [main] TRACE DebugLog - Specific helmholtz energy = -1076428.486594721
+2019-05-18 21:04:36.621 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.621 [main] TRACE DebugLog - Specific gibbs energy = -935798.486594721 (Iteration 1)
+2019-05-18 21:04:36.621 [main] TRACE DebugLog - Specific gibbs energy = -935798.486594721
+2019-05-18 21:04:36.621 [main] INFO  DebugLog - Effectiveness equation is compatible
+2019-05-18 21:04:36.621 [main] INFO  DebugLog - Energy_Balance_Hot equation is compatible
+2019-05-18 21:04:36.621 [main] INFO  DebugLog - Energy_Balance_Cold equation is compatible
+2019-05-18 21:04:36.621 [main] INFO  DebugLog - WHRU true
+2019-05-18 21:04:36.621 [main] INFO  DebugLog - WHRU true
+2019-05-18 21:04:36.621 [main] INFO  DebugLog - System solved.
+2019-05-18 21:04:36.621 [main] DEBUG DebugLog - TO DO: Store parametric results.
+2019-05-18 21:04:36.629 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-05-18 21:04:36.629 [main] INFO  DebugLog - Created Compressor (Compressor)
+2019-05-18 21:04:36.629 [main] INFO  DebugLog - Created Combustor (Combustor)
+2019-05-18 21:04:36.629 [main] INFO  DebugLog - Created Turbine (Turbine)
+2019-05-18 21:04:36.630 [main] INFO  DebugLog - Created Heat Sink (HeatSink)
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Created connection
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Created connection
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Created connection
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Created connection
+2019-05-18 21:04:36.630 [main] INFO  DebugLog - Setting fluid to Air
+2019-05-18 21:04:36.630 [main] INFO  DebugLog - Performing parametric solve for Gas Turbine Test
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Solving for boundary condition Set 1 of 1
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Applying boundary conditions.
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006 (Iteration 1)
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003 (Iteration 1)
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Specific volume = 0.8497409326424759 (Iteration 1)
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Specific volume = 0.8497409326424759
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Density = 1.1768292682927495 (Iteration 1)
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Density = 1.1768292682927495
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Specific entropy = 2421.462110212656 (Iteration 1)
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Specific entropy = 2421.462110212656
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Specific helmholtz energy = -511188.6330637969 (Iteration 1)
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Specific helmholtz energy = -511188.6330637969
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Specific gibbs energy = -425088.63306379685 (Iteration 1)
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Specific gibbs energy = -425088.63306379685
+2019-05-18 21:04:36.630 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific enthalpy = 1305850.0000000002 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific enthalpy = 1305850.0000000002
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific internal energy = 932750.0000000001 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific internal energy = 932750.0000000001
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific enthalpy = 1305850.0000000002 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific enthalpy = 1305850.0000000002
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific internal energy = 932750.0000000001 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific internal energy = 932750.0000000001
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific volume = 0.8497409326424759 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific volume = 0.8497409326424759
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Density = 1.1768292682927495 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Density = 1.1768292682927495
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific entropy = 2421.462110212656 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific entropy = 2421.462110212656
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific helmholtz energy = -511188.6330637969 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific helmholtz energy = -511188.6330637969
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific gibbs energy = -425088.63306379685 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific gibbs energy = -425088.63306379685
+2019-05-18 21:04:36.631 [main] INFO  DebugLog - Solving Compressor (Compressor)
+2019-05-18 21:04:36.631 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
+2019-05-18 21:04:36.631 [main] DEBUG DebugLog - m out = 1.0
+2019-05-18 21:04:36.631 [main] INFO  DebugLog - Solving p out = p in * pr for p out
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - p out = 506625.0 (Iteration 1)
+2019-05-18 21:04:36.631 [main] DEBUG DebugLog - p out = 506625.0
+2019-05-18 21:04:36.631 [main] INFO  DebugLog - Solving W = m * n * (h_out,isen - h_in), h_out,isen = f(s_in, p out) for W
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Temperature = 274.62896499590704 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Temperature = 582.3272579677191 (Iteration 2)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Temperature = 499.05402657366784 (Iteration 3)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Temperature = 472.56273266600465 (Iteration 4)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Temperature = 475.210398751657 (Iteration 5)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Temperature = 475.1460581576048 (Iteration 6)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Temperature = 475.1460581576048
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific volume = 0.2691673697335091 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific volume = 0.2691673697335091
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Density = 3.7151605745899587 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Density = 3.7151605745899587
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577 (Iteration 1)
+2019-05-18 21:04:36.631 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Temperature = 274.62896499590704 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Temperature = 582.3272579677191 (Iteration 2)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Temperature = 499.05402657366784 (Iteration 3)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Temperature = 472.56273266600465 (Iteration 4)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Temperature = 475.210398751657 (Iteration 5)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Temperature = 475.1460581576048 (Iteration 6)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Temperature = 475.1460581576048
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific volume = 0.2691673697335091 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific volume = 0.2691673697335091
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Density = 3.7151605745899587 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Density = 3.7151605745899587
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Temperature = 274.62896499590704 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Temperature = 582.3272579677191 (Iteration 2)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Temperature = 499.05402657366784 (Iteration 3)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Temperature = 472.56273266600465 (Iteration 4)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Temperature = 475.210398751657 (Iteration 5)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Temperature = 475.1460581576048 (Iteration 6)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Temperature = 475.1460581576048
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific volume = 0.2691673697335091 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific volume = 0.2691673697335091
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Density = 3.7151605745899587 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Density = 3.7151605745899587
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - W = 195482.46157701555 (Iteration 1)
+2019-05-18 21:04:36.632 [main] DEBUG DebugLog - W = 195482.46157701555
+2019-05-18 21:04:36.632 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.632 [main] INFO  DebugLog - Solving W = m * (h out - h in) for h out
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - h out = 496832.4615770156 (Iteration 1)
+2019-05-18 21:04:36.632 [main] DEBUG DebugLog - h out = 496832.4615770156
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving h = ƒ(T) for Temperature
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Temperature = 494.60673128622744 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Temperature = 494.60673128622744
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific internal energy = 354880.3296978682 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific internal energy = 354880.3296978682
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific volume = 0.2801917234228313 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Specific volume = 0.2801917234228313
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Density = 3.568984792926699 (Iteration 1)
+2019-05-18 21:04:36.632 [main] TRACE DebugLog - Density = 3.568984792926699
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific entropy = 2461.7838314427554 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific entropy = 2461.7838314427554
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific helmholtz energy = -862734.5243053181 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific helmholtz energy = -862734.5243053181
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific gibbs energy = -720782.3924261708 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific gibbs energy = -720782.3924261708
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Temperature = 274.62896499590704 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Temperature = 582.3272579677191 (Iteration 2)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Temperature = 499.05402657366784 (Iteration 3)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Temperature = 472.56273266600465 (Iteration 4)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Temperature = 475.210398751657 (Iteration 5)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Temperature = 475.1460581576048 (Iteration 6)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Temperature = 475.1460581576048
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific enthalpy = 477284.21541931404
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific gibbs energy = -673263.9612262252
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific internal energy = 340917.2967280815
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific volume = 0.2691673697335091 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific volume = 0.2691673697335091
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Density = 3.7151605745899587 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Density = 3.7151605745899587
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific helmholtz energy = -809630.8799174577
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Efficiency equation is compatible
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Solving Combustor (Combustor)
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Solving Turbine (Turbine)
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Solving m in = m out for m in
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - m in = 1.0 (Iteration 1)
+2019-05-18 21:04:36.633 [main] DEBUG DebugLog - m in = 1.0
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Solving p in = (1 - pr) p out for p in
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - p in = 106657.8947368421 (Iteration 1)
+2019-05-18 21:04:36.633 [main] DEBUG DebugLog - p in = 106657.8947368421
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Pressure_Loss equation is compatible
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific enthalpy = 496832.4615770155 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific enthalpy = 496832.4615770155
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific internal energy = 354880.3296978682 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific internal energy = 354880.3296978682
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific volume = 0.2801917234228313 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific volume = 0.2801917234228313
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Density = 3.568984792926699 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Density = 3.568984792926699
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific entropy = 2461.7838314427554 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific entropy = 2461.7838314427554
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific helmholtz energy = -862734.5243053181 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific helmholtz energy = -862734.5243053181
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific gibbs energy = -720782.3924261709 (Iteration 1)
+2019-05-18 21:04:36.633 [main] TRACE DebugLog - Specific gibbs energy = -720782.3924261709
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Compressor false
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Combustor false
+2019-05-18 21:04:36.633 [main] INFO  DebugLog - Turbine false
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Heat Sink false
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving Compressor (Compressor)
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving Combustor (Combustor)
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
+2019-05-18 21:04:36.634 [main] DEBUG DebugLog - m out = 1.0
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving Q = m * (h out - h in) for Q
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Q = 809017.5384229848 (Iteration 1)
+2019-05-18 21:04:36.634 [main] DEBUG DebugLog - Q = 809017.5384229848
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving p out = p in * (1 - pr) for p out
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - p out = 481293.75 (Iteration 1)
+2019-05-18 21:04:36.634 [main] DEBUG DebugLog - p out = 481293.75
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Specific volume = 0.7752022543405701 (Iteration 1)
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Specific volume = 0.7752022543405701
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Density = 1.2899859287053914 (Iteration 1)
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Density = 1.2899859287053914
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Specific entropy = 3447.2101904362944 (Iteration 1)
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Specific entropy = 3447.2101904362944
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Specific helmholtz energy = -3548623.2475671824 (Iteration 1)
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Specific helmholtz energy = -3548623.2475671824
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Specific gibbs energy = -3175523.2475671824 (Iteration 1)
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Specific gibbs energy = -3175523.2475671824
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Pressure_Loss equation is compatible
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving Turbine (Turbine)
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving m_in = m_out for m in
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - m in = 1.0 (Iteration 1)
+2019-05-18 21:04:36.634 [main] DEBUG DebugLog - m in = 1.0
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Specific volume = 0.7752022543405701 (Iteration 1)
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Specific volume = 0.7752022543405701
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Density = 1.2899859287053914 (Iteration 1)
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Density = 1.2899859287053914
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Specific entropy = 3447.2101904362944 (Iteration 1)
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Specific entropy = 3447.2101904362944
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Specific helmholtz energy = -3548623.2475671824 (Iteration 1)
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Specific helmholtz energy = -3548623.2475671824
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Specific gibbs energy = -3175523.2475671824 (Iteration 1)
+2019-05-18 21:04:36.634 [main] TRACE DebugLog - Specific gibbs energy = -3175523.2475671824
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Compressor true
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Turbine false
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Heat Sink false
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving Turbine (Turbine)
+2019-05-18 21:04:36.634 [main] INFO  DebugLog - Solving pr = p_in / p_out for pr
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - pr = 4.512500000000955 (Iteration 1)
+2019-05-18 21:04:36.635 [main] DEBUG DebugLog - pr = 4.512500000000955
+2019-05-18 21:04:36.635 [main] INFO  DebugLog - Solving W = m eta (h_in - h_out,isen), h_out,isen = f(s_in, p_out) for W
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 836.0753709063939 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 846.0295438056253 (Iteration 2)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 845.2190420148357 (Iteration 3)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 845.2146267979018 (Iteration 4)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 845.2146267979018
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific enthalpy = 849018.0926184924 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific enthalpy = 849018.0926184924
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific gibbs energy = -2064614.381985044 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific gibbs energy = -2064614.381985044
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific internal energy = 606441.4947274947 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific internal energy = 606441.4947274947
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific volume = 2.2743426399856617 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific volume = 2.2743426399856617
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Density = 0.43968748702104676 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Density = 0.43968748702104676
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific helmholtz energy = -2307190.979876042 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific helmholtz energy = -2307190.979876042
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 836.0753709063939 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 846.0295438056253 (Iteration 2)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 845.2190420148357 (Iteration 3)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 845.2146267979018 (Iteration 4)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 845.2146267979018
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific enthalpy = 849018.0926184924 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific enthalpy = 849018.0926184924
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific gibbs energy = -2064614.381985044 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific gibbs energy = -2064614.381985044
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific internal energy = 606441.4947274947 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific internal energy = 606441.4947274947
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific volume = 2.2743426399856617 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific volume = 2.2743426399856617
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Density = 0.43968748702104676 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Density = 0.43968748702104676
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific helmholtz energy = -2307190.979876042 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific helmholtz energy = -2307190.979876042
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 836.0753709063939 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 846.0295438056253 (Iteration 2)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 845.2190420148357 (Iteration 3)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 845.2146267979018 (Iteration 4)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 845.2146267979018
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific enthalpy = 849018.0926184924 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific enthalpy = 849018.0926184924
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific gibbs energy = -2064614.381985044 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific gibbs energy = -2064614.381985044
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific internal energy = 606441.4947274947 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific internal energy = 606441.4947274947
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific volume = 2.2743426399856617 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific volume = 2.2743426399856617
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Density = 0.43968748702104676 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Density = 0.43968748702104676
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific helmholtz energy = -2307190.979876042 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific helmholtz energy = -2307190.979876042
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - W = 433990.3120124324 (Iteration 1)
+2019-05-18 21:04:36.635 [main] DEBUG DebugLog - W = 433990.3120124324
+2019-05-18 21:04:36.635 [main] INFO  DebugLog - Solving W = m (h_in - h_out) for h out
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - h out = 871859.6879875677 (Iteration 1)
+2019-05-18 21:04:36.635 [main] DEBUG DebugLog - h out = 871859.6879875677
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving h = ƒ(T) for Temperature
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 867.9538954580066 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Temperature = 867.9538954580066
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific internal energy = 622756.9199911199 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific internal energy = 622756.9199911199
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific volume = 2.3355305166219296 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific volume = 2.3355305166219296
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Density = 0.42816824395265485 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Density = 0.42816824395265485
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific entropy = 3473.8776600375218 (Iteration 1)
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Specific entropy = 3473.8776600375218
+2019-05-18 21:04:36.635 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific helmholtz energy = -2392408.727382992 (Iteration 1)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific helmholtz energy = -2392408.727382992
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific gibbs energy = -2143305.959386544 (Iteration 1)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific gibbs energy = -2143305.959386544
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Pressure_Ratio equation is compatible
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Temperature
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Temperature = 836.0753709063939 (Iteration 1)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Temperature = 846.0295438056253 (Iteration 2)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Temperature = 845.2190420148357 (Iteration 3)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Temperature = 845.2146267979018 (Iteration 4)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Temperature = 845.2146267979018
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific enthalpy = 849018.0926184924 (Iteration 1)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific enthalpy = 849018.0926184924
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific gibbs energy = -2064614.381985044 (Iteration 1)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific gibbs energy = -2064614.381985044
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific internal energy = 606441.4947274947 (Iteration 1)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific internal energy = 606441.4947274947
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific volume = 2.2743426399856617 (Iteration 1)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific volume = 2.2743426399856617
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Density = 0.43968748702104676 (Iteration 1)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Density = 0.43968748702104676
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific helmholtz energy = -2307190.979876042 (Iteration 1)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific helmholtz energy = -2307190.979876042
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Efficiency equation is compatible
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific enthalpy = 871859.6879875677 (Iteration 1)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific enthalpy = 871859.6879875677
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific internal energy = 622756.9199911199 (Iteration 1)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific internal energy = 622756.9199911199
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific volume = 2.3355305166219296 (Iteration 1)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific volume = 2.3355305166219296
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Density = 0.42816824395265485 (Iteration 1)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Density = 0.42816824395265485
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific entropy = 3473.8776600375218 (Iteration 1)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific entropy = 3473.8776600375218
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific helmholtz energy = -2392408.727382992 (Iteration 1)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific helmholtz energy = -2392408.727382992
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific gibbs energy = -2143305.959386544 (Iteration 1)
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Specific gibbs energy = -2143305.959386544
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Compressor true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Turbine true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Heat Sink false
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Solving Q = m (h in - h out) for Q
+2019-05-18 21:04:36.636 [main] TRACE DebugLog - Q = 570509.6879875676 (Iteration 1)
+2019-05-18 21:04:36.636 [main] DEBUG DebugLog - Q = 570509.6879875676
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Compressor true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Turbine true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Compressor true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Combustor true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Turbine true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.636 [main] INFO  DebugLog - System solved.
+2019-05-18 21:04:36.637 [main] DEBUG DebugLog - TO DO: Store parametric results.
+2019-05-18 21:04:36.646 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-05-18 21:04:36.647 [main] INFO  DebugLog - Created Heat Sink (HeatSink)
+2019-05-18 21:04:36.647 [main] INFO  DebugLog - Setting fluid to Air
+2019-05-18 21:04:36.647 [main] INFO  DebugLog - Performing parametric solve for Heat Sink Test
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Solving for boundary condition Set 1 of 1
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Applying boundary conditions.
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006 (Iteration 1)
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific enthalpy = 301350.00000000006
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003 (Iteration 1)
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific internal energy = 215250.00000000003
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific volume = 0.8497409326424759 (Iteration 1)
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific volume = 0.8497409326424759
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Density = 1.1768292682927495 (Iteration 1)
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Density = 1.1768292682927495
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific entropy = 2421.462110212656 (Iteration 1)
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific entropy = 2421.462110212656
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific helmholtz energy = -511188.6330637969 (Iteration 1)
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific helmholtz energy = -511188.6330637969
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific gibbs energy = -425088.63306379685 (Iteration 1)
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific gibbs energy = -425088.63306379685
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Solving h = ƒ(T) for Specific enthalpy
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific enthalpy = 502250.00000000006 (Iteration 1)
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific enthalpy = 502250.00000000006
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Solving u = ƒ(T) for Specific internal energy
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific internal energy = 358750.00000000006 (Iteration 1)
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific internal energy = 358750.00000000006
+2019-05-18 21:04:36.647 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
+2019-05-18 21:04:36.647 [main] INFO  DebugLog - Solving m in = m out for m out
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - m out = 1.0 (Iteration 1)
+2019-05-18 21:04:36.647 [main] DEBUG DebugLog - m out = 1.0
+2019-05-18 21:04:36.647 [main] INFO  DebugLog - Solving Q = m (h in - h out) for Q
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Q = 200900.0 (Iteration 1)
+2019-05-18 21:04:36.647 [main] DEBUG DebugLog - Q = 200900.0
+2019-05-18 21:04:36.647 [main] INFO  DebugLog - Solving p in = (1 - pr) p out for p in
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - p in = 106657.8947368421 (Iteration 1)
+2019-05-18 21:04:36.647 [main] DEBUG DebugLog - p in = 106657.8947368421
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for Specific volume
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific volume = 1.3454231433514678 (Iteration 1)
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific volume = 1.3454231433514678
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Solving ? = ƒ(v) for Density
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Density = 0.7432605905001992 (Iteration 1)
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Density = 0.7432605905001992
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Solving s = ƒ(T,P) for Specific entropy
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific entropy = 2919.865273796367 (Iteration 1)
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific entropy = 2919.865273796367
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for Specific helmholtz energy
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific helmholtz energy = -1101182.6368981835 (Iteration 1)
+2019-05-18 21:04:36.647 [main] TRACE DebugLog - Specific helmholtz energy = -1101182.6368981835
+2019-05-18 21:04:36.648 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for Specific gibbs energy
+2019-05-18 21:04:36.648 [main] TRACE DebugLog - Specific gibbs energy = -957682.6368981835 (Iteration 1)
+2019-05-18 21:04:36.648 [main] TRACE DebugLog - Specific gibbs energy = -957682.6368981835
+2019-05-18 21:04:36.648 [main] INFO  DebugLog - Mass_Balance equation is compatible
+2019-05-18 21:04:36.648 [main] INFO  DebugLog - Energy_Balance equation is compatible
+2019-05-18 21:04:36.648 [main] INFO  DebugLog - Pressure_Loss equation is compatible
+2019-05-18 21:04:36.648 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.648 [main] INFO  DebugLog - Heat Sink true
+2019-05-18 21:04:36.648 [main] INFO  DebugLog - System solved.
+2019-05-18 21:04:36.648 [main] DEBUG DebugLog - TO DO: Store parametric results.

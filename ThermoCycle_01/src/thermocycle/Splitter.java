@@ -83,12 +83,12 @@ final class Splitter extends Component {
     /**
      * Mass balance across the splitter.
      */
-    private class Eqn_Mass extends Equation{
+    private class Eqn_Mass extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Eqn_Mass() {super(1e-3);}
+        private Eqn_Mass() {super("m in = m out 1 + m out 2", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {
@@ -126,12 +126,12 @@ final class Splitter extends Component {
     /**
      * Mass split across the first branch in splitter.
      */
-    private class Eqn_Split extends Equation{
+    private class Eqn_Split extends ComponentEquation{
         
         /**
          * Constructor.
          */
-        private Eqn_Split() {super(1e-3);}
+        private Eqn_Split() {super("m out 1 = m in * split", 1e-3);}
         
         @Override
         protected Map<String, OptionalDouble> getVariables() {

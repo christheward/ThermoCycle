@@ -130,7 +130,7 @@ public class GraphController extends VBox {
             public void handle(ActionEvent event) {
                 getData();
                 Property xprop = xproperty.getSelectionModel().getSelectedItem();
-                xaxis.setLabel(xprop.fullName + " [" + xprop.units + "]");
+                xaxis.setLabel(xprop.fullName + " [" + xprop.type + "]");
             }
         });
         yproperty.setOnAction(new EventHandler<ActionEvent>() {
@@ -138,7 +138,7 @@ public class GraphController extends VBox {
             public void handle(ActionEvent event) {
                 getData();
                 Property yprop = yproperty.getSelectionModel().getSelectedItem();
-                yaxis.setLabel(yprop.fullName + " [" + yprop.units + "]");        
+                yaxis.setLabel(yprop.fullName + " [" + yprop.type + "]");        
             }
         });
     }

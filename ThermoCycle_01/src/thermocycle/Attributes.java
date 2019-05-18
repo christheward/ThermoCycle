@@ -5,6 +5,8 @@
  */
 package thermocycle;
 
+import thermocycle.Units.UNITS_TYPE;
+
 /**
  *
  * @author Chris
@@ -16,17 +18,17 @@ public interface Attributes {
      */
     enum Attribute {
         
-        EFFICIENCY ("Efficiency", "eta", "-", 0.0, 1.0),
-        PRATIO("Pressure Ratio", "PR", "-", 0.0, Double.POSITIVE_INFINITY),
-        PLOSS("Pressure Loss", "PL", "-", 0.0, 1.0),
-        EFFECTIVENESS ("Effectiveness", "epsilon", "-", 0.0, 1.0),
-        AHEATTRANSFER("Actual Heat Transfer","Q_Actual","W",0.0,Double.POSITIVE_INFINITY),
-        IHEATTRANSFER("Ideal Heat Transfer","Q_Ideal","W",0.0,Double.POSITIVE_INFINITY),
-        SPLIT("Split","x","-",0.0,1.0);
+        EFFICIENCY ("Efficiency", "eta", UNITS_TYPE.DIMENSIONLESS, 0.0, 1.0),
+        PRATIO("Pressure Ratio", "PR", UNITS_TYPE.DIMENSIONLESS, 0.0, Double.POSITIVE_INFINITY),
+        PLOSS("Pressure Loss", "PL", UNITS_TYPE.DIMENSIONLESS, 0.0, 1.0),
+        EFFECTIVENESS ("Effectiveness", "epsilon", UNITS_TYPE.DIMENSIONLESS, 0.0, 1.0),
+        AHEATTRANSFER("Actual Heat Transfer","Q_Actual",UNITS_TYPE.POWER,0.0,Double.POSITIVE_INFINITY),
+        IHEATTRANSFER("Ideal Heat Transfer","Q_Ideal",UNITS_TYPE.POWER,0.0,Double.POSITIVE_INFINITY),
+        SPLIT("Split","x",UNITS_TYPE.DIMENSIONLESS,0.0,1.0);
         
         public final String fullName;
         public final String symbol;
-        public final String units;
+        public final UNITS_TYPE type;
         protected final double min;
         protected final double max;
         
@@ -38,10 +40,10 @@ public interface Attributes {
          * @param min Minimum attribute value
          * @param max Maximum attribute value
          */
-        private Attribute(String fullname, String symbol, String units, double min, double max) {
+        private Attribute(String fullname, String symbol, UNITS_TYPE units, double min, double max) {
             this.fullName = fullname;
             this.symbol = symbol;
-            this.units = units;
+            this.type = units;
             this.max = max;
             this.min = min;
         }

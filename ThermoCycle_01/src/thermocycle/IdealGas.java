@@ -5,9 +5,11 @@
  */
 package thermocycle;
 
+import report.ReportDataBlock;
 import java.util.*;
 import thermocycle.Properties.Property;
 import static thermocycle.Properties.Property.*;
+import thermocycle.Units.UNITS_TYPE;
 
 /**
  *
@@ -35,6 +37,11 @@ public final class IdealGas extends Fluid {
         super(name);
         this.gamma = gamma;
         this.Rs = Rs;
+        equations.add(new H_T());
+        equations.add(new U_T());
+        equations.add(new S_TP());
+        equations.add(new S_TV());
+        equations.add(new S_PV());
     }
     
     /**
@@ -100,170 +107,106 @@ public final class IdealGas extends Fluid {
         return fluidState;
     }
     
+    
     @Override
-    protected void computeState(State state) {
-        Set<Property> unknowns = getAllowableProperties();
-        unknowns.removeAll(state.properties());
-        do {
-            unknowns.forEach(p -> {
-                switch (p) {
-                    case TEMPERATURE: {calcT(state); break;}
-                    case PRESSURE: {calcP(state); break;}
-                    case VOLUME: {calcV(state); break;}
-                    case DENSITY: {calcR(state); break;}
-                    case ENTROPY: {calcS(state); break;}
-                    case ENERGY: {calcU(state); break;}
-                    case ENTHALPY: {calcH(state); break;}
-                    case HELMHOLTZ: {calcF(state); break;}
-                    case GIBBS: {calcG(state); break;}
-                    }
-            });
-        } while (unknowns.removeAll(state.properties()));
+    public ReportDataBlock getReportData() {
+        ReportDataBlock rdb = new ReportDataBlock(name);
+        rdb.addData("R", DimensionedDouble.valueOfSI(getRs(), UNITS_TYPE.SPECIFIC_ENERGY));
+        rdb.addData("Gamma", DimensionedDouble.valueOfSI(getGa(), UNITS_TYPE.DIMENSIONLESS));
+        rdb.addData("Cp", DimensionedDouble.valueOfSI(getCp(), UNITS_TYPE.ENTROPY));
+        rdb.addData("Cv", DimensionedDouble.valueOfSI(getCv(), UNITS_TYPE.ENTROPY));
+        return rdb;
     }
     
-    /**
-     * Calculates the state temperature, T, based on state relationships. The ideal gas state relationships are: <br> - P.V = Rs.T <br> - U = Cv.T <br> - H = Cp.T <br> - S = Cp.ln(T) - Rs.ln(P) <br> - S = Cv.ln(P) + Cp.ln(V) - Cp.ln(Rs) <br> - S = Cv.ln(T) + Rs.ln(V) - Rs.ln(Rs)
-     * @param state The state to calculate temperature for.
-     */
-    @Override
-    protected void calcT(State state) {
-        super.calcT(state);
-        if (!state.contains(TEMPERATURE)) {
-            // T = H / Cp
-            if (state.contains(ENTHALPY)) {
-                state.setProperty(TEMPERATURE, state.getProperty(ENTHALPY).getAsDouble() / getCp());
-            }
-            // T = U / Cv
-            else if (state.contains(ENERGY)) {
-                state.setProperty(TEMPERATURE, state.getProperty(ENERGY).getAsDouble() / getCv());
-            }
-            // T = P.V / Rs
-            else if (state.contains(PRESSURE, VOLUME)) {
-                state.setProperty(TEMPERATURE, state.getProperty(PRESSURE).getAsDouble() * state.getProperty(VOLUME).getAsDouble() / getRs());
-            }
-            // T = e^((S - Rs.log(V) + Rs.log(Rs)) / Cv )
-            else if (state.contains(ENTROPY, VOLUME)) {
-                state.setProperty(TEMPERATURE, Math.exp((state.getProperty(ENTROPY).getAsDouble() - getRs() * Math.log(state.getProperty(VOLUME).getAsDouble()) + getRs() * Math.log(getRs())) / getCv()));
-            }
-            // T = e^((S + Rs.log(P) ) / Cp )
-            else if (state.contains(ENTROPY, PRESSURE)) {
-                state.setProperty(TEMPERATURE, Math.exp((state.getProperty(ENTROPY).getAsDouble() + getRs() * Math.log(state.getProperty(PRESSURE).getAsDouble())) / getCp()));
-            }
+    // U = Cv T
+    private class U_T extends FluidEquation {
+
+        public U_T() {
+            super(FluidEquation.equationString(ENERGY, TEMPERATURE), ENERGY.convergenceTolerance);
+        }
+
+        @Override
+        protected Map<Property, OptionalDouble> getVariables(State state) {
+            return getVariables(state, ENERGY, TEMPERATURE);
+        }
+
+        @Override
+        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+            return OptionalDouble.of(variables.get(ENERGY).getAsDouble() - IdealGas.this.getCv()*variables.get(TEMPERATURE).getAsDouble());
         }
     }
     
-    /**
-     * Calculates the state pressure, P, based on state relationships. The ideal gas state relationships are: <br> - P.V = Rs.T <br> - U = Cv.T <br> - H = Cp.T <br> - S = Cp.ln(T) - Rs.ln(P) <br> - S = Cv.ln(P) + Cp.ln(V) - Cp.ln(Rs) <br> - S = Cv.ln(T) + Rs.ln(V) - Rs.ln(Rs)
-     * @param state The state to calculate pressure for.
-     */
-    @Override
-    protected void calcP(State state) {
-        super.calcP(state);
-        if (!state.contains(PRESSURE)) {
-            // P = Rs * T / V
-            if (state.contains(TEMPERATURE, VOLUME)) {
-                state.setProperty(PRESSURE, getRs() * state.getProperty(TEMPERATURE).getAsDouble() / state.getProperty(VOLUME).getAsDouble());
-            }
-            // P = e^((-S + Cp.log (T)) / Rs)
-            else if (state.contains(ENTROPY, TEMPERATURE)) {
-                state.setProperty(PRESSURE, Math.exp((-state.getProperty(ENTROPY).getAsDouble() + getCp() * Math.log(state.getProperty(TEMPERATURE).getAsDouble())) / getRs()));
-            }
-            // P = e^((S - Cp.log(V) + Cp.log(Rs)) / Cv)
-            else if (state.contains(ENTROPY, VOLUME)) {
-                state.setProperty(PRESSURE, Math.exp((state.getProperty(ENTROPY).getAsDouble() - getCp() * Math.log(state.getProperty(VOLUME).getAsDouble()) + getCp() * Math.log(getRs())) / getCv()));
-            }
+    // H = Cp T
+    private class H_T extends FluidEquation {
+
+        public H_T() {
+            super(FluidEquation.equationString(ENTHALPY, TEMPERATURE), ENTHALPY.convergenceTolerance);
+        }
+
+        @Override
+        protected Map<Property, OptionalDouble> getVariables(State state) {
+            return getVariables(state, ENTHALPY, TEMPERATURE);
+        }
+
+        @Override
+        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+            return OptionalDouble.of(variables.get(ENTHALPY).getAsDouble() - IdealGas.this.getCp()*variables.get(TEMPERATURE).getAsDouble());
         }
     }
     
-    /**
-     * Calculates the state specific volume, V, based on state relationships. The ideal gas state relationships are: <br> - P.V = Rs.T <br> - U = Cv.T <br> - H = Cp.T <br> - S = Cp.ln(T) - Rs.ln(P) <br> - S = Cv.ln(P) + Cp.ln(V) - Cp.ln(Rs) <br> - S = Cv.ln(T) + Rs.ln(V) - Rs.ln(Rs)
-     * @param state The state to calculate specific volume for.
-     */
-    @Override
-    protected void calcV(State state) {
-        super.calcV(state);
-        if (!state.contains(VOLUME)) {
-            // V = Rs * T / P
-            if (state.contains(TEMPERATURE, PRESSURE)) {
-                state.setProperty(VOLUME, getRs() * state.getProperty(TEMPERATURE).getAsDouble() / state.getProperty(PRESSURE).getAsDouble());
-            }
-            // V = e^((S - Cv.log(T) + Rs.log(Rs)) / Rs)
-            else if (state.contains(ENTROPY, TEMPERATURE)) {
-                state.setProperty(VOLUME, Math.exp((state.getProperty(ENTROPY).getAsDouble() - getCv() * Math.log(state.getProperty(TEMPERATURE).getAsDouble()) + getRs() * Math.log(getRs())) / getRs()));
-            }
-            // V = e^((S - Cv.log(P) + Cp.log(Rs)) / Cp)
-            else if (state.contains(ENTROPY, PRESSURE)) {
-                state.setProperty(VOLUME, Math.exp((state.getProperty(ENTROPY).getAsDouble() - getCv() * Math.log(state.getProperty(PRESSURE).getAsDouble()) + getCp() * Math.log(getRs())) / getCp()));
-            }
+    
+    // S = Cv ln(T) + Rs ln(V) - Rs ln(Rs)
+    private class S_TV extends FluidEquation {
+
+        public S_TV() {
+            super(FluidEquation.equationString(ENTROPY, TEMPERATURE, VOLUME), ENTROPY.convergenceTolerance);
+        }
+
+        @Override
+        protected Map<Property, OptionalDouble> getVariables(State state) {
+            return getVariables(state, ENTROPY, TEMPERATURE, VOLUME);
+        }
+
+        @Override
+        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+            return OptionalDouble.of(variables.get(ENTROPY).getAsDouble() - IdealGas.this.getCv()*Math.log(variables.get(TEMPERATURE).getAsDouble()) - IdealGas.this.Rs*Math.log(variables.get(VOLUME).getAsDouble()) + IdealGas.this.Rs*Math.log(IdealGas.this.Rs));
         }
     }
     
-    /**
-     * Calculates the state entropy, S, based on state relationships. The ideal gas state relationships are: <br> - P.V = Rs.T <br> - U = Cv.T <br> - H = Cp.T <br> - S = Cp.ln(T) - Rs.ln(P) <br> - S = Cv.ln(P) + Cp.ln(V) - Cp.ln(Rs) <br> - S = Cv.ln(T) + Rs.ln(V) - Rs.ln(Rs)
-     * @param state The state to calculate entropy for.
-     */
-    @Override
-    protected void calcS(State state) {
-        super.calcS(state);
-        if (!state.contains(ENTROPY)) {
-            // S = Cv.log(T) + Rs * log(V) - Rs.log(Rs)
-            if (state.contains(TEMPERATURE, VOLUME)) {
-                state.setProperty(ENTROPY, getCv() * Math.log(state.getProperty(TEMPERATURE).getAsDouble()) + getRs() * Math.log(state.getProperty(VOLUME).getAsDouble()) - getRs() * Math.log(getRs()));
-            }
-            // S = Cp.log(T) - Rs * log(P)
-            else if (state.contains(TEMPERATURE, PRESSURE)) {
-                state.setProperty(ENTROPY, getCp() * Math.log(state.getProperty(TEMPERATURE).getAsDouble()) - getRs() * Math.log(state.getProperty(PRESSURE).getAsDouble()));
-            }
-            // S = Cv.log(P) + Cp * log(V) - Cp.log(Rs)
-            else if (state.contains(PRESSURE, VOLUME)) {
-                state.setProperty(ENTROPY, getCv() * Math.log(state.getProperty(PRESSURE).getAsDouble()) + getCp() * Math.log(state.getProperty(VOLUME).getAsDouble()) - getCp() * Math.log(getRs()));
-            }
+    // S = Cp ln(T) - Rs ln(P)
+    private class S_TP extends FluidEquation {
+
+        public S_TP() {
+            super(FluidEquation.equationString(ENTROPY, TEMPERATURE, PRESSURE), ENTROPY.convergenceTolerance);
+        }
+
+        @Override
+        protected Map<Property, OptionalDouble> getVariables(State state) {
+            return getVariables(state, ENTROPY, TEMPERATURE, PRESSURE);
+        }
+
+        @Override
+        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+            return OptionalDouble.of(variables.get(ENTROPY).getAsDouble() - IdealGas.this.getCp()*Math.log(variables.get(TEMPERATURE).getAsDouble()) + IdealGas.this.Rs*Math.log(variables.get(PRESSURE).getAsDouble()));
         }
     }
     
-    /**
-     * Calculates the state internal energy, U, based on state relationships. The ideal gas state relationships are: <br> - P.V = Rs.T <br> - U = Cv.T <br> - H = Cp.T <br> - S = Cp.ln(T) - Rs.ln(P) <br> - S = Cv.ln(P) + Cp.ln(V) - Cp.ln(Rs) <br> - S = Cv.ln(T) + Rs.ln(V) - Rs.ln(Rs)
-     * @param state The state to calculate internal energy for.
-     */
-    @Override
-    protected void calcU(State state) {
-        super.calcU(state);
-        if (!state.contains(ENERGY)) {
-            // U = Cv.T
-            if (state.contains(TEMPERATURE)) {
-                state.setProperty(ENERGY, getCv() * state.getProperty(TEMPERATURE).getAsDouble());
-            }
+    // S = Cv log(P) + Cp log(V) - Cp log(Rs)
+    private class S_PV extends FluidEquation {
+
+        public S_PV() {
+            super(FluidEquation.equationString(ENTROPY, PRESSURE, VOLUME), ENTROPY.convergenceTolerance);
         }
-    }
-    
-    /**
-     * Calculates the state enthalpy, H, based on state relationships. The ideal gas state relationships are: <br> - P.V = Rs.T <br> - U = Cv.T <br> - H = Cp.T <br> - S = Cp.ln(T) - Rs.ln(P) <br> - S = Cv.ln(P) + Cp.ln(V) - Cp.ln(Rs) <br> - S = Cv.ln(T) + Rs.ln(V) - Rs.ln(Rs)
-     * @param state The state to calculate enthalpy for.
-     */
-    @Override
-    protected void calcH(State state) {
-        super.calcH(state);
-        if (!state.contains(ENTHALPY)) {
-            // H = Cp.T
-            if (state.contains(TEMPERATURE)) {
-                state.setProperty(ENTHALPY, getCp() * state.getProperty(TEMPERATURE).getAsDouble());
-            }
+
+        @Override
+        protected Map<Property, OptionalDouble> getVariables(State state) {
+            return getVariables(state, ENTROPY, PRESSURE, VOLUME);
         }
-    }
-    
-    @Override
-    protected void calcF(State state) {
-        super.calcF(state);
-    }
-    
-    @Override
-    protected void calcG(State state) {
-        super.calcG(state);
-    }
-    
-    @Override
-    protected void calcR(State state) {
-        super.calcR(state);
+
+        @Override
+        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+            return OptionalDouble.of(variables.get(ENTROPY).getAsDouble() - IdealGas.this.getCv()*Math.log(variables.get(PRESSURE).getAsDouble()) - IdealGas.this.getCp()*Math.log(variables.get(VOLUME).getAsDouble()) + IdealGas.this.getCp()*Math.log(IdealGas.this.Rs));
+        }
     }
     
 }
