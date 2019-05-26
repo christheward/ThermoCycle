@@ -164,7 +164,7 @@ public abstract class Component implements Serializable, Reportable {
      * Gets a list of all the nodes for this component
      * @return A list of all nodes.
      */
-    private final List<Node> getNodes() {
+    protected final List<Node> getNodes() {
         List<Node> nodes = new ArrayList();
         nodes.addAll(flowNodes);
         nodes.addAll(workNodes);
@@ -448,7 +448,7 @@ public abstract class Component implements Serializable, Reportable {
             });
         }
         else {
-            wkn.addData("No work connections", "");
+            wkn.addData("No work connections", "-");
         }
         rdb.addDataBlock(wkn);
         
