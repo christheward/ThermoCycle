@@ -67,9 +67,16 @@ public abstract class Fluid implements Serializable, Reportable {
      * @param state the state to compute.
      */
     protected final void computeState(State state) {
-        // Keep solving the equations untill no unknowns are being updated.
+        // Keep solving the equations until no unknowns are being updated.
         while(!equations.stream().allMatch(e -> (e.solve(state) == false))) {}
     }
+    
+    /**
+     * Gets the initial guess for a property to use with the solver.
+     * @param property the property to get an initial guess for.
+     * @return the initial guess.
+     */
+    protected abstract Double initialGuess(Property property);
     
     @Override
     public String toString() {
@@ -79,7 +86,7 @@ public abstract class Fluid implements Serializable, Reportable {
     // R = 1 / V
     private class R_V extends FluidEquation {
 
-        public R_V() {super(FluidEquation.equationString(DENSITY, VOLUME), DENSITY.convergenceTolerance);}
+        public R_V() {super(Fluid.this, FluidEquation.equationString(DENSITY, VOLUME), DENSITY.convergenceTolerance);}
         
         @Override
         protected  Map<Property, OptionalDouble> getVariables(State state) {
@@ -96,7 +103,7 @@ public abstract class Fluid implements Serializable, Reportable {
     // H = U + P V
     private class H_UPV extends FluidEquation {
         
-        public H_UPV() {super(FluidEquation.equationString(ENTHALPY, ENERGY, PRESSURE, VOLUME), ENTHALPY.convergenceTolerance);}
+        public H_UPV() {super(Fluid.this, FluidEquation.equationString(ENTHALPY, ENERGY, PRESSURE, VOLUME), ENTHALPY.convergenceTolerance);}
 
         @Override
         protected Map<Property, OptionalDouble> getVariables(State state) {
@@ -113,7 +120,7 @@ public abstract class Fluid implements Serializable, Reportable {
     // F = U - T S
     private class F_UTS extends FluidEquation {
 
-        public F_UTS() {super(FluidEquation.equationString(HELMHOLTZ, ENERGY, TEMPERATURE, ENTROPY), HELMHOLTZ.convergenceTolerance);}
+        public F_UTS() {super(Fluid.this, FluidEquation.equationString(HELMHOLTZ, ENERGY, TEMPERATURE, ENTROPY), HELMHOLTZ.convergenceTolerance);}
 
         @Override
         protected Map<Property, OptionalDouble> getVariables(State state) {
@@ -130,7 +137,7 @@ public abstract class Fluid implements Serializable, Reportable {
     // G = H - T S
     private class G_HTS extends FluidEquation {
 
-        public G_HTS() {super(FluidEquation.equationString(GIBBS, ENTHALPY, TEMPERATURE, ENTROPY),1e-5);}
+        public G_HTS() {super(Fluid.this, FluidEquation.equationString(GIBBS, ENTHALPY, TEMPERATURE, ENTROPY),1e-5);}
 
         @Override
         protected Map<Property, OptionalDouble> getVariables(State state) {

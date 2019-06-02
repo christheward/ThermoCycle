@@ -17,6 +17,8 @@ import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import thermocycle.BoundaryConditionProperty;
 import thermocycle.Properties.Property;
+import utilities.Units;
+import utilities.Units.UNITS_SYSTEM;
 
 /**
  *
@@ -54,7 +56,7 @@ public class BoundaryProperty {
             }
             @Override
             protected String computeValue() {
-                return property.isNotNull().getValue() ? property.getValue().type.getSI().toString() : "";
+                return property.isNotNull().getValue() ? property.getValue().type.getUnits(UNITS_SYSTEM.SI).toString() : "";
             }
         });
 

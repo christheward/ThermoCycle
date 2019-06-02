@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thermocycle;
+package utilities;
 
-import thermocycle.Units.UNITS;
-import thermocycle.Units.UNITS_TYPE;
+import utilities.Units;
+import java.text.DecimalFormat;
+import utilities.Units.UNITS;
+import utilities.Units.UNITS_TYPE;
 
 /**
  *
@@ -14,7 +16,19 @@ import thermocycle.Units.UNITS_TYPE;
  */
 public final class DimensionedDouble {
     
+    /**
+     * The formatter used when printing.
+     */
+    private static DecimalFormat df = new DecimalFormat("0.00E0");
+    
+    /**
+     * The value of the number.
+     */
     private final Double value;
+    
+    /**
+     * The units of the number.
+     */
     private final UNITS units;
     
     /**
@@ -47,11 +61,6 @@ public final class DimensionedDouble {
         this.units = units;
     }
     
-    @Override
-    public String toString() {
-        return value.toString() + " " + units.toString();
-    }
-    
     /**
      * Convert dimensioned number to new units.
      * @param newUnits the units to convert to.
@@ -59,6 +68,11 @@ public final class DimensionedDouble {
      */
     public DimensionedDouble convertTo(UNITS newUnits) {
         return new DimensionedDouble(newUnits.fromSI(units.toSI(value)), newUnits);
+    }
+    
+    @Override
+    public String toString() {
+        return df.format(value) + " " + units.toString();
     }
     
 }

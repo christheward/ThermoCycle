@@ -23,37 +23,13 @@ public final class HeatSink extends Component {
      */
     protected HeatSink(String name, State ambient) {
         super(name, ambient);
-        flowNodes.add(new FlowNode(INLET));
-        flowNodes.add(new FlowNode(OUTLET));
-        heatNodes.add(new HeatNode(OUTLET));
-        internals.add(new Connection(flowNodes.get(0),flowNodes.get(1)));
+        flowNodes.put("Inlet",new FlowNode(INLET));
+        flowNodes.put("Outlet",new FlowNode(OUTLET));
+        heatNodes.put("Sink",new HeatNode(OUTLET));
+        internals.add(new Connection(flowNodes.get("Inlet"),flowNodes.get("Outlet")));
         equations.add(new Mass_Balance());
         equations.add(new Energy_Balance());
         equations.add(new Pressure_Loss());
-    }
-    
-    /**
-     * Gets the heat sink inlet.
-     * @return Returns the inlet flow node.
-     */
-    public FlowNode getInlet() {
-        return flowNodes.get(0);
-    }
-    
-    /**
-     * Gets the heat sink outlet.
-     * @return Returns the outlet flow node.
-     */
-    public FlowNode getOutlet() {
-        return flowNodes.get(1);
-    }
-    
-    /**
-     * Gets the heat sink heat lost.
-     * @return Returns the outlet heat node.
-     */
-    public HeatNode getSink() {
-        return heatNodes.get(0);
     }
     
     @Override
@@ -63,13 +39,13 @@ public final class HeatSink extends Component {
     
     @Override
     protected double heatExergyOut() {
-        return heatTransferProcessExergy(thermodynamicProcess(getInlet(), getOutlet(), ENTHALPY, PRESSURE));
+        return heatTransferProcessExergy(thermodynamicProcess(flowNodes.get("Inlet"), flowNodes.get("Outlet"), ENTHALPY, PRESSURE));
     }
     
     @Override
     protected List<List<FlowNode>> plotData() {
         List paths = new ArrayList();
-        paths.add(thermodynamicProcess(getInlet(), getOutlet(), ENTHALPY, ENTROPY));
+        paths.add(thermodynamicProcess(flowNodes.get("Inlet"), flowNodes.get("Outlet"), ENTHALPY, ENTROPY));
         return paths;
     }
     
@@ -93,8 +69,8 @@ public final class HeatSink extends Component {
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("m_in", HeatSink.this.getInlet().getMass());
-            variables.put("m_out", HeatSink.this.getOutlet().getMass());
+            variables.put("m_in", HeatSink.this.flowNodes.get("Inlet").getMass());
+            variables.put("m_out", HeatSink.this.flowNodes.get("Outlet").getMass());
             return variables;
         }
         
@@ -107,12 +83,12 @@ public final class HeatSink extends Component {
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "m_in": {
-                    HeatSink.this.getInlet().setMass(value);
-                    return HeatSink.this.getInlet();
+                    HeatSink.this.flowNodes.get("Inlet").setMass(value);
+                    return HeatSink.this.flowNodes.get("Inlet");
                 }
                 case "m_out": {
-                    HeatSink.this.getOutlet().setMass(value);
-                    return HeatSink.this.getOutlet();
+                    HeatSink.this.flowNodes.get("Outlet").setMass(value);
+                    return HeatSink.this.flowNodes.get("Outlet");
                 }
             }
             return null;
@@ -132,10 +108,10 @@ public final class HeatSink extends Component {
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("Q", HeatSink.this.getSink().getHeat());
-            variables.put("m", HeatSink.this.getInlet().getMass());
-            variables.put("h_in", HeatSink.this.getInlet().getState(ENTHALPY));
-            variables.put("h_out", HeatSink.this.getOutlet().getState(ENTHALPY));
+            variables.put("Q", HeatSink.this.heatNodes.get("Sink").getHeat());
+            variables.put("m", HeatSink.this.flowNodes.get("Inlet").getMass());
+            variables.put("h_in", HeatSink.this.flowNodes.get("Inlet").getState(ENTHALPY));
+            variables.put("h_out", HeatSink.this.flowNodes.get("Outlet").getState(ENTHALPY));
             return variables;
         }
         
@@ -148,20 +124,20 @@ public final class HeatSink extends Component {
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "Q": {
-                    HeatSink.this.getSink().setHeat(value);
-                    return HeatSink.this.getSink();
+                    HeatSink.this.heatNodes.get("Sink").setHeat(value);
+                    return HeatSink.this.heatNodes.get("Sink");
                 }
                 case "m": {
-                    HeatSink.this.getInlet().setMass(value);
-                    return HeatSink.this.getInlet();
+                    HeatSink.this.flowNodes.get("Inlet").setMass(value);
+                    return HeatSink.this.flowNodes.get("Inlet");
                 }
                 case "h_in": {
-                    HeatSink.this.getInlet().setProperty(ENTHALPY,value);
-                    return HeatSink.this.getInlet();
+                    HeatSink.this.flowNodes.get("Inlet").setProperty(ENTHALPY,value);
+                    return HeatSink.this.flowNodes.get("Inlet");
                 }
                 case "h_out": {
-                    HeatSink.this.getOutlet().setProperty(ENTHALPY,value);
-                    return HeatSink.this.getOutlet();
+                    HeatSink.this.flowNodes.get("Outlet").setProperty(ENTHALPY,value);
+                    return HeatSink.this.flowNodes.get("Outlet");
                 }
             }
             return null;
@@ -182,8 +158,8 @@ public final class HeatSink extends Component {
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
             variables.put("pr", HeatSink.this.getAttribute(PLOSS));
-            variables.put("p_in", HeatSink.this.getInlet().getState(PRESSURE));
-            variables.put("p_out", HeatSink.this.getOutlet().getState(PRESSURE));
+            variables.put("p_in", HeatSink.this.flowNodes.get("Inlet").getState(PRESSURE));
+            variables.put("p_out", HeatSink.this.flowNodes.get("Outlet").getState(PRESSURE));
             return variables;
         }
         
@@ -200,12 +176,12 @@ public final class HeatSink extends Component {
                     return null;
                 }
                 case "p_in": {
-                    HeatSink.this.getInlet().setProperty(PRESSURE,value);
-                    return HeatSink.this.getInlet();
+                    HeatSink.this.flowNodes.get("Inlet").setProperty(PRESSURE,value);
+                    return HeatSink.this.flowNodes.get("Inlet");
                 }
                 case "p_out": {
-                    HeatSink.this.getOutlet().setProperty(PRESSURE,value);
-                    return HeatSink.this.getOutlet();
+                    HeatSink.this.flowNodes.get("Outlet").setProperty(PRESSURE,value);
+                    return HeatSink.this.flowNodes.get("Outlet");
                 }
             }
             return null;

@@ -23,12 +23,12 @@ public final class HeatExchanger extends Component {
      */
     protected HeatExchanger(String name, State ambient) {
         super(name, ambient);
-        flowNodes.add(new FlowNode(INLET));
-        flowNodes.add(new FlowNode(OUTLET));
-        flowNodes.add(new FlowNode(INLET));
-        flowNodes.add(new FlowNode(OUTLET));
-        internals.add(new Connection(flowNodes.get(0),flowNodes.get(1)));
-        internals.add(new Connection(flowNodes.get(2),flowNodes.get(3)));
+        flowNodes.put("Hot Side Inlet",new FlowNode(INLET));
+        flowNodes.put("Hot Side Outlet",new FlowNode(OUTLET));
+        flowNodes.put("Cold Side Inelt",new FlowNode(INLET));
+        flowNodes.put("Cold Side Outlet",new FlowNode(OUTLET));
+        internals.add(new Connection(flowNodes.get("Hot Side Inlet"),flowNodes.get("Hot Side Outlet")));
+        internals.add(new Connection(flowNodes.get("Cold Side Inlet"),flowNodes.get("Cold Side Outlet")));
         equations.add(new Mass_Balance_Hot());
         equations.add(new Mass_Balance_Cold());
         equations.add(new Energy_Balance_Hot());
@@ -37,38 +37,6 @@ public final class HeatExchanger extends Component {
         equations.add(new Pressure_Loss_Cold());
         equations.add(new Effectiveness());
         equations.add(new Ideal_Heat_Transfer());
-    }
-    
-    /**
-     * Gets the heat exchanger hot stream inlet.
-     * @return Returns the hot stream inlet flow node.
-     */
-    public FlowNode getInletHot() {
-        return flowNodes.get(0);
-    }
-    
-    /**
-     * Gets the heat exchanger hot stream outlet.
-     * @return Returns the hot stream outlet flow node.
-     */
-    public FlowNode getOutletHot() {
-        return flowNodes.get(1);
-    }
-    
-    /**
-     * Gets the heat exchanger cold stream inlet.
-     * @return Returns the cold stream inlet flow node.
-     */
-    public FlowNode getInletCold() {
-        return flowNodes.get(2);
-    }
-    
-    /**
-     * Gets the heat exchanger cold stream outlet.
-     * @return Returns the hot stream outlet flow node.
-     */
-    public FlowNode getOutletCold() {
-        return flowNodes.get(3);
     }
     
     @Override
@@ -84,8 +52,8 @@ public final class HeatExchanger extends Component {
     @Override
     protected List<List<FlowNode>> plotData() {
         List paths = new ArrayList();
-        paths.add(thermodynamicProcess(getInletHot(), getOutletHot(), ENTHALPY, ENTROPY));
-        paths.add(thermodynamicProcess(getInletCold(), getOutletCold(), ENTHALPY, ENTROPY));
+        paths.add(thermodynamicProcess(flowNodes.get("Hot Side Inlet"), flowNodes.get("Hot Side Outlet"), ENTHALPY, ENTROPY));
+        paths.add(thermodynamicProcess(flowNodes.get("Cold Side Inlet"), flowNodes.get("Cold Side Outlet"), ENTHALPY, ENTROPY));
         return paths;
     }
     
@@ -111,8 +79,8 @@ public final class HeatExchanger extends Component {
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("m in", HeatExchanger.this.getInletHot().getMass());
-            variables.put("m out", HeatExchanger.this.getOutletHot().getMass());
+            variables.put("m in", HeatExchanger.this.flowNodes.get("Hot Side Inlet").getMass());
+            variables.put("m out", HeatExchanger.this.flowNodes.get("Hot Side Outlet").getMass());
             return variables;
         }
         
@@ -125,12 +93,12 @@ public final class HeatExchanger extends Component {
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "m in": {
-                    HeatExchanger.this.getInletHot().setMass(value);
-                    return HeatExchanger.this.getInletHot();
+                    HeatExchanger.this.flowNodes.get("Hot Side Inlet").setMass(value);
+                    return HeatExchanger.this.flowNodes.get("Hot Side Inlet");
                 }
                 case "m out": {
-                    HeatExchanger.this.getOutletHot().setMass(value);
-                    return HeatExchanger.this.getOutletHot();
+                    HeatExchanger.this.flowNodes.get("Hot Side Outlet").setMass(value);
+                    return HeatExchanger.this.flowNodes.get("Hot Side Outlet");
                 }
             }
             return null;
@@ -150,8 +118,8 @@ public final class HeatExchanger extends Component {
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("m in", HeatExchanger.this.getInletCold().getMass());
-            variables.put("m out", HeatExchanger.this.getOutletCold().getMass());
+            variables.put("m in", HeatExchanger.this.flowNodes.get("Cold Side Inlet").getMass());
+            variables.put("m out", HeatExchanger.this.flowNodes.get("Cold Side Outlet").getMass());
             return variables;
         }
         
@@ -164,12 +132,12 @@ public final class HeatExchanger extends Component {
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "m in": {
-                    HeatExchanger.this.getInletCold().setMass(value);
-                    return HeatExchanger.this.getInletCold();
+                    HeatExchanger.this.flowNodes.get("Cold Side Inlet").setMass(value);
+                    return HeatExchanger.this.flowNodes.get("Cold Side Inlet");
                 }
                 case "m out": {
-                    HeatExchanger.this.getOutletCold().setMass(value);
-                    return HeatExchanger.this.getOutletCold();
+                    HeatExchanger.this.flowNodes.get("Cold Side Outlet").setMass(value);
+                    return HeatExchanger.this.flowNodes.get("Cold Side Outlet");
                 }
             }
             return null;
@@ -189,8 +157,8 @@ public final class HeatExchanger extends Component {
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("p in", HeatExchanger.this.getInletHot().getState(PRESSURE));
-            variables.put("p out", HeatExchanger.this.getOutletHot().getState(PRESSURE));
+            variables.put("p in", HeatExchanger.this.flowNodes.get("Hot Side Inlet").getState(PRESSURE));
+            variables.put("p out", HeatExchanger.this.flowNodes.get("Hot Side Outlet").getState(PRESSURE));
             return variables;
         }
         
@@ -203,12 +171,12 @@ public final class HeatExchanger extends Component {
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "p in": {
-                    HeatExchanger.this.getInletHot().setProperty(PRESSURE,value);
-                    return HeatExchanger.this.getInletHot();
+                    HeatExchanger.this.flowNodes.get("Hot Side Inlet").setProperty(PRESSURE,value);
+                    return HeatExchanger.this.flowNodes.get("Hot Side Inlet");
                 }
                 case "p out": {
-                    HeatExchanger.this.getOutletHot().setProperty(PRESSURE,value);
-                    return HeatExchanger.this.getOutletHot();
+                    HeatExchanger.this.flowNodes.get("Hot Side Outlet").setProperty(PRESSURE,value);
+                    return HeatExchanger.this.flowNodes.get("Hot Side Outlet");
                 }
             }
             return null;
@@ -228,8 +196,8 @@ public final class HeatExchanger extends Component {
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("p_in", HeatExchanger.this.getInletCold().getState(PRESSURE));
-            variables.put("p_out", HeatExchanger.this.getOutletCold().getState(PRESSURE));
+            variables.put("p_in", HeatExchanger.this.flowNodes.get("Cold Side Inlet").getState(PRESSURE));
+            variables.put("p_out", HeatExchanger.this.flowNodes.get("Cold Side Outlet").getState(PRESSURE));
             return variables;
         }
         
@@ -242,12 +210,12 @@ public final class HeatExchanger extends Component {
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "p_in": {
-                    HeatExchanger.this.getInletCold().setProperty(PRESSURE,value);
-                    return HeatExchanger.this.getInletCold();
+                    HeatExchanger.this.flowNodes.get("Cold Side Inlet").setProperty(PRESSURE,value);
+                    return HeatExchanger.this.flowNodes.get("Cold Side Inlet");
                 }
                 case "p_out": {
-                    HeatExchanger.this.getOutletCold().setProperty(PRESSURE,value);
-                    return HeatExchanger.this.getOutletCold();
+                    HeatExchanger.this.flowNodes.get("Cold Side Outlet").setProperty(PRESSURE,value);
+                    return HeatExchanger.this.flowNodes.get("Cold Side Outlet");
                 }
             }
             return null;
@@ -311,9 +279,9 @@ public final class HeatExchanger extends Component {
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("m", HeatExchanger.this.getInletHot().getMass());
-            variables.put("h in", HeatExchanger.this.getInletHot().getState(ENTHALPY));
-            variables.put("h out", HeatExchanger.this.getOutletHot().getState(ENTHALPY));
+            variables.put("m", HeatExchanger.this.flowNodes.get("Hot Side Inlet").getMass());
+            variables.put("h in", HeatExchanger.this.flowNodes.get("Hot Side Inlet").getState(ENTHALPY));
+            variables.put("h out", HeatExchanger.this.flowNodes.get("Hot Side Outlet").getState(ENTHALPY));
             variables.put("Q", HeatExchanger.this.getAttribute(AHEATTRANSFER));
             return variables;
         }
@@ -327,16 +295,16 @@ public final class HeatExchanger extends Component {
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "m": {
-                    HeatExchanger.this.getInletHot().setMass(value);
-                    return HeatExchanger.this.getInletHot();
+                    HeatExchanger.this.flowNodes.get("Hot Side Inlet").setMass(value);
+                    return HeatExchanger.this.flowNodes.get("Hot Side Inlet");
                 }
                 case "h in": {
-                    HeatExchanger.this.getInletHot().setProperty(ENTHALPY, value);
-                    return HeatExchanger.this.getInletHot();
+                    HeatExchanger.this.flowNodes.get("Hot Side Inlet").setProperty(ENTHALPY, value);
+                    return HeatExchanger.this.flowNodes.get("Hot Side Inlet");
                 }
                 case "h out": {
-                    HeatExchanger.this.getOutletHot().setProperty(ENTHALPY, value);
-                    return HeatExchanger.this.getOutletHot();
+                    HeatExchanger.this.flowNodes.get("Hot Side Outlet").setProperty(ENTHALPY, value);
+                    return HeatExchanger.this.flowNodes.get("Hot Side Outlet");
                 }
                 case "Q": {
                     HeatExchanger.this.setAttribute(AHEATTRANSFER, value);
@@ -360,9 +328,9 @@ public final class HeatExchanger extends Component {
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("m", HeatExchanger.this.getInletCold().getMass());
-            variables.put("h in", HeatExchanger.this.getInletCold().getState(ENTHALPY));
-            variables.put("h out", HeatExchanger.this.getOutletCold().getState(ENTHALPY));
+            variables.put("m", HeatExchanger.this.flowNodes.get("Cold Side Inlet").getMass());
+            variables.put("h in", HeatExchanger.this.flowNodes.get("Cold Side Inlet").getState(ENTHALPY));
+            variables.put("h out", HeatExchanger.this.flowNodes.get("Cold Side Outlet").getState(ENTHALPY));
             variables.put("Q", HeatExchanger.this.getAttribute(AHEATTRANSFER));
             return variables;
         }
@@ -380,16 +348,16 @@ public final class HeatExchanger extends Component {
                     return null;
                 }
                 case "h in": {
-                    HeatExchanger.this.getInletCold().setProperty(ENTHALPY, value);
-                    return HeatExchanger.this.getInletCold();
+                    HeatExchanger.this.flowNodes.get("Cold Side Inlet").setProperty(ENTHALPY, value);
+                    return HeatExchanger.this.flowNodes.get("Cold Side Inlet");
                 }
                 case "h out": {
-                    HeatExchanger.this.getOutletCold().setProperty(ENTHALPY, value);
-                    return HeatExchanger.this.getOutletCold();
+                    HeatExchanger.this.flowNodes.get("Cold Side Outlet").setProperty(ENTHALPY, value);
+                    return HeatExchanger.this.flowNodes.get("Cold Side Outlet");
                 }
                 case "Q": {
-                    HeatExchanger.this.getInletCold().setMass(value);
-                    return HeatExchanger.this.getInletCold();
+                    HeatExchanger.this.flowNodes.get("Cold Side Inlet").setMass(value);
+                    return HeatExchanger.this.flowNodes.get("Cold Side Inlet");
                 }
             }
             return null;
@@ -410,14 +378,14 @@ public final class HeatExchanger extends Component {
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
             variables.put("Q ideal", HeatExchanger.this.getAttribute(IHEATTRANSFER));
-            variables.put("h in hot", HeatExchanger.this.getInletHot().getState(ENTHALPY));
-            variables.put("T in cold", HeatExchanger.this.getInletCold().getState(TEMPERATURE));
-            variables.put("p out hot", HeatExchanger.this.getOutletHot().getState(PRESSURE));
-            variables.put("m hot", HeatExchanger.this.getInletHot().getMass());
-            variables.put("h in cold", HeatExchanger.this.getInletCold().getState(ENTHALPY));
-            variables.put("T in hot", HeatExchanger.this.getInletHot().getState(TEMPERATURE));
-            variables.put("p out cold", HeatExchanger.this.getOutletCold().getState(PRESSURE));
-            variables.put("m cold", HeatExchanger.this.getInletCold().getMass());
+            variables.put("h in hot", HeatExchanger.this.flowNodes.get("Hot Side Inlet").getState(ENTHALPY));
+            variables.put("T in cold", HeatExchanger.this.flowNodes.get("Cold Side Inlet").getState(TEMPERATURE));
+            variables.put("p out hot", HeatExchanger.this.flowNodes.get("Hot Side Outlet").getState(PRESSURE));
+            variables.put("m hot", HeatExchanger.this.flowNodes.get("Hot Side Inlet").getMass());
+            variables.put("h in cold", HeatExchanger.this.flowNodes.get("Cold Side Inlet").getState(ENTHALPY));
+            variables.put("T in hot", HeatExchanger.this.flowNodes.get("Hot Side Inlet").getState(TEMPERATURE));
+            variables.put("p out cold", HeatExchanger.this.flowNodes.get("Cold Side Outlet").getState(PRESSURE));
+            variables.put("m cold", HeatExchanger.this.flowNodes.get("Cold Side Inlet").getMass());
             return variables;
         }
         
@@ -425,10 +393,10 @@ public final class HeatExchanger extends Component {
         protected Double function(Map<String, OptionalDouble> variables) {
             
             FlowNode hotOutletMin = new FlowNode(INTERNAL);
-            hotOutletMin.setFluid(HeatExchanger.this.getInletHot().getFluid().get());
+            hotOutletMin.setFluid(HeatExchanger.this.flowNodes.get("Hot Side Inlet").getFluid().get());
             OptionalDouble Q_ideal_h2c = OptionalDouble.of(0.0);
             FlowNode coldOutletMax = new FlowNode(INTERNAL);
-            coldOutletMax.setFluid(HeatExchanger.this.getInletCold().getFluid().get());
+            coldOutletMax.setFluid(HeatExchanger.this.flowNodes.get("Cold Side Inlet").getFluid().get());
             OptionalDouble Q_ideal_c2h = OptionalDouble.of(0.0);
             
             hotOutletMin.setProperty(TEMPERATURE, variables.get("T in cold").getAsDouble());

@@ -24,35 +24,11 @@ final class Splitter extends Component {
      */
     protected Splitter(String name, State ambient){
         super(name, ambient);
-        flowNodes.add(new FlowNode(INLET));
-        flowNodes.add(new FlowNode(OUTLET));
-        flowNodes.add(new FlowNode(OUTLET));
-        internals.add(new Connection(flowNodes.get(0),flowNodes.get(1)));
-        internals.add(new Connection(flowNodes.get(0),flowNodes.get(2)));
-    }
-    
-    /**
-     * Gets the splitter inlet.
-     * @return Return the inlet flow node.
-     */
-    public FlowNode getInlet() {
-        return flowNodes.get(0);
-    }
-    
-    /**
-     * Gets the first splitter outlet.
-     * @return Returns the first outlet flow node.
-     */
-    public FlowNode getOutlet1() {
-        return flowNodes.get(1);
-    }
-    
-    /**
-     * Gets the second splitter outlet.
-     * @return Returns the second outlet flow node.
-     */
-    public FlowNode getOutlet2() {
-        return flowNodes.get(2);
+        flowNodes.put("Inlet",new FlowNode(INLET));
+        flowNodes.put("Outlet 1",new FlowNode(OUTLET));
+        flowNodes.put("Outlet 2",new FlowNode(OUTLET));
+        internals.add(new Connection(flowNodes.get("Inlet"),flowNodes.get("Outlet 1")));
+        internals.add(new Connection(flowNodes.get("Inlet"),flowNodes.get("Outlet 2")));
     }
     
     @Override
@@ -68,8 +44,8 @@ final class Splitter extends Component {
     @Override
     protected List<List<FlowNode>> plotData() {
         List paths = new ArrayList();
-        paths.add(thermodynamicProcess(getInlet(), getOutlet1(), ENTHALPY, ENTROPY));
-        paths.add(thermodynamicProcess(getInlet(), getOutlet2(), ENTHALPY, ENTROPY));
+        paths.add(thermodynamicProcess(flowNodes.get("Inlet"), flowNodes.get("Outlet 1"), ENTHALPY, ENTROPY));
+        paths.add(thermodynamicProcess(flowNodes.get("Inlet"), flowNodes.get("Outlet 2"), ENTHALPY, ENTROPY));
         return paths;
     }
     
@@ -93,9 +69,9 @@ final class Splitter extends Component {
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("m in", Splitter.this.getInlet().getMass());
-            variables.put("m out 1", Splitter.this.getOutlet1().getMass());
-            variables.put("m out 2", Splitter.this.getOutlet2().getMass());
+            variables.put("m in", Splitter.this.flowNodes.get("Inlet").getMass());
+            variables.put("m out 1", Splitter.this.flowNodes.get("Outlet 1").getMass());
+            variables.put("m out 2", Splitter.this.flowNodes.get("Outlet 2").getMass());
             return variables;
         }
         
@@ -108,15 +84,15 @@ final class Splitter extends Component {
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "m in": {
-                    Splitter.this.getInlet().setMass(value);
-                    return Splitter.this.getInlet();
+                    Splitter.this.flowNodes.get("Inlet").setMass(value);
+                    return Splitter.this.flowNodes.get("Inlet");
                 }
                 case "m out 1": {
-                    Splitter.this.getOutlet1().setMass(value);
-                    return Splitter.this.getOutlet1();
+                    Splitter.this.flowNodes.get("Outlet 1").setMass(value);
+                    return Splitter.this.flowNodes.get("Outlet 1");
                 }
                 case "m out 2": {
-                    Splitter.this.getOutlet2().setMass(value); return Splitter.this.getOutlet2();
+                    Splitter.this.flowNodes.get("Outlet 2").setMass(value); return Splitter.this.flowNodes.get("Outlet 2");
                 }
             }
             return null;
@@ -137,8 +113,8 @@ final class Splitter extends Component {
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
             variables.put("split", Splitter.this.getAttribute(SPLIT));
-            variables.put("m in", Splitter.this.getInlet().getMass());
-            variables.put("m out 1", Splitter.this.getOutlet1().getMass());
+            variables.put("m in", Splitter.this.flowNodes.get("Inlet").getMass());
+            variables.put("m out 1", Splitter.this.flowNodes.get("Outlet 1").getMass());
             return variables;
         }
         
@@ -155,12 +131,12 @@ final class Splitter extends Component {
                     return null;
                 }
                 case "m in": {
-                    Splitter.this.getInlet().setMass(value);
-                    return Splitter.this.getInlet();
+                    Splitter.this.flowNodes.get("Inlet").setMass(value);
+                    return Splitter.this.flowNodes.get("Inlet");
                 }
                 case "m out 1": {
-                    Splitter.this.getOutlet1().setMass(value);
-                    return Splitter.this.getOutlet1();
+                    Splitter.this.flowNodes.get("Outlet 1").setMass(value);
+                    return Splitter.this.flowNodes.get("Outlet 1");
                 }
             }
             return null;

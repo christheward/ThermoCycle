@@ -5,7 +5,7 @@
  */
 package thermocycle;
 
-import thermocycle.Units.UNITS_TYPE;
+import utilities.Units.UNITS_TYPE;
 
 /**
  *

@@ -83,4 +83,9 @@ public final class WorkNode extends Node {
         return false;
     }
     
+    @Override
+    public String getType() {
+        return "work";
+    }
+    
 }

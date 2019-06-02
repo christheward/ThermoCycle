@@ -37,7 +37,9 @@ abstract class FluidEquation implements Serializable {
     /**
      * The maximum number of iteration allowed to find a converged solution.
      */
-    private static int iterationLimit = 100;
+    private static int iterationLimit = 1000;
+    
+    private final Fluid fluid;
     
     /**
      * A description of the equation.
@@ -69,7 +71,8 @@ abstract class FluidEquation implements Serializable {
     /**
      * Constructor
      */
-    protected FluidEquation(String name, double limit) {
+    protected FluidEquation(Fluid fluid, String name, double limit) {
+        this.fluid = fluid;
         writtenEquation = name;
         convergenceLimit = limit;
     }
@@ -119,7 +122,10 @@ abstract class FluidEquation implements Serializable {
         if (unknowns(state).size() == 1) {
             Property variable = unknowns(state).get(0);
             logger.trace("Solving " + writtenEquation + " for " + variable.symbol);
-            state.setProperty(variable, solveVariable(state, variable, 1000.0).getAsDouble());
+            getVariables(state).keySet().stream().forEach(k -> {
+                logger.trace(k + " = " + state.getProperty(k));
+            });
+            state.setProperty(variable, solveVariable(state, variable).getAsDouble());
             return true;
         }
         return false;
@@ -130,7 +136,14 @@ abstract class FluidEquation implements Serializable {
      * @param varaible the variable to solve for.
      * @return the variable value.
      */
-    private final OptionalDouble solveVariable(State state, Property unknownVariable, double initialGuess) {
+    private final OptionalDouble solveVariable(State state, Property unknownVariable) {
+        
+        /**
+         * NEED A BETTER WAY OF DETERMING INITIAL GUESS -particularly for steam!!!
+         */
+        
+        // Get initial guess
+        Double initialGuess = fluid.initialGuess(unknownVariable);
         
         // Get the equation variables
         Map<Property, OptionalDouble> variables = getVariables(state);
@@ -147,6 +160,9 @@ abstract class FluidEquation implements Serializable {
         variables.put(unknownVariable, OptionalDouble.of(xVariables.getLast()));
         fVariables.add(function(variables).getAsDouble());
         
+        logger.trace(unknownVariable.symbol + " = " + xVariables.getFirst() + " (Iteration -1)");
+        logger.trace(unknownVariable.symbol + " = " + xVariables.getLast() + " (Iteration 0)");
+        
         // Initialise the iteration counter
         int iteration = 1;
         
@@ -158,12 +174,20 @@ abstract class FluidEquation implements Serializable {
                 xVariables.add(xVariables.getLast());
             }
             else {
+                //logger.trace("x1 " + xVariables.getFirst());
+                //logger.trace("x2 " + xVariables.getLast());
+                logger.trace("f1 " + fVariables.getFirst());
+                logger.trace("f2 " + fVariables.getLast());
                 xVariables.add(xVariables.getLast() - fVariables.getLast()*(xVariables.getLast() - xVariables.getFirst())/(fVariables.getLast() - fVariables.getFirst()));
             }
             variables.put(unknownVariable, OptionalDouble.of(xVariables.getLast()));
             OptionalDouble f = function(variables);
             if (f.isPresent()) {
                 fVariables.add(f.getAsDouble());
+            }
+            else {
+                // DO SOMETHING BECAUSE FUNCTION HAS FAILED.
+                logger.error("Fluid equation failed.");
             }
             
             // Remove the oldest queue values
@@ -182,7 +206,7 @@ abstract class FluidEquation implements Serializable {
                 iteration = iteration + 1;
             }
         }
-        
+        //logger.trace(unknownVariable.symbol + " converged to " + xVariables.getLast() + ".");
         return OptionalDouble.of(xVariables.getLast());
     };
     

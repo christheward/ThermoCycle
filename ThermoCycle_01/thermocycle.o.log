@@ -1,33 +1,11 @@
-2019-05-18 23:30:21.423 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-05-18 23:30:21.435 [main] INFO  DebugLog - Created Compressor (Compressor)
-2019-05-18 23:30:21.437 [main] INFO  DebugLog - Created Combustor (Combustor)
-2019-05-18 23:30:21.439 [main] INFO  DebugLog - Created Turbine (Turbine)
-2019-05-18 23:30:21.440 [main] INFO  DebugLog - Created Heat Sink (HeatSink)
-2019-05-18 23:30:21.443 [main] INFO  DebugLog - Setting fluid to Air
-2019-05-18 23:30:21.446 [main] INFO  DebugLog - Performing parametric solve for Gas Turbine Test
-2019-05-18 23:30:21.461 [main] INFO  DebugLog - Solving Compressor (Compressor)
-2019-05-18 23:30:21.468 [main] INFO  DebugLog - Mass Balance equation is compatible
-2019-05-18 23:30:21.470 [main] INFO  DebugLog - Pressure Ratio equation is compatible
-2019-05-18 23:30:21.472 [main] INFO  DebugLog - Efficiency equation is compatible
-2019-05-18 23:30:21.472 [main] INFO  DebugLog - Solving Combustor (Combustor)
-2019-05-18 23:30:21.472 [main] INFO  DebugLog - Solving Turbine (Turbine)
-2019-05-18 23:30:21.473 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
-2019-05-18 23:30:21.473 [main] INFO  DebugLog - Mass Balance equation is compatible
-2019-05-18 23:30:21.473 [main] INFO  DebugLog - Pressure Loss equation is compatible
-2019-05-18 23:30:21.476 [main] INFO  DebugLog - Solving Compressor (Compressor)
-2019-05-18 23:30:21.476 [main] INFO  DebugLog - Energy Balance equation is compatible
-2019-05-18 23:30:21.476 [main] INFO  DebugLog - Solving Combustor (Combustor)
-2019-05-18 23:30:21.478 [main] INFO  DebugLog - Mass Balance equation is compatible
-2019-05-18 23:30:21.478 [main] INFO  DebugLog - Energy Balance equation is compatible
-2019-05-18 23:30:21.478 [main] INFO  DebugLog - Pressure Loss equation is compatible
-2019-05-18 23:30:21.478 [main] INFO  DebugLog - Solving Turbine (Turbine)
-2019-05-18 23:30:21.479 [main] INFO  DebugLog - Mass Balance equation is compatible
-2019-05-18 23:30:21.479 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
-2019-05-18 23:30:21.480 [main] INFO  DebugLog - Solving Turbine (Turbine)
-2019-05-18 23:30:21.484 [main] INFO  DebugLog - Pressure Ratio equation is compatible
-2019-05-18 23:30:21.485 [main] INFO  DebugLog - Efficiency equation is compatible
-2019-05-18 23:30:21.485 [main] INFO  DebugLog - Energy Balance equation is compatible
-2019-05-18 23:30:21.485 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
-2019-05-18 23:30:21.489 [main] INFO  DebugLog - Solving Heat Sink (HeatSink)
-2019-05-18 23:30:21.489 [main] INFO  DebugLog - Energy Balance equation is compatible
-2019-05-18 23:30:21.489 [main] INFO  DebugLog - System solved.
+2019-06-01 19:12:54.417 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-06-01 19:12:54.473 [main] INFO  DebugLog - Created Steam (Steam)
+2019-06-01 19:12:54.484 [main] INFO  DebugLog - Created Feed pump
+2019-06-01 19:12:54.486 [main] INFO  DebugLog - Created Boiler
+2019-06-01 19:12:54.488 [main] INFO  DebugLog - Created Turbine
+2019-06-01 19:12:54.490 [main] INFO  DebugLog - Created Condenser
+2019-06-01 19:12:54.496 [main] INFO  DebugLog - Setting fluid to Steam
+2019-06-01 19:12:54.498 [main] INFO  DebugLog - Performing parametric solve for Steam Turbine Test
+2019-06-01 19:12:54.521 [main] ERROR DebugLog - Unknown exception
+2019-06-01 19:12:54.522 [main] ERROR DebugLog - Specific enthalpy value 2.67553e+06 J/kg should be lower than 494148 J/kg.
+2019-06-01 19:12:54.522 [main] INFO  DebugLog - BC Set 1 failed.

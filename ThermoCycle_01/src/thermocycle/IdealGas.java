@@ -5,11 +5,12 @@
  */
 package thermocycle;
 
+import utilities.DimensionedDouble;
 import report.ReportDataBlock;
 import java.util.*;
 import thermocycle.Properties.Property;
 import static thermocycle.Properties.Property.*;
-import thermocycle.Units.UNITS_TYPE;
+import utilities.Units.UNITS_TYPE;
 
 /**
  *
@@ -37,6 +38,7 @@ public final class IdealGas extends Fluid {
         super(name);
         this.gamma = gamma;
         this.Rs = Rs;
+        equations.add(new P_RT());
         equations.add(new H_T());
         equations.add(new U_T());
         equations.add(new S_TP());
@@ -117,12 +119,36 @@ public final class IdealGas extends Fluid {
         rdb.addData("Cv", DimensionedDouble.valueOfSI(getCv(), UNITS_TYPE.ENTROPY));
         return rdb;
     }
+
+    @Override
+    protected Double initialGuess(Property property) {
+        return 1000.0;
+    }
+    
+    // P = rho R T
+    private class P_RT extends FluidEquation {
+
+        public P_RT() {
+            super(IdealGas.this, FluidEquation.equationString(PRESSURE, DENSITY, TEMPERATURE), PRESSURE.convergenceTolerance);
+        }
+
+        @Override
+        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+            return OptionalDouble.of(variables.get(PRESSURE).getAsDouble() - variables.get(DENSITY).getAsDouble()*IdealGas.this.Rs*variables.get(TEMPERATURE).getAsDouble());
+        }
+
+        @Override
+        protected Map<Property, OptionalDouble> getVariables(State state) {
+            return getVariables(state, PRESSURE, DENSITY, TEMPERATURE);
+        }
+        
+    }
     
     // U = Cv T
     private class U_T extends FluidEquation {
 
         public U_T() {
-            super(FluidEquation.equationString(ENERGY, TEMPERATURE), ENERGY.convergenceTolerance);
+            super(IdealGas.this, FluidEquation.equationString(ENERGY, TEMPERATURE), ENERGY.convergenceTolerance);
         }
 
         @Override
@@ -140,7 +166,7 @@ public final class IdealGas extends Fluid {
     private class H_T extends FluidEquation {
 
         public H_T() {
-            super(FluidEquation.equationString(ENTHALPY, TEMPERATURE), ENTHALPY.convergenceTolerance);
+            super(IdealGas.this, FluidEquation.equationString(ENTHALPY, TEMPERATURE), ENTHALPY.convergenceTolerance);
         }
 
         @Override
@@ -159,7 +185,7 @@ public final class IdealGas extends Fluid {
     private class S_TV extends FluidEquation {
 
         public S_TV() {
-            super(FluidEquation.equationString(ENTROPY, TEMPERATURE, VOLUME), ENTROPY.convergenceTolerance);
+            super(IdealGas.this, FluidEquation.equationString(ENTROPY, TEMPERATURE, VOLUME), ENTROPY.convergenceTolerance);
         }
 
         @Override
@@ -177,7 +203,7 @@ public final class IdealGas extends Fluid {
     private class S_TP extends FluidEquation {
 
         public S_TP() {
-            super(FluidEquation.equationString(ENTROPY, TEMPERATURE, PRESSURE), ENTROPY.convergenceTolerance);
+            super(IdealGas.this, FluidEquation.equationString(ENTROPY, TEMPERATURE, PRESSURE), ENTROPY.convergenceTolerance);
         }
 
         @Override
@@ -195,7 +221,7 @@ public final class IdealGas extends Fluid {
     private class S_PV extends FluidEquation {
 
         public S_PV() {
-            super(FluidEquation.equationString(ENTROPY, PRESSURE, VOLUME), ENTROPY.convergenceTolerance);
+            super(IdealGas.this, FluidEquation.equationString(ENTROPY, PRESSURE, VOLUME), ENTROPY.convergenceTolerance);
         }
 
         @Override

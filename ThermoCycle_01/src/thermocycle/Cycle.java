@@ -5,6 +5,7 @@
  */
 package thermocycle;
 
+import utilities.DimensionedDouble;
 import report.ReportDataBlock;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,7 +31,8 @@ import static thermocycle.Node.Port;
 import thermocycle.Properties.Property;
 import report.ReportBuilder;
 import report.Reportable;
-import thermocycle.Units.UNITS_TYPE;
+import utilities.Units.UNITS_TYPE;
+import utilities.SingletonCollector;
 import static utilities.SingletonCollector.singletonCollector;
 
 /**
@@ -83,10 +85,6 @@ public class Cycle extends Observable implements Serializable, Reportable {
         ambient.setProperty(PRESSURE, 101325.0);
         ambient.setProperty(TEMPERATURE, 300.0);
         results = new ArrayList<>();
-        
-        // Add  default fluid - find a better wt to to this later.
-        //this.createIdealGas("Air", 1.4, 287.0);
-        //this.createIdealGas("N2", 1.4, 287.0);
         
     }
     
@@ -144,8 +142,18 @@ public class Cycle extends Observable implements Serializable, Reportable {
         Connection connection = new Connection(node1,node2);
         connections.add(connection);
         cycleChange();
-        logger.trace("Created connection");
+        
+        logger.trace("Created " + node1.getType() + " connection between " + getComponent(node1).name + " " + node1.port.toString() + " and " + getComponent(node2).name + " " + node2.port.toString());
         return connection;
+    }
+    
+    /**
+     * Gets the component that contains the node
+     * @param node the node to search for.
+     * @return the component that owns teh node.
+     */
+    private Component getComponent(Node node) {
+        return this.components.stream().filter(c -> c.getNodes().contains(node)).collect(SingletonCollector.singletonCollector());
     }
     
     /**
@@ -174,15 +182,25 @@ public class Cycle extends Observable implements Serializable, Reportable {
     
     /**
      * Creates a new ideal gas.
-     * @param name The name of the new ideal gas.
-     * @param ga The ratio of specific heats for the new ideal gas.
-     * @param r The specific gas constant for the new ideal gas.
-     * @return Returns an instance of the new ideal gas.
+     * @param name the name of the new ideal gas.
+     * @param ga the ratio of specific heats for the new ideal gas.
+     * @param r the specific gas constant for the new ideal gas.
+     * @return an instance of the new ideal gas.
      */
     public IdealGas createIdealGas(String name, Double ga, Double r) {
         fluids.add(new IdealGas(name,ga,r));
         logger.info("Created " + fluids.get(fluids.size()-1));
         return (IdealGas)fluids.get(fluids.size()-1);
+    }
+    
+    /**
+     * Create steam.
+     * @return an instance of the new steam fluid.
+     */
+    public Steam createSteam() {
+        fluids.add(new Steam());
+        logger.info("Created " + fluids.get(fluids.size()-1));
+        return (Steam)fluids.get(fluids.size()-1);
     }
     
     /**
@@ -297,7 +315,7 @@ public class Cycle extends Observable implements Serializable, Reportable {
      */
     private Set<FlowNode> getFlowNodes() {
         Set<FlowNode> nodes = new HashSet<>();
-        components.forEach(c -> nodes.addAll(c.flowNodes));
+        components.forEach(c -> nodes.addAll(c.flowNodes.values()));
         return nodes;
     }
     
@@ -325,7 +343,7 @@ public class Cycle extends Observable implements Serializable, Reportable {
      */
     private Set<HeatNode> getHeatNodes() {
         Set<HeatNode> nodes = new HashSet<>();
-        components.forEach(c -> nodes.addAll(c.heatNodes));
+        components.forEach(c -> nodes.addAll(c.heatNodes.values()));
         return nodes;
     }
     
@@ -344,7 +362,7 @@ public class Cycle extends Observable implements Serializable, Reportable {
      */
     private Set<WorkNode> getWorkNodes() {
         Set<WorkNode> nodes = new HashSet<>();
-        components.forEach(c -> nodes.addAll(c.workNodes));
+        components.forEach(c -> nodes.addAll(c.workNodes.values()));
         return nodes;
     }
     
@@ -439,18 +457,18 @@ public class Cycle extends Observable implements Serializable, Reportable {
      */
     public void removeComponent(Component component) {
         if (components.contains(component)) {
-            component.flowNodes.forEach(n -> {
+            component.flowNodes.values().forEach(n -> {
                 removeBoundaryCondition(new BoundaryConditionMass(n, new ArrayList<Double>()));
                 for (Property property : Properties.Property.values()) {
                     removeBoundaryCondition(new BoundaryConditionProperty(n, property, new ArrayList<Double>()));
                 }
                 removeConnection(n);
             });
-            component.heatNodes.forEach(n -> {
+            component.heatNodes.values().forEach(n -> {
                 removeBoundaryCondition(new BoundaryConditionHeat(n, new ArrayList<Double>()));
                 removeConnection(n);
             });
-            component.workNodes.forEach(n -> {
+            component.workNodes.values().forEach(n -> {
                 removeBoundaryCondition(new BoundaryConditionWork(n, new ArrayList<Double>()));
                 removeConnection(n);
             });
@@ -678,6 +696,7 @@ public class Cycle extends Observable implements Serializable, Reportable {
         }
         catch (Exception exc) {
             logger.error("Unknown exception");
+            logger.error(exc.getMessage());
         }
         return false;
     }
@@ -943,12 +962,12 @@ public class Cycle extends Observable implements Serializable, Reportable {
         
         // Report cycle performance
         ReportDataBlock performanceDataBlock = new ReportDataBlock("Cycle performance");
-        performanceDataBlock.addData("Thermal efficiency: ", DimensionedDouble.valueOfSI(efficiencyThermal(), UNITS_TYPE.DIMENSIONLESS));
-        performanceDataBlock.addData("Rational efficiency: ", DimensionedDouble.valueOfSI(efficiencyRational(), UNITS_TYPE.DIMENSIONLESS));
-        performanceDataBlock.addData("Heat input: ", DimensionedDouble.valueOfSI(this.heatIn(), UNITS_TYPE.POWER));
-        performanceDataBlock.addData("Heat output: ", DimensionedDouble.valueOfSI(this.heatOut(), UNITS_TYPE.POWER));
-        performanceDataBlock.addData("Work input: ", DimensionedDouble.valueOfSI(this.workIn(), UNITS_TYPE.POWER));
-        performanceDataBlock.addData("Work output: ", DimensionedDouble.valueOfSI(this.workOut(), UNITS_TYPE.POWER));
+        //performanceDataBlock.addData("Thermal efficiency: ", DimensionedDouble.valueOfSI(efficiencyThermal(), UNITS_TYPE.DIMENSIONLESS));
+        //performanceDataBlock.addData("Rational efficiency: ", DimensionedDouble.valueOfSI(efficiencyRational(), UNITS_TYPE.DIMENSIONLESS));
+        //performanceDataBlock.addData("Heat input: ", DimensionedDouble.valueOfSI(this.heatIn(), UNITS_TYPE.POWER));
+        //performanceDataBlock.addData("Heat output: ", DimensionedDouble.valueOfSI(this.heatOut(), UNITS_TYPE.POWER));
+        //performanceDataBlock.addData("Work input: ", DimensionedDouble.valueOfSI(this.workIn(), UNITS_TYPE.POWER));
+        //performanceDataBlock.addData("Work output: ", DimensionedDouble.valueOfSI(this.workOut(), UNITS_TYPE.POWER));
         rdb.addDataBlock(performanceDataBlock);
         
         return rdb;

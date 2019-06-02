@@ -27,6 +27,12 @@ abstract class ComponentEquation implements Serializable {
     static private final Logger logger = LogManager.getLogger("DebugLog");
     
     /**
+     * Function symbol.
+     */
+    protected static final String func = "\u0192";
+
+    
+    /**
      * Eligible equation states.
      */
     private static enum STATE {UNSOLVED, INCOMPATIBLE, COMPATIBLE};
@@ -49,23 +55,25 @@ abstract class ComponentEquation implements Serializable {
     /**
      * Convergence limit for the equation.
      */
-    private final double convergenceLimit;
+    private final double convergenceTolerance;
     
     /**
      * Constructor
+     * @param name the name of the equations
+     * @param tolerance the convergence tolerance of the equations.
      */
-    protected ComponentEquation(String name, double limit) {
+    protected ComponentEquation(String name, double tolerance) {
         writtenEquation = name;
-        convergenceLimit = limit;
+        convergenceTolerance = tolerance;
         state = STATE.UNSOLVED;
     }
     
     /**
      * Checks to see if the equation is compatible. This is required because equation variables may be set by other equations.
-     * @return true if the equation is compatible within tolerance.
+     * @return true if the equation is within the convergence tolerance.
      */
     protected final boolean compatible() {
-        return (Math.abs(function(getVariables())) < convergenceLimit) ? true : false;
+        return (Math.abs(function(getVariables())) < convergenceTolerance) ? true : false;
     }
     
     /**
@@ -117,7 +125,7 @@ abstract class ComponentEquation implements Serializable {
                     logger.info(this + " equation is compatible");
                 }
                 else {
-                    state = state.INCOMPATIBLE;
+                    state = STATE.INCOMPATIBLE;
                     logger.error(this + " equation is not compatible");
                 }
                 return null;}
@@ -159,7 +167,7 @@ abstract class ComponentEquation implements Serializable {
         int iteration = 1;
         
         // Iterate until converged
-        while(Math.abs(fVariables.getLast()) > convergenceLimit) {
+        while(Math.abs(fVariables.getLast()) > convergenceTolerance) {
             
             // Update solution estimate in the queues
             if (xVariables.getLast().equals(xVariables.getFirst())) {

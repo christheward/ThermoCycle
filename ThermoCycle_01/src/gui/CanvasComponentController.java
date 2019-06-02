@@ -6,8 +6,10 @@
 package gui;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.stream.Collectors;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -139,19 +141,19 @@ public class CanvasComponentController extends ToolboxComponentController{
      * @throws Exception 
      */
     private final void addNodes() throws Exception {
-        ListIterator<thermocycle.FlowNode> lif = component.flowNodes.listIterator();
+        ListIterator<thermocycle.FlowNode> lif = component.flowNodes.values().stream().collect(Collectors.toList()).listIterator();
         while (lif.hasNext()) {
             int idx = lif.nextIndex();
             thermocycle.FlowNode fn = lif.next();
             node_grid.add(new CanvasNodeController(master, CanvasComponentController.this, fn), getType().flownodes[idx][0], getType().flownodes[idx][1]);
         }
-        ListIterator<thermocycle.WorkNode> liw = component.workNodes.listIterator();
+        ListIterator<thermocycle.WorkNode> liw = component.workNodes.values().stream().collect(Collectors.toList()).listIterator();
         while (liw.hasNext()) {
             int idx = liw.nextIndex();
             thermocycle.WorkNode wn = liw.next();
             node_grid.add(new CanvasNodeController(master, CanvasComponentController.this, wn), getType().worknodes[idx][0], getType().worknodes[idx][1]);
         }
-        ListIterator<thermocycle.HeatNode> lih = component.heatNodes.listIterator();
+        ListIterator<thermocycle.HeatNode> lih = component.heatNodes.values().stream().collect(Collectors.toList()).listIterator();
         while (lih.hasNext()) {
             int idx = lih.nextIndex();
             thermocycle.HeatNode hn = lih.next();

@@ -7,6 +7,8 @@ package thermocycle;
 
 import java.io.Serializable;
 import java.util.Observable;
+import report.Reportable;
+import utilities.StringFormatter;
 
 /**
  *
@@ -17,7 +19,12 @@ public abstract class Node extends Observable implements Serializable {
     /**
      * The type of node port.
      */
-    public enum Port {INLET, OUTLET, INTERNAL};
+    public enum Port {INLET, OUTLET, INTERNAL;
+    
+    @Override
+    public String toString() {return StringFormatter.toCapitalFirst(this.name());};
+    
+    };
     
     /**
      * The node port type. This is final and cannot be changed.
@@ -56,10 +63,18 @@ public abstract class Node extends Observable implements Serializable {
      */
     protected abstract boolean isPresent();
     
+    /**
+     * Gets the node type as a string
+     * @return a string describing the node type.
+     */
+    public abstract String getType();
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Node.this.getClass().getSimpleName());
+        sb.append(this.getType());
+        sb.append(" ");
+        sb.append(this.port);
         return sb.toString();
     }
 }

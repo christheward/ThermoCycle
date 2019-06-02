@@ -203,4 +203,9 @@ public final class FlowNode extends Node {
         fluid.computeState(state);
     }
     
+    @Override
+    public String getType() {
+        return "flow";
+    }
+    
 }

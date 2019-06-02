@@ -7,103 +7,172 @@
                                                  __/ |            
                                                 |___/              
 
-Gas Turbine Test
-================
+Steam Turbine Test
+==================
 
 Ambient conditions
 ------------------
-	Temperature: 300.0 K
-	Pressure: 101325.0 Pa
+	Temperature: 3.00E2 K
+	Pressure: 1.01E5 Pa
 
 Fluids
 ------
 	Air
-		Gamma: 1.4 
-		R: 287.0 J/Kg
-		Cv: 717.5000000000001 J/Kg.K
-		Cp: 1004.5000000000001 J/Kg.K
+		Gamma: 1.40E0 
+		R: 2.87E2 J/Kg
+		Cv: 7.18E2 J/Kg.K
+		Cp: 1.00E3 J/Kg.K
+	Steam
+		Formulation: IF97
 
 Paths
 -----
+	Steam: 1 streams
 	Number of streams: 1
-	Air: 1 streams
+	Air: 0 streams
 
 Components
 ----------
-	Compressor
-		Status: Solved
-		Type: Compressor
+	Feed pump
+		Status: Unsolved
 		Attributes
-			Efficiency: 0.9 
-			Pressure Ratio: 5.0 
+			Efficiency: 9.00E-1 
+			Pressure Ratio: 1.00E1 
 		Equations
-			Efficiency: Solved
-			Pressure Ratio: Solved
-			Mass Balance: Solved
-			Energy Balance: Solved
-		Heat
-			No heat connections: 
-		Work
-			INLET: 195482.46157701555 W
-		Mass
-			OUTLET: 1.0 kg/s
-			INLET: 1.0 kg/s
-	Combustor
-		Status: Solved
-		Type: Combustor
+			Efficiency: Unsolved
+			Pressure Ratio: Unsolved
+			Mass Balance: Unsolved
+			Energy Balance: Unsolved
+		Shaft
+			Work: Unsolved
+		Outlet
+			Mass: Unsolved
+			Specific volume: Unsolved.
+			Specific enthalpy: Unsolved.
+			Temperature: Unsolved.
+			Specific entropy: Unsolved.
+			Specific gibbs energy: Unsolved.
+			Quality: Unsolved.
+			Specific helmholtz energy: Unsolved.
+			Specific internal energy: Unsolved.
+			Density: Unsolved.
+			Pressure: Unsolved.
+		Inlet
+			Mass: 1.00E0 kg/s
+			Specific volume: 1.04E-3 m^3/kg
+			Specific enthalpy: 4.19E5 J/Kg
+			Temperature: 3.73E2 K
+			Specific entropy: 1.31E3 J/Kg.K
+			Specific gibbs energy: -6.86E4 J/Kg
+			Quality: 0.00E0 
+			Specific helmholtz energy: -6.87E4 J/Kg
+			Specific internal energy: 4.19E5 J/Kg
+			Density: 9.58E2 kg/m^3
+			Pressure: 1.01E5 Pa
+	Boiler
+		Status: Unsolved
 		Attributes
-			Pressure Loss: 0.05 
+			Pressure Loss: 5.00E-2 
 		Equations
-			Mass Balance: Solved
-			Energy Balance: Solved
-			Pressure Loss: Solved
-		Heat
-			INLET: 809017.5384229848 W
-		Work
-			No work connections: 
-		Mass
-			OUTLET: 1.0 kg/s
-			INLET: 1.0 kg/s
+			Mass Balance: Unsolved
+			Energy Balance: Unsolved
+			Pressure Loss: Unsolved
+		Supply
+			Heat: Unsolved
+		Outlet
+			Mass: Unsolved
+			Specific volume: Unsolved.
+			Specific enthalpy: Unsolved.
+			Temperature: Unsolved.
+			Specific entropy: Unsolved.
+			Specific gibbs energy: Unsolved.
+			Quality: Unsolved.
+			Specific helmholtz energy: Unsolved.
+			Specific internal energy: Unsolved.
+			Density: Unsolved.
+			Pressure: Unsolved.
+		Inlet
+			Mass: Unsolved
+			Specific volume: Unsolved.
+			Specific enthalpy: Unsolved.
+			Temperature: Unsolved.
+			Specific entropy: Unsolved.
+			Specific gibbs energy: Unsolved.
+			Quality: Unsolved.
+			Specific helmholtz energy: Unsolved.
+			Specific internal energy: Unsolved.
+			Density: Unsolved.
+			Pressure: Unsolved.
 	Turbine
-		Status: Solved
-		Type: Turbine
+		Status: Unsolved
 		Attributes
-			Efficiency: 0.95 
-			Pressure Ratio: 4.512500000000955 
+			Efficiency: 9.50E-1 
+			Pressure Ratio: Unsolved
 		Equations
-			Efficiency: Solved
-			Pressure Ratio: Solved
-			Mass Balance: Solved
-			Energy Balance: Solved
-		Heat
-			No heat connections: 
-		Work
-			OUTLET: 433990.3120124324 W
-		Mass
-			OUTLET: 1.0 kg/s
-			INLET: 1.0 kg/s
-	Heat Sink
-		Status: Solved
-		Type: HeatSink
+			Efficiency: Unsolved
+			Pressure Ratio: Unsolved
+			Mass Balance: Unsolved
+			Energy Balance: Unsolved
+		Shaft
+			Work: Unsolved
+		Outlet
+			Mass: Unsolved
+			Specific volume: Unsolved.
+			Specific enthalpy: Unsolved.
+			Temperature: Unsolved.
+			Specific entropy: Unsolved.
+			Specific gibbs energy: Unsolved.
+			Quality: 1.00E0 
+			Specific helmholtz energy: Unsolved.
+			Specific internal energy: Unsolved.
+			Density: Unsolved.
+			Pressure: Unsolved.
+		Inlet
+			Mass: Unsolved
+			Specific volume: Unsolved.
+			Specific enthalpy: Unsolved.
+			Temperature: Unsolved.
+			Specific entropy: Unsolved.
+			Specific gibbs energy: Unsolved.
+			Quality: Unsolved.
+			Specific helmholtz energy: Unsolved.
+			Specific internal energy: Unsolved.
+			Density: Unsolved.
+			Pressure: Unsolved.
+	Condenser
+		Status: Unsolved
 		Attributes
-			Pressure Loss: 0.05 
+			Pressure Loss: 5.00E-2 
 		Equations
-			Mass Balance: Solved
-			Energy Balance: Solved
-			Pressure Loss: Solved
-		Heat
-			OUTLET: 570509.6879875676 W
-		Work
-			No work connections: 
-		Mass
-			OUTLET: 1.0 kg/s
-			INLET: 1.0 kg/s
+			Mass Balance: Unsolved
+			Energy Balance: Unsolved
+			Pressure Loss: Unsolved
+		Sink
+			Heat: Unsolved
+		Outlet
+			Mass: 1.00E0 kg/s
+			Specific volume: 1.67E0 m^3/kg
+			Specific enthalpy: 2.68E6 J/Kg
+			Temperature: 3.73E2 K
+			Specific entropy: Unsolved.
+			Specific gibbs energy: Unsolved.
+			Quality: Unsolved.
+			Specific helmholtz energy: Unsolved.
+			Specific internal energy: 2.51E6 J/Kg
+			Density: 5.98E-1 kg/m^3
+			Pressure: 1.01E5 Pa
+		Inlet
+			Mass: Unsolved
+			Specific volume: Unsolved.
+			Specific enthalpy: Unsolved.
+			Temperature: Unsolved.
+			Specific entropy: Unsolved.
+			Specific gibbs energy: Unsolved.
+			Quality: 1.00E0 
+			Specific helmholtz energy: Unsolved.
+			Specific internal energy: Unsolved.
+			Density: Unsolved.
+			Pressure: Unsolved.
 
 Cycle performance
 -----------------
-	Thermal efficiency: : 0.29481171805043854 
-	Work input: : 195482.46157701555 W
-	Heat input: : 809017.5384229848 W
-	Work output: : 433990.3120124324 W
-	Rational efficiency: : 0.4606098036780382 
-	Heat output: : 570509.6879875676 W

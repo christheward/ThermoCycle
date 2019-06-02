@@ -25,38 +25,14 @@ public final class Turbine extends Component {
      */
     protected Turbine(String name, State ambient){
         super(name, ambient);
-        flowNodes.add(new FlowNode(INLET));
-        flowNodes.add(new FlowNode(OUTLET));
-        workNodes.add(new WorkNode(OUTLET));
-        internals.add(new Connection(flowNodes.get(0),flowNodes.get(1)));
+        flowNodes.put("Inlet",new FlowNode(INLET));
+        flowNodes.put("Outlet",new FlowNode(OUTLET));
+        workNodes.put("Shaft",new WorkNode(OUTLET));
+        internals.add(new Connection(flowNodes.get("Inlet"),flowNodes.get("Outlet")));
         equations.add(new Mass_Balance());
         equations.add(new Energy_Balance());
         equations.add(new Pressure_Ratio());
         equations.add(new Efficiency());
-    }
-    
-    /**
-     * Gets the turbine inlet.
-     * @return The inlet flow node.
-     */
-    public FlowNode getInlet() {
-        return flowNodes.get(0);
-    }
-    
-    /**
-     * Gets the turbine outlet.
-     * @return The outlet flow node.
-     */
-    public FlowNode getOutlet() {
-        return flowNodes.get(1);
-    }
-    
-    /**
-     * Gets the turbine shaft.
-     * @return The outlet work node.
-     */
-    public WorkNode getShaft() {
-        return workNodes.get(0);
     }
     
     @Override
@@ -71,7 +47,7 @@ public final class Turbine extends Component {
     @Override
     protected List<List<FlowNode>> plotData() {
         List paths = new ArrayList();
-        paths.add(thermodynamicProcess(getInlet(), getOutlet(), ENTHALPY, ENTROPY));
+        paths.add(thermodynamicProcess(flowNodes.get("Inlet"), flowNodes.get("Outlet"), ENTHALPY, ENTROPY));
         return paths;
     }
     
@@ -96,8 +72,8 @@ public final class Turbine extends Component {
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("m in", Turbine.this.getInlet().getMass());
-            variables.put("m out", Turbine.this.getOutlet().getMass());
+            variables.put("m in", Turbine.this.flowNodes.get("Inlet").getMass());
+            variables.put("m out", Turbine.this.flowNodes.get("Outlet").getMass());
             return variables;
         }
         
@@ -110,12 +86,12 @@ public final class Turbine extends Component {
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "m in": {
-                    Turbine.this.getInlet().setMass(value);
-                    return Turbine.this.getInlet();
+                    Turbine.this.flowNodes.get("Inlet").setMass(value);
+                    return Turbine.this.flowNodes.get("Inlet");
                 }
                 case "m out": {
-                    Turbine.this.getOutlet().setMass(value);
-                    return Turbine.this.getOutlet();
+                    Turbine.this.flowNodes.get("Outlet").setMass(value);
+                    return Turbine.this.flowNodes.get("Outlet");
                 }
             }
             return null;
@@ -135,10 +111,10 @@ public final class Turbine extends Component {
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("W", Turbine.this.getShaft().getWork());
-            variables.put("m", Turbine.this.getInlet().getMass());
-            variables.put("h in", Turbine.this.getInlet().getState(ENTHALPY));
-            variables.put("h out", Turbine.this.getOutlet().getState(ENTHALPY));
+            variables.put("W", Turbine.this.workNodes.get("Shaft").getWork());
+            variables.put("m", Turbine.this.flowNodes.get("Inlet").getMass());
+            variables.put("h in", Turbine.this.flowNodes.get("Inlet").getState(ENTHALPY));
+            variables.put("h out", Turbine.this.flowNodes.get("Outlet").getState(ENTHALPY));
             return variables;
         }
         
@@ -151,20 +127,20 @@ public final class Turbine extends Component {
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "W": {
-                    Turbine.this.getShaft().setWork(value);
-                    return Turbine.this.getShaft();
+                    Turbine.this.workNodes.get("Shaft").setWork(value);
+                    return Turbine.this.workNodes.get("Shaft");
                 }
                 case "m": {
-                    Turbine.this.getInlet().setMass(value);
-                    return Turbine.this.getInlet();
+                    Turbine.this.flowNodes.get("Inlet").setMass(value);
+                    return Turbine.this.flowNodes.get("Inlet");
                 }
                 case "h in": {
-                    Turbine.this.getInlet().setProperty(ENTHALPY,value);
-                    return Turbine.this.getInlet();
+                    Turbine.this.flowNodes.get("Inlet").setProperty(ENTHALPY,value);
+                    return Turbine.this.flowNodes.get("Inlet");
                 }
                 case "h out": {
-                    Turbine.this.getOutlet().setProperty(ENTHALPY,value);
-                    return Turbine.this.getOutlet();
+                    Turbine.this.flowNodes.get("Outlet").setProperty(ENTHALPY,value);
+                    return Turbine.this.flowNodes.get("Outlet");
                 }
             }
             return null;
@@ -185,8 +161,8 @@ public final class Turbine extends Component {
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
             variables.put("pr", Turbine.this.getAttribute(PRATIO));
-            variables.put("p in", Turbine.this.getInlet().getState(PRESSURE));
-            variables.put("p out", Turbine.this.getOutlet().getState(PRESSURE));
+            variables.put("p in", Turbine.this.flowNodes.get("Inlet").getState(PRESSURE));
+            variables.put("p out", Turbine.this.flowNodes.get("Outlet").getState(PRESSURE));
             return variables;
         }
         
@@ -203,12 +179,12 @@ public final class Turbine extends Component {
                     return null;
                 }
                 case "p in": {
-                    Turbine.this.getInlet().setProperty(PRESSURE,value);
-                    return Turbine.this.getInlet();
+                    Turbine.this.flowNodes.get("Inlet").setProperty(PRESSURE,value);
+                    return Turbine.this.flowNodes.get("Inlet");
                 }
                 case "p out": {
-                    Turbine.this.getOutlet().setProperty(PRESSURE,value);
-                    return Turbine.this.getOutlet();
+                    Turbine.this.flowNodes.get("Outlet").setProperty(PRESSURE,value);
+                    return Turbine.this.flowNodes.get("Outlet");
                 }
             }
             return null;
@@ -228,12 +204,12 @@ public final class Turbine extends Component {
         @Override
         protected Map<String, OptionalDouble> getVariables() {
             Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("W", Turbine.this.getShaft().getWork());
+            variables.put("W", Turbine.this.workNodes.get("Shaft").getWork());
             variables.put("n", Turbine.this.getAttribute(EFFICIENCY));
-            variables.put("m", Turbine.this.getInlet().getMass());
-            variables.put("h in", Turbine.this.getInlet().getState(ENTHALPY));
-            variables.put("s in", Turbine.this.getInlet().getState(ENTROPY));
-            variables.put("p out", Turbine.this.getOutlet().getState(PRESSURE));
+            variables.put("m", Turbine.this.flowNodes.get("Inlet").getMass());
+            variables.put("h in", Turbine.this.flowNodes.get("Inlet").getState(ENTHALPY));
+            variables.put("s in", Turbine.this.flowNodes.get("Inlet").getState(ENTROPY));
+            variables.put("p out", Turbine.this.flowNodes.get("Outlet").getState(PRESSURE));
             return variables;
         }
         
@@ -241,7 +217,7 @@ public final class Turbine extends Component {
         protected Double function(Map<String, OptionalDouble> variables) {
             
             FlowNode isen = new FlowNode(INTERNAL);
-            isen.setFluid(Turbine.this.getInlet().getFluid().get());
+            isen.setFluid(Turbine.this.flowNodes.get("Inlet").getFluid().get());
             isen.setProperty(ENTROPY, variables.get("s in").getAsDouble());
             isen.setProperty(PRESSURE, variables.get("p out").getAsDouble());
             
@@ -252,28 +228,28 @@ public final class Turbine extends Component {
         protected Node saveVariable(String variable, Double value) {
             switch (variable) {
                 case "W": {
-                    Turbine.this.getShaft().setWork(value);
-                    return Turbine.this.getShaft();
+                    Turbine.this.workNodes.get("Shaft").setWork(value);
+                    return Turbine.this.workNodes.get("Shaft");
                 }
                 case "n": {
                     Turbine.this.setAttribute(EFFICIENCY,value);
                     return null;
                 }
                 case "m": {
-                    Turbine.this.getInlet().setMass(value);
-                    return Turbine.this.getInlet();
+                    Turbine.this.flowNodes.get("Inlet").setMass(value);
+                    return Turbine.this.flowNodes.get("Inlet");
                 }
                 case "h in": {
-                    Turbine.this.getInlet().setProperty(ENTHALPY,value);
-                    return Turbine.this.getInlet();
+                    Turbine.this.flowNodes.get("Inlet").setProperty(ENTHALPY,value);
+                    return Turbine.this.flowNodes.get("Inlet");
                 }
                 case "s in": {
-                    Turbine.this.getInlet().setProperty(ENTROPY,value);
-                    return Turbine.this.getInlet();
+                    Turbine.this.flowNodes.get("Inlet").setProperty(ENTROPY,value);
+                    return Turbine.this.flowNodes.get("Inlet");
                 }
                 case "p out": {
-                    Turbine.this.getOutlet().setProperty(PRESSURE,value);
-                    return Turbine.this.getOutlet();
+                    Turbine.this.flowNodes.get("Outlet").setProperty(PRESSURE,value);
+                    return Turbine.this.flowNodes.get("Outlet");
                 }
             }
             return null;

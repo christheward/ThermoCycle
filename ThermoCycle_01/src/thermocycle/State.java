@@ -94,18 +94,6 @@ final class State implements Serializable {
      * Puts the properties and their values from a state to this state.
      * @param state The state properties to be set.
      */
-    /**
-    protected void putIfAbsent(State state) {
-        state.state.keySet().stream().forEach((property) -> {
-            this.put(property, state.state.get(property));
-        });
-    }
-    **/
-    
-    /**
-     * Puts the properties and their values from a state to this state.
-     * @param state The state properties to be set.
-     */
     protected void setProperty(State state) {
         state.state.keySet().stream().forEach((property) -> {
             this.setProperty(property, state.state.get(property));
@@ -131,4 +119,5 @@ final class State implements Serializable {
         });
         return sb.toString();
     }
+    
 }

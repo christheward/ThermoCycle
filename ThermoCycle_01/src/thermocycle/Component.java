@@ -5,6 +5,7 @@
  */
 package thermocycle;
 
+import utilities.DimensionedDouble;
 import report.ReportDataBlock;
 import report.Reportable;
 import java.util.*;
@@ -16,7 +17,7 @@ import thermocycle.Attributes.Attribute;
 import static thermocycle.Properties.Property.*;
 import static thermocycle.Node.Port.*;
 import thermocycle.Properties.Property;
-import thermocycle.Units.UNITS_TYPE;
+import utilities.Units.UNITS_TYPE;
 
 /**
  *
@@ -62,17 +63,17 @@ public abstract class Component implements Serializable, Reportable {
     /**
      * A list of all the flow nodes in this component.
      */
-    public final List<FlowNode> flowNodes;
+    public final Map<String,FlowNode> flowNodes;
     
     /**
      * A list of all the work nodes in this component.
      */
-    public final List<WorkNode> workNodes;
+    public final Map<String,WorkNode> workNodes;
     
     /**
      * A list of all the heat nodes in this component.
      */
-    public final List<HeatNode> heatNodes;
+    public final Map<String,HeatNode> heatNodes;
     
     /**
      * A map containing the value of all component attributes that have been set.
@@ -88,9 +89,9 @@ public abstract class Component implements Serializable, Reportable {
         id = UUID.randomUUID();
         this.name = name;
         this.ambient = ambient;
-        this.flowNodes = new ArrayList();
-        this.workNodes = new ArrayList();
-        this.heatNodes = new ArrayList();
+        this.flowNodes = new HashMap();
+        this.workNodes = new HashMap();
+        this.heatNodes = new HashMap();
         this.internals = new ArrayList();
         this.equations = new ArrayList();
         this.attributes = new HashMap();
@@ -117,7 +118,7 @@ public abstract class Component implements Serializable, Reportable {
      * @return A list of the inlet flow nodes.
      */
     private List<FlowNode> getFlowInlets() {
-        return flowNodes.stream().filter(n -> n.port.equals(INLET)).collect(Collectors.toList());
+        return flowNodes.values().stream().filter(n -> n.port.equals(INLET)).collect(Collectors.toList());
     }
 
     /**
@@ -125,7 +126,7 @@ public abstract class Component implements Serializable, Reportable {
      * @return A list of the outlet flow nodes.
      */
     private List<FlowNode> getFlowOutlets() {
-        return flowNodes.stream().filter(n -> n.port.equals(OUTLET)).collect(Collectors.toList());
+        return flowNodes.values().stream().filter(n -> n.port.equals(OUTLET)).collect(Collectors.toList());
     }
     
     /**
@@ -133,7 +134,7 @@ public abstract class Component implements Serializable, Reportable {
      * @return A list of the inlet heat nodes.
      */
     private List<HeatNode> getHeatInlets() {
-        return heatNodes.stream().filter(n -> n.port.equals(INLET)).collect(Collectors.toList());
+        return heatNodes.values().stream().filter(n -> n.port.equals(INLET)).collect(Collectors.toList());
     }
     
     /**
@@ -141,7 +142,7 @@ public abstract class Component implements Serializable, Reportable {
      * @return A list of the outlet heat nodes.
      */
     private List<HeatNode> getHeatOutlets() {
-        return heatNodes.stream().filter(n -> n.port.equals(OUTLET)).collect(Collectors.toList());
+        return heatNodes.values().stream().filter(n -> n.port.equals(OUTLET)).collect(Collectors.toList());
     }
 
     /**
@@ -149,7 +150,7 @@ public abstract class Component implements Serializable, Reportable {
      * @return A list of the inlet work nodes.
      */
     private List<WorkNode> getWorkInlets() {
-        return workNodes.stream().filter(n -> n.port.equals(INLET)).collect(Collectors.toList());
+        return workNodes.values().stream().filter(n -> n.port.equals(INLET)).collect(Collectors.toList());
     }
     
     /**
@@ -157,7 +158,7 @@ public abstract class Component implements Serializable, Reportable {
      * @return A list of the outlet work nodes.
      */
     private List<WorkNode> getWorkOutlets() {
-        return workNodes.stream().filter(n -> n.port.equals(OUTLET)).collect(Collectors.toList());
+        return workNodes.values().stream().filter(n -> n.port.equals(OUTLET)).collect(Collectors.toList());
     }
     
     /**
@@ -166,9 +167,9 @@ public abstract class Component implements Serializable, Reportable {
      */
     protected final List<Node> getNodes() {
         List<Node> nodes = new ArrayList();
-        nodes.addAll(flowNodes);
-        nodes.addAll(workNodes);
-        nodes.addAll(heatNodes);
+        nodes.addAll(flowNodes.values());
+        nodes.addAll(workNodes.values());
+        nodes.addAll(heatNodes.values());
         return nodes;
     }
     
@@ -291,6 +292,33 @@ public abstract class Component implements Serializable, Reportable {
     }
     
     /**
+     * Gets the flow node.
+     * @param name the name of the flow node to get.
+     * @return the flow node object.
+     */
+    public FlowNode getFlowNode(String name) {
+        return flowNodes.get(name);
+    }
+    
+    /**
+     * Gets the work node.
+     * @param name the name of the work node to get.
+     * @return the work node object.
+     */
+    public WorkNode getWorkNode(String name) {
+        return workNodes.get(name);
+    }
+    
+    /**
+     * Gets the heat node.
+     * @param name the name of the heat node to get.
+     * @return the heat node object.
+     */
+    public HeatNode getHeatNode(String name) {
+        return heatNodes.get(name);
+    }
+    
+    /**
      * Get the total exergy input to the component due to heat transfer.
      * @return The total exergy input to the component due to heat transfer.
      */
@@ -409,13 +437,12 @@ public abstract class Component implements Serializable, Reportable {
     
     @Override
     public final String toString() {
-        return (name + " (" + getClass().getSimpleName() + ")");
+        return name;
     }
     
     @Override
     public ReportDataBlock getReportData() {
-        ReportDataBlock rdb = new ReportDataBlock(name);
-        rdb.addData("Type", this.getClass().getSimpleName());
+        ReportDataBlock rdb = new ReportDataBlock(this.toString());
         rdb.addData("Status", isComplete()? "Solved" : "Unsolved");
         
         ReportDataBlock atbs = new ReportDataBlock("Attributes");
@@ -430,38 +457,33 @@ public abstract class Component implements Serializable, Reportable {
         });
         rdb.addDataBlock(eqs);
         
-        ReportDataBlock htn = new ReportDataBlock("Heat");
+        // Heat nodes
         if (heatNodes.size() > 0) {
-            heatNodes.stream().forEach(h -> {
-                htn.addData(h.port.toString(), h.getHeat().isPresent() ? DimensionedDouble.valueOfSI(h.getHeat().getAsDouble(), UNITS_TYPE.POWER) : "Unsolved");
+            heatNodes.keySet().stream().forEach(h -> {
+                ReportDataBlock htn = new ReportDataBlock(h);
+                htn.addData("Heat", heatNodes.get(h).getHeat().isPresent() ? DimensionedDouble.valueOfSI(heatNodes.get(h).getHeat().getAsDouble(), UNITS_TYPE.POWER) : "Unsolved");
+                rdb.addDataBlock(htn);
             });
         }
-        else {
-            htn.addData("No heat connections", "");
-        }
-        rdb.addDataBlock(htn);
         
-        ReportDataBlock wkn = new ReportDataBlock("Work");
         if (workNodes.size() > 0) {
-            workNodes.stream().forEach(w -> {
-                wkn.addData(w.port.toString(), w.getWork().isPresent() ? DimensionedDouble.valueOfSI(w.getWork().getAsDouble(), UNITS_TYPE.POWER) : "Unsolved");
+            workNodes.keySet().stream().forEach(w -> {
+                ReportDataBlock wkn = new ReportDataBlock(w);
+                wkn.addData("Work", workNodes.get(w).getWork().isPresent() ? DimensionedDouble.valueOfSI(workNodes.get(w).getWork().getAsDouble(), UNITS_TYPE.POWER) : "Unsolved");
+                rdb.addDataBlock(wkn);
             });
         }
-        else {
-            wkn.addData("No work connections", "-");
-        }
-        rdb.addDataBlock(wkn);
         
-        ReportDataBlock fln = new ReportDataBlock("Mass");
         if (flowNodes.size() > 0) {
-            flowNodes.stream().forEach(f -> {
-                fln.addData(f.port.toString(), f.getMass().isPresent() ? DimensionedDouble.valueOfSI(f.getMass().getAsDouble(), UNITS_TYPE.FLOW_RATE) : "Unsolved");
+            flowNodes.keySet().stream().forEach(f -> {
+                ReportDataBlock fln = new ReportDataBlock(f);
+                fln.addData("Mass", flowNodes.get(f).getMass().isPresent() ? DimensionedDouble.valueOfSI(flowNodes.get(f).getMass().getAsDouble(), UNITS_TYPE.FLOW_RATE) : "Unsolved");
+                flowNodes.get(f).getAllowableProperties().stream().forEach(p -> {
+                    fln.addData(p.toString(), flowNodes.get(f).getState(p).isPresent() ? DimensionedDouble.valueOfSI(flowNodes.get(f).getState(p).getAsDouble(), p.type) : "Unsolved.");
+                });
+                rdb.addDataBlock(fln);
             });
         }
-        else {
-            fln.addData("No flow connections", "");
-        }
-        rdb.addDataBlock(fln);
         
         return rdb;
     }

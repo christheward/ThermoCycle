@@ -70,5 +70,10 @@ final class VanDerWaalsGas extends Fluid {
     // U = Cv.T - a/(V.M);
     // H = Cv.T + R.T.Vm/(Vm-b) - 2.a.(V/Vm)/Vm
     // S = R ln((Vm-b)/(-b)) + cRln((u + a/Vm)/(a/Vm))
+
+    @Override
+    protected Double initialGuess(Property property) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

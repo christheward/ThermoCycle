@@ -84,4 +84,9 @@ public final class HeatNode extends Node {
         return false;
     }
     
+    @Override
+    public String getType() {
+        return "heat";
+    }
+    
 }
