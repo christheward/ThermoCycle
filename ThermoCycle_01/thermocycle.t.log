@@ -1,132 +1,23 @@
-2019-06-01 19:12:54.417 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-06-01 19:12:54.473 [main] INFO  DebugLog - Created Steam (Steam)
-2019-06-01 19:12:54.484 [main] INFO  DebugLog - Created Feed pump
-2019-06-01 19:12:54.486 [main] INFO  DebugLog - Created Boiler
-2019-06-01 19:12:54.488 [main] INFO  DebugLog - Created Turbine
-2019-06-01 19:12:54.490 [main] INFO  DebugLog - Created Condenser
-2019-06-01 19:12:54.495 [main] TRACE DebugLog - Created flow connection between Feed pump Outlet and Boiler Inlet
-2019-06-01 19:12:54.495 [main] TRACE DebugLog - Created flow connection between Boiler Outlet and Turbine Inlet
-2019-06-01 19:12:54.496 [main] TRACE DebugLog - Created flow connection between Turbine Outlet and Condenser Inlet
-2019-06-01 19:12:54.496 [main] TRACE DebugLog - Created flow connection between Condenser Outlet and Feed pump Inlet
-2019-06-01 19:12:54.496 [main] INFO  DebugLog - Setting fluid to Steam
-2019-06-01 19:12:54.498 [main] INFO  DebugLog - Performing parametric solve for Steam Turbine Test
-2019-06-01 19:12:54.500 [main] TRACE DebugLog - Solving for boundary condition Set 1 of 1
-2019-06-01 19:12:54.500 [main] TRACE DebugLog - Applying boundary conditions.
-2019-06-01 19:12:54.502 [main] TRACE DebugLog - Solving X = ƒ(P,h) for h
-2019-06-01 19:12:54.503 [main] TRACE DebugLog - Quality = OptionalDouble[0.0]
-2019-06-01 19:12:54.503 [main] TRACE DebugLog - Pressure = OptionalDouble[101325.0]
-2019-06-01 19:12:54.503 [main] TRACE DebugLog - Specific enthalpy = OptionalDouble.empty
-2019-06-01 19:12:54.507 [main] TRACE DebugLog - h = 1991460.847292018 (Iteration -1)
-2019-06-01 19:12:54.507 [main] TRACE DebugLog - h = 2096274.576096861 (Iteration 0)
-2019-06-01 19:12:54.507 [main] TRACE DebugLog - f1 -0.6968498710762685
-2019-06-01 19:12:54.507 [main] TRACE DebugLog - f2 -0.7432987237666961
-2019-06-01 19:12:54.507 [main] TRACE DebugLog - h = 418990.7178041893 (Iteration 1)
-2019-06-01 19:12:54.507 [main] TRACE DebugLog - Solving P = ƒ(h,s) for s
-2019-06-01 19:12:54.507 [main] TRACE DebugLog - Specific entropy = OptionalDouble.empty
-2019-06-01 19:12:54.507 [main] TRACE DebugLog - Pressure = OptionalDouble[101325.0]
-2019-06-01 19:12:54.508 [main] TRACE DebugLog - Specific enthalpy = OptionalDouble[418990.7178041893]
-2019-06-01 19:12:54.508 [main] TRACE DebugLog - s = 1235.0 (Iteration -1)
-2019-06-01 19:12:54.508 [main] TRACE DebugLog - s = 1300.0 (Iteration 0)
-2019-06-01 19:12:54.508 [main] TRACE DebugLog - f1 -2.5692400568633415E7
-2019-06-01 19:12:54.508 [main] TRACE DebugLog - f2 -2405821.0751929567
-2019-06-01 19:12:54.508 [main] TRACE DebugLog - s = 1306.715385998686 (Iteration 1)
-2019-06-01 19:12:54.508 [main] TRACE DebugLog - Solving T = ƒ(h,s) for T
-2019-06-01 19:12:54.508 [main] TRACE DebugLog - Temperature = OptionalDouble.empty
-2019-06-01 19:12:54.509 [main] TRACE DebugLog - Specific entropy = OptionalDouble[1306.715385998686]
-2019-06-01 19:12:54.509 [main] TRACE DebugLog - Specific enthalpy = OptionalDouble[418990.7178041893]
-2019-06-01 19:12:54.509 [main] TRACE DebugLog - T = 614.7411999999999 (Iteration -1)
-2019-06-01 19:12:54.509 [main] TRACE DebugLog - T = 647.096 (Iteration 0)
-2019-06-01 19:12:54.509 [main] TRACE DebugLog - f1 241.61578551905825
-2019-06-01 19:12:54.509 [main] TRACE DebugLog - f2 273.9705855190583
-2019-06-01 19:12:54.509 [main] TRACE DebugLog - T = 373.1254144809417 (Iteration 1)
-2019-06-01 19:12:54.509 [main] TRACE DebugLog - Solving g = ƒ(h,T,s) for g
-2019-06-01 19:12:54.509 [main] TRACE DebugLog - Specific gibbs energy = OptionalDouble.empty
-2019-06-01 19:12:54.510 [main] TRACE DebugLog - Temperature = OptionalDouble[373.1254144809417]
-2019-06-01 19:12:54.510 [main] TRACE DebugLog - Specific entropy = OptionalDouble[1306.715385998686]
-2019-06-01 19:12:54.510 [main] TRACE DebugLog - Specific enthalpy = OptionalDouble[418990.7178041893]
-2019-06-01 19:12:54.510 [main] TRACE DebugLog - g = -795171.0552343118 (Iteration -1)
-2019-06-01 19:12:54.510 [main] TRACE DebugLog - g = -837022.1634045389 (Iteration 0)
-2019-06-01 19:12:54.510 [main] TRACE DebugLog - f1 -726593.0530291176
-2019-06-01 19:12:54.510 [main] TRACE DebugLog - f2 -768444.1611993446
-2019-06-01 19:12:54.510 [main] TRACE DebugLog - g = -68578.00220519211 (Iteration 1)
-2019-06-01 19:12:54.510 [main] TRACE DebugLog - Solving ? = ƒ(h,s) for ?
-2019-06-01 19:12:54.510 [main] TRACE DebugLog - Specific entropy = OptionalDouble[1306.715385998686]
-2019-06-01 19:12:54.510 [main] TRACE DebugLog - Density = OptionalDouble.empty
-2019-06-01 19:12:54.510 [main] TRACE DebugLog - Specific enthalpy = OptionalDouble[418990.7178041893]
-2019-06-01 19:12:54.511 [main] TRACE DebugLog - ? = 305.9 (Iteration -1)
-2019-06-01 19:12:54.511 [main] TRACE DebugLog - ? = 322.0 (Iteration 0)
-2019-06-01 19:12:54.511 [main] TRACE DebugLog - f1 -652.472684834219
-2019-06-01 19:12:54.511 [main] TRACE DebugLog - f2 -636.372684834219
-2019-06-01 19:12:54.511 [main] TRACE DebugLog - ? = 958.372684834219 (Iteration 1)
-2019-06-01 19:12:54.511 [main] TRACE DebugLog - Solving ? = ƒ(v) for v
-2019-06-01 19:12:54.511 [main] TRACE DebugLog - Density = OptionalDouble[958.372684834219]
-2019-06-01 19:12:54.511 [main] TRACE DebugLog - Specific volume = OptionalDouble.empty
-2019-06-01 19:12:54.512 [main] TRACE DebugLog - v = 0.002950310559006211 (Iteration -1)
-2019-06-01 19:12:54.512 [main] TRACE DebugLog - v = 0.003105590062111801 (Iteration 0)
-2019-06-01 19:12:54.512 [main] TRACE DebugLog - f1 1.827497051529528
-2019-06-01 19:12:54.512 [main] TRACE DebugLog - f2 1.9763126858205555
-2019-06-01 19:12:54.512 [main] TRACE DebugLog - v = 0.0010434354148699254 (Iteration 1)
-2019-06-01 19:12:54.512 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for u
-2019-06-01 19:12:54.512 [main] TRACE DebugLog - Specific internal energy = OptionalDouble.empty
-2019-06-01 19:12:54.512 [main] TRACE DebugLog - Specific volume = OptionalDouble[0.0010434354148699254]
-2019-06-01 19:12:54.512 [main] TRACE DebugLog - Pressure = OptionalDouble[101325.0]
-2019-06-01 19:12:54.512 [main] TRACE DebugLog - Specific enthalpy = OptionalDouble[418990.7178041893]
-2019-06-01 19:12:54.512 [main] TRACE DebugLog - u = 1925305.5404587004 (Iteration -1)
-2019-06-01 19:12:54.512 [main] TRACE DebugLog - u = 2026637.4110091585 (Iteration 0)
-2019-06-01 19:12:54.512 [main] TRACE DebugLog - f1 -1506420.5487479228
-2019-06-01 19:12:54.512 [main] TRACE DebugLog - f2 -1607752.4192983808
-2019-06-01 19:12:54.513 [main] TRACE DebugLog - u = 418884.99171077786 (Iteration 1)
-2019-06-01 19:12:54.513 [main] TRACE DebugLog - Solving f = ƒ(u,T,s) for f
-2019-06-01 19:12:54.513 [main] TRACE DebugLog - Specific internal energy = OptionalDouble[418884.99171077786]
-2019-06-01 19:12:54.513 [main] TRACE DebugLog - Specific helmholtz energy = OptionalDouble.empty
-2019-06-01 19:12:54.513 [main] TRACE DebugLog - Temperature = OptionalDouble[373.1254144809417]
-2019-06-01 19:12:54.513 [main] TRACE DebugLog - Specific entropy = OptionalDouble[1306.715385998686]
-2019-06-01 19:12:54.513 [main] TRACE DebugLog - f = -1.286741042898817E9 (Iteration -1)
-2019-06-01 19:12:54.513 [main] TRACE DebugLog - f = -1.3544642556829653E9 (Iteration 0)
-2019-06-01 19:12:54.513 [main] TRACE DebugLog - f1 -1.2866723591705184E9
-2019-06-01 19:12:54.513 [main] TRACE DebugLog - f2 -1.3543955719546666E9
-2019-06-01 19:12:54.513 [main] TRACE DebugLog - f = -68683.7282986641 (Iteration 1)
-2019-06-01 19:12:54.517 [main] TRACE DebugLog - Solving ? = ƒ(P,T) for ?
-2019-06-01 19:12:54.517 [main] TRACE DebugLog - Temperature = OptionalDouble[373.1254144809417]
-2019-06-01 19:12:54.517 [main] TRACE DebugLog - Density = OptionalDouble.empty
-2019-06-01 19:12:54.518 [main] TRACE DebugLog - Pressure = OptionalDouble[101325.0]
-2019-06-01 19:12:54.518 [main] TRACE DebugLog - ? = 305.9 (Iteration -1)
-2019-06-01 19:12:54.518 [main] TRACE DebugLog - ? = 322.0 (Iteration 0)
-2019-06-01 19:12:54.518 [main] TRACE DebugLog - f1 305.30237881670035
-2019-06-01 19:12:54.518 [main] TRACE DebugLog - f2 321.4023788167004
-2019-06-01 19:12:54.518 [main] TRACE DebugLog - ? = 0.5976211832996228 (Iteration 1)
-2019-06-01 19:12:54.518 [main] TRACE DebugLog - Solving ? = ƒ(v) for v
-2019-06-01 19:12:54.518 [main] TRACE DebugLog - Density = OptionalDouble[0.5976211832996228]
-2019-06-01 19:12:54.518 [main] TRACE DebugLog - Specific volume = OptionalDouble.empty
-2019-06-01 19:12:54.518 [main] TRACE DebugLog - v = 0.002950310559006211 (Iteration -1)
-2019-06-01 19:12:54.518 [main] TRACE DebugLog - v = 0.003105590062111801 (Iteration 0)
-2019-06-01 19:12:54.518 [main] TRACE DebugLog - f1 -0.9982368319126254
-2019-06-01 19:12:54.518 [main] TRACE DebugLog - f2 -0.9981440335922372
-2019-06-01 19:12:54.518 [main] TRACE DebugLog - v = 1.6733007931195873 (Iteration 1)
-2019-06-01 19:12:54.519 [main] TRACE DebugLog - Solving h = ƒ(P,T) for h
-2019-06-01 19:12:54.519 [main] TRACE DebugLog - Temperature = OptionalDouble[373.1254144809417]
-2019-06-01 19:12:54.519 [main] TRACE DebugLog - Pressure = OptionalDouble[101325.0]
-2019-06-01 19:12:54.519 [main] TRACE DebugLog - Specific enthalpy = OptionalDouble.empty
-2019-06-01 19:12:54.519 [main] TRACE DebugLog - h = 1991460.847292018 (Iteration -1)
-2019-06-01 19:12:54.519 [main] TRACE DebugLog - h = 2096274.576096861 (Iteration 0)
-2019-06-01 19:12:54.519 [main] TRACE DebugLog - f1 -684072.9339577446
-2019-06-01 19:12:54.519 [main] TRACE DebugLog - f2 -579259.2051529016
-2019-06-01 19:12:54.519 [main] TRACE DebugLog - h = 2675533.7812497625 (Iteration 1)
-2019-06-01 19:12:54.519 [main] TRACE DebugLog - Solving h = ƒ(u,P,v) for u
-2019-06-01 19:12:54.519 [main] TRACE DebugLog - Specific internal energy = OptionalDouble.empty
-2019-06-01 19:12:54.519 [main] TRACE DebugLog - Specific volume = OptionalDouble[1.6733007931195873]
-2019-06-01 19:12:54.520 [main] TRACE DebugLog - Pressure = OptionalDouble[101325.0]
-2019-06-01 19:12:54.520 [main] TRACE DebugLog - Specific enthalpy = OptionalDouble[2675533.7812497625]
-2019-06-01 19:12:54.520 [main] TRACE DebugLog - u = 1925305.5404587004 (Iteration -1)
-2019-06-01 19:12:54.520 [main] TRACE DebugLog - u = 2026637.4110091585 (Iteration 0)
-2019-06-01 19:12:54.520 [main] TRACE DebugLog - f1 580681.0379282199
-2019-06-01 19:12:54.520 [main] TRACE DebugLog - f2 479349.16737776186
-2019-06-01 19:12:54.520 [main] TRACE DebugLog - u = 2505986.5783869205 (Iteration 1)
-2019-06-01 19:12:54.520 [main] TRACE DebugLog - Solving P = ƒ(h,s) for s
-2019-06-01 19:12:54.520 [main] TRACE DebugLog - Specific entropy = OptionalDouble.empty
-2019-06-01 19:12:54.520 [main] TRACE DebugLog - Pressure = OptionalDouble[101325.0]
-2019-06-01 19:12:54.520 [main] TRACE DebugLog - Specific enthalpy = OptionalDouble[2675533.7812497625]
-2019-06-01 19:12:54.521 [main] ERROR DebugLog - Unknown exception
-2019-06-01 19:12:54.522 [main] ERROR DebugLog - Specific enthalpy value 2.67553e+06 J/kg should be lower than 494148 J/kg.
-2019-06-01 19:12:54.522 [main] INFO  DebugLog - BC Set 1 failed.
-2019-06-01 19:12:54.522 [main] DEBUG DebugLog - TO DO: Store parametric results.
+2019-06-09 10:47:54.776 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-06-09 10:47:54.916 [main] INFO  DebugLog - Created Steam (Steam)
+2019-06-09 10:47:54.928 [main] INFO  DebugLog - Created Feed pump
+2019-06-09 10:47:54.930 [main] INFO  DebugLog - Created Boiler
+2019-06-09 10:47:54.932 [main] INFO  DebugLog - Created Turbine
+2019-06-09 10:47:54.934 [main] INFO  DebugLog - Created Condenser
+2019-06-09 10:47:54.939 [main] TRACE DebugLog - Created flow connection between Feed pump Outlet and Boiler Inlet
+2019-06-09 10:47:54.940 [main] TRACE DebugLog - Created flow connection between Boiler Outlet and Turbine Inlet
+2019-06-09 10:47:54.940 [main] TRACE DebugLog - Created flow connection between Turbine Outlet and Condenser Inlet
+2019-06-09 10:47:54.940 [main] TRACE DebugLog - Created flow connection between Condenser Outlet and Feed pump Inlet
+2019-06-09 10:47:54.941 [main] INFO  DebugLog - Setting fluid to Steam
+2019-06-09 10:47:54.942 [main] INFO  DebugLog - Performing parametric solve for Steam Turbine Test
+2019-06-09 10:47:54.944 [main] TRACE DebugLog - Solving for boundary condition Set 1 of 1
+2019-06-09 10:47:54.944 [main] TRACE DebugLog - Applying boundary conditions.
+2019-06-09 10:47:54.946 [main] TRACE DebugLog - Solving X = ƒ(P,h) for h
+2019-06-09 10:47:54.955 [main] TRACE DebugLog - Solution found in 4 iterations: 418990.71780418983
+2019-06-09 10:47:54.955 [main] TRACE DebugLog - Solving P = ƒ(h,s) for s
+2019-06-09 10:47:54.958 [main] ERROR DebugLog - No solution found: Specific enthalpy value 418991 J/kg should be lower than 97788.5 J/kg.
+2019-06-09 10:47:54.958 [main] ERROR DebugLog - P = 101325.0
+2019-06-09 10:47:54.958 [main] ERROR DebugLog - s = 0.0
+2019-06-09 10:47:54.959 [main] ERROR DebugLog - h = 418990.71780418983
+2019-06-09 10:47:54.959 [main] ERROR DebugLog - Lower = -1.0E100 >> f = NaN
+2019-06-09 10:47:54.959 [main] ERROR DebugLog - Upper = 1.0E100 >> f = NaN

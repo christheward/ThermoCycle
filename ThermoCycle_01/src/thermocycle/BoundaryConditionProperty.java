@@ -6,7 +6,6 @@
 package thermocycle;
 
 import java.util.List;
-import thermocycle.Properties.Property;
 
 /**
  *

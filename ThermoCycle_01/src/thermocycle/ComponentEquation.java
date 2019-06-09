@@ -7,11 +7,13 @@ package thermocycle;
 
 import java.util.List;
 import java.io.Serializable;
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.OptionalDouble;
 import java.util.stream.Collectors;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.solvers.BrentSolver;
+import org.apache.commons.math3.analysis.solvers.SecantSolver;
+import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +32,11 @@ abstract class ComponentEquation implements Serializable {
      * Function symbol.
      */
     protected static final String func = "\u0192";
-
+    
+    /**
+     * Maximum number of allowable iterations to try and reach convergence.
+     */
+    private static int maxIterations = 10000;
     
     /**
      * Eligible equation states.
@@ -38,33 +44,21 @@ abstract class ComponentEquation implements Serializable {
     private static enum STATE {UNSOLVED, INCOMPATIBLE, COMPATIBLE};
     
     /**
-     * The maximum number of iteration allowed to find a converged solution.
-     */
-    private static int iterationLimit = 100;
-    
-    /**
      * Current equation state.
      */
     private STATE state;
     
     /**
-     * A description of the equation.
-     */
-    public final String writtenEquation;
-    
-    /**
      * Convergence limit for the equation.
      */
-    private final double convergenceTolerance;
+    private final double tolerance;
     
     /**
      * Constructor
-     * @param name the name of the equations
      * @param tolerance the convergence tolerance of the equations.
      */
-    protected ComponentEquation(String name, double tolerance) {
-        writtenEquation = name;
-        convergenceTolerance = tolerance;
+    protected ComponentEquation(double tolerance) {
+        this.tolerance = tolerance;
         state = STATE.UNSOLVED;
     }
     
@@ -73,21 +67,27 @@ abstract class ComponentEquation implements Serializable {
      * @return true if the equation is within the convergence tolerance.
      */
     protected final boolean compatible() {
-        return (Math.abs(function(getVariables())) < convergenceTolerance) ? true : false;
+        return (Math.abs(function(getVariables())) < tolerance) ? true : false;
     }
+    
+    /**
+     * Gets a string describing the equation.
+     * @return a string describing the equation.
+     */
+    public abstract String equation();
     
     /**
      * Calculates the current function value.
      * @param variable a map of function variables and their current values.
      * @return the current function value.
      */
-    protected abstract Double function(Map<String, OptionalDouble> variables);
+    protected abstract Double function(Map<EquationVariable, OptionalDouble> variables);
     
     /**
      * Gets the equation variables and their current values.
      * @return a map of the equation variables, which uses variable names as the keys.
      */
-    protected abstract Map<String, OptionalDouble> getVariables();
+    protected abstract Map<EquationVariable, OptionalDouble> getVariables();
     
     /**
      * Determine if the equation has been solved.
@@ -98,19 +98,19 @@ abstract class ComponentEquation implements Serializable {
     }
     
     /**
-     * Saves the value to the equation variable.
-     * @param variable the equation variable to save.
-     * @param value the value to save.
-     * @return any nodes that have been updated during the save. 
-     */
-    protected abstract Node saveVariable(String variable, Double value);
-    
-    /**
      * Resets the state of the equation to unsolved.
      */
     protected final void reset() {
         state = STATE.UNSOLVED;
     }
+    
+    /**
+     * Saves the value to the equation variable.
+     * @param variable the equation variable to save.
+     * @param value the value to save.
+     * @return any nodes that have been updated during the save. 
+     */
+    protected abstract Node saveVariable(EquationVariable variable, Double value);
     
     /**
      * Checks to see how many unknown variables there are. If there is only one unknown then solves the equation for the unknown variable. If there are no unknowns then checks for compatability.
@@ -131,8 +131,7 @@ abstract class ComponentEquation implements Serializable {
                 return null;}
             // if 1 unknown solve for single unknown
             case 1: {
-                logger.trace("Solving " + writtenEquation + " for " + unknowns().get(0));
-                return saveVariable(unknowns().get(0), solveVariable(unknowns().get(0), 1000.0).getAsDouble());
+                return saveVariable(unknowns().get(0), solveVariable(unknowns().get(0)).getAsDouble());
             }
             // if more than one unknown do nothing.
             default: {
@@ -146,57 +145,40 @@ abstract class ComponentEquation implements Serializable {
      * @param varaible the variable to solve for.
      * @return the variable value.
      */
-    private final OptionalDouble solveVariable(String unknownVariable, double initialGuess) {
+    private final OptionalDouble solveVariable(EquationVariable unknownVariable) {
+        
+        // Log
+        logger.trace("Solving " + equation() + " for " + unknownVariable);
         
         // Get the equation variables
-        Map<String, OptionalDouble> variables = getVariables();
+        Map<EquationVariable, OptionalDouble> variables = getVariables();
         
-        // Set up the convergence queues
-        Deque<Double> xVariables = new LinkedList();
-        Deque<Double> fVariables = new LinkedList();
+        // Create univariate function
+        UnivariateFunction f = new UnivariateFunction() {
+            @Override
+            public double value(double x) {
+                variables.put(unknownVariable, OptionalDouble.of(x));
+                return function(variables);
+            }
+        };
         
-        // Populate the convergence queues
-        xVariables.add(initialGuess*0.95);
-        variables.put(unknownVariable, OptionalDouble.of(xVariables.getLast()));
-        fVariables.add(function(variables));
-        xVariables.add(initialGuess);
-        variables.put(unknownVariable, OptionalDouble.of(xVariables.getLast()));
-        fVariables.add(function(variables));
-        
-        // Initialise the iteration counter
-        int iteration = 1;
-        
-        // Iterate until converged
-        while(Math.abs(fVariables.getLast()) > convergenceTolerance) {
-            
-            // Update solution estimate in the queues
-            if (xVariables.getLast().equals(xVariables.getFirst())) {
-                xVariables.add(xVariables.getLast());
-            }
-            else {
-                xVariables.add(xVariables.getLast() - fVariables.getLast()*(xVariables.getLast() - xVariables.getFirst())/(fVariables.getLast() - fVariables.getFirst()));
-            }
-            variables.put(unknownVariable, OptionalDouble.of(xVariables.getLast()));
-            fVariables.add(function(variables));
-            
-            // Remove the oldest queue values
-            xVariables.remove();
-            fVariables.remove();
-            
-            // Update log
-            logger.trace(unknownVariable + " = " + xVariables.getLast() + " (Iteration " + iteration + ")");
-            
-            // Check iteration limit
-            if (iteration > iterationLimit) {
-                logger.debug("Maximum number of iterations reached for equation convergence.");
-                return OptionalDouble.empty();
-            }
-            else {
-                iteration = iteration + 1;
-            }
+        // Create solver
+        //UnivariateSolver solver = new SecantSolver(1e-6);
+        UnivariateSolver solver = new BrentSolver(1e-6);
+        try {
+            double value = solver.solve(maxIterations, f, unknownVariable.getLowerGuess(), unknownVariable.getUpperGuess());
+            logger.trace("Solution found in " + solver.getEvaluations() + " iterations: " + value);
+            return OptionalDouble.of(value);
         }
-        
-        return OptionalDouble.of(xVariables.getLast());
+        catch(Exception e) {
+            logger.error("No solution found: " + e.getMessage());
+            variables.keySet().stream().forEach(k -> {
+                logger.error(k + " = " + variables.get(k).getAsDouble());
+            });
+            logger.error("Lower = " + unknownVariable.getLowerGuess() + " >> f = " + f.value(unknownVariable.getLowerGuess()));
+            logger.error("Upper = " + unknownVariable.getUpperGuess() + " >> f = " + f.value(unknownVariable.getUpperGuess()));
+            return OptionalDouble.empty();
+        }
     };
     
     @Override
@@ -208,8 +190,8 @@ abstract class ComponentEquation implements Serializable {
      * Determines the unknown variables.
      * @return a list of the unknown equation variables.
      */
-    private final List<String> unknowns() {
-        Map<String,OptionalDouble> variables = getVariables();
+    private final List<EquationVariable> unknowns() {
+        Map<EquationVariable,OptionalDouble> variables = getVariables();
         return variables.keySet().stream().filter(name -> !variables.get(name).isPresent()).collect(Collectors.toList());
     }
         

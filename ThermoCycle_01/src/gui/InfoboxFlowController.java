@@ -31,7 +31,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import thermocycle.FlowNode;
 import thermocycle.Fluid;
-import thermocycle.Properties.Property;
+import thermocycle.Property;
 
 /**
  *

@@ -39,12 +39,11 @@ public final class ReportBuilder {
             "                                                 __/ |            " + NLS +
             "                                                |___/              ";
     
-    public static ReportBuilder generateReport(ReportDataBlock rdb) {
+    public static String generateReport(ReportDataBlock rdb) {
         ReportBuilder rb = new ReportBuilder();
         rb.appendLine(-1,title);
         rb.addReportBlock(rdb, 0);
-        return rb;
-        
+        return rb.toString();
     }
     
     /**

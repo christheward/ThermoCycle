@@ -1,11 +1,14 @@
-2019-06-01 19:12:54.417 [main] INFO  DebugLog - Created Air (IdealGas)
-2019-06-01 19:12:54.473 [main] INFO  DebugLog - Created Steam (Steam)
-2019-06-01 19:12:54.484 [main] INFO  DebugLog - Created Feed pump
-2019-06-01 19:12:54.486 [main] INFO  DebugLog - Created Boiler
-2019-06-01 19:12:54.488 [main] INFO  DebugLog - Created Turbine
-2019-06-01 19:12:54.490 [main] INFO  DebugLog - Created Condenser
-2019-06-01 19:12:54.496 [main] INFO  DebugLog - Setting fluid to Steam
-2019-06-01 19:12:54.498 [main] INFO  DebugLog - Performing parametric solve for Steam Turbine Test
-2019-06-01 19:12:54.521 [main] ERROR DebugLog - Unknown exception
-2019-06-01 19:12:54.522 [main] ERROR DebugLog - Specific enthalpy value 2.67553e+06 J/kg should be lower than 494148 J/kg.
-2019-06-01 19:12:54.522 [main] INFO  DebugLog - BC Set 1 failed.
+2019-06-09 10:47:54.776 [main] INFO  DebugLog - Created Air (IdealGas)
+2019-06-09 10:47:54.916 [main] INFO  DebugLog - Created Steam (Steam)
+2019-06-09 10:47:54.928 [main] INFO  DebugLog - Created Feed pump
+2019-06-09 10:47:54.930 [main] INFO  DebugLog - Created Boiler
+2019-06-09 10:47:54.932 [main] INFO  DebugLog - Created Turbine
+2019-06-09 10:47:54.934 [main] INFO  DebugLog - Created Condenser
+2019-06-09 10:47:54.941 [main] INFO  DebugLog - Setting fluid to Steam
+2019-06-09 10:47:54.942 [main] INFO  DebugLog - Performing parametric solve for Steam Turbine Test
+2019-06-09 10:47:54.958 [main] ERROR DebugLog - No solution found: Specific enthalpy value 418991 J/kg should be lower than 97788.5 J/kg.
+2019-06-09 10:47:54.958 [main] ERROR DebugLog - P = 101325.0
+2019-06-09 10:47:54.958 [main] ERROR DebugLog - s = 0.0
+2019-06-09 10:47:54.959 [main] ERROR DebugLog - h = 418990.71780418983
+2019-06-09 10:47:54.959 [main] ERROR DebugLog - Lower = -1.0E100 >> f = NaN
+2019-06-09 10:47:54.959 [main] ERROR DebugLog - Upper = 1.0E100 >> f = NaN

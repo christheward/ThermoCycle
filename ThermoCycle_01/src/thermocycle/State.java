@@ -7,7 +7,6 @@ package thermocycle;
 
 import java.io.Serializable;
 import java.util.*;
-import thermocycle.Properties.Property;
 
 /**
  *
@@ -18,13 +17,13 @@ final class State implements Serializable {
     /**
      * Property map.
      */
-    private final EnumMap<Property, Double> state;
+    private final HashMap<Property, Double> state;
     
     /**
      * Constructor.
      */
-    State(){
-        state = new EnumMap<>(Property.class);
+    public State(){
+        state = new HashMap();
     }
     
     /**
@@ -81,10 +80,10 @@ final class State implements Serializable {
     protected void setProperty(Property property, Double value) {
         // Check value is within propoerty limits
         if (value > property.max) {
-            throw new IllegalArgumentException("Value is greater than allowable maximum.");
+            throw new IllegalArgumentException("Value for " + property.name + " is greater than allowable maximum (" + property.max + ").");
         }
         if (value < property.min) {
-            throw new IllegalArgumentException("Value is less than allowable minimum.");
+            throw new IllegalArgumentException("Value for " + property.name + " is less than allowable minimum(" + property.min + ").");
         }
         // Put property in state
         state.put(property, value);

@@ -11,12 +11,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.OptionalDouble;
-import static thermocycle.Attributes.Attribute.*;
 import thermocycle.Component;
 import thermocycle.Cycle;
-import thermocycle.Properties.Property;
 
 /**
  *s

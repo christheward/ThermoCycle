@@ -6,9 +6,8 @@
 package thermocycle;
 
 import java.util.*;
-import static thermocycle.Attributes.Attribute.SPLIT;
 import static thermocycle.Node.Port.*;
-import static thermocycle.Properties.Property.*;
+import utilities.Units.UNITS_TYPE;
 
 
 /**
@@ -17,6 +16,8 @@ import static thermocycle.Properties.Property.*;
  */
 final class Splitter extends Component {
     
+    public static final Attribute SPLIT = new Attribute("Split", "x", UNITS_TYPE.DIMENSIONLESS, 0.0, 1.0);
+        
     /**
      * Constructor
      * @param name The name of the component.
@@ -29,6 +30,8 @@ final class Splitter extends Component {
         flowNodes.put("Outlet 2",new FlowNode(OUTLET));
         internals.add(new Connection(flowNodes.get("Inlet"),flowNodes.get("Outlet 1")));
         internals.add(new Connection(flowNodes.get("Inlet"),flowNodes.get("Outlet 2")));
+        equations.add(new Mass_Balance());
+        equations.add(new Mass_Split());
     }
     
     @Override
@@ -44,14 +47,14 @@ final class Splitter extends Component {
     @Override
     protected List<List<FlowNode>> plotData() {
         List paths = new ArrayList();
-        paths.add(thermodynamicProcess(flowNodes.get("Inlet"), flowNodes.get("Outlet 1"), ENTHALPY, ENTROPY));
-        paths.add(thermodynamicProcess(flowNodes.get("Inlet"), flowNodes.get("Outlet 2"), ENTHALPY, ENTROPY));
+        paths.add(thermodynamicProcess(flowNodes.get("Inlet"), flowNodes.get("Outlet 1"), Fluid.ENTHALPY, Fluid.ENTROPY));
+        paths.add(thermodynamicProcess(flowNodes.get("Inlet"), flowNodes.get("Outlet 2"), Fluid.ENTHALPY, Fluid.ENTROPY));
         return paths;
     }
     
     @Override
-    public Set<Attributes.Attribute> getAllowableAtributes() {
-        Set<Attributes.Attribute> attributes = new HashSet();
+    public Set<Attribute> getAllowableAtributes() {
+        Set<Attribute> attributes = new HashSet();
         attributes.add(SPLIT);
         return attributes;
    }
@@ -59,41 +62,52 @@ final class Splitter extends Component {
     /**
      * Mass balance across the splitter.
      */
-    private class Eqn_Mass extends ComponentEquation{
+    private class Mass_Balance extends ComponentEquation{
+        
+        private final EquationVariable SPLIT = new EquationVariable(Splitter.SPLIT);
+        private final EquationVariable M_IN = new EquationVariable("Mass inlet", "m_in", FlowNode.class);
+        private final EquationVariable M_OUT_1 = new EquationVariable("Mass outlet 1", "m_out_1", FlowNode.class);
+        private final EquationVariable M_OUT_2 = new EquationVariable("Mass outlet 2", "m_out_2", FlowNode.class);
         
         /**
          * Constructor.
          */
-        private Eqn_Mass() {super("m in = m out 1 + m out 2", 1e-3);}
+        private Mass_Balance() {
+            super(1e-3);
+        }
         
         @Override
-        protected Map<String, OptionalDouble> getVariables() {
-            Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("m in", Splitter.this.flowNodes.get("Inlet").getMass());
-            variables.put("m out 1", Splitter.this.flowNodes.get("Outlet 1").getMass());
-            variables.put("m out 2", Splitter.this.flowNodes.get("Outlet 2").getMass());
+        public String equation() {
+            return M_IN + " = " + M_OUT_1 + " + " + M_OUT_2;
+        }
+        
+        @Override
+        protected Double function(Map<EquationVariable, OptionalDouble> variables) {
+            return variables.get(M_OUT_1).getAsDouble() + variables.get(M_OUT_2).getAsDouble() - variables.get(M_IN).getAsDouble();
+        }
+        
+        @Override
+        protected Map<EquationVariable, OptionalDouble> getVariables() {
+            Map<EquationVariable, OptionalDouble> variables = new HashMap();
+            variables.put(M_IN, Splitter.this.flowNodes.get("Inlet").getMass());
+            variables.put(M_OUT_1, Splitter.this.flowNodes.get("Outlet 1").getMass());
+            variables.put(M_OUT_2, Splitter.this.flowNodes.get("Outlet 2").getMass());
             return variables;
         }
         
         @Override
-        protected Double function(Map<String, OptionalDouble> variables) {
-            return variables.get("m out 1").getAsDouble() + variables.get("m out 2").getAsDouble() - variables.get("m in").getAsDouble();
-        }
-        
-        @Override
-        protected Node saveVariable(String variable, Double value) {
-            switch (variable) {
-                case "m in": {
-                    Splitter.this.flowNodes.get("Inlet").setMass(value);
-                    return Splitter.this.flowNodes.get("Inlet");
-                }
-                case "m out 1": {
-                    Splitter.this.flowNodes.get("Outlet 1").setMass(value);
-                    return Splitter.this.flowNodes.get("Outlet 1");
-                }
-                case "m out 2": {
-                    Splitter.this.flowNodes.get("Outlet 2").setMass(value); return Splitter.this.flowNodes.get("Outlet 2");
-                }
+        protected Node saveVariable(EquationVariable variable, Double value) {
+            if (variable.equals(M_IN)) {
+                Splitter.this.flowNodes.get("Inlet").setMass(value);
+                return Splitter.this.flowNodes.get("Inlet");
+            }
+            if (variable.equals(M_OUT_1)) {
+                Splitter.this.flowNodes.get("Outlet 1").setMass(value);
+                return Splitter.this.flowNodes.get("Outlet 1");
+            }
+            if (variable.equals(M_OUT_2)) {
+                Splitter.this.flowNodes.get("Outlet 2").setMass(value);
+                return Splitter.this.flowNodes.get("Outlet 2");
             }
             return null;
         }
@@ -102,42 +116,51 @@ final class Splitter extends Component {
     /**
      * Mass split across the first branch in splitter.
      */
-    private class Eqn_Split extends ComponentEquation{
+    private class Mass_Split extends ComponentEquation{
+        
+        private final EquationVariable SPLIT = new EquationVariable(Splitter.SPLIT);
+        private final EquationVariable M_IN = new EquationVariable("Mass inlet", "m_in", FlowNode.class);
+        private final EquationVariable M_OUT_1 = new EquationVariable("Mass outlet 1", "m_out_1", FlowNode.class);
         
         /**
          * Constructor.
          */
-        private Eqn_Split() {super("m out 1 = m in * split", 1e-3);}
-        
-        @Override
-        protected Map<String, OptionalDouble> getVariables() {
-            Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("split", Splitter.this.getAttribute(SPLIT));
-            variables.put("m in", Splitter.this.flowNodes.get("Inlet").getMass());
-            variables.put("m out 1", Splitter.this.flowNodes.get("Outlet 1").getMass());
-            return variables;
+        private Mass_Split() {
+            super(1e-3);
         }
         
         @Override
-        protected Double function(Map<String, OptionalDouble> variables) {
-            return variables.get("m in").getAsDouble()*variables.get("split").getAsDouble() - variables.get("m out 1").getAsDouble();
+        public String equation() {
+            return M_OUT_1 + " = " + M_IN + " " + SPLIT;
+        }
+        
+        @Override
+        protected Double function(Map<EquationVariable, OptionalDouble> variables) {
+            return variables.get(M_IN).getAsDouble()*variables.get(SPLIT).getAsDouble() - variables.get(M_OUT_1).getAsDouble();
+        }
+        
+        @Override
+        protected Map<EquationVariable, OptionalDouble> getVariables() {
+            Map<EquationVariable, OptionalDouble> variables = new HashMap();
+            variables.put(SPLIT, Splitter.this.getAttribute(Splitter.SPLIT));
+            variables.put(M_IN, Splitter.this.flowNodes.get("Inlet").getMass());
+            variables.put(M_OUT_1, Splitter.this.flowNodes.get("Outlet 1").getMass());
+            return variables;
         }
                 
         @Override
-        protected Node saveVariable(String variable, Double value) {
-            switch (variable) {
-                case "split": {
-                    Splitter.this.setAttribute(SPLIT, value);
-                    return null;
-                }
-                case "m in": {
-                    Splitter.this.flowNodes.get("Inlet").setMass(value);
-                    return Splitter.this.flowNodes.get("Inlet");
-                }
-                case "m out 1": {
-                    Splitter.this.flowNodes.get("Outlet 1").setMass(value);
-                    return Splitter.this.flowNodes.get("Outlet 1");
-                }
+        protected Node saveVariable(EquationVariable variable, Double value) {
+            if (variable.equals(SPLIT)) {
+                Splitter.this.setAttribute(Splitter.SPLIT, value);
+                return null;
+            }
+            if (variable.equals(M_IN)) {
+                Splitter.this.flowNodes.get("Inlet").setMass(value);
+                return Splitter.this.flowNodes.get("Inlet");
+            }
+            if (variable.equals(M_OUT_1)) {
+                Splitter.this.flowNodes.get("Outlet 1").setMass(value);
+                return Splitter.this.flowNodes.get("Outlet 1");
             }
             return null;
         }

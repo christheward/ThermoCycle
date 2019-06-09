@@ -1,2 +1,6 @@
-2019-06-01 19:12:54.521 [main] ERROR DebugLog - Unknown exception
-2019-06-01 19:12:54.522 [main] ERROR DebugLog - Specific enthalpy value 2.67553e+06 J/kg should be lower than 494148 J/kg.
+2019-06-09 10:47:54.958 [main] ERROR DebugLog - No solution found: Specific enthalpy value 418991 J/kg should be lower than 97788.5 J/kg.
+2019-06-09 10:47:54.958 [main] ERROR DebugLog - P = 101325.0
+2019-06-09 10:47:54.958 [main] ERROR DebugLog - s = 0.0
+2019-06-09 10:47:54.959 [main] ERROR DebugLog - h = 418990.71780418983
+2019-06-09 10:47:54.959 [main] ERROR DebugLog - Lower = -1.0E100 >> f = NaN
+2019-06-09 10:47:54.959 [main] ERROR DebugLog - Upper = 1.0E100 >> f = NaN

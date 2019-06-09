@@ -8,8 +8,7 @@ package thermocycle;
 import report.Reportable;
 import java.io.Serializable;
 import java.util.*;
-import thermocycle.Properties.Property;
-import static thermocycle.Properties.Property.*;
+import utilities.Units.UNITS_TYPE;
 
 /**
  *
@@ -18,14 +17,31 @@ import static thermocycle.Properties.Property.*;
 public abstract class Fluid implements Serializable, Reportable {
     
     /**
+     * Fluid properties.
+     */
+    public static final Property PRESSURE = new Property("Pressure", "P", UNITS_TYPE.PRESSURE, 0.0, Double.POSITIVE_INFINITY);
+    public static final Property TEMPERATURE = new Property("Temperature", "T", UNITS_TYPE.TEMPERATURE, 0.0, Double.POSITIVE_INFINITY);
+    public static final Property VOLUME = new Property("Specific volume", "v", UNITS_TYPE.SPECIFIC_VOLUME, 0.0, Double.POSITIVE_INFINITY);
+    public static final Property DENSITY = new Property("Density", "rho", UNITS_TYPE.DENSITY, 0.0, Double.POSITIVE_INFINITY);
+    public static final Property ENTROPY = new Property("Specific entropy", "s", UNITS_TYPE.ENTROPY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Property ENERGY = new Property("Specific internal energy", "u", UNITS_TYPE.SPECIFIC_ENERGY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Property ENTHALPY = new Property("Specific enthalpy", "h", UNITS_TYPE.SPECIFIC_ENERGY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Property HELMHOLTZ = new Property("Specific helmholtz energy", "f", UNITS_TYPE.SPECIFIC_ENERGY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Property GIBBS = new Property("Specific gibbs energy", "g", UNITS_TYPE.SPECIFIC_ENERGY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Property MOLVOL = new Property("Molar volume" , "Vm", UNITS_TYPE.MOLAR_VOLUME, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Property QUALITY = new Property("Quality", "X", UNITS_TYPE.DIMENSIONLESS, 0.0, 1.0);
+    public static final Property MECHANICAL = new Property("Specific mechanical energy", "m", UNITS_TYPE.SPECIFIC_ENERGY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Property[] PROPERTIES = {PRESSURE, TEMPERATURE, VOLUME, DENSITY, ENTROPY, ENERGY, ENTHALPY, HELMHOLTZ, GIBBS, MOLVOL, QUALITY, MECHANICAL};
+    
+    /**
      * The universal gas constant.
      */
-    static double R = 8.3144598;
+    public static double Ru = 8.3144598;
     
     /**
      * Advogadros number.
      */
-    static double Na = 60221408570000000000000.0;
+    public static double Na = 60221408570000000000000.0;
     
     /**
      * The fluid name.
@@ -33,7 +49,7 @@ public abstract class Fluid implements Serializable, Reportable {
     public final String name;
     
     /**
-     * The component unique reference number
+     * The fluid unique reference number
      */
     public final UUID id;
     
@@ -63,20 +79,13 @@ public abstract class Fluid implements Serializable, Reportable {
     public abstract Set<Property> getAllowableProperties();
     
     /**
-     * Computes absent state properties from existing state properties for this fluid.
+     * Computes absent state properties from existing state properties for this fluid. This is done by continually trying to solve all the fluid equations until all equations are either solved or no more unknowns are being found,
      * @param state the state to compute.
      */
     protected final void computeState(State state) {
         // Keep solving the equations until no unknowns are being updated.
         while(!equations.stream().allMatch(e -> (e.solve(state) == false))) {}
     }
-    
-    /**
-     * Gets the initial guess for a property to use with the solver.
-     * @param property the property to get an initial guess for.
-     * @return the initial guess.
-     */
-    protected abstract Double initialGuess(Property property);
     
     @Override
     public String toString() {
@@ -86,7 +95,7 @@ public abstract class Fluid implements Serializable, Reportable {
     // R = 1 / V
     private class R_V extends FluidEquation {
 
-        public R_V() {super(Fluid.this, FluidEquation.equationString(DENSITY, VOLUME), DENSITY.convergenceTolerance);}
+        public R_V() {super(FluidEquation.equationString(DENSITY, VOLUME));}
         
         @Override
         protected  Map<Property, OptionalDouble> getVariables(State state) {
@@ -94,8 +103,8 @@ public abstract class Fluid implements Serializable, Reportable {
         }
         
         @Override
-        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
-            return OptionalDouble.of(variables.get(VOLUME).getAsDouble()*variables.get(DENSITY).getAsDouble() - 1);
+        protected Double function(Map<Property, OptionalDouble> variables) {
+            return variables.get(VOLUME).getAsDouble()*variables.get(DENSITY).getAsDouble() - 1;
         }
         
     }
@@ -103,7 +112,7 @@ public abstract class Fluid implements Serializable, Reportable {
     // H = U + P V
     private class H_UPV extends FluidEquation {
         
-        public H_UPV() {super(Fluid.this, FluidEquation.equationString(ENTHALPY, ENERGY, PRESSURE, VOLUME), ENTHALPY.convergenceTolerance);}
+        public H_UPV() {super(FluidEquation.equationString(ENTHALPY, ENERGY, PRESSURE, VOLUME));}
 
         @Override
         protected Map<Property, OptionalDouble> getVariables(State state) {
@@ -111,8 +120,8 @@ public abstract class Fluid implements Serializable, Reportable {
         }
 
         @Override
-        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
-            return OptionalDouble.of(variables.get(ENTHALPY).getAsDouble() - variables.get(ENERGY).getAsDouble() - variables.get(PRESSURE).getAsDouble()*variables.get(VOLUME).getAsDouble());
+        protected Double function(Map<Property, OptionalDouble> variables) {
+            return variables.get(ENTHALPY).getAsDouble() - variables.get(ENERGY).getAsDouble() - variables.get(PRESSURE).getAsDouble()*variables.get(VOLUME).getAsDouble();
         }
         
     }
@@ -120,7 +129,7 @@ public abstract class Fluid implements Serializable, Reportable {
     // F = U - T S
     private class F_UTS extends FluidEquation {
 
-        public F_UTS() {super(Fluid.this, FluidEquation.equationString(HELMHOLTZ, ENERGY, TEMPERATURE, ENTROPY), HELMHOLTZ.convergenceTolerance);}
+        public F_UTS() {super(FluidEquation.equationString(HELMHOLTZ, ENERGY, TEMPERATURE, ENTROPY));}
 
         @Override
         protected Map<Property, OptionalDouble> getVariables(State state) {
@@ -128,8 +137,8 @@ public abstract class Fluid implements Serializable, Reportable {
         }
 
         @Override
-        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
-            return OptionalDouble.of(variables.get(HELMHOLTZ).getAsDouble() - variables.get(ENERGY).getAsDouble() + variables.get(TEMPERATURE).getAsDouble()*variables.get(ENTROPY).getAsDouble());
+        protected Double function(Map<Property, OptionalDouble> variables) {
+            return variables.get(HELMHOLTZ).getAsDouble() - variables.get(ENERGY).getAsDouble() + variables.get(TEMPERATURE).getAsDouble()*variables.get(ENTROPY).getAsDouble();
         }
         
     }
@@ -137,7 +146,7 @@ public abstract class Fluid implements Serializable, Reportable {
     // G = H - T S
     private class G_HTS extends FluidEquation {
 
-        public G_HTS() {super(Fluid.this, FluidEquation.equationString(GIBBS, ENTHALPY, TEMPERATURE, ENTROPY),1e-5);}
+        public G_HTS() {super(FluidEquation.equationString(GIBBS, ENTHALPY, TEMPERATURE, ENTROPY));}
 
         @Override
         protected Map<Property, OptionalDouble> getVariables(State state) {
@@ -145,10 +154,10 @@ public abstract class Fluid implements Serializable, Reportable {
         }
 
         @Override
-        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
-            return OptionalDouble.of(variables.get(GIBBS).getAsDouble() - variables.get(ENTHALPY).getAsDouble() + variables.get(TEMPERATURE).getAsDouble()*variables.get(ENTROPY).getAsDouble());
+        protected Double function(Map<Property, OptionalDouble> variables) {
+            return variables.get(GIBBS).getAsDouble() - variables.get(ENTHALPY).getAsDouble() + variables.get(TEMPERATURE).getAsDouble()*variables.get(ENTROPY).getAsDouble();
         }
         
     }
-    
+        
 }

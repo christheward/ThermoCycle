@@ -13,10 +13,7 @@ import java.io.Serializable;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import thermocycle.Attributes.Attribute;
-import static thermocycle.Properties.Property.*;
 import static thermocycle.Node.Port.*;
-import thermocycle.Properties.Property;
 import utilities.Units.UNITS_TYPE;
 
 /**
@@ -265,7 +262,7 @@ public abstract class Component implements Serializable, Reportable {
                 dead.clearState();
                 dead.setProperty(ambient);
                 n.getFluid().get().computeState(dead);
-                E = E + n.getMass().getAsDouble() * ((n.getState(ENTHALPY).getAsDouble() - dead.getProperty(ENTHALPY).getAsDouble()) - (dead.getProperty(TEMPERATURE).getAsDouble() * (n.getState(ENTROPY).getAsDouble() - dead.getProperty(ENTROPY).getAsDouble())));
+                E = E + n.getMass().getAsDouble() * ((n.getState(Fluid.ENTHALPY).getAsDouble() - dead.getProperty(Fluid.ENTHALPY).getAsDouble()) - (dead.getProperty(Fluid.TEMPERATURE).getAsDouble() * (n.getState(Fluid.ENTROPY).getAsDouble() - dead.getProperty(Fluid.ENTROPY).getAsDouble())));
             }
             return E;
         }
@@ -284,7 +281,7 @@ public abstract class Component implements Serializable, Reportable {
                 dead.clearState();
                 dead.setProperty(ambient);
                 n.getFluid().get().computeState(dead);
-                E = E + n.getMass().getAsDouble() * ((n.getState(ENTHALPY).getAsDouble() - dead.getProperty(ENTHALPY).getAsDouble()) - (dead.getProperty(TEMPERATURE).getAsDouble() * (n.getState(ENTROPY).getAsDouble() - dead.getProperty(ENTROPY).getAsDouble())));
+                E = E + n.getMass().getAsDouble() * ((n.getState(Fluid.ENTHALPY).getAsDouble() - dead.getProperty(Fluid.ENTHALPY).getAsDouble()) - (dead.getProperty(Fluid.TEMPERATURE).getAsDouble() * (n.getState(Fluid.ENTROPY).getAsDouble() - dead.getProperty(Fluid.ENTROPY).getAsDouble())));
             }
             return E;
         }
@@ -426,8 +423,8 @@ public abstract class Component implements Serializable, Reportable {
     protected final double heatTransferProcessExergy(List<FlowNode> process) {
         double E = 0;
         for (int i=0; i<(process.size()-1); i++) {
-            double dQ = (process.get(i+1).getMass().getAsDouble() * process.get(i+1).getState(ENTHALPY).getAsDouble()) - (process.get(i).getMass().getAsDouble() * (process.get(i).getState(ENTHALPY).getAsDouble()));
-            double fT = (1 - (2 * ambient.getProperty(TEMPERATURE).getAsDouble() / (process.get(i).getState(TEMPERATURE).getAsDouble() + process.get(i+1).getState(TEMPERATURE).getAsDouble())));
+            double dQ = (process.get(i+1).getMass().getAsDouble() * process.get(i+1).getState(Fluid.ENTHALPY).getAsDouble()) - (process.get(i).getMass().getAsDouble() * (process.get(i).getState(Fluid.ENTHALPY).getAsDouble()));
+            double fT = (1 - (2 * ambient.getProperty(Fluid.TEMPERATURE).getAsDouble() / (process.get(i).getState(Fluid.TEMPERATURE).getAsDouble() + process.get(i+1).getState(Fluid.TEMPERATURE).getAsDouble())));
             E = E + (fT * dQ);
         }
         return E;
@@ -447,7 +444,7 @@ public abstract class Component implements Serializable, Reportable {
         
         ReportDataBlock atbs = new ReportDataBlock("Attributes");
         getAllowableAtributes().stream().forEach(a -> {
-            atbs.addData(a.fullName, this.getAttribute(a).isPresent() ? DimensionedDouble.valueOfSI(getAttribute(a).getAsDouble(), a.type) : "Unsolved");
+            atbs.addData(a.name, this.getAttribute(a).isPresent() ? DimensionedDouble.valueOfSI(getAttribute(a).getAsDouble(), a.type) : "Unsolved");
         });
         rdb.addDataBlock(atbs);
         

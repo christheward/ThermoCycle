@@ -15,9 +15,8 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import thermocycle.Attributes.Attribute;
+import thermocycle.Attribute;
 import thermocycle.BoundaryConditionAttribute;
-import utilities.Units;
 import utilities.Units.UNITS_SYSTEM;
 
 /**

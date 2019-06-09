@@ -7,8 +7,6 @@ package thermocycle;
 
 import report.ReportDataBlock;
 import java.util.*;
-import thermocycle.Properties.Property;
-import static thermocycle.Properties.Property.*;
 
 import com.hummeling.if97.IF97;
 
@@ -26,7 +24,7 @@ public final class Steam extends Fluid {
     protected Steam() {
         super("Steam");
         /**
-         * There are inconsistensies when using these equations.  Need to find a way to just us HS or PT - and use a 2D secant solver?
+         * There are inconsistencies when using these equations.  Need to find a way to just us HS or PT - and use a 2D secant solver?
          */
         equations.add(new P_HS());
         equations.add(new T_HS());
@@ -64,48 +62,16 @@ public final class Steam extends Fluid {
         rdb.addData("Formulation", "IF97");
         return rdb;
     }
-
-    @Override
-    protected Double initialGuess(Property property) {
-        /**
-         * Convergence is very sensitive to actual value. Need to find a better way to do an initial guess.
-         */
-        switch (property) {
-            case PRESSURE:
-                return IF97.pc*1e6;
-            case TEMPERATURE:
-                return IF97.Tc;
-            case VOLUME:
-                return 1/IF97.rhoc;
-            case DENSITY:
-                return IF97.rhoc;
-            case ENTROPY:
-                //return if97.specificEntropyPT(IF97.pc*1e6, IF97.Tc);
-                return 1300.0;
-            case ENERGY:
-                return if97.specificInternalEnergyPT(IF97.pc*1e6, IF97.Tc);
-            case ENTHALPY:
-                return if97.specificEnthalpyPT(IF97.pc*1e6, IF97.Tc);
-            case GIBBS:
-                return if97.specificGibbsFreeEnergyPT(IF97.pc*1e6, IF97.Tc);
-            case HELMHOLTZ:
-                return if97.specificInternalEnergyPT(IF97.pc*1e6, IF97.Tc) - IF97.Tc * if97.specificEnthalpyPT(IF97.pc*1e6, IF97.Tc);
-            case QUALITY:
-                return 0.5;
-            default:
-                return Double.NaN;
-        }
-    }
     
     private class P_HS extends FluidEquation {
         
         public P_HS() {
-            super(Steam.this, FluidEquation.equationString(PRESSURE, ENTHALPY, ENTROPY), PRESSURE.convergenceTolerance);
+            super(FluidEquation.equationString(PRESSURE, ENTHALPY, ENTROPY));
         }
         
         @Override
-        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
-            return OptionalDouble.of(variables.get(PRESSURE).getAsDouble() - if97.pressureHS(variables.get(ENTHALPY).getAsDouble(), variables.get(ENTROPY).getAsDouble()));
+        protected Double function(Map<Property, OptionalDouble> variables) {
+            return variables.get(PRESSURE).getAsDouble() - if97.pressureHS(variables.get(ENTHALPY).getAsDouble(), variables.get(ENTROPY).getAsDouble());
         }
         
         @Override
@@ -118,12 +84,12 @@ public final class Steam extends Fluid {
     private class T_HS extends FluidEquation {
         
         public T_HS() {
-            super(Steam.this, FluidEquation.equationString(TEMPERATURE, ENTHALPY, ENTROPY), TEMPERATURE.convergenceTolerance);
+            super(FluidEquation.equationString(TEMPERATURE, ENTHALPY, ENTROPY));
         }
         
         @Override
-        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
-            return OptionalDouble.of(variables.get(TEMPERATURE).getAsDouble() - if97.temperatureHS(variables.get(ENTHALPY).getAsDouble(), variables.get(ENTROPY).getAsDouble()));
+        protected Double function(Map<Property, OptionalDouble> variables) {
+            return variables.get(TEMPERATURE).getAsDouble() - if97.temperatureHS(variables.get(ENTHALPY).getAsDouble(), variables.get(ENTROPY).getAsDouble());
         }
         
         @Override
@@ -136,12 +102,12 @@ public final class Steam extends Fluid {
     private class R_HS extends FluidEquation {
         
         public R_HS() {
-            super(Steam.this, FluidEquation.equationString(DENSITY, ENTHALPY, ENTROPY), DENSITY.convergenceTolerance);
+            super(FluidEquation.equationString(DENSITY, ENTHALPY, ENTROPY));
         }
         
         @Override
-        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
-            return OptionalDouble.of(variables.get(DENSITY).getAsDouble() - if97.densityHS(variables.get(ENTHALPY).getAsDouble(), variables.get(ENTROPY).getAsDouble()));
+        protected Double function(Map<Property, OptionalDouble> variables) {
+            return variables.get(DENSITY).getAsDouble() - if97.densityHS(variables.get(ENTHALPY).getAsDouble(), variables.get(ENTROPY).getAsDouble());
         }
         
         @Override
@@ -154,12 +120,12 @@ public final class Steam extends Fluid {
     private class U_HS extends FluidEquation {
         
         public U_HS() {
-            super(Steam.this, FluidEquation.equationString(ENERGY, ENTHALPY, ENTROPY), ENERGY.convergenceTolerance);
+            super(FluidEquation.equationString(ENERGY, ENTHALPY, ENTROPY));
         }
         
         @Override
-        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
-            return OptionalDouble.of(variables.get(ENERGY).getAsDouble() - if97.specificInternalEnergyHS(variables.get(ENTHALPY).getAsDouble(), variables.get(ENTROPY).getAsDouble()));
+        protected Double function(Map<Property, OptionalDouble> variables) {
+            return variables.get(ENERGY).getAsDouble() - if97.specificInternalEnergyHS(variables.get(ENTHALPY).getAsDouble(), variables.get(ENTROPY).getAsDouble());
         }
         
         @Override
@@ -172,15 +138,15 @@ public final class Steam extends Fluid {
     private class R_PT extends FluidEquation {
         
         public R_PT() {
-            super(Steam.this, FluidEquation.equationString(DENSITY, PRESSURE, TEMPERATURE), DENSITY.convergenceTolerance);
+            super(FluidEquation.equationString(DENSITY, PRESSURE, TEMPERATURE));
         }
 
         @Override
-        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+        protected Double function(Map<Property, OptionalDouble> variables) {
             if (if97.saturationPressureT(variables.get(TEMPERATURE).getAsDouble()) == variables.get(PRESSURE).getAsDouble()) {
-                return OptionalDouble.empty();
+                return Double.NaN;
             }
-            return OptionalDouble.of(variables.get(DENSITY).getAsDouble() - if97.densityPT(variables.get(PRESSURE).getAsDouble(), variables.get(TEMPERATURE).getAsDouble()));
+            return variables.get(DENSITY).getAsDouble() - if97.densityPT(variables.get(PRESSURE).getAsDouble(), variables.get(TEMPERATURE).getAsDouble());
         }
 
         @Override
@@ -193,15 +159,15 @@ public final class Steam extends Fluid {
     private class H_PT extends FluidEquation {
         
         public H_PT() {
-            super(Steam.this, FluidEquation.equationString(ENTHALPY, PRESSURE, TEMPERATURE), ENTHALPY.convergenceTolerance);
+            super(FluidEquation.equationString(ENTHALPY, PRESSURE, TEMPERATURE));
         }
 
         @Override
-        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+        protected Double function(Map<Property, OptionalDouble> variables) {
             if (if97.saturationPressureT(variables.get(TEMPERATURE).getAsDouble()) == variables.get(PRESSURE).getAsDouble()) {
-                return OptionalDouble.empty();
+                return Double.NaN;
             }
-            return OptionalDouble.of(variables.get(ENTHALPY).getAsDouble() - if97.specificEnthalpyPT(variables.get(PRESSURE).getAsDouble(), variables.get(TEMPERATURE).getAsDouble()));
+            return variables.get(ENTHALPY).getAsDouble() - if97.specificEnthalpyPT(variables.get(PRESSURE).getAsDouble(), variables.get(TEMPERATURE).getAsDouble());
         }
 
         @Override
@@ -214,15 +180,15 @@ public final class Steam extends Fluid {
     private class S_PT extends FluidEquation {
         
         public S_PT() {
-            super(Steam.this, FluidEquation.equationString(ENTROPY, PRESSURE, TEMPERATURE), ENTROPY.convergenceTolerance);
+            super(FluidEquation.equationString(ENTROPY, PRESSURE, TEMPERATURE));
         }
 
         @Override
-        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+        protected Double function(Map<Property, OptionalDouble> variables) {
             if (if97.saturationPressureT(variables.get(TEMPERATURE).getAsDouble()) == variables.get(PRESSURE).getAsDouble()) {
-                return OptionalDouble.empty();
+                return Double.NaN;
             }
-            return OptionalDouble.of(variables.get(ENTROPY).getAsDouble() - if97.specificEntropyPT(variables.get(PRESSURE).getAsDouble(), variables.get(TEMPERATURE).getAsDouble()));
+            return variables.get(ENTROPY).getAsDouble() - if97.specificEntropyPT(variables.get(PRESSURE).getAsDouble(), variables.get(TEMPERATURE).getAsDouble());
         }
 
         @Override
@@ -235,15 +201,15 @@ public final class Steam extends Fluid {
     private class U_PT extends FluidEquation {
         
         public U_PT() {
-            super(Steam.this, FluidEquation.equationString(ENERGY, PRESSURE, TEMPERATURE), ENERGY.convergenceTolerance);
+            super(FluidEquation.equationString(ENERGY, PRESSURE, TEMPERATURE));
         }
 
         @Override
-        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+        protected Double function(Map<Property, OptionalDouble> variables) {
             if (if97.saturationPressureT(variables.get(TEMPERATURE).getAsDouble()) == variables.get(PRESSURE).getAsDouble()) {
-                return OptionalDouble.empty();
+                return Double.NaN;
             }
-            return OptionalDouble.of(variables.get(ENERGY).getAsDouble() - if97.specificInternalEnergyPT(variables.get(PRESSURE).getAsDouble(), variables.get(TEMPERATURE).getAsDouble()));
+            return variables.get(ENERGY).getAsDouble() - if97.specificInternalEnergyPT(variables.get(PRESSURE).getAsDouble(), variables.get(TEMPERATURE).getAsDouble());
         }
 
         @Override
@@ -256,15 +222,15 @@ public final class Steam extends Fluid {
     private class G_PT extends FluidEquation {
         
         public G_PT() {
-            super(Steam.this, FluidEquation.equationString(GIBBS, PRESSURE, TEMPERATURE), GIBBS.convergenceTolerance);
+            super(FluidEquation.equationString(GIBBS, PRESSURE, TEMPERATURE));
         }
 
         @Override
-        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+        protected Double function(Map<Property, OptionalDouble> variables) {
             if (if97.saturationPressureT(variables.get(TEMPERATURE).getAsDouble()) == variables.get(PRESSURE).getAsDouble()) {
-                return OptionalDouble.empty();
+                return Double.NaN;
             }
-            return OptionalDouble.of(variables.get(GIBBS).getAsDouble() - if97.specificGibbsFreeEnergyPT(variables.get(PRESSURE).getAsDouble(), variables.get(TEMPERATURE).getAsDouble()));
+            return variables.get(GIBBS).getAsDouble() - if97.specificGibbsFreeEnergyPT(variables.get(PRESSURE).getAsDouble(), variables.get(TEMPERATURE).getAsDouble());
         }
 
         @Override
@@ -277,18 +243,18 @@ public final class Steam extends Fluid {
     private class X_HS extends FluidEquation {
         
         public X_HS() {
-            super(Steam.this, FluidEquation.equationString(QUALITY, ENTHALPY, ENTROPY), QUALITY.convergenceTolerance);
+            super(FluidEquation.equationString(QUALITY, ENTHALPY, ENTROPY));
         }
         
         @Override
-        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+        protected Double function(Map<Property, OptionalDouble> variables) {
             double pressure = if97.pressureHS(variables.get(ENTHALPY).getAsDouble(), variables.get(ENTROPY).getAsDouble());
             if (pressure > IF97.pc*1e6) {
-                return OptionalDouble.empty();
+                return Double.NaN;
             }
             double hLiquid = if97.specificEnthalpySaturatedLiquidP(pressure);
             double hVapour = if97.specificEnthalpySaturatedVapourP(pressure);
-            return OptionalDouble.of(variables.get(QUALITY).getAsDouble() - quality(variables.get(ENTHALPY).getAsDouble(),hLiquid,hVapour));
+            return variables.get(QUALITY).getAsDouble() - quality(variables.get(ENTHALPY).getAsDouble(),hLiquid,hVapour);
         }
         
         @Override
@@ -301,18 +267,18 @@ public final class Steam extends Fluid {
     private class X_PH extends FluidEquation {
 
         public X_PH() {
-            super(Steam.this, FluidEquation.equationString(QUALITY, PRESSURE, ENTHALPY), QUALITY.convergenceTolerance);
+            super(FluidEquation.equationString(QUALITY, PRESSURE, ENTHALPY));
         }
         
         @Override
-        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+        protected Double function(Map<Property, OptionalDouble> variables) {
             if (variables.get(PRESSURE).getAsDouble() > IF97.pc*1e6) {
-                return OptionalDouble.empty();
+                return Double.NaN;
             }
             //return OptionalDouble.of(if97.specificEnthalpyPX(variables.get(PRESSURE).getAsDouble(), variables.get(QUALITY).getAsDouble()));
             double hLiquid = if97.specificEnthalpySaturatedLiquidP(variables.get(PRESSURE).getAsDouble());
             double hVapour = if97.specificEnthalpySaturatedVapourP(variables.get(PRESSURE).getAsDouble());
-            return OptionalDouble.of(variables.get(QUALITY).getAsDouble() - quality(variables.get(ENTHALPY).getAsDouble(),hLiquid,hVapour));
+            return variables.get(QUALITY).getAsDouble() - quality(variables.get(ENTHALPY).getAsDouble(),hLiquid,hVapour);
         }
         
         @Override
@@ -325,18 +291,18 @@ public final class Steam extends Fluid {
     private class X_PS extends FluidEquation {
 
         public X_PS() {
-            super(Steam.this, FluidEquation.equationString(QUALITY, PRESSURE, ENTROPY), QUALITY.convergenceTolerance);
+            super(FluidEquation.equationString(QUALITY, PRESSURE, ENTROPY));
         }
         
         @Override
-        protected OptionalDouble function(Map<Property, OptionalDouble> variables) {
+        protected Double function(Map<Property, OptionalDouble> variables) {
             if (variables.get(PRESSURE).getAsDouble() > IF97.pc*1e6) {
-                return OptionalDouble.empty();
+                return Double.NaN;
             }
             double hMixture = if97.specificEnthalpyPS(variables.get(PRESSURE).getAsDouble(), variables.get(ENTROPY).getAsDouble());
             double hLiquid = if97.specificEnthalpySaturatedLiquidP(variables.get(PRESSURE).getAsDouble());
             double hVapour = if97.specificEnthalpySaturatedVapourP(variables.get(PRESSURE).getAsDouble());
-            return OptionalDouble.of(variables.get(QUALITY).getAsDouble() - quality(hMixture,hLiquid,hVapour));
+            return variables.get(QUALITY).getAsDouble() - quality(hMixture,hLiquid,hVapour);
         }
         
         @Override

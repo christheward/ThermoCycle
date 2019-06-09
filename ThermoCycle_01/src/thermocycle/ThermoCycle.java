@@ -6,14 +6,12 @@
 package thermocycle;
 
 import java.util.concurrent.ExecutionException;
-import static thermocycle.Properties.Property.*;
-import static thermocycle.Attributes.Attribute.*;
 
 /**
  *
  * @author Chris
  */
-public class ThermoCycle implements Properties {
+public class ThermoCycle {
 
     /**
      * @param args the command line arguments

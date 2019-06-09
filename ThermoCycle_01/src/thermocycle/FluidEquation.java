@@ -8,15 +8,16 @@ package thermocycle;
 import java.util.List;
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Deque;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.OptionalDouble;
 import java.util.stream.Collectors;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.solvers.BrentSolver;
+import org.apache.commons.math3.analysis.solvers.SecantSolver;
+import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import thermocycle.Properties.Property;
 
 /**
  *
@@ -35,21 +36,19 @@ abstract class FluidEquation implements Serializable {
     private static final String func = "\u0192";
     
     /**
-     * The maximum number of iteration allowed to find a converged solution.
+     * Convergence tolerance.
      */
-    private static int iterationLimit = 1000;
+    public static double tolerance = 1e-6;
     
-    private final Fluid fluid;
+    /**
+     * Maximum number of allowable iterations to try and reach convergence.
+     */
+    private static int maxIterations = 10000;
     
     /**
      * A description of the equation.
      */
     public final String writtenEquation;
-    
-    /**
-     * Convergence limit for the equation.
-     */
-    private final double convergenceLimit;
     
     /**
      * Generates a string describing the equation.
@@ -71,10 +70,8 @@ abstract class FluidEquation implements Serializable {
     /**
      * Constructor
      */
-    protected FluidEquation(Fluid fluid, String name, double limit) {
-        this.fluid = fluid;
+    protected FluidEquation(String name) {
         writtenEquation = name;
-        convergenceLimit = limit;
     }
     
     /**
@@ -82,7 +79,7 @@ abstract class FluidEquation implements Serializable {
      * @param variables a map of function variables and their current values.
      * @return the current function value.
      */
-    protected abstract OptionalDouble function(Map<Property, OptionalDouble> variables);
+    protected abstract Double function(Map<Property, OptionalDouble> variables);
     
     /**
      * Gets a map of the state properties and their current values.
@@ -121,10 +118,6 @@ abstract class FluidEquation implements Serializable {
     protected final boolean solve(State state) {
         if (unknowns(state).size() == 1) {
             Property variable = unknowns(state).get(0);
-            logger.trace("Solving " + writtenEquation + " for " + variable.symbol);
-            getVariables(state).keySet().stream().forEach(k -> {
-                logger.trace(k + " = " + state.getProperty(k));
-            });
             state.setProperty(variable, solveVariable(state, variable).getAsDouble());
             return true;
         }
@@ -138,76 +131,39 @@ abstract class FluidEquation implements Serializable {
      */
     private final OptionalDouble solveVariable(State state, Property unknownVariable) {
         
-        /**
-         * NEED A BETTER WAY OF DETERMING INITIAL GUESS -particularly for steam!!!
-         */
-        
-        // Get initial guess
-        Double initialGuess = fluid.initialGuess(unknownVariable);
+        // Log
+        logger.trace("Solving " + writtenEquation + " for " + unknownVariable.symbol);
         
         // Get the equation variables
         Map<Property, OptionalDouble> variables = getVariables(state);
         
-        // Set up the convergence queues
-        Deque<Double> xVariables = new LinkedList();
-        Deque<Double> fVariables = new LinkedList();
+        // Create univariate function
+        UnivariateFunction f = new UnivariateFunction() {
+            @Override
+            public double value(double x) {
+                variables.put(unknownVariable, OptionalDouble.of(x));
+                return function(variables);
+            }
+        };
         
-        // Populate the convergence queues
-        xVariables.add(initialGuess*0.95);
-        variables.put(unknownVariable, OptionalDouble.of(xVariables.getLast()));
-        fVariables.add(function(variables).getAsDouble());
-        xVariables.add(initialGuess);
-        variables.put(unknownVariable, OptionalDouble.of(xVariables.getLast()));
-        fVariables.add(function(variables).getAsDouble());
-        
-        logger.trace(unknownVariable.symbol + " = " + xVariables.getFirst() + " (Iteration -1)");
-        logger.trace(unknownVariable.symbol + " = " + xVariables.getLast() + " (Iteration 0)");
-        
-        // Initialise the iteration counter
-        int iteration = 1;
-        
-        // Iterate until converged
-        while(Math.abs(fVariables.getLast()) > convergenceLimit) {
-            
-            // Update solution estimate in the queues
-            if (xVariables.getLast().equals(xVariables.getFirst())) {
-                xVariables.add(xVariables.getLast());
-            }
-            else {
-                //logger.trace("x1 " + xVariables.getFirst());
-                //logger.trace("x2 " + xVariables.getLast());
-                logger.trace("f1 " + fVariables.getFirst());
-                logger.trace("f2 " + fVariables.getLast());
-                xVariables.add(xVariables.getLast() - fVariables.getLast()*(xVariables.getLast() - xVariables.getFirst())/(fVariables.getLast() - fVariables.getFirst()));
-            }
-            variables.put(unknownVariable, OptionalDouble.of(xVariables.getLast()));
-            OptionalDouble f = function(variables);
-            if (f.isPresent()) {
-                fVariables.add(f.getAsDouble());
-            }
-            else {
-                // DO SOMETHING BECAUSE FUNCTION HAS FAILED.
-                logger.error("Fluid equation failed.");
-            }
-            
-            // Remove the oldest queue values
-            xVariables.remove();
-            fVariables.remove();
-            
-            // Update log
-            logger.trace(unknownVariable.symbol + " = " + xVariables.getLast() + " (Iteration " + iteration + ")");
-            
-            // Check iteration limit
-            if (iteration > iterationLimit) {
-                logger.trace("Maximum number of iterations reached for equation convergence.");
-                return OptionalDouble.empty();
-            }
-            else {
-                iteration = iteration + 1;
-            }
+        // Create solver
+        //UnivariateSolver solver = new SecantSolver(1e-6);
+        UnivariateSolver solver = new BrentSolver(1e-6);
+        try {
+            double value = solver.solve(maxIterations, f, unknownVariable.getLowerGuess() , unknownVariable.getUpperGuess());
+            logger.trace("Solution found in " + solver.getEvaluations() + " iterations: " + value);
+            return OptionalDouble.of(value);
         }
-        //logger.trace(unknownVariable.symbol + " converged to " + xVariables.getLast() + ".");
-        return OptionalDouble.of(xVariables.getLast());
+        catch(Exception e) {
+            logger.error("No solution found: " + e.getMessage());
+            variables.keySet().stream().forEach(k -> {
+                logger.error(k + " = " + variables.get(k).getAsDouble());
+            });
+            logger.error("Lower = " + unknownVariable.getLowerGuess() + " >> f = " + f.value(unknownVariable.getLowerGuess()));
+            logger.error("Upper = " + unknownVariable.getUpperGuess() + " >> f = " + f.value(unknownVariable.getUpperGuess()));
+            return OptionalDouble.empty();
+        }
+        
     };
     
     @Override

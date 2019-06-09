@@ -6,15 +6,16 @@
 package thermocycle;
 
 import java.util.*;
-import static thermocycle.Properties.Property.*;
-import static thermocycle.Attributes.Attribute.*;
 import static thermocycle.Node.Port.*;
+import utilities.Units;
 
 /**
  *
  * @author Chris
  */
 public final class Combustor extends Component {
+    
+    public static final Attribute P_LOSS = new Attribute("Pressure Loss", "Pr", Units.UNITS_TYPE.DIMENSIONLESS, 0.0, 1.0);
     
     /**
      * Constructor.
@@ -33,8 +34,15 @@ public final class Combustor extends Component {
     }
     
     @Override
+    public Set<Attribute> getAllowableAtributes() {
+        Set<Attribute> attributes = new HashSet();
+        attributes.add(P_LOSS);
+        return attributes;
+    }
+    
+    @Override
     protected double heatExergyIn() {
-        return heatTransferProcessExergy(thermodynamicProcess(flowNodes.get("Inlet"), flowNodes.get("Outlet"), ENTHALPY, PRESSURE));
+        return heatTransferProcessExergy(thermodynamicProcess(flowNodes.get("Inlet"), flowNodes.get("Outlet"), Fluid.ENTHALPY, Fluid.PRESSURE));
     }
     
     @Override
@@ -45,54 +53,54 @@ public final class Combustor extends Component {
     @Override
     protected List<List<FlowNode>> plotData() {
         List paths = new ArrayList();
-        paths.add(thermodynamicProcess(flowNodes.get("Inlet"), flowNodes.get("Outlet"), ENTHALPY, PRESSURE));
+        paths.add(thermodynamicProcess(flowNodes.get("Inlet"), flowNodes.get("Outlet"), Fluid.ENTHALPY, Fluid.PRESSURE));
         return paths;
     }
-    
-    @Override
-    public Set<Attributes.Attribute> getAllowableAtributes() {
-        Set<Attributes.Attribute> attributes = new HashSet();
-        attributes.add(PLOSS);
-        return attributes;
-   }
     
     /**
      * Mass balance across the combustor.
      */
     private class Mass_Balance extends ComponentEquation{
-                
+        
+        private final EquationVariable M_IN = new EquationVariable("Inlet Mass Flow", "m_in", FlowNode.class);
+        private final EquationVariable M_OUT = new EquationVariable("Outlet Mass Flow", "m_out", FlowNode.class);
+        
         /**
          * Constructor.
          */
-        private Mass_Balance() {super("m in = m out", 1e-3);}
+        private Mass_Balance() {super(1e-3);}
         
         @Override
-        protected Map<String,OptionalDouble> getVariables() {
-            Map<String,OptionalDouble> variables = new HashMap();
-            variables.put("m in", Combustor.this.flowNodes.get("Inlet").getMass());
-            variables.put("m out", Combustor.this.flowNodes.get("Outlet").getMass());
+        public String equation() {
+            return M_IN + " = " + M_OUT;
+        }
+        
+        @Override
+        protected Double function(Map<EquationVariable, OptionalDouble> variables) {
+            return variables.get(M_IN).getAsDouble() - variables.get(M_OUT).getAsDouble();
+        }
+        
+        @Override
+        protected Map<EquationVariable,OptionalDouble> getVariables() {
+            Map<EquationVariable,OptionalDouble> variables = new HashMap();
+            variables.put(M_IN, Combustor.this.flowNodes.get("Inlet").getMass());
+            variables.put(M_OUT, Combustor.this.flowNodes.get("Outlet").getMass());
             return variables;
         }
         
         @Override
-        protected Double function(Map<String, OptionalDouble> variables) {
-            return variables.get("m in").getAsDouble() - variables.get("m out").getAsDouble();
-        }
-                
-        @Override
-        protected Node saveVariable(String variable, Double value) {
-            switch (variable) {
-                case "m in": {
-                    Combustor.this.flowNodes.get("Inlet").setMass(value);
-                    return Combustor.this.flowNodes.get("Inlet");
-                }
-                case "m out": {
-                    Combustor.this.flowNodes.get("Outlet").setMass(value);
-                    return Combustor.this.flowNodes.get("Outlet");
-                }
+        protected Node saveVariable(EquationVariable variable, Double value) {
+            if (variable.equals(M_IN)) {
+                Combustor.this.flowNodes.get("Inlet").setMass(value);
+                return Combustor.this.flowNodes.get("Inlet");
+            }
+            if (variable.equals(M_OUT)) {
+                Combustor.this.flowNodes.get("Outlet").setMass(value);
+                return Combustor.this.flowNodes.get("Outlet");
             }
             return null;
         }
+        
     }
     
     /**
@@ -100,44 +108,57 @@ public final class Combustor extends Component {
      */
     private class Energy_Balance extends ComponentEquation{
         
+        private final EquationVariable H_IN = new EquationVariable("Inlet Enthalpy", "h_in", Fluid.ENTHALPY);
+        private final EquationVariable H_OUT = new EquationVariable("Outlet Enthalpy", "h_out", Fluid.ENTHALPY);
+        private final EquationVariable M = new EquationVariable("Mass Flow", "m", FlowNode.class);
+        private final EquationVariable Q = new EquationVariable("Heat Input", "Q", HeatNode.class);
+        
         /**
          * Constructor.
          */
-        private Energy_Balance() {super("Q = m * (h out - h in)", 1e-3);}
+        private Energy_Balance() {super(1e-3);}
         
         @Override
-        protected Map<String, OptionalDouble> getVariables() {
-            Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("Q", Combustor.this.heatNodes.get("Supply").getHeat());
-            variables.put("m", Combustor.this.flowNodes.get("Inlet").getMass());
-            variables.put("h in", Combustor.this.flowNodes.get("Inlet").getState(ENTHALPY));
-            variables.put("h out", Combustor.this.flowNodes.get("Outlet").getState(ENTHALPY));
+        public String equation() {
+            return Q + " = " + M + " (" + H_OUT + " - " + H_IN + ")";
+        }
+        
+        @Override
+        protected Double function(Map<EquationVariable, OptionalDouble> variables) {
+            return variables.get(Q).getAsDouble() - variables.get(M).getAsDouble()*(variables.get(H_OUT).getAsDouble() - variables.get(H_IN).getAsDouble());
+        }
+        
+        @Override
+        protected Map<EquationVariable, OptionalDouble> getVariables() {
+            Map<EquationVariable, OptionalDouble> variables = new HashMap();
+            variables.put(H_IN, Combustor.this.flowNodes.get("Inlet").getState(Fluid.ENTHALPY));
+            variables.put(H_OUT, Combustor.this.flowNodes.get("Outlet").getState(Fluid.ENTHALPY));
+            variables.put(M, Combustor.this.flowNodes.get("Inlet").getMass());
+            variables.put(Q, Combustor.this.heatNodes.get("Supply").getHeat());
             return variables;
         }
         
         @Override
-        protected Double function(Map<String, OptionalDouble> variables) {
-            return variables.get("Q").getAsDouble() - variables.get("m").getAsDouble()*(variables.get("h out").getAsDouble() - variables.get("h in").getAsDouble());
-        }
-                
-        @Override
-        protected Node saveVariable(String variable, Double value) {
-            switch (variable) {
-                case "Q": {
-                    Combustor.this.heatNodes.get("Supply").setHeat(value);
-                    return Combustor.this.heatNodes.get("Supply");}
-                case "m": {
-                    Combustor.this.flowNodes.get("Inlet").setMass(value);
-                    return Combustor.this.flowNodes.get("Inlet");}
-                case "h in": {
-                    Combustor.this.flowNodes.get("Inlet").setProperty(ENTHALPY,value);
-                    return Combustor.this.flowNodes.get("Inlet");}
-                case "h out": {
-                    Combustor.this.flowNodes.get("Outlet").setProperty(ENTHALPY,value);
-                    return Combustor.this.flowNodes.get("Outlet");}
+        protected Node saveVariable(EquationVariable variable, Double value) {
+            if (variable.equals(H_IN)) {
+                Combustor.this.flowNodes.get("Inlet").setProperty(Fluid.ENTHALPY,value);
+                return Combustor.this.flowNodes.get("Inlet");
+            }
+            if (variable.equals(H_OUT)) {
+                    Combustor.this.flowNodes.get("Outlet").setProperty(Fluid.ENTHALPY,value);
+                    return Combustor.this.flowNodes.get("Outlet");
+            }
+            if (variable.equals(M)) {
+                Combustor.this.flowNodes.get("Inlet").setMass(value);
+                return Combustor.this.flowNodes.get("Inlet");
+            }
+            if (variable.equals(Q)) {
+                Combustor.this.heatNodes.get("Supply").setHeat(value);
+                return Combustor.this.heatNodes.get("Supply");
             }
             return null;
         }
+        
     }
     
     /**
@@ -145,42 +166,53 @@ public final class Combustor extends Component {
      */
     private class Pressure_Loss extends ComponentEquation{
         
+        public final EquationVariable P_LOSS = new EquationVariable(Combustor.P_LOSS);
+        public final EquationVariable P_IN = new EquationVariable("Inlet Pressure", "P_in", Fluid.PRESSURE);
+        public final EquationVariable P_OUT = new EquationVariable("Outlet Pressure", "P_out", Fluid.PRESSURE);
+        
         /**
          * Constructor.
          */
-        private Pressure_Loss() {super("p out = p in * (1 - pr)", 1e-3);}
+        private Pressure_Loss() {
+            super(1e-3);
+        }
+        
         
         @Override
-        protected Map<String, OptionalDouble> getVariables() {
-            Map<String, OptionalDouble> variables = new HashMap();
-            variables.put("pr", Combustor.this.getAttribute(PLOSS));
-            variables.put("p in", Combustor.this.flowNodes.get("Inlet").getState(PRESSURE));
-            variables.put("p out", Combustor.this.flowNodes.get("Outlet").getState(PRESSURE));
+        public String equation() {
+            return P_OUT + " = " + P_IN + " (1 - " + P_LOSS + ")";
+        }
+        
+        @Override
+        protected Double function(Map<EquationVariable, OptionalDouble> variables) {
+            return variables.get(P_IN).getAsDouble()*(1-variables.get(P_LOSS).getAsDouble()) - variables.get(P_OUT).getAsDouble();
+        }
+        
+        @Override
+        protected Map<EquationVariable, OptionalDouble> getVariables() {
+            Map<EquationVariable, OptionalDouble> variables = new HashMap();
+            variables.put(P_LOSS, Combustor.this.getAttribute(Combustor.P_LOSS));
+            variables.put(P_IN, Combustor.this.flowNodes.get("Inlet").getState(Fluid.PRESSURE));
+            variables.put(P_OUT, Combustor.this.flowNodes.get("Outlet").getState(Fluid.PRESSURE));
             return variables;
         }
         
         @Override
-        protected Double function(Map<String, OptionalDouble> variables) {
-            return variables.get("p in").getAsDouble()*(1-variables.get("pr").getAsDouble()) - variables.get("p out").getAsDouble();
-        }
-                
-        @Override
-        protected Node saveVariable(String variable, Double value) {
-            switch (variable) {
-                case "pr": {
-                    Combustor.this.setAttribute(PLOSS, value);
-                    return null;
-                }
-                case "p in": {
-                    Combustor.this.flowNodes.get("Inlet").setProperty(PRESSURE,value);
-                    return Combustor.this.flowNodes.get("Inlet");
-                }
-                case "p out": {
-                    Combustor.this.flowNodes.get("Outlet").setProperty(PRESSURE,value);
-                    return Combustor.this.flowNodes.get("Outlet");
-                }
+        protected Node saveVariable(EquationVariable variable, Double value) {
+            if (variable.equals(P_LOSS)) {
+                Combustor.this.setAttribute(Combustor.P_LOSS, value);
+                return null;
+            }
+            if (variable.equals(P_IN)) {
+                Combustor.this.flowNodes.get("Inlet").setProperty(Fluid.PRESSURE,value);
+                return Combustor.this.flowNodes.get("Inlet");
+            }
+            if (variable.equals(P_OUT)) {
+                Combustor.this.flowNodes.get("Outlet").setProperty(Fluid.PRESSURE,value);
+                return Combustor.this.flowNodes.get("Outlet");
             }
             return null;
         }
+        
     }
 }

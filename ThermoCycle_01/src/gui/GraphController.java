@@ -8,7 +8,6 @@ package gui;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.OptionalDouble;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,7 +20,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 import thermocycle.FlowNode;
-import thermocycle.Properties.Property;
+import thermocycle.Fluid;
+import thermocycle.Property;
 
 /**
  * FXML Controller class
@@ -70,11 +70,11 @@ public class GraphController extends VBox {
         lineGraph.setTitle("Thermodynamic Cycle");
         
         // Fill the combo box with properties
-        propertyList = FXCollections.observableArrayList(Property.values());
+        propertyList = FXCollections.observableArrayList(Fluid.PROPERTIES);
         xproperty.setItems(propertyList);
         yproperty.setItems(propertyList);
-        xproperty.getSelectionModel().select(Property.TEMPERATURE);
-        yproperty.getSelectionModel().select(Property.ENTROPY);
+        xproperty.getSelectionModel().select(Fluid.TEMPERATURE);
+        yproperty.getSelectionModel().select(Fluid.ENTROPY);
         
         // Set combobox handlers
         buildHandlers();
@@ -130,7 +130,7 @@ public class GraphController extends VBox {
             public void handle(ActionEvent event) {
                 getData();
                 Property xprop = xproperty.getSelectionModel().getSelectedItem();
-                xaxis.setLabel(xprop.fullName + " [" + xprop.type + "]");
+                xaxis.setLabel(xprop.name + " [" + xprop.type + "]");
             }
         });
         yproperty.setOnAction(new EventHandler<ActionEvent>() {
@@ -138,7 +138,7 @@ public class GraphController extends VBox {
             public void handle(ActionEvent event) {
                 getData();
                 Property yprop = yproperty.getSelectionModel().getSelectedItem();
-                yaxis.setLabel(yprop.fullName + " [" + yprop.type + "]");        
+                yaxis.setLabel(yprop.name + " [" + yprop.type + "]");        
             }
         });
     }

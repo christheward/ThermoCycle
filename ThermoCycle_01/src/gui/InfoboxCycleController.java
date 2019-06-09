@@ -18,7 +18,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import thermocycle.Cycle;
-import thermocycle.Properties;
+import thermocycle.Fluid;
 
 /**
  *
@@ -88,8 +88,8 @@ public class InfoboxCycleController extends AnchorPane {
      * Refresh the infobox.
      */
     private void refresh() {
-        pressureInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getAmbient(Properties.Property.PRESSURE)));
-        temperatureInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getAmbient(Properties.Property.TEMPERATURE)));
+        pressureInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getAmbient(Fluid.PRESSURE)));
+        temperatureInput.setText(MasterSceneController.displayOptionalDouble(master.getModel().getAmbient(Fluid.TEMPERATURE)));
     }
     
     /**
@@ -101,7 +101,7 @@ public class InfoboxCycleController extends AnchorPane {
         pressureInput.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                master.getModel().setAmbient(Properties.Property.PRESSURE, Double.valueOf(pressureInput.getText()));
+                master.getModel().setAmbient(Fluid.PRESSURE, Double.valueOf(pressureInput.getText()));
                 refresh();
                 event.consume();
             }
@@ -111,7 +111,7 @@ public class InfoboxCycleController extends AnchorPane {
         temperatureInput.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                master.getModel().setAmbient(Properties.Property.TEMPERATURE, Double.valueOf(temperatureInput.getText()));
+                master.getModel().setAmbient(Fluid.TEMPERATURE, Double.valueOf(temperatureInput.getText()));
                 refresh();
                 event.consume();
             }
