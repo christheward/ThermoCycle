@@ -28,20 +28,15 @@ public class Menu {
         root.addChild(new MenuItem("File", null));
         root.getLast().getElement().addAllias("f");
         
-        
         root.addChild(new MenuItem("Create", null));
         root.getLast().getElement().addAllias("c");
         
         root.addChild(new MenuItem("Set", null));
         root.getLast().getElement().addAllias("s");
         
-        
-        
-        
         root.addChild(new MenuItem("Open", null));
         root.getLast().getElement().addAllias("o");
     }
-    
     
     private class CmdOpen extends MenuCommand {
         

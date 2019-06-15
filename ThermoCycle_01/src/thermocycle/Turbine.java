@@ -252,6 +252,7 @@ public final class Turbine extends Component {
             isen.setFluid(Turbine.this.flowNodes.get("Inlet").getFluid().get());
             isen.setProperty(Fluid.ENTROPY, variables.get(S_IN).getAsDouble());
             isen.setProperty(Fluid.PRESSURE, variables.get(P_OUT).getAsDouble());
+            isen.computeState();
             return variables.get(W).getAsDouble() - variables.get(M).getAsDouble()*(variables.get(H_IN).getAsDouble() - isen.getState(Fluid.ENTHALPY).getAsDouble())*variables.get(EFFICIENCY).getAsDouble();
         }
         

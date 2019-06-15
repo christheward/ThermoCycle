@@ -28,7 +28,11 @@ public class Property implements Serializable {
         this.max = max;
     }
     
-    public final double getLowerGuess() {
+    /**
+     * Gets the lower bound for this variable for use with equations.
+     * @return the lower bound.
+     */
+    public final double getLowerBound() {
         if (min == 0.0) {
             return Double.MIN_VALUE;
         }
@@ -38,7 +42,11 @@ public class Property implements Serializable {
         return Double.NaN;
     }
     
-    public final double getUpperGuess() {
+    /**
+     * Gets the upper bound for this variable for use with equations.
+     * @return 
+     */
+    public final double getUpperBound() {
         if (max == 1.0) {
             return 1.0;
         }

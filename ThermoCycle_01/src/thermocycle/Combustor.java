@@ -24,7 +24,7 @@ public final class Combustor extends Component {
      */
     protected Combustor(String name, State ambient) {
         super(name, ambient);
-        flowNodes.put("Inlet",new FlowNode(INLET));
+        flowNodes.put(INLET.toString(),new FlowNode(INLET));
         flowNodes.put("Outlet",new FlowNode(OUTLET));
         heatNodes.put("Supply",new HeatNode(INLET));
         internals.add(new Connection(flowNodes.get("Inlet"),flowNodes.get("Outlet")));

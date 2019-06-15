@@ -373,7 +373,7 @@ public class EndToEndTest {
         steamTurb.setBoundaryConditionMass(pump.getFlowNode("Inlet"), Arrays.asList(new Double[]{1.0}));
         steamTurb.setBoundaryConditionProperty(pump.getFlowNode("Inlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{steamTurb.getAmbient(Fluid.PRESSURE).getAsDouble()}));
         steamTurb.setBoundaryConditionProperty(pump.getFlowNode("Inlet"), Fluid.QUALITY, Arrays.asList(new Double[]{0.0}));
-        //steamTurb.setBoundaryConditionProperty(boiler.getFlowNode("Outlet"), Fluid.QUALITY, Arrays.asList(new Double[] {1.0}));
+        steamTurb.setBoundaryConditionProperty(boiler.getFlowNode("Outlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[] {400.0}));
         steamTurb.setBoundaryConditionProperty(turb.getFlowNode("Outlet"), Fluid.QUALITY, Arrays.asList(new Double[]{1.0}));
 
         steamTurb.setBoundaryConditionAttribute(pump, pump.P_RATIO, Arrays.asList(new Double[]{10.0}));

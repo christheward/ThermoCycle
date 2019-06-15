@@ -19,12 +19,27 @@ public final class IdealGas extends Fluid {
     /**
      * The ratio of specific heats.
      */
-    private double gamma;
+    private final double gamma;
     
     /**
      * The specific gas constant.
      */
-    private double Rs;
+    private final double R;
+    
+    /**
+     * The molar mass of the gas.
+     */
+    private final double M;
+    
+    /**
+     * Specific heat capacity and constant volume.
+     */
+    private final double Cv;
+    
+    /**
+     * Specific heat capacity at constant pressure.
+     */
+    private final double Cp;
     
     /**
      * Constructor
@@ -32,64 +47,19 @@ public final class IdealGas extends Fluid {
      * @param gamma The fluid ratio of specific heats.
      * @param Rs The fluid specific gas constant.
      */
-    protected IdealGas(String name, double gamma, double Rs) {
+    protected IdealGas(String name, double gamma, double R) {
         super(name);
         this.gamma = gamma;
-        this.Rs = Rs;
+        this.R = R;
+        this.M = Ru/R;
+        this.Cv = R / (gamma - 1);
+        this.Cp = R * gamma / (gamma - 1);
         equations.add(new P_RT());
         equations.add(new H_T());
         equations.add(new U_T());
         equations.add(new S_TP());
         equations.add(new S_TV());
         equations.add(new S_PV());
-    }
-    
-    /**
-     * Gets the specific heat capacity at constant pressure.
-     * @return Returns the heat capacity and constant pressure.
-     */
-    double getCp() {
-        return Rs * gamma / (gamma - 1);
-    }
-    
-    /**
-     * Gets the specific heat capacity at constant volume.
-     * @return Returns the heat capacity and constant volume.
-     */
-    double getCv() {
-        return Rs / (gamma - 1);
-    }
-    
-    /**
-     * Gets the ratio of specific heats.
-     * @return Returns the ratio of specific heats.
-     */
-    double getGa() {
-        return gamma;
-    }
-    
-    /**
-     * Gets the specific gas constant.
-     * @return Returns the specific gas constant.
-     */
-    double getRs() {
-        return Rs;
-    }
-    
-    /**
-     * Sets the ratio of specific heats.
-     * @param value The value to set.
-     */
-    void setGamma(double value) {
-        gamma = value;
-    }
-    
-    /**
-     * Sets the specific gas constant.
-     * @param value The value to set.
-     */
-    void setRs(double value) {
-        Rs = value;
     }
     
     @Override
@@ -111,10 +81,10 @@ public final class IdealGas extends Fluid {
     @Override
     public ReportDataBlock getReportData() {
         ReportDataBlock rdb = new ReportDataBlock(name);
-        rdb.addData("R", DimensionedDouble.valueOfSI(getRs(), UNITS_TYPE.SPECIFIC_ENERGY));
-        rdb.addData("Gamma", DimensionedDouble.valueOfSI(getGa(), UNITS_TYPE.DIMENSIONLESS));
-        rdb.addData("Cp", DimensionedDouble.valueOfSI(getCp(), UNITS_TYPE.ENTROPY));
-        rdb.addData("Cv", DimensionedDouble.valueOfSI(getCv(), UNITS_TYPE.ENTROPY));
+        rdb.addData("R", DimensionedDouble.valueOfSI(R, UNITS_TYPE.SPECIFIC_ENERGY));
+        rdb.addData("Gamma", DimensionedDouble.valueOfSI(gamma, UNITS_TYPE.DIMENSIONLESS));
+        rdb.addData("Cp", DimensionedDouble.valueOfSI(Cp, UNITS_TYPE.ENTROPY));
+        rdb.addData("Cv", DimensionedDouble.valueOfSI(Cv, UNITS_TYPE.ENTROPY));
         return rdb;
     }
     
@@ -127,7 +97,7 @@ public final class IdealGas extends Fluid {
 
         @Override
         protected Double function(Map<Property, OptionalDouble> variables) {
-            return variables.get(PRESSURE).getAsDouble() - variables.get(DENSITY).getAsDouble()*IdealGas.this.Rs*variables.get(TEMPERATURE).getAsDouble();
+            return variables.get(PRESSURE).getAsDouble() - variables.get(DENSITY).getAsDouble()*IdealGas.this.R*variables.get(TEMPERATURE).getAsDouble();
         }
 
         @Override
@@ -151,7 +121,7 @@ public final class IdealGas extends Fluid {
 
         @Override
         protected Double function(Map<Property, OptionalDouble> variables) {
-            return variables.get(ENERGY).getAsDouble() - IdealGas.this.getCv()*variables.get(TEMPERATURE).getAsDouble();
+            return variables.get(ENERGY).getAsDouble() - IdealGas.this.Cv*variables.get(TEMPERATURE).getAsDouble();
         }
     }
     
@@ -169,7 +139,7 @@ public final class IdealGas extends Fluid {
 
         @Override
         protected Double function(Map<Property, OptionalDouble> variables) {
-            return variables.get(ENTHALPY).getAsDouble() - IdealGas.this.getCp()*variables.get(TEMPERATURE).getAsDouble();
+            return variables.get(ENTHALPY).getAsDouble() - IdealGas.this.Cp*variables.get(TEMPERATURE).getAsDouble();
         }
     }
     
@@ -188,7 +158,7 @@ public final class IdealGas extends Fluid {
 
         @Override
         protected Double function(Map<Property, OptionalDouble> variables) {
-            return variables.get(ENTROPY).getAsDouble() - IdealGas.this.getCv()*Math.log(variables.get(TEMPERATURE).getAsDouble()) - IdealGas.this.Rs*Math.log(variables.get(VOLUME).getAsDouble()) + IdealGas.this.Rs*Math.log(IdealGas.this.Rs);
+            return variables.get(ENTROPY).getAsDouble() - IdealGas.this.Cv*Math.log(variables.get(TEMPERATURE).getAsDouble()) - IdealGas.this.R*Math.log(variables.get(VOLUME).getAsDouble()) + IdealGas.this.R*Math.log(IdealGas.this.R);
         }
     }
     
@@ -206,7 +176,7 @@ public final class IdealGas extends Fluid {
 
         @Override
         protected Double function(Map<Property, OptionalDouble> variables) {
-            return variables.get(ENTROPY).getAsDouble() - IdealGas.this.getCp()*Math.log(variables.get(TEMPERATURE).getAsDouble()) + IdealGas.this.Rs*Math.log(variables.get(PRESSURE).getAsDouble());
+            return variables.get(ENTROPY).getAsDouble() - IdealGas.this.Cp*Math.log(variables.get(TEMPERATURE).getAsDouble()) + IdealGas.this.R*Math.log(variables.get(PRESSURE).getAsDouble());
         }
     }
     
@@ -224,7 +194,7 @@ public final class IdealGas extends Fluid {
 
         @Override
         protected Double function(Map<Property, OptionalDouble> variables) {
-            return variables.get(ENTROPY).getAsDouble() - IdealGas.this.getCv()*Math.log(variables.get(PRESSURE).getAsDouble()) - IdealGas.this.getCp()*Math.log(variables.get(VOLUME).getAsDouble()) + IdealGas.this.getCp()*Math.log(IdealGas.this.Rs);
+            return variables.get(ENTROPY).getAsDouble() - IdealGas.this.Cv*Math.log(variables.get(PRESSURE).getAsDouble()) - IdealGas.this.Cp*Math.log(variables.get(VOLUME).getAsDouble()) + IdealGas.this.Cp*Math.log(IdealGas.this.R);
         }
     }
     

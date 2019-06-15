@@ -204,11 +204,12 @@ public class Cycle extends Observable implements Serializable, Reportable {
     
     /**
      * Creates a new RedlichKwong real gas.
+     * 
      * @param name the name of the new gas.
      * @param M the molar mass of the new gas.
      * @param Pc the critical pressure of the new gas.
      * @param Tc the critical temperature of the new gas.
-     * @return 
+     * @return an instance of the new real gas.
      */
     public IdealGas createRedlichKwongGas(String name, double M, double Pc, double Tc) {
         fluids.add(new RedlichKwongGas(name, M, Pc, Tc));
@@ -716,7 +717,7 @@ public class Cycle extends Observable implements Serializable, Reportable {
     }
 
     /**
-     * Solves the current cycle
+     * Solves the current cycle.
      *
      * @return Returns true if a solution is achieved.
      */
@@ -725,11 +726,14 @@ public class Cycle extends Observable implements Serializable, Reportable {
         boundaryConditions.forEach(h -> {
             h.execute();
         });
+        logger.trace("Solving system.");
         try {
             // Solve inital conditions
+            logger.trace("First itteration updating flow nodes");
             getFlowNodes().forEach(n -> {
                 n.computeState();
             });                                              // update all flow node states (ensures all nodes states are internally compatible first).
+            logger.trace("First itteration updating connections");
             connections.stream().forEach(x -> {
                 x.update();
             });                                              // update all node connections (ensures state values are transfered between nodes, checks for inconsistencies).
@@ -740,11 +744,21 @@ public class Cycle extends Observable implements Serializable, Reportable {
                 updatedNodes.clear();
                 iteration++;
                 // for each unsolved component update the component and add updated nodes to the updated nodes
+                logger.trace("Updating components.");
                 components.filtered(c -> !c.isComplete()).forEach(c -> {
                     updatedNodes.addAll(c.update());
                 });
-                // for each updated node find connnections and update them 
+                // update the state of all the FlowNodes
+                logger.trace("Updating flow nodes.");
                 updatedNodes.forEach(n -> {
+                    if (n instanceof FlowNode) {
+                        ((FlowNode) n).computeState();
+                    }
+                });
+                // for each updated node find connnections and update them 
+                logger.trace("Updating connections.");
+                updatedNodes.forEach(n -> {
+                    // Update teh nodes connections
                     connections.stream().filter(x -> x.contains(n)).forEach(x -> {
                         x.update();
                     });
@@ -849,8 +863,13 @@ public class Cycle extends Observable implements Serializable, Reportable {
      *
      * @return Returns the thermal efficiency.
      */
-    private double efficiencyThermal() {
-        return (workOut() - workIn()) / heatIn();
+    private OptionalDouble efficiencyThermal() {
+        try {
+            return OptionalDouble.of(workOut().getAsDouble() - workIn().getAsDouble() / heatIn().getAsDouble());
+        }
+        catch (Exception ex) {
+            return OptionalDouble.empty();
+        }
     }
 
     /**
@@ -858,8 +877,13 @@ public class Cycle extends Observable implements Serializable, Reportable {
      *
      * @return Returns the rational efficiency.
      */
-    private double efficiencyRational() {
-        return (workOut() - workIn()) / heatExergyIn();
+    private OptionalDouble efficiencyRational() {
+        try {
+            return OptionalDouble.of((workOut().getAsDouble() - workIn().getAsDouble()) / heatExergyIn().getAsDouble());
+        }
+        catch (Exception ex) {
+            return OptionalDouble.empty();
+        }
     }
 
     /**
@@ -867,12 +891,17 @@ public class Cycle extends Observable implements Serializable, Reportable {
      *
      * @return Returns the total exergy input
      */
-    private double heatExergyIn() {
-        double E = 0;
-        for (Component c : components) {
-            E = E + c.heatExergyIn();
+    private OptionalDouble heatExergyIn() {
+        try {
+            double E = 0;
+            for (Component c : components) {
+                E = E + c.heatExergyIn();
+            }
+            return OptionalDouble.of(E);
         }
-        return E;
+        catch (Exception ex) {
+            return OptionalDouble.empty();
+        }
     }
 
     /**
@@ -894,8 +923,13 @@ public class Cycle extends Observable implements Serializable, Reportable {
      *
      * @return Returns the total work input
      */
-    public double workIn() {
-        return getWorkNodes().stream().filter(n -> notConnected(n)).filter(n -> n.port.equals(Port.INLET)).mapToDouble(n -> n.getWork().getAsDouble()).sum();
+    public OptionalDouble workIn() {
+        try {
+            return OptionalDouble.of(getWorkNodes().stream().filter(n -> notConnected(n)).filter(n -> n.port.equals(Port.INLET)).mapToDouble(n -> n.getWork().getAsDouble()).sum());
+        }
+        catch (Exception ex) {
+            return OptionalDouble.empty();
+        }
     }
 
     /**
@@ -904,8 +938,13 @@ public class Cycle extends Observable implements Serializable, Reportable {
      *
      * @return Returns the total work input
      */
-    public double workOut() {
-        return getWorkNodes().stream().filter(n -> notConnected(n)).filter(n -> n.port.equals(Port.OUTLET)).mapToDouble(n -> n.getWork().getAsDouble()).sum();
+    public OptionalDouble workOut() {
+        try {
+            return OptionalDouble.of(getWorkNodes().stream().filter(n -> notConnected(n)).filter(n -> n.port.equals(Port.OUTLET)).mapToDouble(n -> n.getWork().getAsDouble()).sum());
+        }
+        catch (Exception ex) {
+            return OptionalDouble.empty();
+        }
     }
 
     /**
@@ -914,8 +953,13 @@ public class Cycle extends Observable implements Serializable, Reportable {
      *
      * @return Returns the total work input
      */
-    public double heatIn() {
-        return getHeatNodes().stream().filter(n -> notConnected(n)).filter(n -> n.port.equals(Port.INLET)).mapToDouble(n -> n.getHeat().getAsDouble()).sum();
+    public OptionalDouble heatIn() {
+        try {
+            return OptionalDouble.of(getHeatNodes().stream().filter(n -> notConnected(n)).filter(n -> n.port.equals(Port.INLET)).mapToDouble(n -> n.getHeat().getAsDouble()).sum());
+        }
+        catch (Exception ex) {
+            return OptionalDouble.empty();
+        }
     }
 
     /**
@@ -924,8 +968,13 @@ public class Cycle extends Observable implements Serializable, Reportable {
      *
      * @return Returns the total work input
      */
-    public double heatOut() {
-        return getHeatNodes().stream().filter(n -> notConnected(n)).filter(n -> n.port.equals(Port.OUTLET)).mapToDouble(n -> n.getHeat().getAsDouble()).sum();
+    public OptionalDouble heatOut() {
+        try {
+            return OptionalDouble.of(getHeatNodes().stream().filter(n -> notConnected(n)).filter(n -> n.port.equals(Port.OUTLET)).mapToDouble(n -> n.getHeat().getAsDouble()).sum());
+        }
+        catch (Exception ex) {
+            return OptionalDouble.empty();
+        }
     }
 
     /**

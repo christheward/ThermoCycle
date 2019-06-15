@@ -37,22 +37,22 @@ public class RedlichKwongGas extends Fluid {
     /**
      * The molar mass.
      */
-    private double M;
+    private final double M;
     
     /**
      * Constant a
      */
-    private double a;
+    private final double a;
     
     /**
      * Constant b
      */
-    private double b;
+    private final double b;
     
     /**
-     * Constnant c
+     * Constant c
      */
-    private double c;
+    private final double c;
     
     /**
      * Constant C

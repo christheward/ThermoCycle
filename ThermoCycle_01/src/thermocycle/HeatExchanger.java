@@ -482,10 +482,12 @@ public final class HeatExchanger extends Component {
             
             hotOutletMin.setProperty(Fluid.TEMPERATURE, variables.get(T_IN_COLD).getAsDouble());
             hotOutletMin.setProperty(Fluid.PRESSURE, variables.get(P_OUT_HOT).getAsDouble());
+            hotOutletMin.computeState();
             Q_ideal_h2c = OptionalDouble.of(variables.get(M_HOT).getAsDouble() * (variables.get(H_IN_HOT).getAsDouble() - hotOutletMin.getState(Fluid.ENTHALPY).getAsDouble()));
 
             coldOutletMax.setProperty(Fluid.TEMPERATURE, variables.get(T_IN_HOT).getAsDouble());
             coldOutletMax.setProperty(Fluid.PRESSURE, variables.get(P_OUT_COLD).getAsDouble());
+            coldOutletMax.computeState();
             Q_ideal_c2h = OptionalDouble.of(variables.get(M_COLD).getAsDouble() * (coldOutletMax.getState(Fluid.ENTHALPY).getAsDouble() - variables.get(H_IN_COLD).getAsDouble()));
             
             return variables.get(Q).getAsDouble() - Math.min(Q_ideal_h2c.getAsDouble(),Q_ideal_c2h.getAsDouble());

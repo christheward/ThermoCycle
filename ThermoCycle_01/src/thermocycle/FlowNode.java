@@ -137,13 +137,12 @@ public final class FlowNode extends Node {
      * @param value The value to set the property to.
      */
     protected void setProperty(Property property, Double value) {
-        state.setProperty(property, value);
         if (fluid == null) {
             throw new IllegalStateException("Error setting properties in Node. Fluid must be set first.");
         }
-        else {
-            fluid.computeState(state);
-        }
+        state.setProperty(property, value);
+        // Do not compute state here - this can lead to inconsitencies for Steam where properties in connected nodes are calcualted using different equations and are therefore slightly different.
+        //fluid.computeState(state);
     }
     
     @Override
@@ -182,12 +181,14 @@ public final class FlowNode extends Node {
             fn.state.properties().forEach((p) -> {
                 if (!state.contains(p)) {
                     state.setProperty(p,fn.state.getProperty(p).getAsDouble());
-                    fluid.computeState(state);
                 }
-                else if (FluidEquation.tolerance < Math.abs(state.getProperty(p).getAsDouble() - fn.state.getProperty(p).getAsDouble())) {
+                else if (FluidEquation.relativeAccuracy < Math.abs(state.getProperty(p).getAsDouble() - fn.state.getProperty(p).getAsDouble())) {
                     throw new IllegalStateException("Node properties are incompatible (" + p.toString() + ") - Node: " + state.getProperty(p) + " / Node: " + fn.state.getProperty(p));
                 }
             });
+            
+            // Compute state after all properties have been updated
+            fluid.computeState(state);
         }
         else {
             throw new IllegalStateException("Incompatible node types.");

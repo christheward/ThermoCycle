@@ -8,6 +8,8 @@ package thermocycle;
 import report.Reportable;
 import java.io.Serializable;
 import java.util.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import utilities.Units.UNITS_TYPE;
 
 /**

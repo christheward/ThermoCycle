@@ -164,14 +164,15 @@ abstract class ComponentEquation implements Serializable {
         
         // Create solver
         //UnivariateSolver solver = new SecantSolver(1e-6);
-        UnivariateSolver solver = new BrentSolver(1e-6);
+        UnivariateSolver solver = new BrentSolver(tolerance);
         try {
             double value = solver.solve(maxIterations, f, unknownVariable.getLowerGuess(), unknownVariable.getUpperGuess());
             logger.trace("Solution found in " + solver.getEvaluations() + " iterations: " + value);
             return OptionalDouble.of(value);
         }
         catch(Exception e) {
-            logger.error("No solution found: " + e.getMessage());
+            logger.error("No solution found.");
+            logger.error(e.getMessage());
             variables.keySet().stream().forEach(k -> {
                 logger.error(k + " = " + variables.get(k).getAsDouble());
             });
