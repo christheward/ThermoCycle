@@ -12,7 +12,7 @@ import java.util.*;
  *
  * @author Chris
  */
-final class State implements Serializable {
+public final class State implements Serializable {
     
     /**
      * Property map.

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import thermocycle.Cycle;
 
 /**
  *
@@ -26,9 +27,9 @@ public class MenuItem {
         this.command = command;
     }
     
-    protected void execute() {
+    protected void execute(Cycle cycle) {
         if (command != null) {
-            command.execute();
+            command.execute(cycle);
         }
     }
     

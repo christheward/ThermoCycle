@@ -3,9 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thermocycle;
+package thermocycle.components;
 
 import java.util.*;
+import thermocycle.Attribute;
+import thermocycle.Component;
+import thermocycle.ComponentEquation;
+import thermocycle.Connection;
+import thermocycle.EquationVariable;
+import thermocycle.FlowNode;
+import thermocycle.Fluid;
+import thermocycle.HeatNode;
+import thermocycle.Node;
+import thermocycle.State;
 import static thermocycle.Node.Port.*;
 import utilities.Units.UNITS_TYPE;
 
@@ -22,7 +32,7 @@ public final class HeatSink extends Component {
      * @param name The component name.
      * @param ambient The component ambient state.
      */
-    protected HeatSink(String name, State ambient) {
+    public HeatSink(String name, State ambient) {
         super(name, ambient);
         flowNodes.put("Inlet",new FlowNode(INLET));
         flowNodes.put("Outlet",new FlowNode(OUTLET));

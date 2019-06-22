@@ -7,6 +7,7 @@ package utilities;
 
 import utilities.Units;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import utilities.Units.UNITS;
 import utilities.Units.UNITS_TYPE;
 
@@ -19,7 +20,7 @@ public final class DimensionedDouble {
     /**
      * The formatter used when printing.
      */
-    private static DecimalFormat df = new DecimalFormat("0.00E0");
+    private static NumberFormat df = new DecimalFormat("0.00E0");
     
     /**
      * The value of the number.

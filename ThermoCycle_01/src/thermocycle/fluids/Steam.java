@@ -3,14 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thermocycle;
+package thermocycle.fluids;
 
-import report.ReportDataBlock;
+import thermocycle.report.ReportDataBlock;
 import java.util.*;
 
 import com.hummeling.if97.IF97;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import thermocycle.EquationBounds;
+import thermocycle.Fluid;
+import thermocycle.FluidEquation;
+import thermocycle.Property;
+import thermocycle.State;
 import static thermocycle.Fluid.GIBBS;
 import static thermocycle.Fluid.PRESSURE;
 import static thermocycle.Fluid.QUALITY;
@@ -46,7 +51,7 @@ public final class Steam extends Fluid {
     /**
      * Constructor.
      */
-    protected Steam() {
+    public Steam() {
         super("Steam");
         /**
          * There are inconsistencies when using these equations.  Need to find a way to just us HS or PT - and use a 2D secant solver?

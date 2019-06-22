@@ -8,6 +8,7 @@ package tui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import thermocycle.Cycle;
 
 /**
  *
@@ -51,6 +52,6 @@ public abstract class MenuCommand {
         return prompts.get(inputs.size());
     }
     
-    public abstract void execute();
+    public abstract void execute(Cycle cycle);
     
 }

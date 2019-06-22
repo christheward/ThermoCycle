@@ -5,22 +5,37 @@
  */
 package preloader;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+import javafx.application.Preloader;
+import javafx.application.Preloader.StateChangeNotification.Type;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
  *
  * @author Chris
  */
-public class SplashScreenController implements Initializable {
+public class SplashScreenController extends Preloader {
 
-    /**
-     * Initializes the controller class.
-     */
+    private Stage preloaderStage;
+    
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-    }    
+    public void start(Stage primaryStage) throws Exception {
+        this.preloaderStage = primaryStage;
+        
+        BorderPane root = new BorderPane();
+        Scene scene = new Scene(root);
+        preloaderStage.setScene(scene);
+        preloaderStage.show();
+        
+    }
+    
+    @Override
+    public void handleStateChangeNotification(StateChangeNotification stateChangeNotification) {
+        if (stateChangeNotification.getType() == Type.BEFORE_START) {
+            preloaderStage.hide();
+        }
+    }
     
 }

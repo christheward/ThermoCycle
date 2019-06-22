@@ -21,7 +21,7 @@ public class EquationVariable implements Serializable {
     protected final double min;
     protected final double max;
     
-    protected EquationVariable(String name, String symbol, Class node) {
+    public EquationVariable(String name, String symbol, Class node) {
         this.name = name;
         this.symbol = symbol;
         if (node.equals(FlowNode.class)) {
@@ -37,7 +37,7 @@ public class EquationVariable implements Serializable {
         this.max = Double.POSITIVE_INFINITY;
     }
     
-    protected EquationVariable(String name, String symbol, Property property) {
+    public EquationVariable(String name, String symbol, Property property) {
         this.name = name;
         this.symbol = symbol;
         this.type = property.type;
@@ -45,7 +45,7 @@ public class EquationVariable implements Serializable {
         this.max = property.max;
     }
     
-    protected EquationVariable(Attribute attribute) {
+    public EquationVariable(Attribute attribute) {
         this.name = attribute.name;
         this.symbol = attribute.symbol;
         this.type = attribute.type;

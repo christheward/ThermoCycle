@@ -3,9 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thermocycle;
+package thermocycle.components;
 
 import java.util.*;
+import thermocycle.Attribute;
+import thermocycle.Component;
+import thermocycle.ComponentEquation;
+import thermocycle.Connection;
+import thermocycle.EquationVariable;
+import thermocycle.FlowNode;
+import thermocycle.Fluid;
+import thermocycle.HeatNode;
+import thermocycle.Node;
+import thermocycle.State;
 import static thermocycle.Node.Port.*;
 import utilities.Units;
 
@@ -22,7 +32,7 @@ public final class Combustor extends Component {
      * @param name Combustor name.
      * @param ambient Ambient conditions.
      */
-    protected Combustor(String name, State ambient) {
+    public Combustor(String name, State ambient) {
         super(name, ambient);
         flowNodes.put(INLET.toString(),new FlowNode(INLET));
         flowNodes.put("Outlet",new FlowNode(OUTLET));

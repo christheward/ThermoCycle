@@ -3,9 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thermocycle;
+package thermocycle.components;
 
 import java.util.*;
+import thermocycle.Attribute;
+import thermocycle.Component;
+import thermocycle.ComponentEquation;
+import thermocycle.Connection;
+import thermocycle.EquationVariable;
+import thermocycle.FlowNode;
+import thermocycle.Fluid;
+import thermocycle.Node;
+import thermocycle.State;
 import static thermocycle.Node.Port.*;
 import utilities.Units.UNITS_TYPE;
 

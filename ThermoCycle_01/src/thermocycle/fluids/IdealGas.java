@@ -3,11 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thermocycle;
+package thermocycle.fluids;
 
 import utilities.DimensionedDouble;
-import report.ReportDataBlock;
+import thermocycle.report.ReportDataBlock;
 import java.util.*;
+import thermocycle.Fluid;
+import thermocycle.FluidEquation;
+import thermocycle.Property;
+import thermocycle.State;
 import utilities.Units.UNITS_TYPE;
 
 /**
@@ -47,7 +51,7 @@ public final class IdealGas extends Fluid {
      * @param gamma The fluid ratio of specific heats.
      * @param Rs The fluid specific gas constant.
      */
-    protected IdealGas(String name, double gamma, double R) {
+    public IdealGas(String name, double gamma, double R) {
         super(name);
         this.gamma = gamma;
         this.R = R;

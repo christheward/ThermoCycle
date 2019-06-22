@@ -5,9 +5,17 @@
  */
 package thermocycle;
 
+import thermocycle.components.Combustor;
+import thermocycle.components.Compressor;
+import thermocycle.components.Turbine;
+import thermocycle.components.HeatSink;
+import thermocycle.components.HeatExchanger;
+import thermocycle.fluids.RedlichKwongGas;
+import thermocycle.fluids.Steam;
+import thermocycle.fluids.IdealGas;
 import java.io.ByteArrayOutputStream;
 import utilities.DimensionedDouble;
-import report.ReportDataBlock;
+import thermocycle.report.ReportDataBlock;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,11 +36,13 @@ import javafx.collections.ObservableList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import static thermocycle.Node.Port;
-import report.ReportBuilder;
-import report.Reportable;
+import thermocycle.report.ReportBuilder;
+import thermocycle.report.Reportable;
 import utilities.Units.UNITS_TYPE;
 import utilities.SingletonCollector;
 import static utilities.SingletonCollector.singletonCollector;
+import utilities.Units;
+import utilities.Units.UNITS;
 
 /**
  *
@@ -865,7 +875,7 @@ public class Cycle extends Observable implements Serializable, Reportable {
      */
     private OptionalDouble efficiencyThermal() {
         try {
-            return OptionalDouble.of(workOut().getAsDouble() - workIn().getAsDouble() / heatIn().getAsDouble());
+            return OptionalDouble.of((workOut().getAsDouble() - workIn().getAsDouble()) / heatIn().getAsDouble());
         }
         catch (Exception ex) {
             return OptionalDouble.empty();
@@ -918,8 +928,7 @@ public class Cycle extends Observable implements Serializable, Reportable {
     }
 
     /**
-     * Calculate the work input to the cycle using connections. This assumes
-     * that all optionalDoubles are complete.
+     * Calculate the work input to the cycle using connections.
      *
      * @return Returns the total work input
      */
@@ -933,10 +942,9 @@ public class Cycle extends Observable implements Serializable, Reportable {
     }
 
     /**
-     * Calculate the work output from the cycle using connections. This assumes
-     * that all optionalDoubles are complete.
+     * Calculate the work output from the cycle using connections.
      *
-     * @return Returns the total work input
+     * @return Returns the total work output
      */
     public OptionalDouble workOut() {
         try {
@@ -948,8 +956,7 @@ public class Cycle extends Observable implements Serializable, Reportable {
     }
 
     /**
-     * Calculate the heat input to the cycle using connections. This assumes
-     * that all optionalDoubles are complete.
+     * Calculate the heat input to the cycle using connections.
      *
      * @return Returns the total work input
      */
@@ -963,8 +970,7 @@ public class Cycle extends Observable implements Serializable, Reportable {
     }
 
     /**
-     * Calculate the heat output from the cycle using connections. This assumes
-     * that all optionalDoubles are complete.
+     * Calculate the heat output from the cycle using connections.
      *
      * @return Returns the total work input
      */
@@ -1096,12 +1102,12 @@ public class Cycle extends Observable implements Serializable, Reportable {
 
         // Report cycle performance
         ReportDataBlock performanceDataBlock = new ReportDataBlock("Cycle performance");
-        //performanceDataBlock.addData("Thermal efficiency: ", DimensionedDouble.valueOfSI(efficiencyThermal(), UNITS_TYPE.DIMENSIONLESS));
-        //performanceDataBlock.addData("Rational efficiency: ", DimensionedDouble.valueOfSI(efficiencyRational(), UNITS_TYPE.DIMENSIONLESS));
-        //performanceDataBlock.addData("Heat input: ", DimensionedDouble.valueOfSI(this.heatIn(), UNITS_TYPE.POWER));
-        //performanceDataBlock.addData("Heat output: ", DimensionedDouble.valueOfSI(this.heatOut(), UNITS_TYPE.POWER));
-        //performanceDataBlock.addData("Work input: ", DimensionedDouble.valueOfSI(this.workIn(), UNITS_TYPE.POWER));
-        //performanceDataBlock.addData("Work output: ", DimensionedDouble.valueOfSI(this.workOut(), UNITS_TYPE.POWER));
+        performanceDataBlock.addData("Thermal efficiency", DimensionedDouble.valueOf(efficiencyThermal().orElse(Double.NaN), UNITS.PERCENTAGE));
+        performanceDataBlock.addData("Rational efficiency", DimensionedDouble.valueOf(efficiencyRational().orElse(Double.NaN), UNITS.PERCENTAGE));
+        performanceDataBlock.addData("Heat input", DimensionedDouble.valueOfSI(this.heatIn().orElse(Double.NaN), UNITS_TYPE.POWER));
+        performanceDataBlock.addData("Heat output", DimensionedDouble.valueOfSI(this.heatOut().orElse(Double.NaN), UNITS_TYPE.POWER));
+        performanceDataBlock.addData("Work input", DimensionedDouble.valueOfSI(this.workIn().orElse(Double.NaN), UNITS_TYPE.POWER));
+        performanceDataBlock.addData("Work output", DimensionedDouble.valueOfSI(this.workOut().orElse(Double.NaN), UNITS_TYPE.POWER));
         rdb.addDataBlock(performanceDataBlock);
 
         return rdb;

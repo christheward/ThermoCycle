@@ -3,13 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thermocycle;
+package thermocycle.fluids;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.OptionalDouble;
 import java.util.Set;
-import report.ReportDataBlock;
+import thermocycle.Fluid;
+import thermocycle.FluidEquation;
+import thermocycle.Property;
+import thermocycle.State;
+import thermocycle.report.ReportDataBlock;
 import utilities.DimensionedDouble;
 import utilities.Units.UNITS_TYPE;
 

@@ -12,11 +12,11 @@ package gui;
 public enum ComponentIcon {
     
     // Components
-    COMPRESSOR ("Compressor", "icon-compressor", thermocycle.Compressor.class, new int[][] {{0,3},{6,3}}, new int[][] {{3,0}}, new int[][] {{}}),
-    TURBINE ("Turbine", "icon-turbine", thermocycle.Turbine.class, new int[][] {{0,3},{6,3}}, new int[][] {{3,0}}, new int[][] {{}}),
-    COMBUSTOR ("Combustor", "icon-combustor", thermocycle.Combustor.class, new int[][] {{0,3},{6,3}}, new int[][] {{}}, new int[][] {{3,0}}),
-    HEAT_SINK ("Heat Sink", "icon-heatsink",thermocycle.HeatSink.class, new int[][] {{0,3},{6,3}}, new int[][] {{}}, new int[][] {{3,6}}),
-    HEAT_EXCHANGER ("Heat Exchanger", "icon-heatexchanger",thermocycle.HeatExchanger.class, new int[][] {{0,2},{6,2},{0,4},{6,4}}, new int[][] {{}}, new int[][] {{}}),
+    COMPRESSOR ("Compressor", "icon-compressor", thermocycle.components.Compressor.class, new int[][] {{0,3},{6,3}}, new int[][] {{3,0}}, new int[][] {{}}),
+    TURBINE ("Turbine", "icon-turbine", thermocycle.components.Turbine.class, new int[][] {{0,3},{6,3}}, new int[][] {{3,0}}, new int[][] {{}}),
+    COMBUSTOR ("Combustor", "icon-combustor", thermocycle.components.Combustor.class, new int[][] {{0,3},{6,3}}, new int[][] {{}}, new int[][] {{3,0}}),
+    HEAT_SINK ("Heat Sink", "icon-heatsink",thermocycle.components.HeatSink.class, new int[][] {{0,3},{6,3}}, new int[][] {{}}, new int[][] {{3,6}}),
+    HEAT_EXCHANGER ("Heat Exchanger", "icon-heatexchanger",thermocycle.components.HeatExchanger.class, new int[][] {{0,2},{6,2},{0,4},{6,4}}, new int[][] {{}}, new int[][] {{}}),
     UNKNOWN("Unknown", "icon-combustor",null,new int[][] {{}}, new int[][] {{}}, new int[][] {{}});
     
     protected final String name;

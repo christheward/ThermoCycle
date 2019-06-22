@@ -17,36 +17,43 @@ import thermocycle.Cycle;
  * @author Chris Ward <christheward@gmail.com>
  */
 public class Menu {
-    
+
     private Cycle model;
     private TreeNode<MenuItem> root;
-    
+
     public Menu() {
     }
-    
+
     private void createMenu() {
-        root.addChild(new MenuItem("File", null));
-        root.getLast().getElement().addAllias("f");
+        MenuItem file = new MenuItem("File", null);
+        file.addAllias("f");
+        root.addChild(file);
         
+        MenuItem open = new MenuItem("Open", null);
+        open.addAllias("o");
+        root.addChild(open);
+        
+        //MenuCommand openFile = new MenuCommand();
+        
+
         root.addChild(new MenuItem("Create", null));
         root.getLast().getElement().addAllias("c");
-        
+
         root.addChild(new MenuItem("Set", null));
         root.getLast().getElement().addAllias("s");
+
         
-        root.addChild(new MenuItem("Open", null));
-        root.getLast().getElement().addAllias("o");
     }
-    
+
     private class CmdOpen extends MenuCommand {
-        
+
         public CmdOpen() {
             super();
             this.addPrompt("Filename.");
         }
-        
+
         @Override
-        public void execute() {
+        public void execute(Cycle cycle) {
             String filename = inputs.get(0);
             try (ObjectInputStream is = new ObjectInputStream(new FileInputStream(filename))) {
                 System.out.println("Loading model from " + filename);
@@ -60,24 +67,24 @@ public class Menu {
                 System.err.println("I/O error. " + e.getMessage());
             }
         }
-        
+
     }
-    
+
     private class CmdCreateTurbine extends MenuCommand {
-        
+
         public CmdCreateTurbine() {
             super();
             this.addPrompt("Turbine name.");
         }
 
         @Override
-        public void execute() {
+        public void execute(Cycle cycle) {
             Component comp = model.createTurbine(inputs.get(0));
             //model.setBoundaryConditionAttribute(comp, EFFICIENCY, new double[] {Double.parseDouble(commands.get(3))});
             //model.setBoundaryConditionAttribute(comp, PRATIO, new double[] {Double.parseDouble(commands.get(4))});
             //break;
         }
-        
+
     }
-    
+
 }

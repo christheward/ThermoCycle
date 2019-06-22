@@ -6,8 +6,8 @@
 package thermocycle;
 
 import utilities.DimensionedDouble;
-import report.ReportDataBlock;
-import report.Reportable;
+import thermocycle.report.ReportDataBlock;
+import thermocycle.report.Reportable;
 import java.util.*;
 import java.io.Serializable;
 import java.util.stream.Collectors;

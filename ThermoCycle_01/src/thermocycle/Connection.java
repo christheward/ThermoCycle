@@ -32,7 +32,7 @@ public final class Connection<T extends Node> implements Serializable {
      * @param n1 The first node in the connection.
      * @param n2 The second node in the connection.
      */
-    protected Connection(T n1, T n2) {
+    public Connection(T n1, T n2) {
         if (n1 == null || n2 == null) {throw new IllegalStateException("Connnections cannnot be made between null nodes.");}                                                // check nodes are not null
         if (n1 == n2) {throw new IllegalStateException("Cannot connect a node to itself.");}                                                                                // check nodes are not the same
         if (n1.port == INLET && n2.port == INLET) {throw new IllegalStateException("Connection cannot be between an Inlet and an Inlet.");}     // check that connection is between inlet and outlet, inlet and internal, internal and internal, or internal and outlet

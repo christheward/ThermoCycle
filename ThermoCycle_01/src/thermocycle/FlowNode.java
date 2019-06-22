@@ -36,7 +36,7 @@ public final class FlowNode extends Node {
      * Constructor.
      * @param port The node port type.
      */
-    protected FlowNode(Port port) {
+    public FlowNode(Port port) {
         super(port);
         state = new State();
         mass = null;
@@ -82,7 +82,7 @@ public final class FlowNode extends Node {
      * Gets the fluid for the this node.
      * @return Returns the fluid.
      */
-    protected Optional<Fluid> getFluid() {
+    public Optional<Fluid> getFluid() {
         return Optional.ofNullable(fluid);
     }
     
@@ -98,7 +98,7 @@ public final class FlowNode extends Node {
      * Gets the mass flow rate of this node.
      * @return Returns the mass flow rate.
      */
-    protected OptionalDouble getMass() {
+    public OptionalDouble getMass() {
         if (isPresent()) {
             return OptionalDouble.of(mass);
         }
@@ -110,7 +110,7 @@ public final class FlowNode extends Node {
      * @param property The property to get the value of.
      * @return Returns the value of the state property.
      */
-    protected OptionalDouble getState(Property property) {
+    public OptionalDouble getState(Property property) {
         return state.getProperty(property);
     }
     
@@ -118,7 +118,7 @@ public final class FlowNode extends Node {
      * Set the Node's fluid. Note that the reference is copied as we want all nodes to reference the original Fluid object.
      * @param fluid The fluid.
      */
-    protected void setFluid(Fluid fluid) {
+    public void setFluid(Fluid fluid) {
         this.fluid = fluid;
     }
     
@@ -127,7 +127,7 @@ public final class FlowNode extends Node {
      * @param value The value to set the mass flow rate to.
      * @throws IllegalArgumentException Thrown if the value is not present.
      */
-    protected void setMass(Double value) {
+    public void setMass(Double value) {
         mass = value;
     }
     
@@ -136,7 +136,7 @@ public final class FlowNode extends Node {
      * @param property The state property to set.
      * @param value The value to set the property to.
      */
-    protected void setProperty(Property property, Double value) {
+    public void setProperty(Property property, Double value) {
         if (fluid == null) {
             throw new IllegalStateException("Error setting properties in Node. Fluid must be set first.");
         }
@@ -199,7 +199,7 @@ public final class FlowNode extends Node {
     /**
      * Compute missing state properties.
      */
-    protected void computeState() {
+    public void computeState() {
         fluid.computeState(state);
     }
     

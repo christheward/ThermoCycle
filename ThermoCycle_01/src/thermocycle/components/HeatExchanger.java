@@ -3,9 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thermocycle;
+package thermocycle.components;
 
 import java.util.*;
+import thermocycle.Attribute;
+import thermocycle.Component;
+import thermocycle.ComponentEquation;
+import thermocycle.Connection;
+import thermocycle.EquationVariable;
+import thermocycle.FlowNode;
+import thermocycle.Fluid;
+import thermocycle.HeatNode;
+import thermocycle.Node;
+import thermocycle.State;
 import static thermocycle.Node.Port.*;
 import utilities.Units;
 
@@ -24,7 +34,7 @@ public final class HeatExchanger extends Component {
      * @param name The component name.
      * @param ambient The component ambient state.
      */
-    protected HeatExchanger(String name, State ambient) {
+    public HeatExchanger(String name, State ambient) {
         super(name, ambient);
         flowNodes.put("Hot Side Inlet",new FlowNode(INLET));
         flowNodes.put("Hot Side Outlet",new FlowNode(OUTLET));

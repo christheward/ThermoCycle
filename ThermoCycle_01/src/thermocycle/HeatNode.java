@@ -22,7 +22,7 @@ public final class HeatNode extends Node {
      * Constructor.
      * @param port The node port type.
      */
-    protected HeatNode(Port port) {
+    public HeatNode(Port port) {
         super(port);
         heat = null;
     }
@@ -48,7 +48,7 @@ public final class HeatNode extends Node {
      * @param value The value to set the heat flux to.
      * @throws IllegalArgumentException Thrown if the value is not present.
      */
-    protected void setHeat(Double value) {
+    public void setHeat(Double value) {
         heat = value;
     }
     

@@ -5,6 +5,13 @@
  */
 package testing;
 
+import thermocycle.components.HeatSink;
+import thermocycle.components.HeatExchanger;
+import thermocycle.components.Compressor;
+import thermocycle.components.Turbine;
+import thermocycle.components.Combustor;
+import thermocycle.fluids.Steam;
+import thermocycle.fluids.IdealGas;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;

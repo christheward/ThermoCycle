@@ -12,7 +12,6 @@ import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.solvers.BrentSolver;
-import org.apache.commons.math3.analysis.solvers.SecantSolver;
 import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +20,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Chris
  */
-abstract class ComponentEquation implements Serializable {
+public abstract class ComponentEquation implements Serializable {
     
     /**
      * Logger.

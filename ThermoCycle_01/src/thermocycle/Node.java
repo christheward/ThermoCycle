@@ -7,7 +7,6 @@ package thermocycle;
 
 import java.io.Serializable;
 import java.util.Observable;
-import report.Reportable;
 import utilities.StringFormatter;
 
 /**

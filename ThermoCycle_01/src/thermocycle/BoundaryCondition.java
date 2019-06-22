@@ -7,7 +7,6 @@ package thermocycle;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,7 +50,7 @@ public abstract class BoundaryCondition implements Serializable {
     }
     
     /**
-     * Gets the current value of the boundary condition. IF the
+     * Gets the current value of the boundary condition. If the
      * boundary condition is a single value this always returns
      * that value. If the boundary condition is parametric then
      * it return the value of the current index. This is called

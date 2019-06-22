@@ -22,7 +22,7 @@ public final class WorkNode extends Node {
      * Constructor.
      * @param port The node port type.
      */
-    protected WorkNode(Port port) {
+    public WorkNode(Port port) {
         super(port);
         work = null;
     }
@@ -40,7 +40,7 @@ public final class WorkNode extends Node {
      * Gets the node work values
      * @return Returns the node work value.
      */
-    protected OptionalDouble getWork() {
+    public OptionalDouble getWork() {
         if (isPresent()) {
             return OptionalDouble.of(work);
         }
@@ -52,7 +52,7 @@ public final class WorkNode extends Node {
      * @param value The value to set the heat flux to.
      * @throws IllegalArgumentException Thrown if the value is not present.
      */
-    protected void setWork(Double value) {
+    public void setWork(Double value) {
         work = value;
     }
     

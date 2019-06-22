@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Chris
  */
-abstract class FluidEquation implements Serializable {
+public abstract class FluidEquation implements Serializable {
     
     /**
      * Logger.
@@ -37,17 +37,17 @@ abstract class FluidEquation implements Serializable {
     /**
      * Relative solution accuracy.
      */
-    public static double relativeAccuracy = 1e-6;
+    public static final double relativeAccuracy = 1e-6;
     
     /**
      * Absolute solution accuracy.
      */
-    public static double absoluteAccuracy = 1e-6;
+    public static final double absoluteAccuracy = 1e-6;
     
     /**
      * Maximum number of allowable iterations to try and reach convergence.
      */
-    private static int maxIterations = 10000;
+    private static final int maxIterations = 10000;
     
     /**
      * A description of the equation.

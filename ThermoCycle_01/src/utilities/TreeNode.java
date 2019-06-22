@@ -6,14 +6,13 @@
 package utilities;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  *
  * @author Chris Ward <christheward@gmail.com>
+ * @param <E> the element wrapped by the tree node.
  */
 public final class TreeNode<E> {
     

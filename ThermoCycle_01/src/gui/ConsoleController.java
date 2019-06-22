@@ -104,22 +104,34 @@ public class ConsoleController extends VBox {
         input.setOnKeyPressed(new EventHandler <KeyEvent> () {
             @Override
             public void handle(KeyEvent event) {
-                if (event.getCode().equals(KeyCode.UP)) {
-                    if (historyIdx < history.size()) {
-                        historyIdx = historyIdx + 1;
-                        showHistory();
-                    }
-                }
-                else if (event.getCode() == KeyCode.DOWN) {
-                    if (historyIdx > 0) {
-                        historyIdx = historyIdx - 1;
-                        showHistory();
-                    }
+                switch (event.getCode()) {
+                    case UP:
+                        if (historyIdx < history.size()) {
+                            historyIdx = historyIdx + 1;
+                            showHistory();
+                        }
+                        break;
+                    case DOWN:
+                        if (historyIdx > 0) {
+                            historyIdx = historyIdx - 1;
+                            showHistory();
+                        }
+                        break;
+                    case TAB:
+                        String partial = input.getText();
+                        String menu = "hello";
+                        ConsoleController.this.subCommands(menu).stream().filter(s -> s.regionMatches(0, partial, 0, partial.length()));
+                        break;
                 }
             }
-            
         });
+        
         output.positionCaret(0);
+    }
+    
+    private List<String> subCommands(String command) {
+        // gets list of current sub commands based on 
+        return new ArrayList<String>();
     }
     
     /**

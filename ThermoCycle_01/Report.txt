@@ -114,7 +114,7 @@ Components
 			Mass Balance: Solved
 			Energy Balance: Solved
 		Shaft
-			Work: -2.14E6 W
+			Work: 2.14E6 W
 		Outlet
 			Mass: 1.00E0 kg/s
 			P: 1.07E5 Pa
@@ -176,3 +176,9 @@ Components
 
 Cycle performance
 -----------------
+	Work output: 2.14E6 W
+	Work input: 1.05E3 W
+	Rational efficiency: ? %
+	Heat input: 1.13E5 W
+	Thermal efficiency: 1.89E1 %
+	Heat output: 2.26E6 W
