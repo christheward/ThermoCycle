@@ -29,7 +29,7 @@
             <AppenderRef ref="TraceFile" level="trace"/>
         </Logger>
         <logger name="GUILog" level="trace">
-            <AppenderRef ref="GUIFile" level="trace"/>
+            <AppenderRef ref="Console" level="trace"/>
         </logger>
         <Logger name="ReportLog" level="trace">
             <AppenderRef ref="ReportFile" level="trace"/>

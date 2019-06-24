@@ -31,11 +31,12 @@ public class ToolboxController extends StackPane{
      * @param canvas
      */
     public ToolboxController(MasterSceneController master) {
-
+        
         // Set master
         this.master = master;
         
         // Load FXML
+        System.out.println("Loading toolbox.");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Toolbox.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -45,6 +46,7 @@ public class ToolboxController extends StackPane{
         catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+        System.out.println("Loaded toolbox.");
         
     }
     

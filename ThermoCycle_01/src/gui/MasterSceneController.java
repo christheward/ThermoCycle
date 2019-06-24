@@ -19,8 +19,6 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import thermocycle.Cycle;
 
 /**
@@ -50,9 +48,6 @@ public class MasterSceneController extends VBox {
     protected final BooleanProperty toolboxLock;
     private final ReadOnlyObjectWrapper<Node> focus;
     private final BooleanProperty focusAbsent;
-    
-    // Logger
-    static private final Logger logger = LogManager.getLogger("GUILog");
     
     /**
      * Constructor

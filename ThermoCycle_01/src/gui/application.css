@@ -72,31 +72,31 @@ and open the template in the editor.
     -fx-background-color: pink;
 }
 .icon-compressor {
-    -fx-background-image: url("/images/ic_comp_compressor.png");
+    -fx-background-image: url("/resources/images/ic_comp_compressor.png");
     -fx-background-size: cover;
 }
 .icon-turbine {
-    -fx-background-image: url("/images/ic_comp_turbine.png");
+    -fx-background-image: url("/resources/images/ic_comp_turbine.png");
     -fx-background-size: cover;
 }
 .icon-heatsink {
-    -fx-background-image: url("/images/ic_comp_heat_sink.png");
+    -fx-background-image: url("/resources/images/ic_comp_heat_sink.png");
     -fx-background-size: cover;
 }
 .icon-heatexchanger {
-    -fx-background-image: url("/images/ic_comp_heat_exchanger.png");
+    -fx-background-image: url("/resources/images/ic_comp_heat_exchanger.png");
     -fx-background-size: cover;
 }
 .icon-combustor {
-    -fx-background-image: url("/images/ic_comp_combustor.png");
+    -fx-background-image: url("/resources/images/ic_comp_combustor.png");
     -fx-background-size: cover;
 }
 .icon-cv_combustor {
-    -fx-background-image: url("/images/ic_comp_cv_combustor.png");
+    -fx-background-image: url("/resources/images/ic_comp_cv_combustor.png");
     -fx-background-size: cover;
 }
 .icon-generic {
-    -fx-background-image: url("/images/generic.png");
+    -fx-background-image: url("/resources/images/generic.png");
     -fx-background-size: cover;
 }
 

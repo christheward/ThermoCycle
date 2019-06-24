@@ -179,7 +179,6 @@ public final class CanvasNodeController extends AnchorPane {
         this.setOnDragDone(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent event) {
-                System.out.println("Toolbox connection drag done.");
                 master.canvas.dragConnection.setVisible(false);
             }
             

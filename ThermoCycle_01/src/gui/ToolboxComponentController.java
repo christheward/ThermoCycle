@@ -5,13 +5,14 @@
  */
 package gui;
 
-import static gui.ThermoCycleClipboardContent.*;
 import java.io.IOException;
+import java.util.concurrent.Callable;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.event.Event;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
@@ -40,13 +42,9 @@ public class ToolboxComponentController extends AnchorPane {
     protected final MasterSceneController master;
     
     // Properties
-    private ObjectProperty<Point2D> centerInLocal;
+    protected ObjectProperty<Point2D> centerInLocal;
     private ObjectProperty<Point2D> centerInParent;
-    
-    // Drag handlers
-    protected EventHandler<DragEvent> componentDraggedOverCanvas;
-    protected EventHandler<DragEvent> componentDroppedOnCanvas;
-    protected EventHandler<DragEvent> componentDragDoneOnCanvas;
+    protected ObjectBinding<Point2D> cilBinding;
     
     // Model variables
     private ComponentIcon iType;
@@ -61,47 +59,76 @@ public class ToolboxComponentController extends AnchorPane {
         
         // Create properties
         centerInLocal = new SimpleObjectProperty();
-        centerInParent = new SimpleObjectProperty();
         
-        // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ToolboxComponent.fxml"));
-        fxmlLoader.setRoot(this); 
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
+        // Only load the FXML here if this is the class being instantiated. Prevent sub-classes being initilised twice.
+        if (this.getClass().equals(ToolboxComponentController.class)) {
+            // Load FXML
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ToolboxComponent.fxml"));
+            fxmlLoader.setRoot(this); 
+            fxmlLoader.setController(this);
+            try {
+                fxmlLoader.load();
+            } catch (IOException exception) {
+                throw new RuntimeException(exception);
+            }
         }
         
-        // Build drag handlers
-        buildDragHandlers();
     }
     
     /**
      * Initializer
      */
-    @FXML private void initialize() {
+    @FXML
+    private void initialize() {
         
         // Create bindings
+        
         centerInLocal.bind(new ObjectBinding<Point2D>() {
             {
-                bind(ToolboxComponentController.this.widthProperty(), ToolboxComponentController.this.heightProperty());
+                bind(ToolboxComponentController.this.hoverProperty(), ToolboxComponentController.this.widthProperty(), ToolboxComponentController.this.heightProperty());
             }
             @Override
             protected Point2D computeValue() {
+                System.out.println("CenterInLocal binding trigger for " + ToolboxComponentController.this.name);
+                System.out.println("Height = " + icon.heightProperty().getValue());
+                System.out.println("Width = " + icon.widthProperty().getValue());
+                System.out.println("Hover = " + ToolboxComponentController.this.hoverProperty().getValue());
+                
                 return new Point2D(icon.getWidth()/2.0, icon.getHeight()/2.0);
             }
         });
         
-        centerInParent.bind(new ObjectBinding<Point2D>() {
-            {
-                bind(centerInLocal, ToolboxComponentController.this.localToParentTransformProperty());
-            }
+        /**
+        cilBinding = Bindings.createObjectBinding(() -> new Point2D(icon.getWidth()/2.0, icon.getHeight()/2.0), ToolboxComponentController.this.hoverProperty(), ToolboxComponentController.this.widthProperty(), ToolboxComponentController.this.heightProperty());
+        centerInLocal.bind(cilBinding);
+        centerInLocal.addListener(new ChangeListener<Point2D>() {
             @Override
-            protected Point2D computeValue() {
-                return ToolboxComponentController.this.localToParent(centerInLocal.getValue().getX(), centerInLocal.getValue().getY());
+            public void changed(ObservableValue<? extends Point2D> observable, Point2D oldValue, Point2D newValue) {
+                System.out.print(ToolboxComponentController.this.hoverProperty());
+                System.out.println("Value changed.");
+                centerInLocal.getValue();
+                cilBinding.getValue();
             }
         });
+        */
+        
+        this.hoverProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                System.out.println("Hover change. New: " + ToolboxComponentController.this.hoverProperty().getValue());
+            }
+        });
+        
+        /**
+        ToolboxComponentController.this.hoverProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                System.out.print("Hover status changed.");
+            }
+        });
+        */
+        // Build drag handlers
+        buildDragHandlers();
         
     }
     
@@ -114,7 +141,7 @@ public class ToolboxComponentController extends AnchorPane {
     }
     
     /**
-     * Sets the icon types
+     * Sets the icon type.
      * @param iType The icon type to set.
      */
     protected final void setType(ComponentIcon iType) {
@@ -128,46 +155,40 @@ public class ToolboxComponentController extends AnchorPane {
     
     /**
      * Relocates the toolbox icon to the specified point in scene co-ordinates.
-     * @param p The point to relocate to in the scene co-ordinates.
+     * @param scenePoint the point to relocate to in the scene co-ordinates.
      */
-    protected final void relocateToPointInScene(Point2D p) {
-        Point2D localCoords = getParent().sceneToLocal(p);
-        this.relocate((int) (localCoords.getX() - (getBoundsInLocal().getWidth() / 2)), (int) (localCoords.getY() - (getBoundsInLocal().getHeight() / 2)));
-    }
-
-    /**
-     * Gets the centre of this component in the parents co-ordinate system.
-     * @return The centre point of the component in the parents co-ordinate system.
-     */
-    protected final Point2D getCenterPointInParent() {
-        return centerInParent.getValue();
+    protected final void relocateToPointInScene(Point2D scenePoint) {
+        Point2D parentPoint = getParent().sceneToLocal(scenePoint);
+        this.relocate((int) (parentPoint.getX() - (centerInLocal.getValue().getX())), (int) (parentPoint.getY() - centerInLocal.getValue().getY()));
     }
     
+    /**
+     * Builds the drag handlers for this object.
+     */
     private final void buildDragHandlers() {
         
        this.setOnDragDetected (new EventHandler <MouseEvent> () {
             @Override
             public void handle(MouseEvent event) {
                 
-                // Put data in clipboard to identify icon type when dropped on canvas
-                ThermoCycleClipboardContent content = new ThermoCycleClipboardContent();
-                content.putAction(OPERATION.CREATE);
-                content.putComponentType(iType);
+                // Create clipboard and add data to it so that the icon type can be idnetified when the object is dropped.
+                ClipboardContent content = new ClipboardContent();
+                content.put(DragContainerController.CREATE_COMPONENT,iType);
                 
-                // Start drag and drop operation
-                startDragAndDrop(TransferMode.ANY).setContent(content);
-                ToolboxComponentController.this.startFullDrag();
+                // Start drag and drop operation and add data to dragboard
+                Dragboard dragboard = startDragAndDrop(TransferMode.ANY);
+                dragboard.setContent(content);
                 
-                // Note sure if these are needed
+                // Not sure if these are needed
                 startFullDrag();
-                setMouseTransparent(true);
+                //setMouseTransparent(true);
                 
                 // Prepare the canvas component
                 master.canvas.dragIcon.setType(iType);
                 master.canvas.dragIcon.relocateToPointInScene(new Point2D (event.getSceneX(), event.getSceneY()));
                 master.canvas.dragIcon.setVisible(true);
                 
-                // Consume event to make make sure canvas drag detected isn't fired
+                // Consume event to make make sure canvas drag detected event isn't fired.
                 event.consume();
                 
             }

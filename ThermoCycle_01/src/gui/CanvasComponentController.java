@@ -5,14 +5,16 @@
  */
 package gui;
 
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.stream.Collectors;
+import javafx.beans.binding.ObjectBinding;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -20,40 +22,52 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 import thermocycle.Component;
 
 /**
  *
  * @author Chris
  */
-public class CanvasComponentController extends ToolboxComponentController{
+public class CanvasComponentController extends ToolboxComponentController {
     
     // FXML variables
     private ContextMenu menu;
     private Tooltip tip;
-    
-    // Event handlers
-    private EventHandler  iconDragOverCanvas;
-    private EventHandler  iconDragDroppedCanvas;
     
     // Model variables
     protected Component component;
     
     /**
      * Constructor
-     * @param iType The icon type.
-     * @param model The thermocycle model.
+     * @param master the master scene controller
+     * @param iType the component icon type
      * @throws Exception 
      */
     public CanvasComponentController(MasterSceneController master, ComponentIcon iType) throws Exception {
+        
+        // Construct parent class
         super(master);
         
         // set icon type
         setType(iType);
-        icon.getStyleClass().add("icon-component");
+        icon.getStyleClass().add("icon-component");  // OVerrides some styles for the toolbox components.
+        
+        // Load FXML
+        System.out.println("Loading " + this.getClass());
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ToolboxComponent.fxml"));
+        fxmlLoader.setRoot(this); 
+        fxmlLoader.setController(this);
+        try {
+            fxmlLoader.load();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+        System.out.println("Loaded");
         
         // create model component
         createComponent();
@@ -61,14 +75,19 @@ public class CanvasComponentController extends ToolboxComponentController{
         // adds nodes
         addNodes();
         
-        // build handlers
-        buildDragHandlers();
-        buildClickHandlers();
-        
         // Bind name visibility
         this.name.visibleProperty().bind(master.nameVisibility);
     }
+    
+    /**
+     * Constructor
+     * @param master the master canvas controller
+     * @param component the thermocycle component
+     * @throws Exception 
+     */
     public CanvasComponentController(MasterSceneController master, thermocycle.Component component) throws Exception {
+        
+        // construct parent
         super(master);
         
         // set compoennt
@@ -93,7 +112,29 @@ public class CanvasComponentController extends ToolboxComponentController{
     /**
      * Initializer
      */
-    @FXML private void initialize() {
+    @FXML
+    private void initialize() {
+        
+        // Create bindings
+        centerInLocal.bind(new ObjectBinding<Point2D>() {
+            {
+                bind(CanvasComponentController.this.widthProperty(), CanvasComponentController.this.heightProperty());
+            }
+            @Override
+            protected Point2D computeValue() {
+                System.out.println("CenterInLocal binding trigger for " + CanvasComponentController.this.name);
+                System.out.println("Height = " + icon.heightProperty().getValue());
+                System.out.println("Width = " + icon.widthProperty().getValue());
+                System.out.println("Hover = " + CanvasComponentController.this.hoverProperty().getValue());
+                
+                return new Point2D(icon.getWidth()/2.0, icon.getHeight()/2.0);
+            }
+        });
+        
+        // build handlers
+        buildDragHandlers();
+        buildClickHandlers();
+        
     }
     
     /**
@@ -114,7 +155,7 @@ public class CanvasComponentController extends ToolboxComponentController{
      * Creates the thermodynamic cycle component. Must only be called after icon type has been set with setType() in the superclass.
      * @throws Exception 
      */
-    private final void createComponent() throws Exception {
+    private void createComponent() {
         switch (this.getType()) {
             case COMBUSTOR:
                 component = master.getModel().createCombustor(getType().name);
@@ -132,7 +173,7 @@ public class CanvasComponentController extends ToolboxComponentController{
                 component = master.getModel().createTurbine(getType().name);
                 break;
             default:
-                throw new Exception("Unknown component type!");
+                // DO somethign with error;
         }
     }
     
@@ -140,24 +181,29 @@ public class CanvasComponentController extends ToolboxComponentController{
      * Adds the input/output work/heat/and flow nodes to the CanvasComponentController 
      * @throws Exception 
      */
-    private final void addNodes() throws Exception {
-        ListIterator<thermocycle.FlowNode> lif = component.flowNodes.values().stream().collect(Collectors.toList()).listIterator();
-        while (lif.hasNext()) {
-            int idx = lif.nextIndex();
-            thermocycle.FlowNode fn = lif.next();
-            node_grid.add(new CanvasNodeController(master, CanvasComponentController.this, fn), getType().flownodes[idx][0], getType().flownodes[idx][1]);
+    private final void addNodes() {
+        try {
+            ListIterator<thermocycle.FlowNode> lif = component.flowNodes.values().stream().collect(Collectors.toList()).listIterator();
+            while (lif.hasNext()) {
+                int idx = lif.nextIndex();
+                thermocycle.FlowNode fn = lif.next();
+                node_grid.add(new CanvasNodeController(master, CanvasComponentController.this, fn), getType().flownodes[idx][0], getType().flownodes[idx][1]);
+            }
+            ListIterator<thermocycle.WorkNode> liw = component.workNodes.values().stream().collect(Collectors.toList()).listIterator();
+            while (liw.hasNext()) {
+                int idx = liw.nextIndex();
+                thermocycle.WorkNode wn = liw.next();
+                node_grid.add(new CanvasNodeController(master, CanvasComponentController.this, wn), getType().worknodes[idx][0], getType().worknodes[idx][1]);
+            }
+            ListIterator<thermocycle.HeatNode> lih = component.heatNodes.values().stream().collect(Collectors.toList()).listIterator();
+            while (lih.hasNext()) {
+                int idx = lih.nextIndex();
+                thermocycle.HeatNode hn = lih.next();
+                node_grid.add(new CanvasNodeController(master, CanvasComponentController.this, hn), getType().heatnodes[idx][0], getType().heatnodes[idx][1]);
+            }
         }
-        ListIterator<thermocycle.WorkNode> liw = component.workNodes.values().stream().collect(Collectors.toList()).listIterator();
-        while (liw.hasNext()) {
-            int idx = liw.nextIndex();
-            thermocycle.WorkNode wn = liw.next();
-            node_grid.add(new CanvasNodeController(master, CanvasComponentController.this, wn), getType().worknodes[idx][0], getType().worknodes[idx][1]);
-        }
-        ListIterator<thermocycle.HeatNode> lih = component.heatNodes.values().stream().collect(Collectors.toList()).listIterator();
-        while (lih.hasNext()) {
-            int idx = lih.nextIndex();
-            thermocycle.HeatNode hn = lih.next();
-            node_grid.add(new CanvasNodeController(master, CanvasComponentController.this, hn), getType().heatnodes[idx][0], getType().heatnodes[idx][1]);
+        catch (Exception ex) {
+            // Do somethign with error.
         }
     }
     
@@ -170,48 +216,32 @@ public class CanvasComponentController extends ToolboxComponentController{
             @Override
             public void handle(MouseEvent event) {
                 
-                // Put data in clipboard to identify icon type when dropped on canvas
-                DragContainerController dragContainer = new DragContainerController();
-                dragContainer.addData(DragContainerController.DATA_TYPE.COMPONENT, getType());
+                // Create clipboard and add data to it so that the icon type can be idnetified when the object is dropped.
                 ClipboardContent content = new ClipboardContent();
-                content.put(DragContainerController.MOVE_COMPONENT, dragContainer);
+                content.put(DragContainerController.MOVE_COMPONENT,CanvasComponentController.this.component);
                 
-                // Start drag and drop
-                startDragAndDrop(TransferMode.ANY).setContent(content);
+                // Start drag and drop operation and add data to dragboard
+                Dragboard dragboard = startDragAndDrop(TransferMode.ANY);
+                dragboard.setContent(content);
                 
-                // Consume event
+                // Not sure if these are needed
+                startFullDrag();
+                setMouseTransparent(true);
+                
+                System.out.println("Added to container");
+                System.out.println(content.get(DragContainerController.MOVE_COMPONENT));
+                
+                // Consume event to make make sure canvas drag detected event isn't fired.
                 event.consume();
-                
             }
         });
         
         this.setOnDragDone(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent event) {
-                System.out.println("Canvas icon drag done.");
+                event.consume();
             }
         });
-        
-        //dragover to handle node dragging in the canvas
-        iconDragOverCanvas = new EventHandler <DragEvent> () {
-            @Override
-            public void handle(DragEvent event) {
-                event.acceptTransferModes(TransferMode.ANY);                
-                relocateToPointInScene(new Point2D( event.getSceneX(), event.getSceneY()));
-                event.consume();
-            }
-        };
-        
-        //dragdrop for node dragging
-        iconDragDroppedCanvas = new EventHandler <DragEvent> () {
-            @Override
-            public void handle(DragEvent event) {
-                master.canvas.setOnDragOver(null);
-                master.canvas.setOnDragDropped(null);
-                event.setDropCompleted(true);
-                event.consume();
-            }
-        };
         
     }
     
