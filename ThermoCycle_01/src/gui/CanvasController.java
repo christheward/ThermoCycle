@@ -12,21 +12,17 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -142,22 +138,7 @@ public final class CanvasController extends AnchorPane {
                 }
             }
         });
-        toolbox.pin.setOnMouseClicked(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                master.toolboxLock.setValue(!master.toolboxLock.getValue());
-                event.consume();
-            }
-        });
-        toolbox.pin.rotateProperty().bind(new DoubleBinding() {
-            {
-                bind(master.toolboxLock);
-            }
-            @Override
-            protected double computeValue() {
-                return master.toolboxLock.getValue() ? 45.0 : -45.0;
-            }
-        });
+        
 
         // Setup bindings
         draw.disableProperty().bind(master.modelAbsent);

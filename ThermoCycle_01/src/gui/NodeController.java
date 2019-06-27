@@ -91,7 +91,10 @@ public final class NodeController extends AnchorPane {
             throw new RuntimeException(exception);
         }
         
+        // SEt the node style
         setNodeStyle();
+        
+        // Build handlers
         buildNodeClickHandlers();
         buildNodeDragHandlers();
         buildTooltip();

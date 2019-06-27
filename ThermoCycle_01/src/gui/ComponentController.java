@@ -24,7 +24,8 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
-import static javafx.scene.input.MouseButton.PRIMARY;
+import javafx.scene.input.MouseButton;
+import static javafx.scene.input.MouseButton.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
@@ -83,6 +84,7 @@ public class ComponentController extends AnchorPane {
         if (modelComponent) {
             // Model component handlers
             buildDragHandlersForCanvas();
+            buildClickHandlersForCanvas();
         }
         else {
             // Toolbox component handlers
@@ -143,9 +145,8 @@ public class ComponentController extends AnchorPane {
             case TURBINE:
                 component = master.getModel().createTurbine(iType.name);
                 break;
-            default:
-                // DO somethign with error;
         }
+        
         // Adds nodes to the component
         ListIterator<thermocycle.FlowNode> lif = component.flowNodes.values().stream().collect(Collectors.toList()).listIterator();
         while (lif.hasNext()) {
@@ -264,6 +265,22 @@ public class ComponentController extends AnchorPane {
             @Override
             public void handle(DragEvent event) {
                 //setMouseTransparent(false);
+            }
+        });
+        
+    }
+    
+    private void buildClickHandlersForCanvas() {
+        
+        ComponentController.this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    if (event.getClickCount() == 1) {
+                        master.setFocus(ComponentController.this);
+                    }
+                    
+                }
             }
         });
         

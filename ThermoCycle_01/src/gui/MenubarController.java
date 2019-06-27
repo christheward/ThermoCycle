@@ -115,6 +115,11 @@ public class MenubarController extends MenuBar {
         fileNew.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
+                // If model alread exisits, check what to do with the current model.
+                if (!master.modelAbsent.getValue()) {
+                    // DO something
+                    System.out.println("MOdel overwritten");
+                }
                 master.setModel(new thermocycle.Cycle("New Cycle"));
             }
         });

@@ -6,6 +6,9 @@
 package gui;
 
 import java.io.IOException;
+import javafx.beans.binding.DoubleBinding;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.ImageView;
@@ -65,6 +68,24 @@ public class ToolboxController extends StackPane{
                 }
             }
         }
+        
+        // Set up pin icon
+        pin.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                master.toolboxLock.setValue(!master.toolboxLock.getValue());
+                event.consume();
+            }
+        });
+        pin.rotateProperty().bind(new DoubleBinding() {
+            {
+                bind(master.toolboxLock);
+            }
+            @Override
+            protected double computeValue() {
+                return master.toolboxLock.getValue() ? 45.0 : -45.0;
+            }
+        });
         
     }
     
