@@ -5,8 +5,7 @@
  */
 package gui;
 
-import gui.CanvasConnectionController.Direction;
-import static gui.CanvasConnectionController.Direction.*;
+import static gui.NodeController.Direction.*;
 import java.io.IOException;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,6 +15,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
@@ -27,8 +27,32 @@ import javafx.scene.shape.Circle;
  *
  * @author Chris
  */
-public final class CanvasNodeController extends AnchorPane {
+public final class NodeController extends AnchorPane {
     
+    public enum Direction {
+        RIGHT,
+        LEFT,
+        UP,
+        DOWN;
+        
+        public static Direction getOpposite(Direction direction) {
+            switch (direction) {
+                case RIGHT:
+                    return LEFT;
+                case LEFT:
+                    return RIGHT;
+                case UP:
+                    return DOWN;
+                case DOWN:
+                    return UP;
+                default:
+                    return UP;
+            }
+        }
+        
+    }
+        
+        
     // FXML variables
     //@FXML private AnchorPane base;
     @FXML private Circle circle;
@@ -36,7 +60,7 @@ public final class CanvasNodeController extends AnchorPane {
     // GUI variables
     private Tooltip tip;
     private final MasterSceneController master;
-    private final CanvasComponentController canvasIcon;
+    private final ComponentController canvasIcon;
     
     // Model variables
     protected thermocycle.Node node;
@@ -46,7 +70,7 @@ public final class CanvasNodeController extends AnchorPane {
      * @param node The model Node represented by CanvasNode
      * @throws Exception 
      */
-    public CanvasNodeController(MasterSceneController master, CanvasComponentController canvasIcon, thermocycle.Node node) throws Exception {
+    public NodeController(MasterSceneController master, ComponentController canvasIcon, thermocycle.Node node) {
         
         // Set master
         this.master = master;
@@ -58,7 +82,7 @@ public final class CanvasNodeController extends AnchorPane {
         this.node = node;
         
         // Load FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/CanvasNode.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Node.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {
@@ -113,7 +137,7 @@ public final class CanvasNodeController extends AnchorPane {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    master.setFocus(CanvasNodeController.this);
+                    master.setFocus(NodeController.this);
                 }
                 event.consume();
             }
@@ -125,24 +149,25 @@ public final class CanvasNodeController extends AnchorPane {
      */
     private void buildNodeDragHandlers() {
         
-        //drag detection for node dragging
-        this.setOnDragDetected(new EventHandler <MouseEvent> () {
+        this.setOnDragDetected(new EventHandler<MouseEvent> () {
             @Override
             public void handle(MouseEvent event) {
                 
-                // Put data in clipboard to identify icon type when dropped on canvas
-                DragContainerController dragContainer = new DragContainerController();
-                dragContainer.addData(DragContainerController.DATA_TYPE.NODE, CanvasNodeController.this);
+                // Create clipboard and add data to it so that the icon type can be idnetified when the object is dropped.
                 ClipboardContent content = new ClipboardContent();
-                content.put(DragContainerController.CREATE_CONNECTION, dragContainer);
+                content.put(DragContainerController.CREATE_CONNECTION,NodeController.this.node);
+                
+                // Start drag and drop operation and add data to dragboard
+                Dragboard dragboard = startDragAndDrop(TransferMode.ANY);
+                dragboard.setContent(content);
                 
                 // Start drag and drop operation
-                startDragAndDrop(TransferMode.ANY).setContent(content);
+                startFullDrag();
                 
                 // Prepare the cnavas connection
-                master.canvas.dragConnection.startDrag((CanvasNodeController) event.getSource());
+                master.canvas.dragConnection.bindStart(NodeController.this);
                 master.canvas.dragConnection.setVisible(true);
-                master.canvas.disableIneligibleNodes(CanvasNodeController.this);
+                master.canvas.disableIneligibleNodes(NodeController.this);
                 
                 // Consume event
                 event.consume();
@@ -150,22 +175,44 @@ public final class CanvasNodeController extends AnchorPane {
             }
         });
         
-        this.setOnDragDropped(new EventHandler <DragEvent> (){
+        this.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                if (event.getDragboard().getContentTypes().contains(DragContainerController.CREATE_CONNECTION)) {
+                    // Highlight the fact
+                    master.canvas.dragConnection.requestFocus();
+                }
+            }
+        });
+        
+        this.setOnDragDropped(new EventHandler<DragEvent> (){
             @Override
             public void handle (DragEvent event) {
                 
                 // Acceptable transferable modes
-                event.acceptTransferModes(TransferMode.NONE);
+                event.acceptTransferModes(TransferMode.ANY);
                 
                 // Only accept create connection events
-                if (event.getDragboard().getContent(DragContainerController.CREATE_CONNECTION) != null) {
+                if (event.getDragboard().getContentTypes().contains(DragContainerController.CREATE_CONNECTION)) {
                     
-                    // Prepare drag clipboard
-                    DragContainerController dragContainer = new DragContainerController();
-                    dragContainer.addData((DragContainerController) event.getDragboard().getContent(DragContainerController.CREATE_CONNECTION));
-                    ClipboardContent content = new ClipboardContent();
-                    content.put(DragContainerController.CREATE_CONNECTION, dragContainer);
-                
+                    // Create a new connection
+                    ConnectionController connection = new ConnectionController(master);
+                    
+                    // Add connection to canvas
+                    master.canvas.getChildren().add(0,connection);
+                    
+                    // BInd connection to the two nodes
+                    connection.bindStart(master.canvas.dragConnection.start);
+                    connection.bindEnd(NodeController.this);
+                    
+                    // Force canvas to apply CSS and update
+                    master.canvas.applyCss();
+                    master.canvas.layout();
+                    
+                    // Make connection visible
+                    connection.setVisible(true);
+
+                    // Set drop compelte
                     event.setDropCompleted(true);
                     
                 }
@@ -179,7 +226,16 @@ public final class CanvasNodeController extends AnchorPane {
         this.setOnDragDone(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent event) {
+                
+                // Hide canvas drag connetion
                 master.canvas.dragConnection.setVisible(false);
+                
+                // Activate all nodes again
+                master.canvas.enableAllNodes();
+                
+                // Consume event
+                event.consume();
+                
             }
             
         });

@@ -77,8 +77,8 @@ public class InfoboxComponentController extends AnchorPane {
         this.master.focusProperty().addListener(new ChangeListener<Node>() {
             @Override
             public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newValue) {
-                if (newValue instanceof CanvasComponentController) {
-                    InfoboxComponentController.this.component.setValue(((CanvasComponentController) newValue).component);
+                if (newValue instanceof ComponentController) {
+                    InfoboxComponentController.this.component.setValue(((ComponentController) newValue).component);
                 }
             }
         });

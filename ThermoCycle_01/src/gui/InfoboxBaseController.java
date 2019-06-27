@@ -82,7 +82,7 @@ public class InfoboxBaseController extends StackPane {
             }
             @Override
             protected boolean computeValue() {
-                return Bindings.when(master.focusProperty().isNotNull()).then(master.getFocus() instanceof CanvasComponentController).otherwise(false).getValue();
+                return Bindings.when(master.focusProperty().isNotNull()).then(master.getFocus() instanceof ComponentController).otherwise(false).getValue();
             }
         });
         infoHeat.visibleProperty().bind(new BooleanBinding() {
@@ -92,8 +92,8 @@ public class InfoboxBaseController extends StackPane {
             @Override
             protected boolean computeValue() {
                 if (master.focusProperty().isNotNull().getValue()) {
-                    if (master.getFocus() instanceof CanvasNodeController) {
-                        return (((CanvasNodeController) master.getFocus()).node instanceof HeatNode);
+                    if (master.getFocus() instanceof NodeController) {
+                        return (((NodeController) master.getFocus()).node instanceof HeatNode);
                     }
                 }
                 return false;
@@ -106,8 +106,8 @@ public class InfoboxBaseController extends StackPane {
             @Override
             protected boolean computeValue() {
                 if (master.focusProperty().isNotNull().getValue()) {
-                    if (master.getFocus() instanceof CanvasNodeController) {
-                        return (((CanvasNodeController) master.getFocus()).node instanceof WorkNode);
+                    if (master.getFocus() instanceof NodeController) {
+                        return (((NodeController) master.getFocus()).node instanceof WorkNode);
                     }
                 }
                 return false;
@@ -120,8 +120,8 @@ public class InfoboxBaseController extends StackPane {
             @Override
             protected boolean computeValue() {
                 if (master.focusProperty().isNotNull().getValue()) {
-                    if (master.getFocus() instanceof CanvasNodeController) {
-                        return (((CanvasNodeController) master.getFocus()).node instanceof FlowNode);
+                    if (master.getFocus() instanceof NodeController) {
+                        return (((NodeController) master.getFocus()).node instanceof FlowNode);
                     }
                 }
                 return false;

@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -50,9 +52,9 @@ public final class CanvasController extends AnchorPane {
     private final MasterSceneController master;
     private final ContextMenuController contextMenu;
     private ToolboxController toolbox;
-    protected final ToolboxComponentController dragIcon;
-    protected final ToolboxConnectionController dragConnection;
-    protected final CanvasSelectionTool lassoo;
+    protected final ComponentController dragIcon;
+    protected final ConnectionController dragConnection;
+    protected final SelectionTool lassoo;
     
     // Copy and paste
     protected final ClipboardContent canvasClipboard;
@@ -78,15 +80,11 @@ public final class CanvasController extends AnchorPane {
         this.master = master;
         
         // Create drag tools
-        System.out.println("Loading dragIcon.");
-        dragIcon = new ToolboxComponentController(master);
-        System.out.println("dragIcon " + dragIcon.widthProperty());
-        System.out.println("Loaded dragIcon.");
-        dragConnection = new ToolboxConnectionController();
-        lassoo = new CanvasSelectionTool();
+        dragIcon = new ComponentController(master, false);
+        dragConnection = new ConnectionController(master);
+        lassoo = new SelectionTool();
         
         // Load FXML
-        System.out.println("Loading canvas.");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Canvas.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -95,7 +93,6 @@ public final class CanvasController extends AnchorPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-        System.out.println("Loaded canvas.");
         
         // Create context menu
         contextMenu = new ContextMenuController(master);
@@ -144,7 +141,6 @@ public final class CanvasController extends AnchorPane {
                     draw.close();
                 }
             }
-            
         });
         toolbox.pin.setOnMouseClicked(new EventHandler() {
             @Override
@@ -173,12 +169,10 @@ public final class CanvasController extends AnchorPane {
         buildClickHandlers();
         
         // Set up dragIcon
-        System.out.println("dragIcon " + dragIcon.widthProperty());
         dragIcon.setVisible(false);
         dragIcon.setOpacity(0.5);
         dragIcon.setMouseTransparent(true);
         canvas.getChildren().add(dragIcon);
-        System.out.println("dragIcon " + dragIcon.widthProperty());
         
         // Set up dragConnection
         dragConnection.setVisible(false);
@@ -242,10 +236,10 @@ public final class CanvasController extends AnchorPane {
                 
                 // Not sure if these are needed
                 startFullDrag();
-                setMouseTransparent(false);
+                //setMouseTransparent(false);
                 
                 // Pin upper left corner of lassoo
-                lassoo.StartDrag(event.getX(), event.getY());
+                lassoo.DragFrom(event.getX(), event.getY());
                 
                 // Show lassoo
                 lassoo.setVisible(true);
@@ -260,32 +254,27 @@ public final class CanvasController extends AnchorPane {
             @Override
             public void handle(DragEvent event) {
                 
-                // Get drag type
+                // Accept all drag types
                 event.acceptTransferModes(TransferMode.ANY);
                 
                 if (event.getDragboard().getContentTypes().contains(DragContainerController.CREATE_COMPONENT)) {
                     dragIcon.relocateToPointInScene(new Point2D(event.getSceneX(), event.getSceneY()));
                 }
-                if (event.getDragboard().getContentTypes().contains(DragContainerController.MOVE_COMPONENT)) {
+                else if (event.getDragboard().getContentTypes().contains(DragContainerController.MOVE_COMPONENT)) {
                     thermocycle.Component modelComponent = (thermocycle.Component) event.getDragboard().getContent(DragContainerController.MOVE_COMPONENT);
-                    System.out.println("Component in drag board");
-                    System.out.println(modelComponent);
-                    System.out.println("Components on canvas");
-                    CanvasController.this.getComponents().forEach(c -> {
-                        System.out.println(c.component);
-                        System.out.println(c.component == modelComponent);
-                    });
-                    CanvasComponentController component = CanvasController.this.getComponents().filter(c -> (c.component == modelComponent)).collect(SingletonCollector.singletonCollector());
-                    System.out.println(component);
+                    ComponentController component = CanvasController.this.getComponents().filter(c -> (c.component.equals(modelComponent))).collect(SingletonCollector.singletonCollector());
                     component.relocateToPointInScene(new Point2D(event.getSceneX(), event.getSceneY()));
                 }
-                if (event.getDragboard().getContentTypes().contains(DragContainerController.CREATE_CONNECTION)) {
-                    dragConnection.dragTo(event.getX(), event.getY() + master.menubar.getBoundsInLocal().getMaxY());
+                else if (event.getDragboard().getContentTypes().contains(DragContainerController.CREATE_CONNECTION)) {
+                    dragConnection.dragTo(event.getSceneX(), event.getSceneY());
                 }
-                if (event.getDragboard().getContentTypes().contains(DragContainerController.SELECT)) {
+                else if (event.getDragboard().getContentTypes().contains(DragContainerController.SELECT)) {
                     lassoo.DragTo(event.getSceneX(), event.getSceneY());
                 }
+                
+                // Consume the event
                 event.consume();
+                
             }
         });
         
@@ -295,84 +284,113 @@ public final class CanvasController extends AnchorPane {
                 
                 if (event.getDragboard().getContentTypes().contains(DragContainerController.CREATE_COMPONENT)) {
                     try {
-                        System.out.println(event.getDragboard().getContent(DragContainerController.CREATE_COMPONENT));
-                        System.out.println(((ComponentIcon) event.getDragboard().getContent(DragContainerController.CREATE_COMPONENT)).type);
-                        // Create new compoent and add to canvas
-                        CanvasComponentController component = new CanvasComponentController(master, ((ComponentIcon) event.getDragboard().getContent(DragContainerController.CREATE_COMPONENT)));
-                        //component.getStyleClass().add("icon-componnt");
-                        System.out.println("Component created.");
+                        // Create new compoent
+                        ComponentController component = new ComponentController(master, true);
+                        component.setType((ComponentIcon) event.getDragboard().getContent(DragContainerController.CREATE_COMPONENT));
+                        component.createComponent();
+                        
+                        // Add component to canvas
                         canvas.getChildren().add(component);
                         
-                        component.relocateToPointInScene(new Point2D(event.getSceneX(), event.getSceneY()));
+                        // Bind node visibility
                         component.node_grid.visibleProperty().bind(master.nodeVisibility);
+                        
+                        // Force canvas to apply CSS and update
+                        canvas.applyCss();
+                        canvas.layout();
+                        
+                        // Move component to point in scene and make visible
+                        component.relocateToPointInScene(new Point2D(event.getSceneX(), event.getSceneY()));
                         component.setVisible(true);
                         
                         // Set drop compelte
                         event.setDropCompleted(true);
+                        
+                        // Comsume event
+                        event.consume();
                     }
                     catch (Exception ex) {
-                        System.err.println("Erro creating component.");
                         System.err.println(ex.getMessage());
-                        // TODO: do something??
                     }
                 }
-                if (event.getDragboard().getContentTypes().contains(DragContainerController.MOVE_COMPONENT)) {
-                    // Do nothing as compoennt has been moved by teh drag over handler
+                else if (event.getDragboard().getContentTypes().contains(DragContainerController.MOVE_COMPONENT)) {
+                    // Do nothing
                     event.setDropCompleted(true);
+                    event.consume();
                 }
-                if (event.getDragboard().getContentTypes().contains(DragContainerController.SELECT)) {
-                    // Add compoentns to canvas clipboard
+                else if (event.getDragboard().getContentTypes().contains(DragContainerController.CREATE_CONNECTION)) {
+                    // Do nothing
                     event.setDropCompleted(true);
+                    event.consume();
                 }
-                
-                
-                event.consume();
-                
+                else if (event.getDragboard().getContentTypes().contains(DragContainerController.SELECT)) {
+                    
+                    // Get all elements in the lassoo
+                    getComponents().filter(c -> lassoo.contains(lassoo.sceneToLocal(c.localToScene(c.centerInLocal.getValue()))));
+                    
+                    // Hide selection tool
+                    lassoo.setVisible(false);
+                    
+                    // Set drop complete
+                    event.setDropCompleted(true);
+                    
+                    // Consume event
+                    event.consume();
+                }
+                else {
+                    // Catch incase
+                    event.consume();
+                }
             }
             
         });
         
     }
     
-    
     /**
-     * Remove component from the canvas and model()
+     * Clears the canvas
      */
-    protected void remove(Node node) {
-        if (node instanceof CanvasComponentController) {
-            CanvasComponentController icon = (CanvasComponentController)node;
-            master.getModel().removeComponent(icon.component);
-            canvas.getChildren().remove(icon);
-            // remove any connections that were deleted from the model as part of this operration
-            canvas.getChildren().removeAll(getConnections().filter(c -> !(master.getModel().connectionsReadOnly.contains(c.connection))).collect(Collectors.toSet()));
-        }
-        else if (node instanceof CanvasConnectionController) {
-            master.getModel().removeConnection(((CanvasConnectionController)node).connection);
-            canvas.getChildren().remove(node);
-       }
+    private void clearCanvas() {
+        canvas.getChildren().removeAll(getConnections().collect(Collectors.toList()));
+        canvas.getChildren().removeAll(getComponents().collect(Collectors.toList()));
     }
     
     /**
-     * Gets a stream of all the paths on the canvas.
-     * @return A stream of all the path elements on the canvas.
+     * Gets a stream of all the paths on the canvas excluding the drag connection.
+     * @return a stream of all the path elements on the canvas.
      */
-    private Stream<CanvasConnectionController> getConnections() {
-        return canvas.getChildren().stream().filter(n -> n instanceof CanvasConnectionController).map(n -> (CanvasConnectionController)n);
+    private Stream<ConnectionController> getConnections() {
+        return canvas.getChildren().stream().filter(n -> n instanceof ConnectionController).map(n -> (ConnectionController)n).filter(n -> !n.equals(dragConnection));
     }
     
     /**
-     * Gets a stream of all the components on the canvas
-     * @return A stream of the components on the canvas.
+    protected Optional<ComponentController> getCOmponent(NodeController n) {
+        getComponents().filter(c -> c.node_grid.getChildren());
+    }
+    */
+    
+    /**
+     * Gets a stream of all the components on the canvas excluding the drag component.
+     * @return a stream of the components on the canvas.
      */
-    private Stream<CanvasComponentController> getComponents() {
-        return canvas.getChildren().stream().filter(n -> n instanceof CanvasComponentController).map(n -> (CanvasComponentController)n);
+    protected Stream<ComponentController> getComponents() {
+        return canvas.getChildren().stream().filter(n -> n instanceof ComponentController).map(n -> (ComponentController)n).filter(n -> !n.equals(dragIcon));
+    }
+    
+        
+    /**
+     * Gets a stream of all the component nodes on the canvas.
+     * @return Returns a stream of all the component nodes on the canvas.
+     */
+    private Stream<NodeController> getNodes() {
+        return getComponents().map(n -> n.node_grid.getChildren().stream().filter(m -> m instanceof NodeController).map(m -> (NodeController)m)).flatMap(Function.identity());
     }
     
     /**
      * Disables nodes that an ineligible to be connected to this node.
      * @param node 
      */
-    protected void disableIneligibleNodes(CanvasNodeController node) {
+    protected void disableIneligibleNodes(NodeController node) {
         // Need to inclue nodes that are already connected.
         getNodes().filter(n -> (!(n.node.getClass().equals(node.node.getClass())) | (n.node.port.equals(node.node.port)))).forEach(n -> {
             n.disableProperty().set(true);
@@ -387,10 +405,27 @@ public final class CanvasController extends AnchorPane {
     }
     
     /**
-     * Activates all nodes
+     * Enable all nodes on the canvas.
      */
-    protected void activateAllNodes() {
+    protected void enableAllNodes() {
         getNodes().forEach(n -> n.disableProperty().set(false));
+    }
+    
+    /**
+     * Remove component from the canvas and model()
+     */
+    protected void remove(Node node) {
+        if (node instanceof ComponentController) {
+            ComponentController icon = (ComponentController)node;
+            master.getModel().removeComponent(icon.component);
+            canvas.getChildren().remove(icon);
+            // remove any connections that were deleted from the model as part of this operration
+            canvas.getChildren().removeAll(getConnections().filter(c -> !(master.getModel().connectionsReadOnly.contains(c.connection))).collect(Collectors.toSet()));
+        }
+        else if (node instanceof ConnectionController) {
+            master.getModel().removeConnection(((ConnectionController)node).connection);
+            canvas.getChildren().remove(node);
+       }
     }
     
     /**
@@ -398,7 +433,7 @@ public final class CanvasController extends AnchorPane {
      * @param node The starting node
      * @return A stream on canvas path objects.
      */
-    private Stream<CanvasConnectionController> getPath(CanvasNodeController node) {
+    private Stream<ConnectionController> getPath(NodeController node) {
         if (node.node instanceof thermocycle.FlowNode) {
             // set of flow nodes in the same path
             Set path = master.getModel().pathsReadOnly.stream().filter(p -> p.contains((thermocycle.FlowNode) node.node)).collect(Collectors.toSet());
@@ -409,29 +444,6 @@ public final class CanvasController extends AnchorPane {
     }
     
     /**
-     * Gets a stream of all the component nodes on the canvas.
-     * @return Returns a stream of all the component nodes on the canvas.
-     */
-    private Stream<CanvasNodeController> getNodes() {
-        return getComponents().map(n -> n.node_grid.getChildren().stream().filter(m -> m instanceof CanvasNodeController).map(m -> (CanvasNodeController)m)).flatMap(Function.identity());
-    }
-    
-    /**
-     * Clears the canvas
-     */
-    private void clearCanvas() {
-        canvas.getChildren().removeAll(canvas.getChildren().stream().filter(n -> n instanceof CanvasComponentController | n instanceof CanvasConnectionController).collect(Collectors.toSet()));
-    }
-    
-    /**
-     * Sets the node visibility for all nodes on the canvas.
-     * @param visible true to show nodes and false to hide nodes
-     */
-    //protected void setNodeVisibility(boolean visible) {
-    //    canvas.getChildren().stream().filter(c -> c instanceof CanvasComponentController).forEach((c -> ((CanvasComponentController)c).node_grid.setVisible(visible)));
-    //}
-    
-    /**
      * This function builds the GUI from the underlying model
      */
     protected void buildFromModel() {
@@ -439,7 +451,7 @@ public final class CanvasController extends AnchorPane {
         master.getModel().componentsReadOnly.stream().forEach(c -> {
             try {
                 // Create a new canvas icon
-                CanvasComponentController component = new CanvasComponentController(master, c);
+                ComponentController component = new ComponentController(master, true);
                 //component.getStyleClass().add("icon-componnt");
                 canvas.getChildren().add(component);
                 
@@ -455,12 +467,12 @@ public final class CanvasController extends AnchorPane {
         });
         master.getModel().connectionsReadOnly.stream().forEach(c -> {
             // Create new canvas path
-            CanvasConnectionController connection = new CanvasConnectionController(master);
+            ConnectionController connection = new ConnectionController(master);
             canvas.getChildren().add(0,connection);
             
-            List<CanvasNodeController> nodes = getNodes().filter(n -> master.getModel().containsNode(c, n.node)).collect(Collectors.toList());
+            List<NodeController> nodes = getNodes().filter(n -> master.getModel().containsNode(c, n.node)).collect(Collectors.toList());
             if (nodes.size() == 2) {
-                connection.bindEnds(nodes.get(0), nodes.get(1), c);
+                //connection.bindEnds(nodes.get(0), nodes.get(1), c);
             }
             else {
                 System.err.println("Incorrect number of connected nodes.");

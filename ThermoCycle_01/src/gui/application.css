@@ -34,12 +34,18 @@ and open the template in the editor.
 .path-heat:hover {
     -fx-effect: dropshadow(gaussian,red,5,0.5,0,0)
 }
+.path-heat:focus {
+    -fx-effect: dropshadow(gaussian,black,5,0.5,0,0)
+}
 .path-work {
     -fx-stroke-width: 5;
     -fx-stroke: yellow;
 }
 .path-work:hover {
     -fx-effect: dropshadow(gaussian,yellow,5,0.5,0,0)
+}
+.path-work:focus {
+    -fx-effect: dropshadow(gaussian,black,5,0.5,0,0)
 }
 .path-flow {
     -fx-stroke-width: 5;
@@ -48,6 +54,10 @@ and open the template in the editor.
 .path-flow:hover {
     -fx-effect: dropshadow(gaussian,lightskyblue,5,0.5,0,0)
 }
+.path-flow:focus {
+    -fx-effect: dropshadow(gaussian,black,5,0.5,0,0)
+}
+
 
 .icon {
     -fx-background-radius: 10;
@@ -108,6 +118,9 @@ and open the template in the editor.
 .node:disabled {
     -fx-fill: grey;
     -fx-opacity: 0.5;
+}
+.node:focus {
+    -fx-fill: pink;
 }
 .node-flow {
     -fx-fill: lightskyblue;

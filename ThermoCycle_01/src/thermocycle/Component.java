@@ -485,4 +485,19 @@ public abstract class Component implements Serializable, Reportable {
         return rdb;
     }
     
+    /**
+     * OVerride this method for GUI
+     * @param object
+     * @return 
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Component) {
+            if (id.equals(((Component)object).id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }

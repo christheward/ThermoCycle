@@ -94,9 +94,9 @@ public class InfoboxFlowController extends AnchorPane {
         this.master.focusProperty().addListener(new ChangeListener<Node>() {
             @Override
             public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newValue) {
-                if (newValue instanceof CanvasNodeController) {
-                    if (((CanvasNodeController) newValue).node instanceof FlowNode) {
-                        InfoboxFlowController.this.node.setValue( (FlowNode) ((CanvasNodeController) newValue).node);
+                if (newValue instanceof NodeController) {
+                    if (((NodeController) newValue).node instanceof FlowNode) {
+                        InfoboxFlowController.this.node.setValue( (FlowNode) ((NodeController) newValue).node);
                     }
                 }
             }

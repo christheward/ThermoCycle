@@ -5,12 +5,17 @@
  */
 package gui;
 
-import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
+import javafx.beans.binding.DoubleBinding;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import javafx.scene.shape.PathElement;
+import thermocycle.Connection;
 
 /**
  *
@@ -18,34 +23,136 @@ import javafx.scene.shape.PathElement;
  */
 public class ConnectionController extends Path {
     
+    // FXML variables
+    protected NodeController start;
+    protected NodeController end;
+    private ContextMenu menu;
+    private final MasterSceneController master;
+    
+    // Model variables
+    protected Connection connection;
+    
     /**
      * Constructor
+     * @param master
      */
-    public void ToolboxConenctionController() {
+    public ConnectionController(MasterSceneController master) {
+        
+        // Set the master
+        this.master = master;
+        
+        // Create path
+        getElements().add(new MoveTo());
+        getElements().add(new LineTo());
+        
+        // Ensure focus cannot be given automatically
+        this.focusTraversableProperty().setValue(false);
+        
+    }
+    
+    protected void bindStart(NodeController node) {
+        
+        // Set the star nide
+        start = node;
+        
+        // Set the style
+        setStyle(start);
+        
+        // Bind first path element to start node
+        firstElement().xProperty().bind(new DoubleBinding() {
+            {
+                bind(start.localToSceneTransformProperty(),start.widthProperty(),start.heightProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return master.canvas.sceneToLocal(start.localToSceneTransformProperty().getValue().transform(start.widthProperty().getValue()/2.0, start.heightProperty().getValue()/2.0)).getX();
+            }
+        });
+        firstElement().yProperty().bind(new DoubleBinding() {
+            {
+                bind(start.localToSceneTransformProperty(),start.widthProperty(),start.heightProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return master.canvas.sceneToLocal(start.localToSceneTransformProperty().getValue().transform(start.widthProperty().getValue()/2.0, start.heightProperty().getValue()/2.0)).getY();
+            }
+        });
+        
+    }
+    
+    protected void bindEnd(NodeController node) {
+        
+        // Set the star nide
+        end = node;
+        
+        // Bind last path element to end node
+        lastElement().xProperty().bind(new DoubleBinding() {
+            {
+                bind(end.localToSceneTransformProperty(),end.widthProperty(),end.heightProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return master.canvas.sceneToLocal(end.localToSceneTransformProperty().getValue().transform(end.widthProperty().getValue()/2.0, end.heightProperty().getValue()/2.0)).getX();
+            }
+        });
+        lastElement().yProperty().bind(new DoubleBinding() {
+            {
+                bind(end.localToSceneTransformProperty(),end.widthProperty(),end.heightProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return master.canvas.sceneToLocal(end.localToSceneTransformProperty().getValue().transform(end.widthProperty().getValue()/2.0, end.heightProperty().getValue()/2.0)).getY();
+            }
+        });
+        
+        // Create the connection in the model
+        connection = master.getModel().createConnection(start.node, end.node);
+        
+        // Creat context menu
+        buildContextMenu();
+        buildClickHandlers();
+        
     }
     
     /**
-     * Starts the drag operation by setting the style and the start location of the path
-     * @param canvasNode The canvas node to start the drag operation from.
+     * Builds the mouse click handlers for the connection.
      */
-    protected void startDrag(CanvasNodeController canvasNode) {
-        // Set up drag path form
-        getElements().clear();
-        getElements().add(new MoveTo());
-        getElements().add(new LineTo());
-        // set Style
-        setStyle(canvasNode);
-        // Move to start
-        Bounds bounds = canvasNode.getBoundsInLocal();
-        Point2D point = canvasNode.localToScene(bounds.getMinX() + bounds.getWidth()/2, bounds.getMinY() + bounds.getHeight()/2);
-        dragFrom(point.getX(),point.getY());
+    private void buildClickHandlers() {
+        this.setOnMouseClicked(new EventHandler <MouseEvent> () {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton().equals(MouseButton.SECONDARY)) {
+                    menu.show(ConnectionController.this, event.getScreenX(), event.getScreenY());
+                }
+                else {
+                    master.setFocus(ConnectionController.this.start);
+                }
+                event.consume();
+            }
+        });
+    }
+    
+    /**
+     * Builds the context menu for connection
+     */
+    private void buildContextMenu() {
+        menu = new ContextMenu();
+        MenuItem item = new MenuItem("Remove connection");
+        item.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                master.canvas.remove(ConnectionController.this);
+                event.consume();
+            }
+        });
+        menu.getItems().add(item);
     }
     
     /**
      * Sets the style for the path.
      * @param canvasNode The canvas node that defines the type of connection.
      */
-    protected void setStyle(CanvasNodeController canvasNode) {
+    protected void setStyle(NodeController canvasNode) {
         getStyleClass().clear();
         if (canvasNode.node instanceof thermocycle.FlowNode) {
             getStyleClass().add("path-flow");
@@ -56,20 +163,6 @@ public class ConnectionController extends Path {
         else if (canvasNode.node instanceof thermocycle.WorkNode) {
             getStyleClass().add("path-work");
         }
-        else {
-            // Something's gone wrong
-        }
-    }
-    
-    /**
-     * Drag line from new scene location
-     * @param x X co-ordinate to drag from
-     * @param y Y co-ordinate to drag from
-     */
-    private void dragFrom(double x, double y) {
-        Point2D point = sceneToLocal(x, y);
-        ((MoveTo)first()).setX(point.getX());
-        ((MoveTo)first()).setY(point.getY());
     }
     
     /**
@@ -78,25 +171,24 @@ public class ConnectionController extends Path {
      * @param y Y co-ordinate to drag to
      */
     protected void dragTo(double x, double y) {
-        Point2D point = this.sceneToLocal(x, y);
-        ((LineTo)last()).setX(point.getX());
-        ((LineTo)last()).setY(point.getY());
+        lastElement().setX(master.canvas.sceneToLocal(x, y).getX());
+        lastElement().setY(master.canvas.sceneToLocal(x, y).getY());
     }
     
     /**
-     * Get the first element in the ToolboxPathController
-     * @return Returns the first element in the Toolbox
+     * Get the first element in the path, which shoudl allwasy be of type MoveTo.
+     * @return the first element in the path.
      */
-    protected PathElement first() {
-        return getElements().get(0);
+    private MoveTo firstElement() {
+        return (MoveTo) getElements().get(0);
     }
     
     /**
-     * Get the last element in ToolboxPathController
-     * @return Returns the last element in the ToolboxPathController
+     * Get the last element in path, which should allways be of type LineTo.
+     * @return the last element in the path;
      */
-    protected PathElement last() {
-        return getElements().get(getElements().size()-1);
+    private LineTo lastElement() {
+        return (LineTo) getElements().get(getElements().size()-1);
     }
     
 }

@@ -74,9 +74,9 @@ public class InfoboxWorkController extends AnchorPane {
         this.master.focusProperty().addListener(new ChangeListener<Node>() {
             @Override
             public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newValue) {
-                if (newValue instanceof CanvasNodeController) {
-                    if (((CanvasNodeController) newValue).node instanceof WorkNode) {
-                        InfoboxWorkController.this.node.setValue( (WorkNode) ((CanvasNodeController) newValue).node);
+                if (newValue instanceof NodeController) {
+                    if (((NodeController) newValue).node instanceof WorkNode) {
+                        InfoboxWorkController.this.node.setValue( (WorkNode) ((NodeController) newValue).node);
                     }
                 }
             }
