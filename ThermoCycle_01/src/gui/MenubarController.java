@@ -8,10 +8,14 @@ package gui;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Optional;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -115,10 +119,20 @@ public class MenubarController extends MenuBar {
         fileNew.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
-                // If model alread exisits, check what to do with the current model.
+                // If model already exisits, check what to do with the current model.
                 if (!master.modelAbsent.getValue()) {
-                    // DO something
-                    System.out.println("MOdel overwritten");
+                    // Do something
+                    
+                    Alert alert = new Alert(AlertType.CONFIRMATION);
+                    alert.setTitle("Are you sure?");
+                    alert.setHeaderText("You will loose your current model.");
+                    alert.setContentText("Are you sure you want to create a new cycle?");
+                    
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if(result.get() != ButtonType.OK) {
+                        return;
+                    }
+                    
                 }
                 master.setModel(new thermocycle.Cycle("New Cycle"));
             }

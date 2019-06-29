@@ -13,6 +13,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
@@ -30,6 +32,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import thermocycle.Component;
 
 /**
@@ -39,10 +42,11 @@ import thermocycle.Component;
 public class ComponentController extends AnchorPane {
     
     // FXML variables
-    @FXML protected AnchorPane base;
-    @FXML protected AnchorPane icon;
+    @FXML private AnchorPane base;
+    @FXML private AnchorPane icon;
+    @FXML private VBox stack;
     @FXML protected GridPane node_grid;
-    @FXML protected Label name;
+    @FXML private Label name;
     private ContextMenu menu;
     private Tooltip tip;
     
@@ -177,7 +181,6 @@ public class ComponentController extends AnchorPane {
         icon.getStyleClass().clear();
         icon.getStyleClass().add(iType.css);
         icon.getStyleClass().add("icon");
-        icon.getStyleClass().add("icon-toolbox");
         name.setText(iType.name);
     }
     
@@ -275,33 +278,55 @@ public class ComponentController extends AnchorPane {
         ComponentController.this.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                
+                // Set focus to component if the single primary click
                 if (event.getButton().equals(MouseButton.PRIMARY)) {
                     if (event.getClickCount() == 1) {
                         master.setFocus(ComponentController.this);
                     }
                     
                 }
+                
+                // Consume event to stop it bubbling
+                event.consume();
+                
             }
         });
         
         ComponentController.this.name.setOnMouseClicked(new EventHandler<MouseEvent>() {
            @Override
            public void handle(MouseEvent event) {
+               
                // Check for double click on label
                if (event.getButton().equals(PRIMARY)) {
                    if (event.getClickCount() == 2) {
-                       ComponentController.this.name.focusedProperty().addListener(new ChangeListener<Boolean>() {
+                       TextField input = new TextField();
+                       input.prefWidthProperty().bind(name.prefWidthProperty());
+                       input.prefHeightProperty().bind(name.prefHeightProperty());
+                       input.fontProperty().bind(name.fontProperty());
+                       input.setText(name.getText());
+                       input.alignmentProperty().bind(name.alignmentProperty());
+                       //name.setVisible(false);
+                       input.setOnAction(new EventHandler<ActionEvent>() {
                            @Override
-                           public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                               if (newValue == false) {
-                                   ComponentController.this.name.setVisible(true);
-                               }
+                           public void handle(ActionEvent event) {
+                               name.setText(input.getText());
+                               stack.getChildren().remove(input);
+                               stack.getChildren().add(name);
+                               //name.setVisible(true);
+                               master.getModel().setName(component, name.getText());
+                               master.setFocus(null);
+                               master.setFocus(ComponentController.this);
                            }
                        });
-                       ComponentController.this.name.setVisible(false);
-                       ComponentController.this.name.requestFocus();
+                       stack.getChildren().remove(name);
+                       stack.getChildren().add(input);
                    }
                }
+               
+               // Don't consume event to allow it to bubble to the 
+               // ????
+               
            }
             
         });

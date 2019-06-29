@@ -143,25 +143,39 @@ public class Cycle extends Observable implements Serializable, Reportable {
      * @param node2 The second node.
      * @return the connection object.
      */
-    public Connection createConnection(Node node1, Node node2) {
+    public Optional<Connection> createConnection(Node node1, Node node2) {
         // check n1 is not currently connected to other nodes
-        if (connections.stream().anyMatch(c -> c.contains(node1))) {
+        if (isConnected(node1)) {
             logger.warn("Cannot create connection - Node 1 is already connected.");
-            throw new IllegalStateException("Node is already connected.");
+            return Optional.empty();
         }
         // check n2 is not currently connected to other nodes
-        if (connections.stream().anyMatch(c -> c.contains(node2))) {
+        if (isConnected(node2)) {
             logger.warn("Cannot create connection - Node 2 is already connected.");
-            throw new IllegalStateException("Node is already connected.");
+            return Optional.empty();
         }
         Connection connection = new Connection(node1, node2);
         connections.add(connection);
         cycleChange();
 
         logger.trace("Created " + node1.getType() + " connection between " + getComponent(node1).name + " " + node1.port.toString() + " and " + getComponent(node2).name + " " + node2.port.toString());
-        return connection;
+        return Optional.of(connection);
     }
-
+    
+    /**
+     * Checks to see if this node is already connected to another node.
+     * @param node the node to check.
+     * @return true if the node is already connected.
+     */
+    public boolean isConnected(Node node) {
+        if (connections.stream().anyMatch(c -> c.contains(node))) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
     /**
      * Gets the component that contains the node
      *
@@ -221,8 +235,8 @@ public class Cycle extends Observable implements Serializable, Reportable {
      * @param Tc the critical temperature of the new gas.
      * @return an instance of the new real gas.
      */
-    public IdealGas createRedlichKwongGas(String name, double M, double Pc, double Tc) {
-        fluids.add(new RedlichKwongGas(name, M, Pc, Tc));
+    public IdealGas createRedlichKwongGas(String name, double M, double Pc, double Tc, double Vc, double omega) {
+        fluids.add(new RedlichKwongGas(name, M, Pc, Vc, Tc, omega));
         logger.info("Created " + fluids.get(fluids.size() - 1));
         return (IdealGas) fluids.get(fluids.size() - 1);
     }

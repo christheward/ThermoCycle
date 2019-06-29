@@ -314,7 +314,7 @@ public class EndToEndTest {
 
         // create fluids
         IdealGas air = gasTurb.createIdealGas("Air", 1.4, 287.0);
-        IdealGas realAir = gasTurb.createRedlichKwongGas("Real Air", 28, 37.36e5 ,132.63);
+        IdealGas realAir = gasTurb.createRedlichKwongGas("Real Air", 28, 37.36e5 ,132.63,1.0,1.0);
 
         // create components
         Compressor comp = gasTurb.createCompressor("Compressor");

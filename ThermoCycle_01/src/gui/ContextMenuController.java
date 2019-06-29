@@ -6,7 +6,6 @@
 package gui;
 
 import java.io.IOException;
-import javafx.beans.property.BooleanProperty;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,9 +22,9 @@ import thermocycle.BoundaryCondition;
 public class ContextMenuController extends ContextMenu {
     
     // FXML variables
-    @FXML private MenuItem contextSolve;
-    @FXML private CheckMenuItem contextNodeVisibility;
-    @FXML private MenuItem contextSummary;
+    @FXML private MenuItem solve;
+    @FXML private CheckMenuItem nodeVisibility;
+    @FXML private MenuItem report;
     
     // GUI variables
     private final MasterSceneController master;
@@ -60,9 +59,9 @@ public class ContextMenuController extends ContextMenu {
         buildMenuHandlers();
         
         // Setup bindings
-        master.nodeVisibility.bindBidirectional(contextNodeVisibility.selectedProperty());
-        contextSolve.disableProperty().bind(master.modelAbsent);
-        contextSummary.disableProperty().bind(master.modelAbsent);
+        master.nodeVisibility.bindBidirectional(nodeVisibility.selectedProperty());
+        solve.disableProperty().bind(master.modelAbsent);
+        report.disableProperty().bind(master.modelAbsent);
         
     }
     
@@ -70,7 +69,7 @@ public class ContextMenuController extends ContextMenu {
      * Builds input handers for dealing with key strokes.
      */
     private void buildMenuHandlers() {
-        contextSolve.setOnAction(new EventHandler() {
+        solve.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
                 master.getModel().solve(BoundaryCondition.getIdx());
@@ -78,7 +77,7 @@ public class ContextMenuController extends ContextMenu {
             }
             
         });
-        contextSummary.setOnAction(new EventHandler() {
+        report.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
                 event.consume();

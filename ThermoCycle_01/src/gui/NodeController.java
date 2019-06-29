@@ -5,8 +5,13 @@
  */
 package gui;
 
-import static gui.NodeController.Direction.*;
 import java.io.IOException;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +25,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 
 /**
@@ -28,30 +32,6 @@ import javafx.scene.shape.Circle;
  * @author Chris
  */
 public final class NodeController extends AnchorPane {
-    
-    public enum Direction {
-        RIGHT,
-        LEFT,
-        UP,
-        DOWN;
-        
-        public static Direction getOpposite(Direction direction) {
-            switch (direction) {
-                case RIGHT:
-                    return LEFT;
-                case LEFT:
-                    return RIGHT;
-                case UP:
-                    return DOWN;
-                case DOWN:
-                    return UP;
-                default:
-                    return UP;
-            }
-        }
-        
-    }
-        
         
     // FXML variables
     //@FXML private AnchorPane base;
@@ -91,7 +71,7 @@ public final class NodeController extends AnchorPane {
             throw new RuntimeException(exception);
         }
         
-        // SEt the node style
+        // Set the node style
         setNodeStyle();
         
         // Build handlers
@@ -156,68 +136,25 @@ public final class NodeController extends AnchorPane {
             @Override
             public void handle(MouseEvent event) {
                 
-                // Create clipboard and add data to it so that the icon type can be idnetified when the object is dropped.
-                ClipboardContent content = new ClipboardContent();
-                content.put(DragContainerController.CREATE_CONNECTION,NodeController.this.node);
-                
-                // Start drag and drop operation and add data to dragboard
-                Dragboard dragboard = startDragAndDrop(TransferMode.ANY);
-                dragboard.setContent(content);
-                
-                // Start drag and drop operation
-                startFullDrag();
-                
-                // Prepare the cnavas connection
-                master.canvas.dragConnection.bindStart(NodeController.this);
-                master.canvas.dragConnection.setVisible(true);
-                master.canvas.disableIneligibleNodes(NodeController.this);
-                
-                // Consume event
-                event.consume();
-                
-            }
-        });
-        
-        this.setOnDragOver(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                if (event.getDragboard().getContentTypes().contains(DragContainerController.CREATE_CONNECTION)) {
-                    // Highlight the fact
-                    master.canvas.dragConnection.requestFocus();
-                }
-            }
-        });
-        
-        this.setOnDragDropped(new EventHandler<DragEvent> (){
-            @Override
-            public void handle (DragEvent event) {
-                
-                // Acceptable transferable modes
-                event.acceptTransferModes(TransferMode.ANY);
-                
-                // Only accept create connection events
-                if (event.getDragboard().getContentTypes().contains(DragContainerController.CREATE_CONNECTION)) {
+                // Check to see if node is alraedy connected
+                if (!master.getModel().isConnected(NodeController.this.node)) {
                     
-                    // Create a new connection
-                    ConnectionController connection = new ConnectionController(master);
-                    
-                    // Add connection to canvas
-                    master.canvas.getChildren().add(0,connection);
-                    
-                    // BInd connection to the two nodes
-                    connection.bindStart(master.canvas.dragConnection.start);
-                    connection.bindEnd(NodeController.this);
-                    
-                    // Force canvas to apply CSS and update
-                    master.canvas.applyCss();
-                    master.canvas.layout();
-                    
-                    // Make connection visible
-                    connection.setVisible(true);
+                    // Create clipboard and add data to it so that the icon type can be idnetified when the object is dropped.
+                    ClipboardContent content = new ClipboardContent();
+                    content.put(DragContainerController.CREATE_CONNECTION,NodeController.this.node);
 
-                    // Set drop compelte
-                    event.setDropCompleted(true);
-                    
+                    // Start drag and drop operation and add data to dragboard
+                    Dragboard dragboard = startDragAndDrop(TransferMode.ANY);
+                    dragboard.setContent(content);
+
+                    // Start drag and drop operation
+                    startFullDrag();
+
+                    // Prepare the cnavas connection
+                    master.canvas.dragConnection.bindStart(NodeController.this);
+                    master.canvas.dragConnection.setVisible(true);
+                    master.canvas.disableIneligibleNodes(NodeController.this);
+
                 }
                 
                 // Consume event
@@ -246,6 +183,16 @@ public final class NodeController extends AnchorPane {
     }
     
     /**
+     * Gets the distance between the centre of this node and the scene location.
+     * @param sceneX the x location of the node in the scene
+     * @param sceneY the y location of the node in the scene.
+     * @return the distance between the node and the scene location.
+     */
+    protected double getDistance(double sceneX, double sceneY) {
+        return getLocationInScene().distance(sceneX, sceneY);
+    }
+    
+    /**
      * Gets the location of the CanvasNodeController in the scene
      * @return Returns the center of the CanvasNodeController,
      */
@@ -257,7 +204,8 @@ public final class NodeController extends AnchorPane {
     /**
      * Gets the nodes position in the canvas icon's node grid
      */
-    protected Direction getDirection() {
+    /**
+    protected ConnectionController.Direction getDirection() {
         Direction direction;
         int Row = GridPane.getRowIndex(this);
         int Column = GridPane.getColumnIndex(this);
@@ -277,5 +225,5 @@ public final class NodeController extends AnchorPane {
         }
         return direction;
     }
-    
+    */
 }

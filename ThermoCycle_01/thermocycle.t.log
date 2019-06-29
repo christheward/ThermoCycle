@@ -1,2 +1,7 @@
-2019-06-27 17:01:59.540 [JavaFX Application Thread] INFO  DebugLog - Created Compressor
-2019-06-27 17:02:00.552 [JavaFX Application Thread] INFO  DebugLog - Created Turbine
+2019-06-29 18:57:15.770 [JavaFX Application Thread] INFO  DebugLog - Created Turbine
+2019-06-29 18:57:16.858 [JavaFX Application Thread] INFO  DebugLog - Created Combustor
+2019-06-29 18:57:18.693 [JavaFX Application Thread] INFO  DebugLog - Created Compressor
+2019-06-29 18:57:23.427 [JavaFX Application Thread] TRACE DebugLog - Created flow connection between Turbine Inlet and Compressor Outlet
+2019-06-29 18:57:32.192 [JavaFX Application Thread] TRACE DebugLog - Created flow connection between Turbine Outlet and Combustor Inlet
+2019-06-29 18:57:41.503 [JavaFX Application Thread] TRACE DebugLog - Created work connection between Turbine Outlet and Compressor Inlet
+2019-06-29 18:57:47.550 [JavaFX Application Thread] TRACE DebugLog - Created flow connection between Compressor Inlet and Combustor Outlet

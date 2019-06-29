@@ -42,6 +42,7 @@ public class MasterSceneController extends VBox {
     
     // Properties
     private final ReadOnlyObjectWrapper<Cycle> model;
+    //protected final BooleanProperty update;
     protected final BooleanProperty modelAbsent;
     protected final BooleanProperty nodeVisibility;
     protected final BooleanProperty nameVisibility;
@@ -62,6 +63,7 @@ public class MasterSceneController extends VBox {
         toolboxLock = new SimpleBooleanProperty(false);
         focus = new ReadOnlyObjectWrapper();
         focusAbsent = new SimpleBooleanProperty(true);
+        //update = new SimpleBooleanProperty(false);
         
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/MasterScene.fxml"));

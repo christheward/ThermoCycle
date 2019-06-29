@@ -9,15 +9,18 @@ import com.jfoenix.controls.JFXDrawer;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,11 +49,11 @@ public final class CanvasController extends AnchorPane {
     
     // GUI variables
     private final MasterSceneController master;
-    private final ContextMenuController contextMenu;
     private ToolboxController toolbox;
     protected final ComponentController dragIcon;
     protected final ConnectionController dragConnection;
     protected final SelectionTool lassoo;
+    private final ContextMenuController contextMenu;
     
     // Copy and paste
     protected final ClipboardContent canvasClipboard;
@@ -80,6 +83,9 @@ public final class CanvasController extends AnchorPane {
         dragConnection = new ConnectionController(master);
         lassoo = new SelectionTool();
         
+        // Create context menu
+        contextMenu = new ContextMenuController(master);
+        
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Canvas.fxml"));
         fxmlLoader.setRoot(this);
@@ -90,14 +96,12 @@ public final class CanvasController extends AnchorPane {
             throw new RuntimeException(exception);
         }
         
-        // Create context menu
-        contextMenu = new ContextMenuController(master);
-        
         // Set up clipboard
         canvasClipboard = new ClipboardContent();
         
         // Set up layout
         layout = new HashMap();
+        
     }
     
     /**
@@ -139,7 +143,6 @@ public final class CanvasController extends AnchorPane {
             }
         });
         
-
         // Setup bindings
         draw.disableProperty().bind(master.modelAbsent);
         
@@ -174,6 +177,7 @@ public final class CanvasController extends AnchorPane {
                 CanvasController.this.clearCanvas();
             }
         });
+        
     }
     
     /**
@@ -247,7 +251,14 @@ public final class CanvasController extends AnchorPane {
                     component.relocateToPointInScene(new Point2D(event.getSceneX(), event.getSceneY()));
                 }
                 else if (event.getDragboard().getContentTypes().contains(DragContainerController.CREATE_CONNECTION)) {
-                    dragConnection.dragTo(event.getSceneX(), event.getSceneY());
+                    Optional<NodeController> node = nearestNode(event);
+                    if (node.isPresent()) {
+                        Point2D point = node.get().getLocationInScene();
+                        dragConnection.dragTo(point.getX(), point.getY());
+                    }
+                    else {
+                        dragConnection.dragTo(event.getSceneX(), event.getSceneY());
+                    }
                 }
                 else if (event.getDragboard().getContentTypes().contains(DragContainerController.SELECT)) {
                     lassoo.DragTo(event.getSceneX(), event.getSceneY());
@@ -263,9 +274,12 @@ public final class CanvasController extends AnchorPane {
             @Override
             public void handle(DragEvent event) {
                 
+                event.acceptTransferModes(TransferMode.ANY);
+                
                 if (event.getDragboard().getContentTypes().contains(DragContainerController.CREATE_COMPONENT)) {
                     try {
-                        // Create new compoent
+                        
+                        // Create new component
                         ComponentController component = new ComponentController(master, true);
                         component.setType((ComponentIcon) event.getDragboard().getContent(DragContainerController.CREATE_COMPONENT));
                         component.createComponent();
@@ -289,19 +303,51 @@ public final class CanvasController extends AnchorPane {
                         
                         // Comsume event
                         event.consume();
+                        
                     }
                     catch (Exception ex) {
                         System.err.println(ex.getMessage());
                     }
                 }
                 else if (event.getDragboard().getContentTypes().contains(DragContainerController.MOVE_COMPONENT)) {
-                    // Do nothing
-                    event.setDropCompleted(true);
+                    
+                    // Consume event
                     event.consume();
+                    
                 }
                 else if (event.getDragboard().getContentTypes().contains(DragContainerController.CREATE_CONNECTION)) {
-                    // Do nothing
-                    event.setDropCompleted(true);
+                    
+                    // Get the nearest node and set up the conenction.
+                    nearestNode(event).ifPresent(n -> {
+                        
+                        // Check  nodes are free
+                        if (!master.getModel().isConnected(master.canvas.dragConnection.start.node) & !master.getModel().isConnected(n.node)) {
+                            
+                            // Create a new connection
+                            ConnectionController connection = new ConnectionController(master);
+                        
+                            // Add connection to canvas
+                            master.canvas.getChildren().add(0,connection);
+                            
+                            // Bind connection to the start and end nodes.
+                            connection.bindStart(master.canvas.dragConnection.start);
+                            connection.bindEnd(n);
+                        
+                            // Force canvas to apply CSS and update
+                            master.canvas.applyCss();
+                            master.canvas.layout();
+
+                            // Make connection visible
+                            connection.setVisible(true);
+
+                            // Set drop compelte
+                            event.setDropCompleted(true);
+
+                        }
+                        
+                    });
+                    
+                    // Consume the event
                     event.consume();
                 }
                 else if (event.getDragboard().getContentTypes().contains(DragContainerController.SELECT)) {
@@ -317,6 +363,7 @@ public final class CanvasController extends AnchorPane {
                     
                     // Consume event
                     event.consume();
+                    
                 }
                 else {
                     // Catch incase
@@ -334,6 +381,21 @@ public final class CanvasController extends AnchorPane {
     private void clearCanvas() {
         canvas.getChildren().removeAll(getConnections().collect(Collectors.toList()));
         canvas.getChildren().removeAll(getComponents().collect(Collectors.toList()));
+    }
+    
+    /**
+     * Gets the nearest node to the event that is not disabled.
+     * @param event the event
+     * @return an option containing the nearest node, if on is found.
+     */
+    private Optional<NodeController> nearestNode(DragEvent event) {
+        Optional<NodeController> node = getNodes().filter(n -> !n.isDisabled()).min(Comparator.comparing(n -> n.getDistance(event.getSceneX(), event.getSceneY())));
+        if (node.isPresent()) {
+            if (node.get().getDistance(event.getSceneX(), event.getSceneY()) < 100) {
+                return node;
+            }
+        }
+        return Optional.empty();
     }
     
     /**

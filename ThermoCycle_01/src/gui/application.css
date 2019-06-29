@@ -64,22 +64,14 @@ and open the template in the editor.
     -fx-border-radius: 10;
     -fx-border-color: black;
     -fx-stroke-width: 5;
+    -fx-background-color: linear-gradient(to bottom right, green, yellow);
 }
 .icon:disabled {
     -fx-background_color: grey;
     -fx-opacity: 0.5;
 }
-.icon-toolbox {
-    -fx-background-color: linear-gradient(to bottom right, #bfbfff, #ededfc);
-}
-.icon-toolbox:hover {
-    -fx-background-color: red;
-}
-.icon-component {
-    -fx-background-color: linear-gradient(to bottom right, green, yellow);
-}
-.icon-component:hover {
-    -fx-background-color: pink;
+.icon:hover {
+    -fx-effect: dropshadow(gaussian,green,10,0.5,0,0)
 }
 .icon-compressor {
     -fx-background-image: url("/resources/images/ic_comp_compressor.png");
@@ -119,26 +111,23 @@ and open the template in the editor.
     -fx-fill: grey;
     -fx-opacity: 0.5;
 }
-.node:focus {
-    -fx-fill: pink;
-}
 .node-flow {
     -fx-fill: lightskyblue;
 }
 .node-flow:hover {
-    -fx-effect: dropshadow(gaussian,lightskyblue,10,0.5,0,0)
+/*    -fx-effect: dropshadow(gaussian,lightskyblue,10,0.5,0,0) */
 }
 .node-heat {
     -fx-fill: red;
 }
 .node-heat:hover {
-    -fx-effect: dropshadow(gaussian,red,10,0.5,0,0)
+/*    -fx-effect: dropshadow(gaussian,red,10,0.5,0,0) */
 }
 .node-work {
     -fx-fill: yellow;
 }
 .node-work:hover {
-    -fx-effect: dropshadow(gaussian,yellow,10,0.5,0,0)
+/*    -fx-effect: dropshadow(gaussian,yellow,10,0.5,0,0) */
 }
 .disable {
     -fx-fill: grey;

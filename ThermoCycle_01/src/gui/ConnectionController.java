@@ -5,6 +5,7 @@
  */
 package gui;
 
+import java.util.Optional;
 import javafx.beans.binding.DoubleBinding;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -31,6 +32,31 @@ public class ConnectionController extends Path {
     
     // Model variables
     protected Connection connection;
+    
+    /**
+    public enum Direction {
+        RIGHT,
+        LEFT,
+        UP,
+        DOWN;
+        
+        public static Direction getOpposite(Direction direction) {
+            switch (direction) {
+                case RIGHT:
+                    return LEFT;
+                case LEFT:
+                    return RIGHT;
+                case UP:
+                    return DOWN;
+                case DOWN:
+                    return UP;
+                default:
+                    return UP;
+            }
+        }
+        
+    }
+    */
     
     /**
      * Constructor
@@ -80,38 +106,51 @@ public class ConnectionController extends Path {
         
     }
     
-    protected void bindEnd(NodeController node) {
+    protected boolean bindEnd(NodeController node) {
         
         // Set the star nide
         end = node;
         
-        // Bind last path element to end node
-        lastElement().xProperty().bind(new DoubleBinding() {
-            {
-                bind(end.localToSceneTransformProperty(),end.widthProperty(),end.heightProperty());
-            }
-            @Override
-            protected double computeValue() {
-                return master.canvas.sceneToLocal(end.localToSceneTransformProperty().getValue().transform(end.widthProperty().getValue()/2.0, end.heightProperty().getValue()/2.0)).getX();
-            }
-        });
-        lastElement().yProperty().bind(new DoubleBinding() {
-            {
-                bind(end.localToSceneTransformProperty(),end.widthProperty(),end.heightProperty());
-            }
-            @Override
-            protected double computeValue() {
-                return master.canvas.sceneToLocal(end.localToSceneTransformProperty().getValue().transform(end.widthProperty().getValue()/2.0, end.heightProperty().getValue()/2.0)).getY();
-            }
-        });
+        // If the connections is suceessfully created
+        Optional<Connection> c = master.getModel().createConnection(start.node, end.node);
         
-        // Create the connection in the model
-        connection = master.getModel().createConnection(start.node, end.node);
+        if (c.isPresent()) {
+            
+            // Create connection
+            connection = c.get();
+            
+            // Bind last path element to end node
+            lastElement().xProperty().bind(new DoubleBinding() {
+                {
+                    bind(end.localToSceneTransformProperty(),end.widthProperty(),end.heightProperty());
+                }
+                @Override
+                protected double computeValue() {
+                    return master.canvas.sceneToLocal(end.localToSceneTransformProperty().getValue().transform(end.widthProperty().getValue()/2.0, end.heightProperty().getValue()/2.0)).getX();
+                }
+            });
+            lastElement().yProperty().bind(new DoubleBinding() {
+                {
+                    bind(end.localToSceneTransformProperty(),end.widthProperty(),end.heightProperty());
+                }
+                @Override
+                protected double computeValue() {
+                    return master.canvas.sceneToLocal(end.localToSceneTransformProperty().getValue().transform(end.widthProperty().getValue()/2.0, end.heightProperty().getValue()/2.0)).getY();
+                }
+            });
+            
+            // Creat context menu
+            buildContextMenu();
+            buildClickHandlers();
+            
+            return true;
+            
+        }
+        else {
         
-        // Creat context menu
-        buildContextMenu();
-        buildClickHandlers();
+            return false;
         
+        }
     }
     
     /**

@@ -39,14 +39,19 @@ public class RedlichKwongGas extends Fluid {
     private final double Vc;
     
     /**
+     * Constant alpah0.
+     */
+    private final double alpha0;
+    
+    /**
+     * Specific gas constant.
+     */
+    private final double R;
+    
+    /**
      * The molar mass.
      */
     private final double M;
-    
-    /**
-     * Constant a
-     */
-    private final double a;
     
     /**
      * Constant b
@@ -59,21 +64,38 @@ public class RedlichKwongGas extends Fluid {
     private final double c;
     
     /**
+     * Acentric factor;
+     */
+    private final double omega;
+    
+    /**
+     * Constant n.
+     */
+    private final double n;
+    
+    /**
      * Constant C
      */
     private double C;
     
-    public RedlichKwongGas(String name, double M, double Pc, double Tc) {
+    public RedlichKwongGas(String name, double M, double Pc, double Tc, double Vc, double omega) {
         super(name);
         this.M = M;
+        this.R = Ru/M;
         this.Pc = Pc;
         this.Tc = Tc;
-        this.Vc = (Ru*Tc)/(3*Pc);
-        this.a = 0.42748*Math.pow(Ru, 2.0)*Math.pow(Tc, 2.5)/Pc;
+        this.Vc = Vc;
+        this.omega = omega;
+        this.alpha0 = 0.42747*Math.pow(R*Tc,2)/Pc;
         this.b = 0.08664*Ru*Tc/Pc;
-        this.c = 0.259921;
-        this.C = -7.07228 - 1.5*Math.log(M*Tc) * Math.log(Vc/1e6);
+        this.n = 0.4986+1.1735*omega+0.4754*Math.pow(omega,2);
+        this.c = R*Tc/(Pc + alpha0/(Vc*(Vc+b))) + b - Vc;
         equations.add(new P_VmT());
+    }
+    
+    
+    private double alpha(double temperature) {
+        return alpha0*Math.pow(temperature/Tc,-n);
     }
 
     @Override
@@ -109,7 +131,7 @@ public class RedlichKwongGas extends Fluid {
         
         @Override
         protected Double function(Map<Property, OptionalDouble> variables) {
-            return variables.get(PRESSURE).getAsDouble() - ((RedlichKwongGas.Ru*variables.get(TEMPERATURE).getAsDouble())/(variables.get(MOLVOL).getAsDouble()-b) - a/(Math.sqrt(variables.get(TEMPERATURE).getAsDouble())*variables.get(MOLVOL).getAsDouble()*(variables.get(MOLVOL).getAsDouble() + b)));
+            return variables.get(PRESSURE).getAsDouble() - ((RedlichKwongGas.Ru*variables.get(TEMPERATURE).getAsDouble())/(variables.get(MOLVOL).getAsDouble()-b) - alpha0/(Math.sqrt(variables.get(TEMPERATURE).getAsDouble())*variables.get(MOLVOL).getAsDouble()*(variables.get(MOLVOL).getAsDouble() + b)));
         }
 
         @Override

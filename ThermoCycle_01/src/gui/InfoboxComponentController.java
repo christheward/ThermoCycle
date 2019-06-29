@@ -78,6 +78,7 @@ public class InfoboxComponentController extends AnchorPane {
             @Override
             public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newValue) {
                 if (newValue instanceof ComponentController) {
+                    InfoboxComponentController.this.component.setValue(null);
                     InfoboxComponentController.this.component.setValue(((ComponentController) newValue).component);
                 }
             }
