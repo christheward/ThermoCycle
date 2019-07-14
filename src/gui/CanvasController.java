@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
@@ -69,6 +69,12 @@ public final class CanvasController extends AnchorPane {
     protected EventHandler<DragEvent> lassooDragOverCanvas;
     protected EventHandler<DragEvent> lassooDragDroppedCanvas;
     protected ChangeListener numericField;
+    
+    // Drag data formats
+    public static final DataFormat CREATE_COMPONENT = new DataFormat("application.CreateComponent");
+    public static final DataFormat MOVE_COMPONENT = new DataFormat("application.MoveComponent");
+    public static final DataFormat CREATE_CONNECTION = new DataFormat("application.CreateConnection");
+    public static final DataFormat SELECT = new DataFormat("application.Select");
     
     /**
      * Constructor
@@ -213,7 +219,7 @@ public final class CanvasController extends AnchorPane {
                 
                 // Create clipboard and add data to it so that the icon type can be idnetified when the object is dropped.
                 ClipboardContent content = new ClipboardContent();
-                content.put(DragContainerController.SELECT,"");
+                content.put(SELECT,"");
                 
                 // Start drag and drop operation and add data to dragboard
                 Dragboard dragboard = startDragAndDrop(TransferMode.ANY);
@@ -242,15 +248,15 @@ public final class CanvasController extends AnchorPane {
                 // Accept all drag types
                 event.acceptTransferModes(TransferMode.ANY);
                 
-                if (event.getDragboard().getContentTypes().contains(DragContainerController.CREATE_COMPONENT)) {
+                if (event.getDragboard().getContentTypes().contains(CREATE_COMPONENT)) {
                     dragIcon.relocateToPointInScene(new Point2D(event.getSceneX(), event.getSceneY()));
                 }
-                else if (event.getDragboard().getContentTypes().contains(DragContainerController.MOVE_COMPONENT)) {
-                    thermocycle.Component modelComponent = (thermocycle.Component) event.getDragboard().getContent(DragContainerController.MOVE_COMPONENT);
+                else if (event.getDragboard().getContentTypes().contains(MOVE_COMPONENT)) {
+                    thermocycle.Component modelComponent = (thermocycle.Component) event.getDragboard().getContent(MOVE_COMPONENT);
                     ComponentController component = CanvasController.this.getComponents().filter(c -> (c.component.equals(modelComponent))).collect(SingletonCollector.singletonCollector());
                     component.relocateToPointInScene(new Point2D(event.getSceneX(), event.getSceneY()));
                 }
-                else if (event.getDragboard().getContentTypes().contains(DragContainerController.CREATE_CONNECTION)) {
+                else if (event.getDragboard().getContentTypes().contains(CREATE_CONNECTION)) {
                     Optional<NodeController> node = nearestNode(event);
                     if (node.isPresent()) {
                         Point2D point = node.get().getLocationInScene();
@@ -260,7 +266,7 @@ public final class CanvasController extends AnchorPane {
                         dragConnection.dragTo(event.getSceneX(), event.getSceneY());
                     }
                 }
-                else if (event.getDragboard().getContentTypes().contains(DragContainerController.SELECT)) {
+                else if (event.getDragboard().getContentTypes().contains(SELECT)) {
                     lassoo.DragTo(event.getSceneX(), event.getSceneY());
                 }
                 
@@ -276,12 +282,12 @@ public final class CanvasController extends AnchorPane {
                 
                 event.acceptTransferModes(TransferMode.ANY);
                 
-                if (event.getDragboard().getContentTypes().contains(DragContainerController.CREATE_COMPONENT)) {
+                if (event.getDragboard().getContentTypes().contains(CREATE_COMPONENT)) {
                     try {
                         
                         // Create new component
                         ComponentController component = new ComponentController(master, true);
-                        component.setType((ComponentIcon) event.getDragboard().getContent(DragContainerController.CREATE_COMPONENT));
+                        component.setType((ComponentIcon) event.getDragboard().getContent(CREATE_COMPONENT));
                         component.createComponent();
                         
                         // Add component to canvas
@@ -309,13 +315,13 @@ public final class CanvasController extends AnchorPane {
                         System.err.println(ex.getMessage());
                     }
                 }
-                else if (event.getDragboard().getContentTypes().contains(DragContainerController.MOVE_COMPONENT)) {
+                else if (event.getDragboard().getContentTypes().contains(MOVE_COMPONENT)) {
                     
                     // Consume event
                     event.consume();
                     
                 }
-                else if (event.getDragboard().getContentTypes().contains(DragContainerController.CREATE_CONNECTION)) {
+                else if (event.getDragboard().getContentTypes().contains(CREATE_CONNECTION)) {
                     
                     // Get the nearest node and set up the conenction.
                     nearestNode(event).ifPresent(n -> {
@@ -350,7 +356,7 @@ public final class CanvasController extends AnchorPane {
                     // Consume the event
                     event.consume();
                 }
-                else if (event.getDragboard().getContentTypes().contains(DragContainerController.SELECT)) {
+                else if (event.getDragboard().getContentTypes().contains(SELECT)) {
                     
                     // Get all elements in the lassoo
                     getComponents().filter(c -> lassoo.contains(lassoo.sceneToLocal(c.localToScene(c.centerInLocal.getValue()))));
@@ -405,12 +411,6 @@ public final class CanvasController extends AnchorPane {
     private Stream<ConnectionController> getConnections() {
         return canvas.getChildren().stream().filter(n -> n instanceof ConnectionController).map(n -> (ConnectionController)n).filter(n -> !n.equals(dragConnection));
     }
-    
-    /**
-    protected Optional<ComponentController> getCOmponent(NodeController n) {
-        getComponents().filter(c -> c.node_grid.getChildren());
-    }
-    */
     
     /**
      * Gets a stream of all the components on the canvas excluding the drag component.

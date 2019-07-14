@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import static thermocycle.Node.Port.*;
-import utilities.Units.UNITS_TYPE;
+import thermocycle.UnitsControl.UnitsType;
 
 /**
  *
@@ -458,7 +458,7 @@ public abstract class Component implements Serializable, Reportable {
         if (heatNodes.size() > 0) {
             heatNodes.keySet().stream().forEach(h -> {
                 ReportDataBlock htn = new ReportDataBlock(h);
-                htn.addData("Heat", heatNodes.get(h).getHeat().isPresent() ? DimensionedDouble.valueOfSI(heatNodes.get(h).getHeat().getAsDouble(), UNITS_TYPE.POWER) : "Unsolved");
+                htn.addData("Heat", heatNodes.get(h).getHeat().isPresent() ? DimensionedDouble.valueOfSI(heatNodes.get(h).getHeat().getAsDouble(), UnitsType.POWER) : "Unsolved");
                 rdb.addDataBlock(htn);
             });
         }
@@ -466,7 +466,7 @@ public abstract class Component implements Serializable, Reportable {
         if (workNodes.size() > 0) {
             workNodes.keySet().stream().forEach(w -> {
                 ReportDataBlock wkn = new ReportDataBlock(w);
-                wkn.addData("Work", workNodes.get(w).getWork().isPresent() ? DimensionedDouble.valueOfSI(workNodes.get(w).getWork().getAsDouble(), UNITS_TYPE.POWER) : "Unsolved");
+                wkn.addData("Work", workNodes.get(w).getWork().isPresent() ? DimensionedDouble.valueOfSI(workNodes.get(w).getWork().getAsDouble(), UnitsType.POWER) : "Unsolved");
                 rdb.addDataBlock(wkn);
             });
         }
@@ -474,7 +474,7 @@ public abstract class Component implements Serializable, Reportable {
         if (flowNodes.size() > 0) {
             flowNodes.keySet().stream().forEach(f -> {
                 ReportDataBlock fln = new ReportDataBlock(f);
-                fln.addData("Mass", flowNodes.get(f).getMass().isPresent() ? DimensionedDouble.valueOfSI(flowNodes.get(f).getMass().getAsDouble(), UNITS_TYPE.FLOW_RATE) : "Unsolved");
+                fln.addData("Mass", flowNodes.get(f).getMass().isPresent() ? DimensionedDouble.valueOfSI(flowNodes.get(f).getMass().getAsDouble(), UnitsType.FLOW_RATE) : "Unsolved");
                 flowNodes.get(f).getAllowableProperties().stream().forEach(p -> {
                     fln.addData(p.toString(), flowNodes.get(f).getState(p).isPresent() ? DimensionedDouble.valueOfSI(flowNodes.get(f).getState(p).getAsDouble(), p.type) : "Unsolved.");
                 });

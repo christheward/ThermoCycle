@@ -11,14 +11,13 @@ import java.util.stream.Collectors;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -94,6 +93,9 @@ public class ComponentController extends AnchorPane {
             // Toolbox component handlers
             buildDragHandlersForToolbox();
         }
+        
+        // Set cursor type
+        cursorProperty().setValue(Cursor.OPEN_HAND);
         
     }
     
@@ -204,7 +206,7 @@ public class ComponentController extends AnchorPane {
                 
                 // Create clipboard and add data to it so that the icon type can be idnetified when the object is dropped.
                 ClipboardContent content = new ClipboardContent();
-                content.put(DragContainerController.CREATE_COMPONENT,iType);
+                content.put(CanvasController.CREATE_COMPONENT,iType);
                 
                 // Start drag and drop operation and add data to dragboard
                 Dragboard dragboard = startDragAndDrop(TransferMode.ANY);
@@ -232,6 +234,9 @@ public class ComponentController extends AnchorPane {
                 // Hide canvas drag icon
                 master.canvas.dragIcon.setVisible(false);
                 
+                // Change cursor
+                cursorProperty().setValue(Cursor.OPEN_HAND);
+                
                 // Consume event
                 event.consume();
                 
@@ -248,7 +253,7 @@ public class ComponentController extends AnchorPane {
                 
                 // Create clipboard and add data to it so that the icon type can be idnetified when the object is dropped.
                 ClipboardContent content = new ClipboardContent();
-                content.put(DragContainerController.MOVE_COMPONENT,component);
+                content.put(CanvasController.MOVE_COMPONENT,component);
                 
                 // Start drag and drop operation and add data to dragboard
                 Dragboard dragboard = startDragAndDrop(TransferMode.ANY);

@@ -23,7 +23,7 @@ import static thermocycle.Fluid.ENTHALPY;
 import thermocycle.Node;
 import static thermocycle.Node.Port.*;
 import thermocycle.State;
-import utilities.Units;
+import thermocycle.UnitsControl;
 
 /**
  *
@@ -31,7 +31,7 @@ import utilities.Units;
  */
 public class SteamDrum extends Component {
     
-    public static final Attribute P_RATIO = new Attribute("Pressure Loss", "Rp", Units.UNITS_TYPE.DIMENSIONLESS, 0.0, Double.POSITIVE_INFINITY);
+    public static final Attribute P_RATIO = new Attribute("Pressure Loss", "Rp", UnitsControl.UnitsType.DIMENSIONLESS, 0.0, Double.POSITIVE_INFINITY);
     
     public SteamDrum(String name, State ambient) {
         super(name, ambient);

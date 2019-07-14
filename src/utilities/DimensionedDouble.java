@@ -5,11 +5,12 @@
  */
 package utilities;
 
-import utilities.Units;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import utilities.Units.UNITS;
-import utilities.Units.UNITS_TYPE;
+import thermocycle.UnitsControl.Units;
+import thermocycle.UnitsControl.UnitsType;
+import thermocycle.UnitsControl;
+import thermocycle.UnitsControl.UnitsSystem;
 
 /**
  *
@@ -30,7 +31,7 @@ public final class DimensionedDouble {
     /**
      * The units of the number.
      */
-    private final UNITS units;
+    private final Units units;
     
     /**
      * Static constructor
@@ -38,26 +39,27 @@ public final class DimensionedDouble {
      * @param units the dimensions of the number.
      * @return the dimensioned number.
      */
-    public static DimensionedDouble valueOf(Double value, UNITS units) {
+    public static DimensionedDouble valueOf(Double value, Units units) {
         return new DimensionedDouble(value, units);
     }
     
     /**
-     * Static constructor for SI units
+     * Static constructor
      * @param value the value of the number.
-     * @param type the type of units.
-     * @return the SI dimensioned number.
+     * @param unitsType the type of the units.
+     * @return the dimensioned number in SI units.
      */
-    public static DimensionedDouble valueOfSI(Double value, UNITS_TYPE type) {
-        return new DimensionedDouble(value, Units.getSiUnits(type));
+    public static DimensionedDouble valueOfSI(Double value, UnitsType unitsType) {
+        return new DimensionedDouble(value, unitsType.getUnits(UnitsSystem.SI));
     }
+    
     
     /**
      * Constructor
      * @param value the value of the number.
      * @param units the dimensions of the number.
      */
-    public DimensionedDouble(Double value, UNITS units) {
+    public DimensionedDouble(Double value, Units units) {
         this.value = value;
         this.units = units;
     }
@@ -67,7 +69,7 @@ public final class DimensionedDouble {
      * @param newUnits the units to convert to.
      * @return the number in the new units.
      */
-    public DimensionedDouble convertTo(UNITS newUnits) {
+    public DimensionedDouble convertTo(Units newUnits) {
         return new DimensionedDouble(newUnits.fromSI(units.toSI(value)), newUnits);
     }
     

@@ -13,7 +13,6 @@ import thermocycle.components.HeatExchanger;
 import thermocycle.fluids.RedlichKwongGas;
 import thermocycle.fluids.Steam;
 import thermocycle.fluids.IdealGas;
-import java.io.ByteArrayOutputStream;
 import utilities.DimensionedDouble;
 import thermocycle.report.ReportDataBlock;
 import java.io.File;
@@ -23,26 +22,27 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.text.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import static thermocycle.Node.Port;
 import thermocycle.report.ReportBuilder;
 import thermocycle.report.Reportable;
-import utilities.Units.UNITS_TYPE;
+import thermocycle.UnitsControl.UnitsType;
 import utilities.SingletonCollector;
 import static utilities.SingletonCollector.singletonCollector;
-import utilities.Units;
-import utilities.Units.UNITS;
+import thermocycle.UnitsControl.Units;
 
 /**
  *
@@ -92,9 +92,10 @@ public class Cycle extends Observable implements Serializable, Reportable {
         fluidsReadOnly = FXCollections.unmodifiableObservableList(fluids);
         pathsReadOnly = FXCollections.unmodifiableObservableList(paths);
         boundaryConditionsReadOnly = FXCollections.unmodifiableObservableList(boundaryConditions);
-        ambient.setProperty(Fluid.PRESSURE, 101325.0);
-        ambient.setProperty(Fluid.TEMPERATURE, 300.0);
         results = new ArrayList<>();
+        
+        // Load fluid library
+        loadFluidLibrary();
 
     }
 
@@ -251,6 +252,33 @@ public class Cycle extends Observable implements Serializable, Reportable {
         logger.info("Created " + fluids.get(fluids.size() - 1));
         return (Steam) fluids.get(fluids.size() - 1);
     }
+    
+    /**
+     * Loads the fluid library from the resources package.
+     */
+    private void loadFluidLibrary() {
+        logger.trace("Loading fluid library.");
+        URL library = getClass().getClassLoader().getResource("resources/libraries/idealGases.csv");
+        try {
+            CSVParser csvParser = CSVParser.parse(library.openStream(), Charset.defaultCharset(), CSVFormat.EXCEL.withFirstRecordAsHeader().withTrim());
+            csvParser.forEach(csvRecord -> {
+                createIdealGas(csvRecord.get("Name"),Double.parseDouble(csvRecord.get("gamma")),Double.parseDouble(csvRecord.get("R")));
+            });
+            logger.trace("Ideal gases loaded.");
+        }
+        catch (Exception ex) {
+            logger.warn("Error loading ideal gas fluid library.");
+            logger.warn(ex.getMessage());
+        }
+        try {
+            createSteam();
+            logger.trace("Steam loaded.");
+        }
+        catch (Exception ex) {
+            logger.warn("Error loading steam fluid library.");
+            logger.warn(ex.getMessage());
+        }
+    }
 
     /**
      * Create a turbine.
@@ -273,17 +301,19 @@ public class Cycle extends Observable implements Serializable, Reportable {
         setChanged();
         notifyObservers();
     }
-
+    
     /**
      * Gets the ambient state values
      *
      * @param property The ambient state property to get.
      * @return Returns the ambient state property value.
      */
+    /**
     public OptionalDouble getAmbient(Property property) {
         return ambient.getProperty(property);
     }
-
+    */
+    
     /**
      * Get the set of attributes that belong to this component.
      *
@@ -336,7 +366,7 @@ public class Cycle extends Observable implements Serializable, Reportable {
     public Optional<BoundaryConditionProperty> getBoundaryConditionProperty(FlowNode node, Property property) {
         return boundaryConditions.stream().filter(bc -> bc.match(new BoundaryConditionProperty(node, property, new ArrayList<Double>()))).map(bc -> (BoundaryConditionProperty) bc).findFirst();
     }
-
+    
     /**
      * Gets the work boundary condition on a work node.
      *
@@ -597,11 +627,13 @@ public class Cycle extends Observable implements Serializable, Reportable {
      * @param pressure The ambient pressure
      * @param temperature The ambient temperature
      */
+    /**
     public void setAmbient(double pressure, double temperature) {
         ambient.setProperty(Fluid.PRESSURE, pressure);
         ambient.setProperty(Fluid.TEMPERATURE, temperature);
     }
-
+    */
+    
     /**
      * Set's an ambient property
      *
@@ -673,7 +705,21 @@ public class Cycle extends Observable implements Serializable, Reportable {
         boundaryConditions.add(boundaryCondition);
         return boundaryCondition;
     }
-
+    
+    /**
+     * Sets the property value for the ambient conditions.
+     * 
+     * @param property
+     * @param values
+     * @return 
+     */
+    public BoundaryConditionAmbient setBoundaryConditionAmbient(Property property, List<Double> values) {
+        BoundaryConditionAmbient boundaryCondition = new BoundaryConditionAmbient(ambient, property, values);
+        boundaryConditions.removeIf(bc -> bc.match(boundaryCondition));
+        boundaryConditions.add(boundaryCondition);
+        return boundaryCondition;
+    }
+    
     /**
      * Sets the work values for the work node.
      *
@@ -750,6 +796,10 @@ public class Cycle extends Observable implements Serializable, Reportable {
         boundaryConditions.forEach(h -> {
             h.execute();
         });
+        if (!ambient.contains(Fluid.PRESSURE, Fluid.TEMPERATURE)) {
+            logger.error("Ambient pressure and temperatue have not been set.");
+            return false;
+        }
         logger.trace("Solving system.");
         try {
             // Solve inital conditions
@@ -1087,8 +1137,8 @@ public class Cycle extends Observable implements Serializable, Reportable {
 
         // Report ambient conditions
         ReportDataBlock ambientDataBlock = new ReportDataBlock("Ambient conditions");
-        ambientDataBlock.addData("Pressure", DimensionedDouble.valueOfSI(ambient.getProperty(Fluid.PRESSURE).getAsDouble(), UNITS_TYPE.PRESSURE));
-        ambientDataBlock.addData("Temperature", DimensionedDouble.valueOfSI(ambient.getProperty(Fluid.TEMPERATURE).getAsDouble(), UNITS_TYPE.TEMPERATURE));
+        ambientDataBlock.addData("Pressure", DimensionedDouble.valueOfSI(ambient.getProperty(Fluid.PRESSURE).getAsDouble(), UnitsType.PRESSURE));
+        ambientDataBlock.addData("Temperature", DimensionedDouble.valueOfSI(ambient.getProperty(Fluid.TEMPERATURE).getAsDouble(), UnitsType.TEMPERATURE));
         rdb.addDataBlock(ambientDataBlock);
 
         // Report fluids
@@ -1116,12 +1166,12 @@ public class Cycle extends Observable implements Serializable, Reportable {
 
         // Report cycle performance
         ReportDataBlock performanceDataBlock = new ReportDataBlock("Cycle performance");
-        performanceDataBlock.addData("Thermal efficiency", DimensionedDouble.valueOf(efficiencyThermal().orElse(Double.NaN), UNITS.PERCENTAGE));
-        performanceDataBlock.addData("Rational efficiency", DimensionedDouble.valueOf(efficiencyRational().orElse(Double.NaN), UNITS.PERCENTAGE));
-        performanceDataBlock.addData("Heat input", DimensionedDouble.valueOfSI(this.heatIn().orElse(Double.NaN), UNITS_TYPE.POWER));
-        performanceDataBlock.addData("Heat output", DimensionedDouble.valueOfSI(this.heatOut().orElse(Double.NaN), UNITS_TYPE.POWER));
-        performanceDataBlock.addData("Work input", DimensionedDouble.valueOfSI(this.workIn().orElse(Double.NaN), UNITS_TYPE.POWER));
-        performanceDataBlock.addData("Work output", DimensionedDouble.valueOfSI(this.workOut().orElse(Double.NaN), UNITS_TYPE.POWER));
+        performanceDataBlock.addData("Thermal efficiency", DimensionedDouble.valueOf(efficiencyThermal().orElse(Double.NaN), Units.PERCENTAGE));
+        performanceDataBlock.addData("Rational efficiency", DimensionedDouble.valueOf(efficiencyRational().orElse(Double.NaN), Units.PERCENTAGE));
+        performanceDataBlock.addData("Heat input", DimensionedDouble.valueOfSI(this.heatIn().orElse(Double.NaN), UnitsType.POWER));
+        performanceDataBlock.addData("Heat output", DimensionedDouble.valueOfSI(this.heatOut().orElse(Double.NaN), UnitsType.POWER));
+        performanceDataBlock.addData("Work input", DimensionedDouble.valueOfSI(this.workIn().orElse(Double.NaN), UnitsType.POWER));
+        performanceDataBlock.addData("Work output", DimensionedDouble.valueOfSI(this.workOut().orElse(Double.NaN), UnitsType.POWER));
         rdb.addDataBlock(performanceDataBlock);
 
         return rdb;

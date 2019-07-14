@@ -6,17 +6,12 @@
 package gui;
 
 import java.io.IOException;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
@@ -34,7 +29,6 @@ import javafx.scene.shape.Circle;
 public final class NodeController extends AnchorPane {
         
     // FXML variables
-    //@FXML private AnchorPane base;
     @FXML private Circle circle;
     
     // GUI variables
@@ -78,6 +72,9 @@ public final class NodeController extends AnchorPane {
         buildNodeClickHandlers();
         buildNodeDragHandlers();
         buildTooltip();
+        
+        // Set currsor type
+        cursorProperty().setValue(Cursor.HAND);
         
     }
     
@@ -141,7 +138,7 @@ public final class NodeController extends AnchorPane {
                     
                     // Create clipboard and add data to it so that the icon type can be idnetified when the object is dropped.
                     ClipboardContent content = new ClipboardContent();
-                    content.put(DragContainerController.CREATE_CONNECTION,NodeController.this.node);
+                    content.put(CanvasController.CREATE_CONNECTION,NodeController.this.node);
 
                     // Start drag and drop operation and add data to dragboard
                     Dragboard dragboard = startDragAndDrop(TransferMode.ANY);

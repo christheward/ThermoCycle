@@ -163,7 +163,7 @@ public final class TextUserInterface {
             switch(commands.get(1)) {
                 case "NEW": {
                     model = new Cycle(commands.get(2));
-                    model.setAmbient(Double.parseDouble(commands.get(3)), Double.parseDouble(commands.get(4)));
+                    //model.setAmbient(Double.parseDouble(commands.get(3)), Double.parseDouble(commands.get(4)));
                     break;
                 }
                 case "EXPORT": {

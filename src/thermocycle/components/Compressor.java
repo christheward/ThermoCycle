@@ -17,7 +17,7 @@ import thermocycle.Node;
 import thermocycle.State;
 import thermocycle.WorkNode;
 import static thermocycle.Node.Port.*;
-import utilities.Units.UNITS_TYPE;
+import thermocycle.UnitsControl.UnitsType;
 
 
 /**
@@ -26,8 +26,8 @@ import utilities.Units.UNITS_TYPE;
  */
 public final class Compressor extends Component {
     
-    public static final Attribute P_RATIO = new Attribute("Pressure Loss", "Rp", UNITS_TYPE.DIMENSIONLESS, 0.0, 1.0);
-    public static final Attribute EFFICIENCY = new Attribute("Efficiency", "eta", UNITS_TYPE.DIMENSIONLESS, 0.0, 1.0);
+    public static final Attribute P_RATIO = new Attribute("Pressure Loss", "Rp", UnitsType.DIMENSIONLESS, 0.0, 1.0);
+    public static final Attribute EFFICIENCY = new Attribute("Efficiency", "eta", UnitsType.DIMENSIONLESS, 0.0, 1.0);
     
     /**
      * Constructor

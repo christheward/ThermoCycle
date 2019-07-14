@@ -6,8 +6,7 @@
 package thermocycle;
 
 import java.io.Serializable;
-import utilities.Units;
-import utilities.Units.UNITS_TYPE;
+import thermocycle.UnitsControl.UnitsType;
 
 /**
  *
@@ -17,7 +16,7 @@ public class EquationVariable implements Serializable {
     
     public final String name;
     public final String symbol;
-    public final Units.UNITS_TYPE type;
+    public final UnitsControl.UnitsType type;
     protected final double min;
     protected final double max;
     
@@ -25,13 +24,13 @@ public class EquationVariable implements Serializable {
         this.name = name;
         this.symbol = symbol;
         if (node.equals(FlowNode.class)) {
-            this.type = UNITS_TYPE.FLOW_RATE;
+            this.type = UnitsType.FLOW_RATE;
         }
         else if(node.equals(HeatNode.class) | node.equals(WorkNode.class)) {
-            this.type = UNITS_TYPE.POWER;
+            this.type = UnitsType.POWER;
         }
         else {
-            this.type = UNITS_TYPE.DIMENSIONLESS;
+            this.type = UnitsType.DIMENSIONLESS;
         }
         this.min = Double.NEGATIVE_INFINITY;
         this.max = Double.POSITIVE_INFINITY;

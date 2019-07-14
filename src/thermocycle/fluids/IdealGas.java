@@ -12,7 +12,7 @@ import thermocycle.Fluid;
 import thermocycle.FluidEquation;
 import thermocycle.Property;
 import thermocycle.State;
-import utilities.Units.UNITS_TYPE;
+import thermocycle.UnitsControl.UnitsType;
 
 /**
  *
@@ -85,10 +85,10 @@ public final class IdealGas extends Fluid {
     @Override
     public ReportDataBlock getReportData() {
         ReportDataBlock rdb = new ReportDataBlock(name);
-        rdb.addData("R", DimensionedDouble.valueOfSI(R, UNITS_TYPE.SPECIFIC_ENERGY));
-        rdb.addData("Gamma", DimensionedDouble.valueOfSI(gamma, UNITS_TYPE.DIMENSIONLESS));
-        rdb.addData("Cp", DimensionedDouble.valueOfSI(Cp, UNITS_TYPE.ENTROPY));
-        rdb.addData("Cv", DimensionedDouble.valueOfSI(Cv, UNITS_TYPE.ENTROPY));
+        rdb.addData("R", DimensionedDouble.valueOfSI(R, UnitsType.SPECIFIC_ENERGY));
+        rdb.addData("Gamma", DimensionedDouble.valueOfSI(gamma, UnitsType.DIMENSIONLESS));
+        rdb.addData("Cp", DimensionedDouble.valueOfSI(Cp, UnitsType.ENTROPY));
+        rdb.addData("Cv", DimensionedDouble.valueOfSI(Cv, UnitsType.ENTROPY));
         return rdb;
     }
     

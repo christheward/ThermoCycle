@@ -15,7 +15,7 @@ import thermocycle.Property;
 import thermocycle.State;
 import thermocycle.report.ReportDataBlock;
 import utilities.DimensionedDouble;
-import utilities.Units.UNITS_TYPE;
+import thermocycle.UnitsControl.UnitsType;
 
 /**
  *
@@ -116,8 +116,8 @@ public class RedlichKwongGas extends Fluid {
     @Override
     public ReportDataBlock getReportData() {
         ReportDataBlock rdb = new ReportDataBlock(name);
-        rdb.addData("Pc", DimensionedDouble.valueOfSI(Pc, UNITS_TYPE.PRESSURE));
-        rdb.addData("Tc", DimensionedDouble.valueOfSI(Tc, UNITS_TYPE.TEMPERATURE));
+        rdb.addData("Pc", DimensionedDouble.valueOfSI(Pc, UnitsType.PRESSURE));
+        rdb.addData("Tc", DimensionedDouble.valueOfSI(Tc, UnitsType.TEMPERATURE));
         return rdb;
     }
     

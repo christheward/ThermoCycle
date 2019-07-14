@@ -6,6 +6,7 @@
 package thermocycle;
 
 import java.util.List;
+import thermocycle.UnitsControl.UnitsType;
 
 /**
  *
@@ -23,6 +24,16 @@ public class BoundaryConditionMass extends BoundaryCondition {
     @Override
     protected void execute() {
         node.setMass(getValue());
+    }
+    
+    @Override
+    public String getName() {
+        return "Mass";
+    }
+    
+    @Override
+    public UnitsType getUnitsType(){
+        return UnitsType.FLOW_RATE;
     }
     
     @Override

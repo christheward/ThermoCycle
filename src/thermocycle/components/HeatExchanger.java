@@ -17,7 +17,7 @@ import thermocycle.HeatNode;
 import thermocycle.Node;
 import thermocycle.State;
 import static thermocycle.Node.Port.*;
-import utilities.Units;
+import thermocycle.UnitsControl;
 
 /**
  *
@@ -25,9 +25,9 @@ import utilities.Units;
  */
 public final class HeatExchanger extends Component {
     
-    public static final Attribute EFFECTIVENESS  = new Attribute("Effectiveness", "Epsilon", Units.UNITS_TYPE.DIMENSIONLESS, 0.0, 1.0);
-    public static final Attribute Q_ACTUAL = new Attribute("Actual Heat Transfer","Q_Actual",Units.UNITS_TYPE.POWER,0.0,Double.POSITIVE_INFINITY);
-    public static final Attribute Q_IDEAL = new Attribute("Ideal Heat Transfer","Q_Ideal",Units.UNITS_TYPE.POWER,0.0,Double.POSITIVE_INFINITY);
+    public static final Attribute EFFECTIVENESS  = new Attribute("Effectiveness", "Epsilon", UnitsControl.UnitsType.DIMENSIONLESS, 0.0, 1.0);
+    public static final Attribute Q_ACTUAL = new Attribute("Actual Heat Transfer","Q_Actual",UnitsControl.UnitsType.POWER,0.0,Double.POSITIVE_INFINITY);
+    public static final Attribute Q_IDEAL = new Attribute("Ideal Heat Transfer","Q_Ideal",UnitsControl.UnitsType.POWER,0.0,Double.POSITIVE_INFINITY);
     
     /**
      * Constructor

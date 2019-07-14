@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import thermocycle.UnitsControl.UnitsType;
 
 /**
  *
@@ -65,6 +66,14 @@ public abstract class BoundaryCondition implements Serializable {
     }
     
     /**
+     * Gets a list of the boundary conditions values.
+     * @return a list of the values.
+     */
+    public final List<Double> getValues() {
+        return new ArrayList(values);
+    }
+    
+    /**
      * Gets the current size of the boundary condition.
      * @return the number of values in the boundary condition.
      */
@@ -103,6 +112,18 @@ public abstract class BoundaryCondition implements Serializable {
      * to the model.
      */
     protected abstract void execute();
+    
+    /**
+     * Gets the boundary condition name.
+     * @return the boundary condition name.
+     */
+    public abstract String getName();
+
+    /**
+     * Gets the units type.
+     * @return the type of units.
+     */
+    public abstract UnitsType getUnitsType();
     
     /**
      * Checks to see if this boundary condition matches another. Boundary

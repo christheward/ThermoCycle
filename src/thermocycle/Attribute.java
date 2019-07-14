@@ -6,7 +6,6 @@
 package thermocycle;
 
 import java.io.Serializable;
-import utilities.Units;
 
 /**
  *
@@ -16,11 +15,11 @@ public class Attribute implements Serializable {
     
     public final String name;
     public final String symbol;
-    public final Units.UNITS_TYPE type;
+    public final UnitsControl.UnitsType type;
     protected final double min;
     protected final double max;
     
-    public Attribute(String name, String symbol, Units.UNITS_TYPE type, double min, double max) {
+    public Attribute(String name, String symbol, UnitsControl.UnitsType type, double min, double max) {
         this.name = name;
         this.symbol = symbol;
         this.type = type;

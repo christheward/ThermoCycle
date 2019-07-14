@@ -12,20 +12,20 @@ import thermocycle.UnitsControl.UnitsType;
  *
  * @author Chris Ward
  */
-public class BoundaryConditionProperty extends BoundaryCondition {
+public class BoundaryConditionAmbient extends BoundaryCondition {
     
-    public final FlowNode node;
+    public final State ambient;
     public final Property property;
     
-    public BoundaryConditionProperty(FlowNode node, Property property, List<Double> values) {
+    public BoundaryConditionAmbient(State ambient, Property property, List<Double> values) {
         super(values);
-        this.node = node;
+        this.ambient = ambient;
         this.property = property;
     }
     
     @Override
     protected void execute() {
-        node.setProperty(property, getValue());
+        ambient.setProperty(property, getValue());
     }
     
     @Override
@@ -40,9 +40,9 @@ public class BoundaryConditionProperty extends BoundaryCondition {
     
     @Override
     protected boolean match(BoundaryCondition cnd) {
-        if (cnd instanceof BoundaryConditionProperty) {
-            if (this.node == ((BoundaryConditionProperty) cnd).node) {
-                if (this.property == ((BoundaryConditionProperty) cnd).property)
+        if (cnd instanceof BoundaryConditionAmbient) {
+            if (this.ambient == ((BoundaryConditionAmbient) cnd).ambient) {
+                if (this.property == ((BoundaryConditionAmbient) cnd).property)
                     return true;
             }
         }

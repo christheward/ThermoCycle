@@ -6,6 +6,7 @@
 package thermocycle;
 
 import java.util.List;
+import thermocycle.UnitsControl.UnitsType;
 
 /**
  *
@@ -24,7 +25,17 @@ public class BoundaryConditionWork extends BoundaryCondition {
     protected void execute() {
         node.setWork(getValue());
     }
-
+    
+    @Override
+    public String getName() {
+        return "Work";
+    }
+    
+    @Override
+    public UnitsType getUnitsType(){
+        return UnitsType.POWER;
+    }
+    
     @Override
     protected boolean match(BoundaryCondition cnd) {
         if (cnd instanceof BoundaryConditionWork) {

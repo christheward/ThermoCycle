@@ -20,6 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import thermocycle.Cycle;
+import thermocycle.UnitsControl.UnitsSystem;
 
 /**
  *
@@ -36,13 +37,16 @@ public class MasterSceneController extends VBox {
     protected MenubarController menubar;
     protected CanvasController canvas;
     protected ConsoleController console;
-    protected InfoboxBaseController infobox;
+    protected InfoboxController infobox;
     protected GraphController graph;
     protected ChartController chart;
     
     // Properties
     private final ReadOnlyObjectWrapper<Cycle> model;
-    //protected final BooleanProperty update;
+    public final ReadOnlyObjectProperty<Cycle> modelReadOnly;
+    private final ReadOnlyObjectWrapper<UnitsSystem> unitsSystem;
+    public final ReadOnlyObjectProperty<UnitsSystem> unitsSystemReadOnly;
+    
     protected final BooleanProperty modelAbsent;
     protected final BooleanProperty nodeVisibility;
     protected final BooleanProperty nameVisibility;
@@ -57,13 +61,16 @@ public class MasterSceneController extends VBox {
         
         // Create properties and bindings
         model = new ReadOnlyObjectWrapper();
+        modelReadOnly = model.getReadOnlyProperty();
+        unitsSystem = new ReadOnlyObjectWrapper();
+        unitsSystemReadOnly = unitsSystem.getReadOnlyProperty();
+        
         modelAbsent = new SimpleBooleanProperty(true);
         nodeVisibility = new SimpleBooleanProperty(false);
         nameVisibility = new SimpleBooleanProperty(true);
         toolboxLock = new SimpleBooleanProperty(false);
         focus = new ReadOnlyObjectWrapper();
         focusAbsent = new SimpleBooleanProperty(true);
-        //update = new SimpleBooleanProperty(false);
         
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/MasterScene.fxml"));
@@ -81,6 +88,9 @@ public class MasterSceneController extends VBox {
      * Initializer
      */
     public void initialize() {
+        
+        // Set unit system
+        unitsSystem.setValue(UnitsSystem.SI);
         
         // Set up menubar
         menubar = new MenubarController(this);
@@ -102,7 +112,7 @@ public class MasterSceneController extends VBox {
         splitpane.setDividerPositions(0.75); // Needed because scenebuilder keeps overwriting this.
         
         // Setup infobox
-        infobox = new InfoboxBaseController(this);
+        infobox = new InfoboxController(this);
         infobox.disableProperty().bind(modelAbsent);
         hbox.getChildren().add(infobox);
         
@@ -125,6 +135,7 @@ public class MasterSceneController extends VBox {
      * @param node The node that is the new focus.
      */
     protected void setFocus(Node node) {
+        System.out.println("Set focus to " + node.toString());
         focus.setValue(node);
     }
     

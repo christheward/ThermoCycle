@@ -17,7 +17,7 @@ import thermocycle.HeatNode;
 import thermocycle.Node;
 import thermocycle.State;
 import static thermocycle.Node.Port.*;
-import utilities.Units;
+import thermocycle.UnitsControl;
 
 /**
  *
@@ -25,7 +25,7 @@ import utilities.Units;
  */
 public final class Combustor extends Component {
     
-    public static final Attribute P_LOSS = new Attribute("Pressure Loss", "Pr", Units.UNITS_TYPE.DIMENSIONLESS, 0.0, 1.0);
+    public static final Attribute P_LOSS = new Attribute("Pressure Loss", "Pr", UnitsControl.UnitsType.DIMENSIONLESS, 0.0, 1.0);
     
     /**
      * Constructor.

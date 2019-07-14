@@ -28,7 +28,7 @@ public class EndToEndTest {
 
     public EndToEndTest() {
         // specify log4j2 configuration file location
-        System.setProperty("log4j.configurationFile", "./src/resources/log4j2.xml");
+        System.setProperty("log4j.configurationFile", "./src/resources/logging/log4j2.xml");
     }
 
     @Test
@@ -47,8 +47,9 @@ public class EndToEndTest {
 
         // create cycle
         Cycle gasTurb = new Cycle("Turbine Test");
-        gasTurb.setAmbient(101325, 300);
-
+        gasTurb.setBoundaryConditionAmbient(Fluid.PRESSURE, Arrays.asList(new Double[]{101325.0}));
+        gasTurb.setBoundaryConditionAmbient(Fluid.TEMPERATURE, Arrays.asList(new Double[]{300.0}));
+        
         // create fluids
         IdealGas air = gasTurb.createIdealGas("Air", 1.4, 287.0);
 
@@ -78,7 +79,8 @@ public class EndToEndTest {
 
         // create cycle
         Cycle gasTurb = new Cycle("Compressor Test");
-        gasTurb.setAmbient(101325, 300);
+        gasTurb.setBoundaryConditionAmbient(Fluid.PRESSURE, Arrays.asList(new Double[]{101325.0}));
+        gasTurb.setBoundaryConditionAmbient(Fluid.TEMPERATURE, Arrays.asList(new Double[]{300.0}));
 
         // create fluids
         IdealGas air = gasTurb.createIdealGas("Air", 1.4, 287.0);
@@ -91,8 +93,8 @@ public class EndToEndTest {
 
         //  set boundary conditions
         gasTurb.setBoundaryConditionMass(comp.getFlowNode("Inlet"), Arrays.asList(new Double[]{1.0}));
-        gasTurb.setBoundaryConditionProperty(comp.getFlowNode("Inlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{gasTurb.getAmbient(Fluid.PRESSURE).getAsDouble()}));
-        gasTurb.setBoundaryConditionProperty(comp.getFlowNode("Inlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{gasTurb.getAmbient(Fluid.TEMPERATURE).getAsDouble()}));
+        gasTurb.setBoundaryConditionProperty(comp.getFlowNode("Inlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{10325.0}));
+        gasTurb.setBoundaryConditionProperty(comp.getFlowNode("Inlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{300.0}));
         gasTurb.setBoundaryConditionAttribute(comp, comp.P_RATIO, Arrays.asList(new Double[]{5.0}));
         gasTurb.setBoundaryConditionAttribute(comp, comp.EFFICIENCY, Arrays.asList(new Double[]{0.9}));
 
@@ -109,7 +111,8 @@ public class EndToEndTest {
 
         // create cycle
         Cycle gasTurb = new Cycle("Combustor Test");
-        gasTurb.setAmbient(101325, 300);
+        gasTurb.setBoundaryConditionAmbient(Fluid.PRESSURE, Arrays.asList(new Double[]{101325.0}));
+        gasTurb.setBoundaryConditionAmbient(Fluid.TEMPERATURE, Arrays.asList(new Double[]{300.0}));
 
         // create fluids
         IdealGas air = gasTurb.createIdealGas("Air", 1.4, 287.0);
@@ -122,8 +125,8 @@ public class EndToEndTest {
 
         //  set boundary conditions
         gasTurb.setBoundaryConditionMass(comb.getFlowNode("Inlet"), Arrays.asList(new Double[]{1.0}));
-        gasTurb.setBoundaryConditionProperty(comb.getFlowNode("Inlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{gasTurb.getAmbient(Fluid.PRESSURE).getAsDouble()}));
-        gasTurb.setBoundaryConditionProperty(comb.getFlowNode("Inlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{gasTurb.getAmbient(Fluid.TEMPERATURE).getAsDouble()}));
+        gasTurb.setBoundaryConditionProperty(comb.getFlowNode("Inlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{101325.0}));
+        gasTurb.setBoundaryConditionProperty(comb.getFlowNode("Inlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{300.0}));
         gasTurb.setBoundaryConditionAttribute(comb, comb.P_LOSS, Arrays.asList(new Double[]{0.05}));
         gasTurb.setBoundaryConditionHeat(comb.getHeatNode("Supply"), Arrays.asList(new Double[]{2000.0}));
 
@@ -140,7 +143,8 @@ public class EndToEndTest {
 
         // create cycle
         Cycle gasTurb = new Cycle("Heat Sink Test");
-        gasTurb.setAmbient(101325, 300);
+        gasTurb.setBoundaryConditionAmbient(Fluid.PRESSURE, Arrays.asList(new Double[]{101325.0}));
+        gasTurb.setBoundaryConditionAmbient(Fluid.TEMPERATURE, Arrays.asList(new Double[]{300.0}));
 
         // create fluids
         IdealGas air = gasTurb.createIdealGas("Air", 1.4, 287.0);
@@ -153,8 +157,8 @@ public class EndToEndTest {
 
         //  set boundary conditions
         gasTurb.setBoundaryConditionMass(sink.getFlowNode("Inlet"), Arrays.asList(new Double[]{1.0}));
-        gasTurb.setBoundaryConditionProperty(sink.getFlowNode("Outlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{gasTurb.getAmbient(Fluid.TEMPERATURE).getAsDouble()}));
-        gasTurb.setBoundaryConditionProperty(sink.getFlowNode("Outlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{gasTurb.getAmbient(Fluid.PRESSURE).getAsDouble()}));
+        gasTurb.setBoundaryConditionProperty(sink.getFlowNode("Outlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{300.0}));
+        gasTurb.setBoundaryConditionProperty(sink.getFlowNode("Outlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{101325.0}));
         gasTurb.setBoundaryConditionProperty(sink.getFlowNode("Inlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{500.0}));
         gasTurb.setBoundaryConditionAttribute(sink, sink.P_LOSS, Arrays.asList(new Double[]{0.05}));
 
@@ -171,7 +175,8 @@ public class EndToEndTest {
 
         // create cycle
         Cycle gasTurb = new Cycle("Heat exchanger test");
-        gasTurb.setAmbient(101325, 300);
+        gasTurb.setBoundaryConditionAmbient(Fluid.PRESSURE, Arrays.asList(new Double[]{101325.0}));
+        gasTurb.setBoundaryConditionAmbient(Fluid.TEMPERATURE, Arrays.asList(new Double[]{300.0}));
 
         // create fluids
         IdealGas air = gasTurb.createIdealGas("Air", 1.4, 287.0);
@@ -187,8 +192,8 @@ public class EndToEndTest {
         gasTurb.setBoundaryConditionMass(whru.getFlowNode("Cold Side Inlet"), Arrays.asList(new Double[]{1.0}));
         gasTurb.setBoundaryConditionMass(whru.getFlowNode("Hot Side Inlet"), Arrays.asList(new Double[]{1.0}));
         gasTurb.setBoundaryConditionAttribute(whru, whru.EFFECTIVENESS, Arrays.asList(new Double[]{0.95}));
-        gasTurb.setBoundaryConditionProperty(whru.getFlowNode("Cold Side Inlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{gasTurb.getAmbient(Fluid.PRESSURE).getAsDouble()}));
-        gasTurb.setBoundaryConditionProperty(whru.getFlowNode("Cold Side Inlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{gasTurb.getAmbient(Fluid.TEMPERATURE).getAsDouble()}));
+        gasTurb.setBoundaryConditionProperty(whru.getFlowNode("Cold Side Inlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{101325.0}));
+        gasTurb.setBoundaryConditionProperty(whru.getFlowNode("Cold Side Inlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{300.0}));
         gasTurb.setBoundaryConditionProperty(whru.getFlowNode("Hot Side Inlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{3e5}));
         gasTurb.setBoundaryConditionProperty(whru.getFlowNode("Hot Side Inlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{500.0}));
 
@@ -205,7 +210,8 @@ public class EndToEndTest {
 
         // create cycle
         Cycle gasTurb = new Cycle("Gas Turbine Test");
-        gasTurb.setAmbient(101325, 300);
+        gasTurb.setBoundaryConditionAmbient(Fluid.PRESSURE, Arrays.asList(new Double[]{101325.0}));
+        gasTurb.setBoundaryConditionAmbient(Fluid.TEMPERATURE, Arrays.asList(new Double[]{300.0}));
 
         // create fluids
         IdealGas air = gasTurb.createIdealGas("Air", 1.4, 287.0);
@@ -227,8 +233,8 @@ public class EndToEndTest {
 
         //  set boundary conditions
         gasTurb.setBoundaryConditionMass(comp.getFlowNode("Inlet"), Arrays.asList(new Double[]{1.0}));
-        gasTurb.setBoundaryConditionProperty(comp.getFlowNode("Inlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{gasTurb.getAmbient(Fluid.PRESSURE).getAsDouble()}));
-        gasTurb.setBoundaryConditionProperty(comp.getFlowNode("Inlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{gasTurb.getAmbient(Fluid.TEMPERATURE).getAsDouble()}));
+        gasTurb.setBoundaryConditionProperty(comp.getFlowNode("Inlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{101325.0}));
+        gasTurb.setBoundaryConditionProperty(comp.getFlowNode("Inlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{300.0}));
         gasTurb.setBoundaryConditionProperty(comb.getFlowNode("Outlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{1300.0}));
         gasTurb.setBoundaryConditionAttribute(comp, comp.P_RATIO, Arrays.asList(new Double[]{5.0}));
         gasTurb.setBoundaryConditionAttribute(comp, comp.EFFICIENCY, Arrays.asList(new Double[]{0.9}));
@@ -249,7 +255,8 @@ public class EndToEndTest {
 
         // create cycle
         Cycle gasTurb = new Cycle("Gas Turbine with Reheat and Intercooler Test");
-        gasTurb.setAmbient(101325, 300);
+        gasTurb.setBoundaryConditionAmbient(Fluid.PRESSURE, Arrays.asList(new Double[]{101325.0}));
+        gasTurb.setBoundaryConditionAmbient(Fluid.TEMPERATURE, Arrays.asList(new Double[]{300.0}));
 
         // create fluids
         IdealGas air = gasTurb.createIdealGas("Air", 1.4, 287.0);
@@ -283,11 +290,11 @@ public class EndToEndTest {
         gasTurb.setBoundaryConditionAttribute(hp_comp, hp_comp.P_RATIO, Arrays.asList(new Double[]{4.0}));
         gasTurb.setBoundaryConditionAttribute(hp_comp, hp_comp.EFFICIENCY, Arrays.asList(new Double[]{0.9}));
         gasTurb.setBoundaryConditionMass(lp_comp.getFlowNode("Inlet"), Arrays.asList(new Double[]{1.0}));
-        gasTurb.setBoundaryConditionProperty(lp_comp.getFlowNode("Inlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{gasTurb.getAmbient(Fluid.PRESSURE).getAsDouble()}));
-        gasTurb.setBoundaryConditionProperty(lp_comp.getFlowNode("Inlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{gasTurb.getAmbient(Fluid.TEMPERATURE).getAsDouble()}));
+        gasTurb.setBoundaryConditionProperty(lp_comp.getFlowNode("Inlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{101325.0}));
+        gasTurb.setBoundaryConditionProperty(lp_comp.getFlowNode("Inlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{300.0}));
         gasTurb.setBoundaryConditionProperty(cool.getFlowNode("Outlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{300.0}));
         gasTurb.setBoundaryConditionProperty(comb.getFlowNode("Outlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{1300.0}));
-        gasTurb.setBoundaryConditionProperty(hp_turb.getFlowNode("Outlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{gasTurb.getAmbient(Fluid.PRESSURE).getAsDouble() * 5.0}));
+        gasTurb.setBoundaryConditionProperty(hp_turb.getFlowNode("Outlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{101325.0 * 5.0}));
         gasTurb.setBoundaryConditionProperty(reheat.getFlowNode("Outlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{1300.0}));
         gasTurb.setBoundaryConditionAttribute(comb, comb.P_LOSS, Arrays.asList(new Double[]{0.05}));
         gasTurb.setBoundaryConditionAttribute(reheat, reheat.P_LOSS, Arrays.asList(new Double[]{0.05}));
@@ -304,58 +311,13 @@ public class EndToEndTest {
 
     }
     
-    
-    @Test
-    public void Real_Gas_GT_Test() throws InterruptedException, ExecutionException {
-
-        // create cycle
-        Cycle gasTurb = new Cycle("Gas Turbine Test");
-        gasTurb.setAmbient(101325, 300);
-
-        // create fluids
-        IdealGas air = gasTurb.createIdealGas("Air", 1.4, 287.0);
-        IdealGas realAir = gasTurb.createRedlichKwongGas("Real Air", 28, 37.36e5 ,132.63,1.0,1.0);
-
-        // create components
-        Compressor comp = gasTurb.createCompressor("Compressor");
-        Combustor comb = gasTurb.createCombustor("Combustor");
-        Turbine turb = gasTurb.createTurbine("Turbine");
-        HeatSink sink = gasTurb.createHeatSink("Heat Sink");
-
-        // create connections
-        gasTurb.createConnection(comp.getFlowNode("Outlet"), comb.getFlowNode("Inlet"));
-        gasTurb.createConnection(comb.getFlowNode("Outlet"), turb.getFlowNode("Inlet"));
-        gasTurb.createConnection(turb.getFlowNode("Outlet"), sink.getFlowNode("Inlet"));
-        gasTurb.createConnection(sink.getFlowNode("Outlet"), comp.getFlowNode("Inlet"));
-
-        // set fluid
-        gasTurb.setFluid(comp.getFlowNode("Inlet"), air);
-
-        //  set boundary conditions
-        gasTurb.setBoundaryConditionMass(comp.getFlowNode("Inlet"), Arrays.asList(new Double[]{1.0}));
-        gasTurb.setBoundaryConditionProperty(comp.getFlowNode("Inlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{gasTurb.getAmbient(Fluid.PRESSURE).getAsDouble()}));
-        gasTurb.setBoundaryConditionProperty(comp.getFlowNode("Inlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{gasTurb.getAmbient(Fluid.TEMPERATURE).getAsDouble()}));
-        gasTurb.setBoundaryConditionProperty(comb.getFlowNode("Outlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[]{1300.0}));
-        gasTurb.setBoundaryConditionAttribute(comp, comp.P_RATIO, Arrays.asList(new Double[]{5.0}));
-        gasTurb.setBoundaryConditionAttribute(comp, comp.EFFICIENCY, Arrays.asList(new Double[]{0.9}));
-        gasTurb.setBoundaryConditionAttribute(comb, comb.P_LOSS, Arrays.asList(new Double[]{0.05}));
-        gasTurb.setBoundaryConditionAttribute(turb, turb.EFFICIENCY, Arrays.asList(new Double[]{0.95}));
-        gasTurb.setBoundaryConditionAttribute(sink, sink.P_LOSS, Arrays.asList(new Double[]{0.05}));
-
-        // solve
-        boolean solve = gasTurb.solveParametric();
-
-        // assertions
-        assertEquals(solve, true);
-
-    }
-    
     @Test
     public void ST_Test() throws InterruptedException, ExecutionException {
 
         // create cycle
         Cycle steamTurb = new Cycle("Steam Turbine Test");
-        steamTurb.setAmbient(101325, 300);
+        steamTurb.setBoundaryConditionAmbient(Fluid.PRESSURE, Arrays.asList(new Double[]{101325.0}));
+        steamTurb.setBoundaryConditionAmbient(Fluid.TEMPERATURE, Arrays.asList(new Double[]{300.0}));
 
         // create fluids
         IdealGas air = steamTurb.createIdealGas("Air", 1.4, 287.0);
@@ -378,7 +340,7 @@ public class EndToEndTest {
 
         //  set boundary conditions
         steamTurb.setBoundaryConditionMass(pump.getFlowNode("Inlet"), Arrays.asList(new Double[]{1.0}));
-        steamTurb.setBoundaryConditionProperty(pump.getFlowNode("Inlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{steamTurb.getAmbient(Fluid.PRESSURE).getAsDouble()}));
+        steamTurb.setBoundaryConditionProperty(pump.getFlowNode("Inlet"), Fluid.PRESSURE, Arrays.asList(new Double[]{101325.0}));
         steamTurb.setBoundaryConditionProperty(pump.getFlowNode("Inlet"), Fluid.QUALITY, Arrays.asList(new Double[]{0.0}));
         steamTurb.setBoundaryConditionProperty(boiler.getFlowNode("Outlet"), Fluid.TEMPERATURE, Arrays.asList(new Double[] {400.0}));
         steamTurb.setBoundaryConditionProperty(turb.getFlowNode("Outlet"), Fluid.QUALITY, Arrays.asList(new Double[]{1.0}));

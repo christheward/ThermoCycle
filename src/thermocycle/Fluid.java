@@ -8,7 +8,7 @@ package thermocycle;
 import thermocycle.report.Reportable;
 import java.io.Serializable;
 import java.util.*;
-import utilities.Units.UNITS_TYPE;
+import thermocycle.UnitsControl.UnitsType;
 
 /**
  *
@@ -19,18 +19,18 @@ public abstract class Fluid implements Serializable, Reportable {
     /**
      * Fluid properties.
      */
-    public static final Property PRESSURE = new Property("Pressure", "P", UNITS_TYPE.PRESSURE, 0.0, Double.POSITIVE_INFINITY);
-    public static final Property TEMPERATURE = new Property("Temperature", "T", UNITS_TYPE.TEMPERATURE, 0.0, Double.POSITIVE_INFINITY);
-    public static final Property VOLUME = new Property("Specific volume", "v", UNITS_TYPE.SPECIFIC_VOLUME, 0.0, Double.POSITIVE_INFINITY);
-    public static final Property DENSITY = new Property("Density", "rho", UNITS_TYPE.DENSITY, 0.0, Double.POSITIVE_INFINITY);
-    public static final Property ENTROPY = new Property("Specific entropy", "s", UNITS_TYPE.ENTROPY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-    public static final Property ENERGY = new Property("Specific internal energy", "u", UNITS_TYPE.SPECIFIC_ENERGY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-    public static final Property ENTHALPY = new Property("Specific enthalpy", "h", UNITS_TYPE.SPECIFIC_ENERGY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-    public static final Property HELMHOLTZ = new Property("Specific helmholtz energy", "f", UNITS_TYPE.SPECIFIC_ENERGY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-    public static final Property GIBBS = new Property("Specific gibbs energy", "g", UNITS_TYPE.SPECIFIC_ENERGY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-    public static final Property MOLVOL = new Property("Molar volume" , "Vm", UNITS_TYPE.MOLAR_VOLUME, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-    public static final Property QUALITY = new Property("Quality", "X", UNITS_TYPE.DIMENSIONLESS, 0.0, 1.0);
-    public static final Property MECHANICAL = new Property("Specific mechanical energy", "m", UNITS_TYPE.SPECIFIC_ENERGY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Property PRESSURE = new Property("Pressure", "P", UnitsType.PRESSURE, 0.0, Double.POSITIVE_INFINITY);
+    public static final Property TEMPERATURE = new Property("Temperature", "T", UnitsType.TEMPERATURE, 0.0, Double.POSITIVE_INFINITY);
+    public static final Property VOLUME = new Property("Specific volume", "v", UnitsType.SPECIFIC_VOLUME, 0.0, Double.POSITIVE_INFINITY);
+    public static final Property DENSITY = new Property("Density", "rho", UnitsType.DENSITY, 0.0, Double.POSITIVE_INFINITY);
+    public static final Property ENTROPY = new Property("Specific entropy", "s", UnitsType.ENTROPY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Property ENERGY = new Property("Specific internal energy", "u", UnitsType.SPECIFIC_ENERGY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Property ENTHALPY = new Property("Specific enthalpy", "h", UnitsType.SPECIFIC_ENERGY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Property HELMHOLTZ = new Property("Specific helmholtz energy", "f", UnitsType.SPECIFIC_ENERGY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Property GIBBS = new Property("Specific gibbs energy", "g", UnitsType.SPECIFIC_ENERGY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Property MOLVOL = new Property("Molar volume" , "Vm", UnitsType.MOLAR_VOLUME, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Property QUALITY = new Property("Quality", "X", UnitsType.DIMENSIONLESS, 0.0, 1.0);
+    public static final Property MECHANICAL = new Property("Specific mechanical energy", "m", UnitsType.SPECIFIC_ENERGY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
     public static final Property[] PROPERTIES = {PRESSURE, TEMPERATURE, VOLUME, DENSITY, ENTROPY, ENERGY, ENTHALPY, HELMHOLTZ, GIBBS, MOLVOL, QUALITY, MECHANICAL};
     
     /**

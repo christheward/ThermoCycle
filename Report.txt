@@ -7,8 +7,8 @@
                                                  __/ |            
                                                 |___/              
 
-Steam Turbine Test
-==================
+Heat Sink Test
+==============
 
 Ambient conditions
 ------------------
@@ -17,129 +17,238 @@ Ambient conditions
 
 Fluids
 ------
+	Acetone
+		Gamma: 1.11E0 
+		R: 1.50E2 J/Kg
+		Cv: 1.36E3 J/Kg.K
+		Cp: 1.51E3 J/Kg.K
+	Acetylene
+		Gamma: 1.23E0 
+		R: 3.19E2 J/Kg
+		Cv: 1.38E3 J/Kg.K
+		Cp: 1.69E3 J/Kg.K
 	Air
 		Gamma: 1.40E0 
 		R: 2.87E2 J/Kg
 		Cv: 7.18E2 J/Kg.K
 		Cp: 1.00E3 J/Kg.K
+	Alcohol (ethanol)
+		Gamma: 1.13E0 
+		R: 2.20E2 J/Kg
+		Cv: 1.69E3 J/Kg.K
+		Cp: 1.91E3 J/Kg.K
+	Alcohol (methanol)
+		Gamma: 1.26E0 
+		R: 3.90E2 J/Kg
+		Cv: 1.50E3 J/Kg.K
+		Cp: 1.89E3 J/Kg.K
+	Ammonia
+		Gamma: 1.31E0 
+		R: 5.30E2 J/Kg
+		Cv: 1.71E3 J/Kg.K
+		Cp: 2.24E3 J/Kg.K
+	Argon
+		Gamma: 1.67E0 
+		R: 2.08E2 J/Kg
+		Cv: 3.12E2 J/Kg.K
+		Cp: 5.20E2 J/Kg.K
+	Benzene
+		Gamma: 1.12E0 
+		R: 1.00E2 J/Kg
+		Cv: 8.33E2 J/Kg.K
+		Cp: 9.33E2 J/Kg.K
+	Blast furnace gas
+		Gamma: 1.41E0 
+		R: 3.00E2 J/Kg
+		Cv: 7.32E2 J/Kg.K
+		Cp: 1.03E3 J/Kg.K
+	Bromine
+		Gamma: 1.28E0 
+		R: 5.00E1 J/Kg
+		Cv: 1.79E2 J/Kg.K
+		Cp: 2.29E2 J/Kg.K
+	Butane
+		Gamma: 1.09E0 
+		R: 1.43E2 J/Kg
+		Cv: 1.52E3 J/Kg.K
+		Cp: 1.66E3 J/Kg.K
+	Carbon dioxide
+		Gamma: 1.29E0 
+		R: 1.89E2 J/Kg
+		Cv: 6.54E2 J/Kg.K
+		Cp: 8.43E2 J/Kg.K
+	Carbon monoxide
+		Gamma: 1.40E0 
+		R: 2.97E2 J/Kg
+		Cv: 7.43E2 J/Kg.K
+		Cp: 1.04E3 J/Kg.K
+	Carbon disulphide
+		Gamma: 1.21E0 
+		R: 1.20E2 J/Kg
+		Cv: 5.71E2 J/Kg.K
+		Cp: 6.91E2 J/Kg.K
+	Chlorine
+		Gamma: 1.34E0 
+		R: 1.20E2 J/Kg
+		Cv: 3.53E2 J/Kg.K
+		Cp: 4.73E2 J/Kg.K
+	Chloroform
+		Gamma: 1.15E0 
+		R: 8.00E1 J/Kg
+		Cv: 5.33E2 J/Kg.K
+		Cp: 6.13E2 J/Kg.K
+	Combustion products
+		Gamma: 1.30E0 
+		R: 2.87E2 J/Kg
+		Cv: 9.57E2 J/Kg.K
+		Cp: 1.24E3 J/Kg.K
+	Ethane
+		Gamma: 1.19E0 
+		R: 2.76E2 J/Kg
+		Cv: 1.48E3 J/Kg.K
+		Cp: 1.75E3 J/Kg.K
+	Ether (diethyl ether)
+		Gamma: 1.03E0 
+		R: 6.00E1 J/Kg
+		Cv: 2.00E3 J/Kg.K
+		Cp: 2.06E3 J/Kg.K
+	Ethylene
+		Gamma: 1.24E0 
+		R: 2.96E2 J/Kg
+		Cv: 1.23E3 J/Kg.K
+		Cp: 1.53E3 J/Kg.K
+	Helium
+		Gamma: 1.67E0 
+		R: 2.08E3 J/Kg
+		Cv: 3.12E3 J/Kg.K
+		Cp: 5.20E3 J/Kg.K
+	Hydrogen
+		Gamma: 1.41E0 
+		R: 4.12E3 J/Kg
+		Cv: 1.02E4 J/Kg.K
+		Cp: 1.43E4 J/Kg.K
+	Hydrogen Chloride
+		Gamma: 1.41E0 
+		R: 2.30E2 J/Kg
+		Cv: 5.61E2 J/Kg.K
+		Cp: 7.91E2 J/Kg.K
+	Hydroxyl
+		Gamma: 1.38E0 
+		R: 4.89E2 J/Kg
+		Cv: 1.27E3 J/Kg.K
+		Cp: 1.76E3 J/Kg.K
+	Methane
+		Gamma: 1.30E0 
+		R: 5.18E2 J/Kg
+		Cv: 1.70E3 J/Kg.K
+		Cp: 2.22E3 J/Kg.K
+	Natural Gas
+		Gamma: 1.27E0 
+		R: 5.00E2 J/Kg
+		Cv: 1.85E3 J/Kg.K
+		Cp: 2.35E3 J/Kg.K
+	Neon
+		Gamma: 1.67E0 
+		R: 4.12E2 J/Kg
+		Cv: 6.18E2 J/Kg.K
+		Cp: 1.03E3 J/Kg.K
+	Nitric Oxide
+		Gamma: 1.39E0 
+		R: 2.77E2 J/Kg
+		Cv: 7.18E2 J/Kg.K
+		Cp: 9.95E2 J/Kg.K
+	Nitrogen
+		Gamma: 1.40E0 
+		R: 2.97E2 J/Kg
+		Cv: 7.43E2 J/Kg.K
+		Cp: 1.04E3 J/Kg.K
+	Nitrogen tetroxide
+		Gamma: 1.02E0 
+		R: 9.00E1 J/Kg
+		Cv: 4.50E3 J/Kg.K
+		Cp: 4.59E3 J/Kg.K
+	Nitrous oxide
+		Gamma: 1.27E0 
+		R: 1.80E2 J/Kg
+		Cv: 6.67E2 J/Kg.K
+		Cp: 8.47E2 J/Kg.K
+	Oxygen
+		Gamma: 1.40E0 
+		R: 2.60E2 J/Kg
+		Cv: 6.58E2 J/Kg.K
+		Cp: 9.18E2 J/Kg.K
+	Propane
+		Gamma: 1.13E0 
+		R: 1.89E2 J/Kg
+		Cv: 1.45E3 J/Kg.K
+		Cp: 1.64E3 J/Kg.K
+	Propene (propylene)
+		Gamma: 1.15E0 
+		R: 1.80E2 J/Kg
+		Cv: 1.20E3 J/Kg.K
+		Cp: 1.38E3 J/Kg.K
+	Water Vapor
+		Gamma: 1.32E0 
+		R: 4.62E2 J/Kg
+		Cv: 1.44E3 J/Kg.K
+		Cp: 1.91E3 J/Kg.K
+	Sulfur dioxide (Sulphur dioxide)
+		Gamma: 1.29E0 
+		R: 1.30E2 J/Kg
+		Cv: 4.48E2 J/Kg.K
+		Cp: 5.78E2 J/Kg.K
 	Steam
 		Formulation: IF97
+	Air
+		Gamma: 1.40E0 
+		R: 2.87E2 J/Kg
+		Cv: 7.18E2 J/Kg.K
+		Cp: 1.00E3 J/Kg.K
 
 Paths
 -----
-	Steam: 1 streams
+	Methane: 0 streams
+	Propene (propylene): 0 streams
+	Hydrogen: 0 streams
+	Hydrogen Chloride: 0 streams
+	Carbon dioxide: 0 streams
+	Ethylene: 0 streams
+	Sulfur dioxide (Sulphur dioxide): 0 streams
+	Combustion products: 0 streams
+	Acetylene: 0 streams
+	Water Vapor: 0 streams
+	Butane: 0 streams
+	Neon: 0 streams
+	Nitrous oxide: 0 streams
+	Carbon monoxide: 0 streams
+	Argon: 0 streams
+	Natural Gas: 0 streams
+	Bromine: 0 streams
+	Oxygen: 0 streams
+	Chloroform: 0 streams
+	Chlorine: 0 streams
+	Alcohol (methanol): 0 streams
+	Blast furnace gas: 0 streams
+	Air: 1 streams
+	Alcohol (ethanol): 0 streams
+	Nitric Oxide: 0 streams
+	Helium: 0 streams
+	Nitrogen: 0 streams
+	Nitrogen tetroxide: 0 streams
+	Ethane: 0 streams
+	Ammonia: 0 streams
+	Benzene: 0 streams
+	Steam: 0 streams
 	Number of streams: 1
-	Air: 0 streams
+	Carbon disulphide: 0 streams
+	Ether (diethyl ether): 0 streams
+	Hydroxyl: 0 streams
+	Propane: 0 streams
+	Acetone: 0 streams
 
 Components
 ----------
-	Feed pump
-		Status: Unsolved
-		Attributes
-			Efficiency: 9.00E-1 
-			Pressure Loss: 1.00E1 
-		Equations
-			Efficiency: Solved
-			Pressure Ratio: Solved
-			Mass Balance: Solved
-			Energy Balance: Solved
-		Shaft
-			Work: 1.05E3 W
-		Outlet
-			Mass: 1.00E0 kg/s
-			P: 1.01E6 Pa
-			s: 1.31E3 J/Kg.K
-			T: 3.73E2 K
-			u: 4.19E5 J/Kg
-			f: -6.88E4 J/Kg
-			v: 1.04E-3 m^3/kg
-			g: -6.77E4 J/Kg
-			h: 4.20E5 J/Kg
-			X: Unsolved.
-			rho: 9.59E2 kg/m^3
-		Inlet
-			Mass: 1.00E0 kg/s
-			P: 1.01E5 Pa
-			s: 1.31E3 J/Kg.K
-			T: 3.73E2 K
-			u: 4.19E5 J/Kg
-			f: -6.87E4 J/Kg
-			v: 1.04E-3 m^3/kg
-			g: -6.86E4 J/Kg
-			h: 4.19E5 J/Kg
-			X: 0.00E0 
-			rho: 9.58E2 kg/m^3
-	Boiler
-		Status: Unsolved
-		Attributes
-			Pressure Loss: 5.00E-2 
-		Equations
-			Mass Balance: Solved
-			Energy Balance: Solved
-			Pressure Loss: Solved
-		Supply
-			Heat: 1.13E5 W
-		Outlet
-			Mass: 1.00E0 kg/s
-			P: 9.63E5 Pa
-			s: 1.60E3 J/Kg.K
-			T: 4.00E2 K
-			u: 5.32E5 J/Kg
-			f: -1.08E5 J/Kg
-			v: 1.07E-3 m^3/kg
-			g: -1.07E5 J/Kg
-			h: 5.33E5 J/Kg
-			X: Unsolved.
-			rho: 9.38E2 kg/m^3
-		Inlet
-			Mass: 1.00E0 kg/s
-			P: 1.01E6 Pa
-			s: 1.31E3 J/Kg.K
-			T: 3.73E2 K
-			u: 4.19E5 J/Kg
-			f: -6.88E4 J/Kg
-			v: 1.04E-3 m^3/kg
-			g: -6.77E4 J/Kg
-			h: 4.20E5 J/Kg
-			X: Unsolved.
-			rho: 9.59E2 kg/m^3
-	Turbine
-		Status: Unsolved
-		Attributes
-			Efficiency: 9.50E-1 
-			Pressure Loss: 9.02E0 
-		Equations
-			Efficiency: Solved
-			Pressure Ratio: Solved
-			Mass Balance: Solved
-			Energy Balance: Solved
-		Shaft
-			Work: 2.14E6 W
-		Outlet
-			Mass: 1.00E0 kg/s
-			P: 1.07E5 Pa
-			s: 7.34E3 J/Kg.K
-			T: 3.75E2 K
-			u: 2.51E6 J/Kg
-			f: -2.41E5 J/Kg
-			v: 1.59E0 m^3/kg
-			g: -7.05E4 J/Kg
-			h: 2.68E6 J/Kg
-			X: 1.00E0 
-			rho: 6.27E-1 kg/m^3
-		Inlet
-			Mass: 1.00E0 kg/s
-			P: 9.63E5 Pa
-			s: 1.60E3 J/Kg.K
-			T: 4.00E2 K
-			u: 5.32E5 J/Kg
-			f: -1.08E5 J/Kg
-			v: 1.07E-3 m^3/kg
-			g: -1.07E5 J/Kg
-			h: 5.33E5 J/Kg
-			X: Unsolved.
-			rho: 9.38E2 kg/m^3
-	Condenser
+	Heat Sink
 		Status: Solved
 		Attributes
 			Pressure Loss: 5.00E-2 
@@ -148,37 +257,35 @@ Components
 			Energy Balance: Solved
 			Pressure Loss: Solved
 		Sink
-			Heat: 2.26E6 W
+			Heat: 2.01E5 W
 		Outlet
 			Mass: 1.00E0 kg/s
 			P: 1.01E5 Pa
-			s: 1.31E3 J/Kg.K
-			T: 3.73E2 K
-			u: 4.19E5 J/Kg
-			f: -6.87E4 J/Kg
-			v: 1.04E-3 m^3/kg
-			g: -6.86E4 J/Kg
-			h: 4.19E5 J/Kg
-			X: 0.00E0 
-			rho: 9.58E2 kg/m^3
+			s: 2.42E3 J/Kg.K
+			T: 3.00E2 K
+			u: 2.15E5 J/Kg
+			f: -5.11E5 J/Kg
+			v: 8.50E-1 m^3/kg
+			g: -4.25E5 J/Kg
+			rho: 1.18E0 kg/m^3
+			h: 3.01E5 J/Kg
 		Inlet
 			Mass: 1.00E0 kg/s
 			P: 1.07E5 Pa
-			s: 7.34E3 J/Kg.K
-			T: 3.75E2 K
-			u: 2.51E6 J/Kg
-			f: -2.41E5 J/Kg
-			v: 1.59E0 m^3/kg
-			g: -7.05E4 J/Kg
-			h: 2.68E6 J/Kg
-			X: 1.00E0 
-			rho: 6.27E-1 kg/m^3
+			s: 2.92E3 J/Kg.K
+			T: 5.00E2 K
+			u: 3.59E5 J/Kg
+			f: -1.10E6 J/Kg
+			v: 1.35E0 m^3/kg
+			g: -9.58E5 J/Kg
+			rho: 7.43E-1 kg/m^3
+			h: 5.02E5 J/Kg
 
 Cycle performance
 -----------------
-	Work output: 2.14E6 W
-	Work input: 1.05E3 W
+	Work output: 0.00E0 W
+	Work input: 0.00E0 W
 	Rational efficiency: ? %
-	Heat input: 1.13E5 W
-	Thermal efficiency: 1.89E1 %
-	Heat output: 2.26E6 W
+	Heat input: 0.00E0 W
+	Thermal efficiency: ? %
+	Heat output: 2.01E5 W
