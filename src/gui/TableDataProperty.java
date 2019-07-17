@@ -60,8 +60,6 @@ public class TableDataProperty extends TableData {
     @Override
     public void createBoundaryCondition(Cycle model, double value) {
         boundaryCondition.setValue(model.setBoundaryConditionProperty(node, property, Arrays.asList(new Double[] {value})));
-        //BoundaryConditionProperty bc = new BoundaryConditionProperty(node, property, Arrays.asList(new Double[] {value}));
-        //setBoundaryCondition(bc);
     }
     
 }

@@ -7,7 +7,7 @@ package gui;
 
 import java.util.Arrays;
 import thermocycle.BoundaryCondition;
-import thermocycle.BoundaryConditionProperty;
+import thermocycle.BoundaryConditionAmbient;
 import thermocycle.Cycle;
 import thermocycle.Property;
 import thermocycle.UnitsControl;
@@ -41,8 +41,8 @@ public class TableDataAmbient extends TableData {
      */
     @Override
     public void setBoundaryCondition(BoundaryCondition bc) {
-        if (bc instanceof BoundaryConditionProperty) {
-            if (((BoundaryConditionProperty) bc).property.equals(property)) {
+        if (bc instanceof BoundaryConditionAmbient) {
+            if (((BoundaryConditionAmbient) bc).property.equals(property)) {
                 this.boundaryCondition.setValue(bc);
             }
         }
@@ -51,8 +51,6 @@ public class TableDataAmbient extends TableData {
     @Override
     public void createBoundaryCondition(Cycle model, double value) {
         boundaryCondition.setValue(model.setBoundaryConditionAmbient(property, Arrays.asList(new Double[] {value})));
-        //BoundaryConditionProperty bc = new BoundaryConditionProperty(node, property, Arrays.asList(new Double[] {value}));
-        //setBoundaryCondition(bc);
     }
     
 }

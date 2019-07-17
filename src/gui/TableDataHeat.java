@@ -42,6 +42,7 @@ public class TableDataHeat extends TableData {
      */
     @Override
     public void setBoundaryCondition(BoundaryCondition bc) {
+        System.out.println((((BoundaryConditionHeat) bc).node).equals(node));
         if (bc instanceof BoundaryConditionHeat) {
             if ((((BoundaryConditionHeat) bc).node).equals(node)) {
                 boundaryCondition.setValue(bc);
@@ -51,9 +52,8 @@ public class TableDataHeat extends TableData {
 
     @Override
     public void createBoundaryCondition(Cycle model, double value) {
+        System.out.println("BC Heat Created");
         boundaryCondition.setValue(model.setBoundaryConditionHeat(node, Arrays.asList(new Double[] {value})));
-        //BoundaryConditionHeat bc = new BoundaryConditionHeat(node, Arrays.asList(new Double[] {value}));
-        //setBoundaryCondition(bc);
     }
     
 }

@@ -111,6 +111,27 @@ public abstract class Component implements Serializable, Reportable {
     }
     
     /**
+     * Determines if this component contains the given node.
+     * @param node the node to look for.
+     * @return true if the component contains this node.
+     */
+    public Optional<String> contiansNode(Node node) {
+        if (node instanceof FlowNode) {
+        return flowNodes.keySet().stream().filter(k -> flowNodes.get(k).equals(node)).findFirst();
+        }
+        else if (node instanceof WorkNode) {
+            return workNodes.keySet().stream().filter(k -> workNodes.get(k).equals(node)).findFirst();
+        }
+        else if (node instanceof HeatNode) {
+            return heatNodes.keySet().stream().filter(k -> heatNodes.get(k).equals(node)).findFirst();
+        }
+        else {
+            Optional<String> os = Optional.empty();
+            return os;
+        }
+    }
+    
+    /**
      * Gets all the inlet flow nodes for this component.
      * @return A list of the inlet flow nodes.
      */
@@ -488,7 +509,7 @@ public abstract class Component implements Serializable, Reportable {
     /**
      * OVerride this method for GUI
      * @param object
-     * @return 
+     * @return true if thw objects are equal.
      */
     @Override
     public boolean equals(Object object) {

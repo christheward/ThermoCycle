@@ -152,10 +152,9 @@ public class MenubarController extends MenuBar {
                     Cycle model = new Cycle(file.getName());
                     FileHandler.openReadStream(file);
                     FileHandler.loadModel(model);
+                    master.setModel(model);
                     FileHandler.loadLayout(master.canvas);
                     FileHandler.closeReadStream();
-                    master.setModel(model);
-                    master.canvas.buildFromModel();
                 }
                 catch (FileNotFoundException ex) {
                     System.err.print("error1");

@@ -135,7 +135,6 @@ public class MasterSceneController extends VBox {
      * @param node The node that is the new focus.
      */
     protected void setFocus(Node node) {
-        System.out.println("Set focus to " + node.toString());
         focus.setValue(node);
     }
     

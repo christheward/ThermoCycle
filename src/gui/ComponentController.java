@@ -6,6 +6,7 @@
 package gui;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.ListIterator;
 import java.util.stream.Collectors;
 import javafx.beans.binding.ObjectBinding;
@@ -38,7 +39,7 @@ import thermocycle.Component;
  *
  * @author Chris
  */
-public class ComponentController extends AnchorPane {
+public final class ComponentController extends AnchorPane {
     
     // FXML variables
     @FXML private AnchorPane base;
@@ -117,167 +118,8 @@ public class ComponentController extends AnchorPane {
     }
     
     /**
-     * Builds the tool tip for this component
+     * Build click handers for this node when it's put on a canvas.
      */
-    protected void buildTooltip() {
-        tip = new Tooltip();
-        Tooltip.install(base, tip);
-        tip.setOnShowing(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                tip.setText(component.toString());
-            }
-        });
-    }
-    
-    /**
-     * Creates the thermodynamic cycle component. Must only be called after icon type has been set with setType() in the superclass.
-     */
-    protected void createComponent() {
-        //Create component based on the icon type.
-        switch (iType) {
-            case COMBUSTOR:
-                component = master.getModel().createCombustor(iType.name);
-                break;
-            case COMPRESSOR:
-                component = master.getModel().createCompressor(iType.name);
-                break;
-            case HEAT_EXCHANGER:
-                component = master.getModel().createHeatExchanger(iType.name);
-                break;
-            case HEAT_SINK:
-                component = master.getModel().createHeatSink(iType.name);
-                break;
-            case TURBINE:
-                component = master.getModel().createTurbine(iType.name);
-                break;
-        }
-        
-        // Adds nodes to the component
-        ListIterator<thermocycle.FlowNode> lif = component.flowNodes.values().stream().collect(Collectors.toList()).listIterator();
-        while (lif.hasNext()) {
-            int idx = lif.nextIndex();
-            thermocycle.FlowNode fn = lif.next();
-            node_grid.add(new NodeController(master, ComponentController.this, fn), iType.flownodes[idx][0], iType.flownodes[idx][1]);
-        }
-        ListIterator<thermocycle.WorkNode> liw = component.workNodes.values().stream().collect(Collectors.toList()).listIterator();
-        while (liw.hasNext()) {
-            int idx = liw.nextIndex();
-            thermocycle.WorkNode wn = liw.next();
-            node_grid.add(new NodeController(master, ComponentController.this, wn), iType.worknodes[idx][0], iType.worknodes[idx][1]);
-        }
-        ListIterator<thermocycle.HeatNode> lih = component.heatNodes.values().stream().collect(Collectors.toList()).listIterator();
-        while (lih.hasNext()) {
-            int idx = lih.nextIndex();
-            thermocycle.HeatNode hn = lih.next();
-            node_grid.add(new NodeController(master, ComponentController.this, hn), iType.heatnodes[idx][0], iType.heatnodes[idx][1]);
-        }
-    }
-    
-    /**
-     * Sets the icon type.
-     * @param iType The icon type to set.
-     */
-    protected final void setType(ComponentIcon iType) {
-        this.iType = iType;
-        icon.getStyleClass().clear();
-        icon.getStyleClass().add(iType.css);
-        icon.getStyleClass().add("icon");
-        name.setText(iType.name);
-    }
-    
-    /**
-     * Relocates the toolbox icon to the specified point in scene co-ordinates.
-     * @param scenePoint the point to relocate to in the scene co-ordinates.
-     */
-    protected final void relocateToPointInScene(Point2D scenePoint) {
-        Point2D parentPoint = getParent().sceneToLocal(scenePoint);
-        this.relocate((int) (parentPoint.getX() - (centerInLocal.getValue().getX())), (int) (parentPoint.getY() - centerInLocal.getValue().getY()));
-    }
-    
-    /**
-     * Builds the drag handlers for this object.
-     */
-    private final void buildDragHandlersForToolbox() {
-        
-       this.setOnDragDetected (new EventHandler <MouseEvent> () {
-            @Override
-            public void handle(MouseEvent event) {
-                
-                // Create clipboard and add data to it so that the icon type can be idnetified when the object is dropped.
-                ClipboardContent content = new ClipboardContent();
-                content.put(CanvasController.CREATE_COMPONENT,iType);
-                
-                // Start drag and drop operation and add data to dragboard
-                Dragboard dragboard = startDragAndDrop(TransferMode.ANY);
-                dragboard.setContent(content);
-                
-                // Not sure if these are needed
-                startFullDrag();
-                //setMouseTransparent(true);
-                
-                // Prepare the canvas component
-                master.canvas.dragIcon.setType(iType);
-                master.canvas.dragIcon.relocateToPointInScene(new Point2D (event.getSceneX(), event.getSceneY()));
-                master.canvas.dragIcon.setVisible(true);
-                
-                // Consume event
-                event.consume();
-                
-            }
-        });
-        
-        this.setOnDragDone(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                
-                // Hide canvas drag icon
-                master.canvas.dragIcon.setVisible(false);
-                
-                // Change cursor
-                cursorProperty().setValue(Cursor.OPEN_HAND);
-                
-                // Consume event
-                event.consume();
-                
-            }
-        });
-        
-    }
-    
-    private final void buildDragHandlersForCanvas() {
-        
-       this.setOnDragDetected (new EventHandler <MouseEvent> () {
-            @Override
-            public void handle(MouseEvent event) {
-                
-                // Create clipboard and add data to it so that the icon type can be idnetified when the object is dropped.
-                ClipboardContent content = new ClipboardContent();
-                content.put(CanvasController.MOVE_COMPONENT,component);
-                
-                // Start drag and drop operation and add data to dragboard
-                Dragboard dragboard = startDragAndDrop(TransferMode.ANY);
-                dragboard.setContent(content);
-                
-                // Not sure if these are needed
-                startFullDrag();
-                //setMouseTransparent(true);
-                
-                // Consume event to make make sure canvas drag detected event isn't fired.
-                event.consume();
-                
-            }
-        });
-        
-        this.setOnDragDone(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                //setMouseTransparent(false);
-            }
-        });
-        
-    }
-    
     private void buildClickHandlersForCanvas() {
         
         ComponentController.this.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -336,6 +178,194 @@ public class ComponentController extends AnchorPane {
             
         });
         
+    }
+    
+    /**
+     * Build drag handlers for this node when it's put on a canvas.
+     */
+    private final void buildDragHandlersForCanvas() {
+        
+       this.setOnDragDetected (new EventHandler <MouseEvent> () {
+            @Override
+            public void handle(MouseEvent event) {
+                
+                // Create clipboard and add data to it so that the icon type can be idnetified when the object is dropped.
+                ClipboardContent content = new ClipboardContent();
+                content.put(CanvasController.MOVE_COMPONENT,component);
+                
+                // Start drag and drop operation and add data to dragboard
+                Dragboard dragboard = startDragAndDrop(TransferMode.ANY);
+                dragboard.setContent(content);
+                
+                // Not sure if these are needed
+                startFullDrag();
+                //setMouseTransparent(true);
+                
+                // Consume event to make make sure canvas drag detected event isn't fired.
+                event.consume();
+                
+            }
+        });
+        
+        this.setOnDragDone(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                //setMouseTransparent(false);
+            }
+        });
+        
+    }
+    
+    /**
+     * Builds the drag handlers for this node when put in the toolbox.
+     */
+    private final void buildDragHandlersForToolbox() {
+        
+       this.setOnDragDetected (new EventHandler <MouseEvent> () {
+            @Override
+            public void handle(MouseEvent event) {
+                
+                // Create clipboard and add data to it so that the icon type can be idnetified when the object is dropped.
+                ClipboardContent content = new ClipboardContent();
+                content.put(CanvasController.CREATE_COMPONENT,iType);
+                
+                // Start drag and drop operation and add data to dragboard
+                Dragboard dragboard = startDragAndDrop(TransferMode.ANY);
+                dragboard.setContent(content);
+                
+                // Not sure if these are needed
+                startFullDrag();
+                //setMouseTransparent(true);
+                
+                // Prepare the canvas component
+                master.canvas.dragIcon.setStyle(iType);
+                master.canvas.dragIcon.relocateToPointInScene(new Point2D (event.getSceneX(), event.getSceneY()));
+                master.canvas.dragIcon.setVisible(true);
+                
+                // Consume event
+                event.consume();
+                
+            }
+        });
+        
+        this.setOnDragDone(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                
+                // Hide canvas drag icon
+                master.canvas.dragIcon.setVisible(false);
+                
+                // Change cursor
+                cursorProperty().setValue(Cursor.OPEN_HAND);
+                
+                // Consume event
+                event.consume();
+                
+            }
+        });
+        
+    }
+    
+    /**
+     * Builds the tool tip for this component
+     */
+    protected void buildTooltip() {
+        tip = new Tooltip();
+        Tooltip.install(base, tip);
+        tip.setOnShowing(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                tip.setText(component.toString());
+            }
+        });
+    }
+    
+    /**
+     * Creates the thermodynamic cycle component based on the icon type.
+     */
+    protected final void createComponent(ComponentIcon iType) {
+        // Sets the component style
+        setStyle(iType);
+        // Create component
+        switch (this.iType) {
+            case COMBUSTOR:
+                component = master.getModel().createCombustor(iType.name);
+                break;
+            case COMPRESSOR:
+                component = master.getModel().createCompressor(iType.name);
+                break;
+            case HEAT_EXCHANGER:
+                component = master.getModel().createHeatExchanger(iType.name);
+                break;
+            case HEAT_SINK:
+                component = master.getModel().createHeatSink(iType.name);
+                break;
+            case TURBINE:
+                component = master.getModel().createTurbine(iType.name);
+                break;
+        }
+        // Add nodes
+        createNodes();
+    }
+    
+    /**
+     * Creates the thermodynamic cycle component based on the thermocycle component.
+     */
+    protected void createComponent(Component component) {
+        // Assigns the thermocycle component
+        this.component = component;
+        // Assigns the icon type based on component class
+        Arrays.asList(ComponentIcon.values()).stream().filter(c -> component.getClass().equals(c.type)).findFirst().ifPresent(c -> {
+            setStyle(c);
+        });
+        // Add nodes
+        createNodes();
+    }
+    
+    /**
+     * Adds the nodes to the component.
+     */
+    private void createNodes() {
+        // Adds nodes to the component
+        ListIterator<thermocycle.FlowNode> lif = component.flowNodes.values().stream().collect(Collectors.toList()).listIterator();
+        while (lif.hasNext()) {
+            int idx = lif.nextIndex();
+            thermocycle.FlowNode fn = lif.next();
+            node_grid.add(new NodeController(master, ComponentController.this, fn), iType.flownodes[idx][0], iType.flownodes[idx][1]);
+        }
+        ListIterator<thermocycle.WorkNode> liw = component.workNodes.values().stream().collect(Collectors.toList()).listIterator();
+        while (liw.hasNext()) {
+            int idx = liw.nextIndex();
+            thermocycle.WorkNode wn = liw.next();
+            node_grid.add(new NodeController(master, ComponentController.this, wn), iType.worknodes[idx][0], iType.worknodes[idx][1]);
+        }
+        ListIterator<thermocycle.HeatNode> lih = component.heatNodes.values().stream().collect(Collectors.toList()).listIterator();
+        while (lih.hasNext()) {
+            int idx = lih.nextIndex();
+            thermocycle.HeatNode hn = lih.next();
+            node_grid.add(new NodeController(master, ComponentController.this, hn), iType.heatnodes[idx][0], iType.heatnodes[idx][1]);
+        }
+    }
+    
+    /**
+     * Relocates the toolbox icon to the specified point in scene co-ordinates.
+     * @param scenePoint the point to relocate to in the scene co-ordinates.
+     */
+    protected final void relocateToPointInScene(Point2D scenePoint) {
+        Point2D parentPoint = getParent().sceneToLocal(scenePoint);
+        this.relocate((int) (parentPoint.getX() - (centerInLocal.getValue().getX())), (int) (parentPoint.getY() - centerInLocal.getValue().getY()));
+    }
+    
+    /**
+     * Sets the icon style. Must only be called after type is defined.
+     * @param iType the icon type to set.
+     */
+    protected final void setStyle(ComponentIcon iType) {
+        this.iType = iType;
+        icon.getStyleClass().clear();
+        icon.getStyleClass().add(iType.css);
+        icon.getStyleClass().add("icon");
+        name.setText(iType.name);
     }
     
 }

@@ -105,7 +105,8 @@ public final class NodeController extends AnchorPane {
      */
     private void buildTooltip() {
         tip = new Tooltip();
-        tip.setText(node.getClass().getSimpleName() + " " + master.getModel().getNodePort(node).name());
+        canvasIcon.component.contiansNode(node).ifPresent(s -> tip.setText(s));
+        //tip.setText(node.getClass().getSimpleName() + " " + master.getModel().getNodePort(node).name());
         Tooltip.install(this, tip);
     }
     

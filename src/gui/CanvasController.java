@@ -36,6 +36,7 @@ import javafx.scene.layout.AnchorPane;
 import thermocycle.Component;
 import thermocycle.Cycle;
 import utilities.SingletonCollector;
+import utilities.TypeConverter;
 
 /**
  *
@@ -57,9 +58,6 @@ public final class CanvasController extends AnchorPane {
     
     // Copy and paste
     protected final ClipboardContent canvasClipboard;
-    
-    // Save and load variables
-    private final Map<Component,Double[]> layout;
     
     // Event handlers
     protected EventHandler<DragEvent> componentDraggedOverCanvas;
@@ -104,9 +102,6 @@ public final class CanvasController extends AnchorPane {
         
         // Set up clipboard
         canvasClipboard = new ClipboardContent();
-        
-        // Set up layout
-        layout = new HashMap();
         
     }
     
@@ -257,7 +252,7 @@ public final class CanvasController extends AnchorPane {
                     component.relocateToPointInScene(new Point2D(event.getSceneX(), event.getSceneY()));
                 }
                 else if (event.getDragboard().getContentTypes().contains(CREATE_CONNECTION)) {
-                    Optional<NodeController> node = nearestNode(event);
+                    Optional<NodeController> node = findNearestNode(event);
                     if (node.isPresent()) {
                         Point2D point = node.get().getLocationInScene();
                         dragConnection.dragTo(point.getX(), point.getY());
@@ -287,8 +282,7 @@ public final class CanvasController extends AnchorPane {
                         
                         // Create new component
                         ComponentController component = new ComponentController(master, true);
-                        component.setType((ComponentIcon) event.getDragboard().getContent(CREATE_COMPONENT));
-                        component.createComponent();
+                        component.createComponent((ComponentIcon) event.getDragboard().getContent(CREATE_COMPONENT));
                         
                         // Add component to canvas
                         canvas.getChildren().add(component);
@@ -324,7 +318,7 @@ public final class CanvasController extends AnchorPane {
                 else if (event.getDragboard().getContentTypes().contains(CREATE_CONNECTION)) {
                     
                     // Get the nearest node and set up the conenction.
-                    nearestNode(event).ifPresent(n -> {
+                    findNearestNode(event).ifPresent(n -> {
                         
                         // Check  nodes are free
                         if (!master.getModel().isConnected(master.canvas.dragConnection.start.node) & !master.getModel().isConnected(n.node)) {
@@ -390,46 +384,6 @@ public final class CanvasController extends AnchorPane {
     }
     
     /**
-     * Gets the nearest node to the event that is not disabled.
-     * @param event the event
-     * @return an option containing the nearest node, if on is found.
-     */
-    private Optional<NodeController> nearestNode(DragEvent event) {
-        Optional<NodeController> node = getNodes().filter(n -> !n.isDisabled()).min(Comparator.comparing(n -> n.getDistance(event.getSceneX(), event.getSceneY())));
-        if (node.isPresent()) {
-            if (node.get().getDistance(event.getSceneX(), event.getSceneY()) < 100) {
-                return node;
-            }
-        }
-        return Optional.empty();
-    }
-    
-    /**
-     * Gets a stream of all the paths on the canvas excluding the drag connection.
-     * @return a stream of all the path elements on the canvas.
-     */
-    private Stream<ConnectionController> getConnections() {
-        return canvas.getChildren().stream().filter(n -> n instanceof ConnectionController).map(n -> (ConnectionController)n).filter(n -> !n.equals(dragConnection));
-    }
-    
-    /**
-     * Gets a stream of all the components on the canvas excluding the drag component.
-     * @return a stream of the components on the canvas.
-     */
-    protected Stream<ComponentController> getComponents() {
-        return canvas.getChildren().stream().filter(n -> n instanceof ComponentController).map(n -> (ComponentController)n).filter(n -> !n.equals(dragIcon));
-    }
-    
-        
-    /**
-     * Gets a stream of all the component nodes on the canvas.
-     * @return Returns a stream of all the component nodes on the canvas.
-     */
-    private Stream<NodeController> getNodes() {
-        return getComponents().map(n -> n.node_grid.getChildren().stream().filter(m -> m instanceof NodeController).map(m -> (NodeController)m)).flatMap(Function.identity());
-    }
-    
-    /**
      * Disables nodes that an ineligible to be connected to this node.
      * @param node 
      */
@@ -455,20 +409,34 @@ public final class CanvasController extends AnchorPane {
     }
     
     /**
-     * Remove component from the canvas and model()
+     * Gets the nearest node to the event that is not disabled.
+     * @param event the event
+     * @return an option containing the nearest node, if on is found.
      */
-    protected void remove(Node node) {
-        if (node instanceof ComponentController) {
-            ComponentController icon = (ComponentController)node;
-            master.getModel().removeComponent(icon.component);
-            canvas.getChildren().remove(icon);
-            // remove any connections that were deleted from the model as part of this operration
-            canvas.getChildren().removeAll(getConnections().filter(c -> !(master.getModel().connectionsReadOnly.contains(c.connection))).collect(Collectors.toSet()));
+    private Optional<NodeController> findNearestNode(DragEvent event) {
+        Optional<NodeController> node = getNodes().filter(n -> !n.isDisabled()).min(Comparator.comparing(n -> n.getDistance(event.getSceneX(), event.getSceneY())));
+        if (node.isPresent()) {
+            if (node.get().getDistance(event.getSceneX(), event.getSceneY()) < 100) {
+                return node;
+            }
         }
-        else if (node instanceof ConnectionController) {
-            master.getModel().removeConnection(((ConnectionController)node).connection);
-            canvas.getChildren().remove(node);
-       }
+        return Optional.empty();
+    }
+    
+    /**
+     * Gets a stream of all the components on the canvas excluding the drag component.
+     * @return a stream of the components on the canvas.
+     */
+    protected Stream<ComponentController> getComponents() {
+        return canvas.getChildren().stream().filter(n -> n instanceof ComponentController).map(n -> (ComponentController)n).filter(n -> !n.equals(dragIcon));
+    }
+        
+    /**
+     * Gets a stream of all the paths on the canvas excluding the drag connection.
+     * @return a stream of all the path elements on the canvas.
+     */
+    private Stream<ConnectionController> getConnections() {
+        return canvas.getChildren().stream().filter(n -> n instanceof ConnectionController).map(n -> (ConnectionController)n).filter(n -> !n.equals(dragConnection));
     }
     
     /**
@@ -487,60 +455,45 @@ public final class CanvasController extends AnchorPane {
     }
     
     /**
-     * This function builds the GUI from the underlying model
+     * Gets a stream of all the component nodes on the canvas.
+     * @return Returns a stream of all the component nodes on the canvas.
      */
-    protected void buildFromModel() {
-        
-        master.getModel().componentsReadOnly.stream().forEach(c -> {
-            try {
-                // Create a new canvas icon
-                ComponentController component = new ComponentController(master, true);
-                //component.getStyleClass().add("icon-componnt");
-                canvas.getChildren().add(component);
-                
-                // Put the canvas icon at the drop co-ordinated
-                component.relocateToPointInScene(this.localToScene(double2point(layout.get(c))));
-                
-                // Show the component
-                component.setVisible(true);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                // Do something
-            }
-        });
-        master.getModel().connectionsReadOnly.stream().forEach(c -> {
-            // Create new canvas path
-            ConnectionController connection = new ConnectionController(master);
-            canvas.getChildren().add(0,connection);
-            
-            List<NodeController> nodes = getNodes().filter(n -> master.getModel().containsNode(c, n.node)).collect(Collectors.toList());
-            if (nodes.size() == 2) {
-                //connection.bindEnds(nodes.get(0), nodes.get(1), c);
-            }
-            else {
-                System.err.println("Incorrect number of connected nodes.");
-            }
-            
-            // Show the connection
-            connection.setVisible(true);
-        });
+    private Stream<NodeController> getNodes() {
+        return getComponents().map(n -> n.node_grid.getChildren().stream().filter(m -> m instanceof NodeController).map(m -> (NodeController)m)).flatMap(Function.identity());
     }
     
     /**
-     * Saves the canvas layout to the output stream
-     * @param stream
+     * Remove component from the canvas and model()
+     */
+    protected void remove(Node node) {
+        if (node instanceof ComponentController) {
+            ComponentController icon = (ComponentController)node;
+            master.getModel().removeComponent(icon.component);
+            canvas.getChildren().remove(icon);
+            // remove any connections that were deleted from the model as part of this operration
+            canvas.getChildren().removeAll(getConnections().filter(c -> !(master.getModel().connectionsReadOnly.contains(c.connection))).collect(Collectors.toSet()));
+        }
+        else if (node instanceof ConnectionController) {
+            master.getModel().removeConnection(((ConnectionController)node).connection);
+            canvas.getChildren().remove(node);
+       }
+    }
+    
+    /**
+     * Saves the canvas layout to the output stream.
+     * @param stream the output stream.
      * @throws IOException 
      */
     public void saveLayout(ObjectOutputStream stream) throws IOException {
-        layout.clear();
+        Map<Component, Double[]> layout = new HashMap();
         getComponents().forEach(c -> {
-            //layout.put(c.component, point2double(c));
+            layout.put(c.component, TypeConverter.point2double(c.localToParent(c.centerInLocal.getValue())));
         });
         stream.writeObject(layout);
     }
     
     /**
-     * 
+     * Loads the canvas layout from the input stream and build the model from the layout.
      * @param stream
      * @throws IOException
      * @throws ClassNotFoundException
@@ -549,20 +502,53 @@ public final class CanvasController extends AnchorPane {
      * @throws IllegalAccessException 
      */
     public void loadLayout(ObjectInputStream stream) throws IOException, ClassNotFoundException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        layout.clear();
+        // Load layout
+        Map<Component, Double[]> layout = new HashMap();
         layout.putAll((Map<Component,Double[]>)stream.readObject());
-    }
-    
-    public static Double[] point2double(Point2D point) {
-        Double[] location = new Double[2];
-        location[0] = point.getX();
-        location[1] = point.getY();
-        return location;
-    }
-    
-    public static Point2D double2point(Double[] location) {
-        Point2D point = new Point2D(location[0], location[1]);
-        return point;
+        // Create components from layout
+        master.getModel().componentsReadOnly.stream().forEach(c -> {
+            try {
+                // Create a new canvas icon
+                ComponentController component = new ComponentController(master, true);
+                component.createComponent(c);
+                canvas.getChildren().add(component);
+                // Put the canvas icon at the drop co-ordinates
+                component.relocateToPointInScene(localToScene(TypeConverter.double2point(layout.get(c))));
+                // Show the component
+                component.setVisible(true);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                // Do something
+            }
+        });
+        // Create connections
+        master.getModel().connectionsReadOnly.stream().forEach(c -> {
+            // Create new canvas path
+            ConnectionController connection = new ConnectionController(master);
+            canvas.getChildren().add(0,connection);
+            // Bind the connection to its nodes
+            List<NodeController> nodes = getNodes().filter(n -> master.getModel().containsNode(c, n.node)).collect(Collectors.toList());
+            System.out.println(c);
+            if (nodes.size() == 2) {
+                connection.bindStart(nodes.get(0));
+                connection.bindEnd(nodes.get(1));
+                nodes.stream().forEach(n -> {
+                    CanvasController.this.getComponents().filter(comp -> comp.component.flowNodes.containsValue(n.node)).findFirst().ifPresent(comp -> {
+                        System.out.println(comp.component);
+                        System.out.println(n.node);
+                    });
+                });
+            }
+            else {
+                System.err.println("Incorrect number of connected nodes.");
+            }
+            
+            // Show the connection
+            connection.setVisible(true);
+        });
+        // Force canvas to apply CSS and update
+        master.canvas.applyCss();
+        master.canvas.layout();
     }
     
 }

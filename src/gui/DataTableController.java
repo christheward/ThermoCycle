@@ -23,14 +23,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Skin;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import thermocycle.BoundaryCondition;
@@ -142,7 +147,7 @@ public class DataTableController extends AnchorPane {
             }
         });
         
-        this.disableProperty().addListener(new ChangeListener<Boolean>() {
+        disableProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(newValue) {
@@ -152,6 +157,31 @@ public class DataTableController extends AnchorPane {
                     dataContainer.expandedProperty().setValue(false);
                 }
             }
+        });
+        
+        dataTable.setRowFactory(tv -> {
+            TableRow<TableData> row = new TableRow();
+            row.setOnMouseClicked(new EventHandler <MouseEvent> () {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.getButton().equals(MouseButton.SECONDARY)) {
+                        // Create context menu
+                        MenuItem mi = new MenuItem("Delete");
+                        mi.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                row.getItem().clearBoundaryCondition();
+                                master.getModel().removeBoundaryCondition(row.getItem().boundaryCondition.getValue());
+                            }
+                        });
+                        ContextMenu contextMenu = new ContextMenu();
+                        contextMenu.getItems().add(mi);
+                        contextMenu.show(row, event.getScreenX(), event.getScreenY());
+                    }
+                    event.consume();
+                }
+            });
+            return row;
         });
         
     }
@@ -228,7 +258,6 @@ public class DataTableController extends AnchorPane {
                     public void handle(KeyEvent t) {
                         if (t.getCode() == KeyCode.ENTER) {
                             try {
-                                //commitEdit(Double.parseDouble(textField.getText()));
                                 // Normally would commint the new number to ValueCell here; however, value is bound to boundary condition and units.
                                 // So instead, just update the boundary condition.
                                 TableData td = dataTable.getItems().get(getIndex());
@@ -257,7 +286,6 @@ public class DataTableController extends AnchorPane {
             setContentDisplay(ContentDisplay.TEXT_ONLY);
         }
         
-        /**
         @Override
         public void updateItem(Number item, boolean empty) {
             super.updateItem(item, empty);
@@ -268,18 +296,17 @@ public class DataTableController extends AnchorPane {
             else {
                 if (isEditing()) {
                     if (textField != null) {
-                        textField.setText(getString());
+                        textField.setText(currentValue());
                     }
                     setGraphic(textField);
                     setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                 }
                 else {
-                    setText(getString());
+                    setText(currentValue());
                     setContentDisplay(ContentDisplay.TEXT_ONLY);
                 }
             }
         }
-        */
         
         /**
          * Gets the cell value as a string.
@@ -321,7 +348,6 @@ public class DataTableController extends AnchorPane {
                     public void handle(ActionEvent event) {
                         TableData td = dataTable.getItems().get(getIndex());
                         td.units.setValue(choiceBox.getSelectionModel().getSelectedItem());
-                        //commitEdit(choiceBox.getSelectionModel().getSelectedItem());
                     }
                 });
             }
@@ -385,6 +411,7 @@ public class DataTableController extends AnchorPane {
             // Initilaise button.
             button = new Button();
             button.setText("X");
+            //button.setMaxHeight(cellHeight.doubleValue()); // Doesn't appear to work
             
             //setGraphicTextGap(0.0);
             //button.prefHeightProperty().bind(cellHeight);
@@ -401,6 +428,8 @@ public class DataTableController extends AnchorPane {
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
+                    TableData td = dataTable.getItems().get(getIndex());
+                    td.clearBoundaryCondition();
                     master.getModel().removeBoundaryCondition(itemProperty().getValue());
                 }
             });

@@ -55,10 +55,7 @@ public class TableDataAttribute extends TableData {
 
     @Override
     public void createBoundaryCondition(Cycle model, double value) {
-        System.out.println("Creating Attribute BC");
         boundaryCondition.setValue(model.setBoundaryConditionAttribute(component, attribute, Arrays.asList(new Double[] {value})));
-        //BoundaryConditionAttribute bc = new BoundaryConditionAttribute(component, attribute, Arrays.asList(new Double[] {value}));
-        //setBoundaryCondition(bc);
     }
     
 }

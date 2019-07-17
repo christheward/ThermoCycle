@@ -52,8 +52,6 @@ public class TableDataWork extends TableData {
     @Override
     public void createBoundaryCondition(Cycle model, double value) {
         boundaryCondition.setValue(model.setBoundaryConditionWork(node, Arrays.asList(new Double[] {value})));
-        //BoundaryConditionWork bc = new BoundaryConditionWork(node, Arrays.asList(new Double[] {value}));
-        //setBoundaryCondition(bc);
     }
     
 }

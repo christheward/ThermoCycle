@@ -7,6 +7,7 @@ package thermocycle;
 
 import java.io.Serializable;
 import java.util.Observable;
+import java.util.UUID;
 import utilities.StringFormatter;
 
 /**
@@ -20,9 +21,11 @@ public abstract class Node extends Observable implements Serializable {
      */
     public enum Port {INLET, OUTLET, INTERNAL;
     
-    @Override
-    public String toString() {return StringFormatter.toCapitalFirst(this.name());};
-    
+        @Override
+        public String toString() {
+            return StringFormatter.toCapitalFirst(this.name());
+        };
+        
     };
     
     /**
@@ -76,5 +79,6 @@ public abstract class Node extends Observable implements Serializable {
         sb.append(this.port);
         return sb.toString();
     }
+    
 }
 

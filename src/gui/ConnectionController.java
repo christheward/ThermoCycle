@@ -230,4 +230,17 @@ public class ConnectionController extends Path {
         return (LineTo) getElements().get(getElements().size()-1);
     }
     
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        master.canvas.getComponents().forEach(c -> {
+            c.component.contiansNode(start.node).ifPresent(s -> {
+                sb.append(c.component);
+                sb.append(" ");
+                sb.append(s);
+            });
+        });
+        return sb.toString();
+    }
+    
 }

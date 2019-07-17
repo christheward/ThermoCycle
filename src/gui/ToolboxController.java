@@ -63,7 +63,7 @@ public class ToolboxController extends StackPane{
                 // Check type is a sub-class of component
                 if (Component.class.isAssignableFrom(componentType.type)) {
                     ComponentController icon = new ComponentController(master, false); 
-                    icon.setType(componentType);
+                    icon.setStyle(componentType);
                     contents.getChildren().add(icon);
                 }
             }

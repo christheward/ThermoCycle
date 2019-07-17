@@ -8,7 +8,6 @@ package gui;
 import java.util.Arrays;
 import thermocycle.BoundaryCondition;
 import thermocycle.BoundaryConditionMass;
-import thermocycle.BoundaryConditionWork;
 import thermocycle.Cycle;
 import thermocycle.FlowNode;
 import thermocycle.UnitsControl;
@@ -53,8 +52,6 @@ public class TableDataMass extends TableData {
     @Override
     public void createBoundaryCondition(Cycle model, double value) {
         boundaryCondition.setValue(model.setBoundaryConditionMass(node, Arrays.asList(new Double[] {value})));
-        //BoundaryConditionMass bc = new BoundaryConditionMass(node, Arrays.asList(new Double[] {value}));
-        //setBoundaryCondition(bc);
     }
     
 }

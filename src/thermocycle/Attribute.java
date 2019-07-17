@@ -32,4 +32,13 @@ public class Attribute implements Serializable {
         return symbol;
     }
     
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Attribute) {
+            Attribute a = (Attribute) object;
+            return name.equals(a.name) && symbol.equals(a.symbol) && type.equals(a.type) && (min == a.min) && (max == a.max);
+        }
+        return false;
+    }
+    
 }

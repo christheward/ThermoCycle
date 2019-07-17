@@ -6,14 +6,19 @@
 package gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import thermocycle.BoundaryConditionAmbient;
 import thermocycle.BoundaryConditionAttribute;
 import thermocycle.BoundaryConditionHeat;
 import thermocycle.BoundaryConditionMass;
@@ -21,6 +26,7 @@ import thermocycle.BoundaryConditionProperty;
 import thermocycle.BoundaryConditionWork;
 import thermocycle.Component;
 import thermocycle.Fluid;
+import thermocycle.Property;
 
 /**
  *
@@ -78,14 +84,50 @@ public class InfoboxController extends AnchorPane {
                 
                 if (newValue instanceof CanvasController) {
                     // Create new data table
-                    DataTableController dataTable = new DataTableController(master);
+                    DataTableController ambientTable = new DataTableController(master);
                     // Set table title
-                    dataTable.setTitle("AmbientConditions");
+                    ambientTable.setTitle("Ambient Conditions");
                     // Add data to table
-                    dataTable.addData(new TableDataAmbient(Fluid.PRESSURE));
-                    dataTable.addData(new TableDataAmbient(Fluid.TEMPERATURE));
+                    List<Property> ambientProperties = new ArrayList();
+                    ambientProperties.add(Fluid.PRESSURE);
+                    ambientProperties.add(Fluid.TEMPERATURE);
+                    ambientProperties.stream().forEach(p -> {
+                        ambientTable.addData(new TableDataAmbient(p));
+                        master.getModel().boundaryConditionsReadOnly.stream()
+                            .filter(bc -> bc instanceof BoundaryConditionAmbient)
+                            .map(bc -> (BoundaryConditionAmbient)bc)
+                            .filter(bc -> bc.property.equals(p))
+                            .findFirst()
+                            .ifPresent(bc -> ambientTable.getLast().ifPresent(dt -> dt.setBoundaryCondition(bc)));
+                    });
+                    
                     // Add table to infobox
-                    infoContainer.getChildren().add(dataTable);
+                    infoContainer.getChildren().add(ambientTable);
+                    
+                    // Create new components list
+                    DataListController componentsList = new DataListController(master);
+                    // Set list title
+                    componentsList.setTitle("Components");
+                    componentsList.addData(master.getModel().componentsReadOnly);
+                    // Add list to infobox
+                    infoContainer.getChildren().add(componentsList);
+                    
+                    // Creat new connections list
+                    DataListController connectionsList = new DataListController(master);
+                    // SEt list title
+                    connectionsList.setTitle("Connections");
+                    connectionsList.addData(master.getModel().connectionsReadOnly);
+                    // Add list to infobox
+                    infoContainer.getChildren().add(connectionsList);
+                    
+                    // Creat new boundary conditions list
+                    DataListController boundaryConditionsList = new DataListController(master);
+                    // SEt list title
+                    boundaryConditionsList.setTitle("Boundary Conditions");
+                    boundaryConditionsList.addData(master.getModel().boundaryConditionsReadOnly);
+                    // Add list to infobox
+                    infoContainer.getChildren().add(boundaryConditionsList);
+                    
                 }
                 else if (newValue instanceof ComponentController) {
                     // Get compoennt
@@ -104,7 +146,6 @@ public class InfoboxController extends AnchorPane {
                                     master.getModel().setFluid(n, newValue);
                                     // Re make inbobox.
                                     InfoboxController.this.layout();
-                                    //InfoboxController.this.initialize();
                                 }
                             }
                         });
@@ -120,7 +161,7 @@ public class InfoboxController extends AnchorPane {
                     component.getAllowableAtributes().stream().sorted(byName).forEach(a -> {
                         // Add attribute to table
                         attributeTable.addData(new TableDataAttribute(component, a));
-                        // If bounnary condition already exists, link this to the table.
+                        // If boundary condition already exists, link this to the table.
                         master.getModel().boundaryConditionsReadOnly.stream()
                                 .filter(bc -> bc instanceof BoundaryConditionAttribute)
                                 .map(bc -> (BoundaryConditionAttribute)bc)
@@ -142,7 +183,7 @@ public class InfoboxController extends AnchorPane {
                         master.getModel().boundaryConditionsReadOnly.stream()
                                 .filter(bc -> bc instanceof BoundaryConditionMass)
                                 .map(bc -> (BoundaryConditionMass)bc)
-                                .filter(bc -> bc.node.equals(n))
+                                .filter(bc -> bc.node.equals(component.flowNodes.get(n)))
                                 .findFirst()
                                 .ifPresent(bc -> flowTable.getLast().ifPresent(dt -> dt.setBoundaryCondition(bc)));
                         // Add properties
@@ -153,7 +194,7 @@ public class InfoboxController extends AnchorPane {
                             master.getModel().boundaryConditionsReadOnly.stream()
                                     .filter(bc -> bc instanceof BoundaryConditionProperty)
                                     .map(bc -> (BoundaryConditionProperty)bc)
-                                    .filter(bc -> bc.node.equals(n))
+                                    .filter(bc -> bc.node.equals(component.flowNodes.get(n)))
                                     .filter(bc -> bc.property.equals(p))
                                     .findFirst()
                                     .ifPresent(bc -> flowTable.getLast().ifPresent(dt -> dt.setBoundaryCondition(bc)));
@@ -173,7 +214,7 @@ public class InfoboxController extends AnchorPane {
                         master.getModel().boundaryConditionsReadOnly.stream()
                                 .filter(bc -> bc instanceof BoundaryConditionWork)
                                 .map(bc -> (BoundaryConditionWork)bc)
-                                .filter(bc -> bc.node.equals(n))
+                                .filter(bc -> bc.node.equals(component.workNodes.get(n)))
                                 .findFirst()
                                 .ifPresent(bc -> workTable.getLast().ifPresent(dt -> dt.setBoundaryCondition(bc)));
                         // Add table to infoBox
@@ -189,7 +230,7 @@ public class InfoboxController extends AnchorPane {
                         master.getModel().boundaryConditionsReadOnly.stream()
                                 .filter(bc -> bc instanceof BoundaryConditionHeat)
                                 .map(bc -> (BoundaryConditionHeat)bc)
-                                .filter(bc -> bc.node.equals(n))
+                                .filter(bc -> bc.node.equals(component.heatNodes.get(n)))
                                 .findFirst()
                                 .ifPresent(bc -> heatTable.getLast().ifPresent(dt -> dt.setBoundaryCondition(bc)));
                         // Add table to infoBox
