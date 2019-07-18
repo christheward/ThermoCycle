@@ -11,13 +11,14 @@ import java.util.Comparator;
 import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 import thermocycle.BoundaryConditionAmbient;
 import thermocycle.BoundaryConditionAttribute;
 import thermocycle.BoundaryConditionHeat;
@@ -25,6 +26,7 @@ import thermocycle.BoundaryConditionMass;
 import thermocycle.BoundaryConditionProperty;
 import thermocycle.BoundaryConditionWork;
 import thermocycle.Component;
+import thermocycle.Connection;
 import thermocycle.Fluid;
 import thermocycle.Property;
 
@@ -114,9 +116,26 @@ public class InfoboxController extends AnchorPane {
                     
                     // Creat new connections list
                     DataListController connectionsList = new DataListController(master);
-                    // SEt list title
+                    // Set list title
                     connectionsList.setTitle("Connections");
                     connectionsList.addData(master.getModel().connectionsReadOnly);
+                    connectionsList.setCellFactory(new Callback<ListView<Connection>, ListCell<Connection>>() {
+                        @Override
+                        public ListCell<Connection> call(ListView<Connection> param) {
+                            ListCell<Connection> cell = new ListCell<Connection>() {
+                                @Override
+                                protected void updateItem(Connection item, boolean empty) {
+                                    super.updateItem(item, empty);
+                                    if (item != null) {
+                                        master.canvas.getConnections().filter(c -> c.connection.equals(item)).findFirst().ifPresent(c -> setText(c.toString()));
+                                    } else {
+                                       setText("");
+                                    }
+                                }
+                            };
+                            return cell;
+                        }
+                    });
                     // Add list to infobox
                     infoContainer.getChildren().add(connectionsList);
                     

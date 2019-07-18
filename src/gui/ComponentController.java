@@ -7,8 +7,6 @@ package gui;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.ListIterator;
-import java.util.stream.Collectors;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -89,6 +87,7 @@ public final class ComponentController extends AnchorPane {
             // Model component handlers
             buildDragHandlersForCanvas();
             buildClickHandlersForCanvas();
+            node_grid.visibleProperty().bind(this.master.nodeVisibility);
         }
         else {
             // Toolbox component handlers
@@ -327,24 +326,19 @@ public final class ComponentController extends AnchorPane {
      */
     private void createNodes() {
         // Adds nodes to the component
-        ListIterator<thermocycle.FlowNode> lif = component.flowNodes.values().stream().collect(Collectors.toList()).listIterator();
-        while (lif.hasNext()) {
-            int idx = lif.nextIndex();
-            thermocycle.FlowNode fn = lif.next();
-            node_grid.add(new NodeController(master, ComponentController.this, fn), iType.flownodes[idx][0], iType.flownodes[idx][1]);
-        }
-        ListIterator<thermocycle.WorkNode> liw = component.workNodes.values().stream().collect(Collectors.toList()).listIterator();
-        while (liw.hasNext()) {
-            int idx = liw.nextIndex();
-            thermocycle.WorkNode wn = liw.next();
-            node_grid.add(new NodeController(master, ComponentController.this, wn), iType.worknodes[idx][0], iType.worknodes[idx][1]);
-        }
-        ListIterator<thermocycle.HeatNode> lih = component.heatNodes.values().stream().collect(Collectors.toList()).listIterator();
-        while (lih.hasNext()) {
-            int idx = lih.nextIndex();
-            thermocycle.HeatNode hn = lih.next();
-            node_grid.add(new NodeController(master, ComponentController.this, hn), iType.heatnodes[idx][0], iType.heatnodes[idx][1]);
-        }
+        component.flowNodes.keySet().stream().forEach(k -> {
+            int[] i = iType.nodes.get(k);
+            node_grid.add(new NodeController(master, ComponentController.this, component.flowNodes.get(k)), i[0], i[1]);
+        });
+        component.workNodes.keySet().stream().forEach(k -> {
+            int[] i = iType.nodes.get(k);
+            node_grid.add(new NodeController(master, ComponentController.this, component.workNodes.get(k)), i[0], i[1]);
+        });
+
+        component.heatNodes.keySet().stream().forEach(k -> {
+            int[] i = iType.nodes.get(k);
+            node_grid.add(new NodeController(master, ComponentController.this, component.heatNodes.get(k)), i[0], i[1]);
+        });
     }
     
     /**

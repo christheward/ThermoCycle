@@ -287,9 +287,6 @@ public final class CanvasController extends AnchorPane {
                         // Add component to canvas
                         canvas.getChildren().add(component);
                         
-                        // Bind node visibility
-                        component.node_grid.visibleProperty().bind(master.nodeVisibility);
-                        
                         // Force canvas to apply CSS and update
                         canvas.applyCss();
                         canvas.layout();
@@ -430,12 +427,12 @@ public final class CanvasController extends AnchorPane {
     protected Stream<ComponentController> getComponents() {
         return canvas.getChildren().stream().filter(n -> n instanceof ComponentController).map(n -> (ComponentController)n).filter(n -> !n.equals(dragIcon));
     }
-        
+    
     /**
      * Gets a stream of all the paths on the canvas excluding the drag connection.
      * @return a stream of all the path elements on the canvas.
      */
-    private Stream<ConnectionController> getConnections() {
+    protected Stream<ConnectionController> getConnections() {
         return canvas.getChildren().stream().filter(n -> n instanceof ConnectionController).map(n -> (ConnectionController)n).filter(n -> !n.equals(dragConnection));
     }
     
@@ -511,7 +508,7 @@ public final class CanvasController extends AnchorPane {
                 // Create a new canvas icon
                 ComponentController component = new ComponentController(master, true);
                 component.createComponent(c);
-                canvas.getChildren().add(component);
+                canvas.getChildren().add(0,component);
                 // Put the canvas icon at the drop co-ordinates
                 component.relocateToPointInScene(localToScene(TypeConverter.double2point(layout.get(c))));
                 // Show the component
@@ -528,21 +525,13 @@ public final class CanvasController extends AnchorPane {
             canvas.getChildren().add(0,connection);
             // Bind the connection to its nodes
             List<NodeController> nodes = getNodes().filter(n -> master.getModel().containsNode(c, n.node)).collect(Collectors.toList());
-            System.out.println(c);
             if (nodes.size() == 2) {
                 connection.bindStart(nodes.get(0));
-                connection.bindEnd(nodes.get(1));
-                nodes.stream().forEach(n -> {
-                    CanvasController.this.getComponents().filter(comp -> comp.component.flowNodes.containsValue(n.node)).findFirst().ifPresent(comp -> {
-                        System.out.println(comp.component);
-                        System.out.println(n.node);
-                    });
-                });
+                connection.bindEnd(nodes.get(1), c);
             }
             else {
                 System.err.println("Incorrect number of connected nodes.");
             }
-            
             // Show the connection
             connection.setVisible(true);
         });

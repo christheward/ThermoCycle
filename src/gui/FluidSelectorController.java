@@ -6,17 +6,12 @@
 package gui;
 
 import java.io.IOException;
-import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import thermocycle.Cycle;
-import thermocycle.FlowNode;
 import thermocycle.Fluid;
 
 /**

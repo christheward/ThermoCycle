@@ -205,7 +205,7 @@ public final class FlowNode extends Node {
     
     @Override
     public String getType() {
-        return "flow";
+        return "Flow";
     }
     
 }

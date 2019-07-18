@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Callback;
 
 /**
  *
@@ -80,6 +81,16 @@ public class DataListController extends AnchorPane {
             return cell;
         });
         */
+        
+        
+    }
+    
+    /**
+     * Set the cell factory for the list.
+     * @param value 
+     */
+    public void setCellFactory(Callback value) {
+        dataList.setCellFactory(value);
     }
     
     /**

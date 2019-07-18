@@ -76,6 +76,10 @@ public class ConnectionController extends Path {
         
     }
     
+    /**
+     * Bind the connection to the start node.
+     * @param node the node to bind to.
+     */
     protected void bindStart(NodeController node) {
         
         // Set the star nide
@@ -106,9 +110,52 @@ public class ConnectionController extends Path {
         
     }
     
+    /**
+     * Set connection
+     * @param connection the model connection.
+     */
+    protected void bindEnd(NodeController node, Connection connection) {
+        
+        // Set the end node
+        end = node;
+        
+        // Set the connection
+        this.connection = connection;
+        
+        // Bind last path element to end node
+        lastElement().xProperty().bind(new DoubleBinding() {
+            {
+                bind(end.localToSceneTransformProperty(),end.widthProperty(),end.heightProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return master.canvas.sceneToLocal(end.localToSceneTransformProperty().getValue().transform(end.widthProperty().getValue()/2.0, end.heightProperty().getValue()/2.0)).getX();
+            }
+        });
+        lastElement().yProperty().bind(new DoubleBinding() {
+            {
+                bind(end.localToSceneTransformProperty(),end.widthProperty(),end.heightProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return master.canvas.sceneToLocal(end.localToSceneTransformProperty().getValue().transform(end.widthProperty().getValue()/2.0, end.heightProperty().getValue()/2.0)).getY();
+            }
+        });
+
+        // Creat context menu
+        buildContextMenu();
+        buildClickHandlers();
+        
+    }
+    
+    /**
+     * Bind the connection to the end node and create the connection if it doesn't exit.
+     * @param node the end node.
+     * @return true if the connection is sucessfully created
+     */
     protected boolean bindEnd(NodeController node) {
         
-        // Set the star nide
+        // Set the end node
         end = node;
         
         // If the connections is suceessfully created
@@ -233,12 +280,16 @@ public class ConnectionController extends Path {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        master.canvas.getComponents().forEach(c -> {
-            c.component.contiansNode(start.node).ifPresent(s -> {
-                sb.append(c.component);
-                sb.append(" ");
-                sb.append(s);
-            });
+        master.canvas.getComponents().filter(c -> c.component.contiansNode(start.node).isPresent()).findFirst().ifPresent(c -> {
+            sb.append(c.component);
+            sb.append(" ");
+            sb.append(c.component.contiansNode(start.node).get());
+        });
+        sb.append(" <-> ");
+        master.canvas.getComponents().filter(c -> c.component.contiansNode(end.node).isPresent()).findFirst().ifPresent(c -> {
+            sb.append(c.component);
+            sb.append(" ");
+            sb.append(c.component.contiansNode(end.node).get());
         });
         return sb.toString();
     }

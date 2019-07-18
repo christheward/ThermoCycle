@@ -1,42 +1,50 @@
-2019-07-17 22:27:55.465 [JavaFX Application Thread] TRACE DebugLog - Loading fluid library.
-2019-07-17 22:27:55.586 [JavaFX Application Thread] INFO  DebugLog - Created Acetone (IdealGas)
-2019-07-17 22:27:55.586 [JavaFX Application Thread] INFO  DebugLog - Created Acetylene (IdealGas)
-2019-07-17 22:27:55.587 [JavaFX Application Thread] INFO  DebugLog - Created Air (IdealGas)
-2019-07-17 22:27:55.587 [JavaFX Application Thread] INFO  DebugLog - Created Alcohol (ethanol) (IdealGas)
-2019-07-17 22:27:55.587 [JavaFX Application Thread] INFO  DebugLog - Created Alcohol (methanol) (IdealGas)
-2019-07-17 22:27:55.587 [JavaFX Application Thread] INFO  DebugLog - Created Ammonia (IdealGas)
-2019-07-17 22:27:55.587 [JavaFX Application Thread] INFO  DebugLog - Created Argon (IdealGas)
-2019-07-17 22:27:55.587 [JavaFX Application Thread] INFO  DebugLog - Created Benzene (IdealGas)
-2019-07-17 22:27:55.587 [JavaFX Application Thread] INFO  DebugLog - Created Blast furnace gas (IdealGas)
-2019-07-17 22:27:55.587 [JavaFX Application Thread] INFO  DebugLog - Created Bromine (IdealGas)
-2019-07-17 22:27:55.588 [JavaFX Application Thread] INFO  DebugLog - Created Butane (IdealGas)
-2019-07-17 22:27:55.588 [JavaFX Application Thread] INFO  DebugLog - Created Carbon dioxide (IdealGas)
-2019-07-17 22:27:55.588 [JavaFX Application Thread] INFO  DebugLog - Created Carbon monoxide (IdealGas)
-2019-07-17 22:27:55.588 [JavaFX Application Thread] INFO  DebugLog - Created Carbon disulphide (IdealGas)
-2019-07-17 22:27:55.588 [JavaFX Application Thread] INFO  DebugLog - Created Chlorine (IdealGas)
-2019-07-17 22:27:55.588 [JavaFX Application Thread] INFO  DebugLog - Created Chloroform (IdealGas)
-2019-07-17 22:27:55.588 [JavaFX Application Thread] INFO  DebugLog - Created Combustion products (IdealGas)
-2019-07-17 22:27:55.589 [JavaFX Application Thread] INFO  DebugLog - Created Ethane (IdealGas)
-2019-07-17 22:27:55.589 [JavaFX Application Thread] INFO  DebugLog - Created Ether (diethyl ether) (IdealGas)
-2019-07-17 22:27:55.589 [JavaFX Application Thread] INFO  DebugLog - Created Ethylene (IdealGas)
-2019-07-17 22:27:55.589 [JavaFX Application Thread] INFO  DebugLog - Created Helium (IdealGas)
-2019-07-17 22:27:55.589 [JavaFX Application Thread] INFO  DebugLog - Created Hydrogen (IdealGas)
-2019-07-17 22:27:55.589 [JavaFX Application Thread] INFO  DebugLog - Created Hydrogen Chloride (IdealGas)
-2019-07-17 22:27:55.589 [JavaFX Application Thread] INFO  DebugLog - Created Hydroxyl (IdealGas)
-2019-07-17 22:27:55.589 [JavaFX Application Thread] INFO  DebugLog - Created Methane (IdealGas)
-2019-07-17 22:27:55.589 [JavaFX Application Thread] INFO  DebugLog - Created Natural Gas (IdealGas)
-2019-07-17 22:27:55.590 [JavaFX Application Thread] INFO  DebugLog - Created Neon (IdealGas)
-2019-07-17 22:27:55.590 [JavaFX Application Thread] INFO  DebugLog - Created Nitric Oxide (IdealGas)
-2019-07-17 22:27:55.590 [JavaFX Application Thread] INFO  DebugLog - Created Nitrogen (IdealGas)
-2019-07-17 22:27:55.590 [JavaFX Application Thread] INFO  DebugLog - Created Nitrogen tetroxide (IdealGas)
-2019-07-17 22:27:55.590 [JavaFX Application Thread] INFO  DebugLog - Created Nitrous oxide (IdealGas)
-2019-07-17 22:27:55.590 [JavaFX Application Thread] INFO  DebugLog - Created Oxygen (IdealGas)
-2019-07-17 22:27:55.590 [JavaFX Application Thread] INFO  DebugLog - Created Propane (IdealGas)
-2019-07-17 22:27:55.590 [JavaFX Application Thread] INFO  DebugLog - Created Propene (propylene) (IdealGas)
-2019-07-17 22:27:55.591 [JavaFX Application Thread] INFO  DebugLog - Created Water Vapor (IdealGas)
-2019-07-17 22:27:55.591 [JavaFX Application Thread] INFO  DebugLog - Created Sulfur dioxide (Sulphur dioxide) (IdealGas)
-2019-07-17 22:27:55.591 [JavaFX Application Thread] TRACE DebugLog - Ideal gases loaded.
-2019-07-17 22:27:55.638 [JavaFX Application Thread] INFO  DebugLog - Created Steam (Steam)
-2019-07-17 22:27:55.638 [JavaFX Application Thread] TRACE DebugLog - Steam loaded.
-2019-07-17 22:27:57.825 [JavaFX Application Thread] INFO  DebugLog - Created Heat Exchanger
-2019-07-17 22:27:59.797 [JavaFX Application Thread] INFO  DebugLog - Created Compressor
+2019-07-18 22:29:59.436 [JavaFX Application Thread] TRACE DebugLog - Loading fluid library.
+2019-07-18 22:29:59.566 [JavaFX Application Thread] INFO  DebugLog - Created Acetone (IdealGas)
+2019-07-18 22:29:59.566 [JavaFX Application Thread] INFO  DebugLog - Created Acetylene (IdealGas)
+2019-07-18 22:29:59.566 [JavaFX Application Thread] INFO  DebugLog - Created Air (IdealGas)
+2019-07-18 22:29:59.566 [JavaFX Application Thread] INFO  DebugLog - Created Alcohol (ethanol) (IdealGas)
+2019-07-18 22:29:59.566 [JavaFX Application Thread] INFO  DebugLog - Created Alcohol (methanol) (IdealGas)
+2019-07-18 22:29:59.566 [JavaFX Application Thread] INFO  DebugLog - Created Ammonia (IdealGas)
+2019-07-18 22:29:59.566 [JavaFX Application Thread] INFO  DebugLog - Created Argon (IdealGas)
+2019-07-18 22:29:59.567 [JavaFX Application Thread] INFO  DebugLog - Created Benzene (IdealGas)
+2019-07-18 22:29:59.567 [JavaFX Application Thread] INFO  DebugLog - Created Blast furnace gas (IdealGas)
+2019-07-18 22:29:59.567 [JavaFX Application Thread] INFO  DebugLog - Created Bromine (IdealGas)
+2019-07-18 22:29:59.567 [JavaFX Application Thread] INFO  DebugLog - Created Butane (IdealGas)
+2019-07-18 22:29:59.567 [JavaFX Application Thread] INFO  DebugLog - Created Carbon dioxide (IdealGas)
+2019-07-18 22:29:59.567 [JavaFX Application Thread] INFO  DebugLog - Created Carbon monoxide (IdealGas)
+2019-07-18 22:29:59.567 [JavaFX Application Thread] INFO  DebugLog - Created Carbon disulphide (IdealGas)
+2019-07-18 22:29:59.567 [JavaFX Application Thread] INFO  DebugLog - Created Chlorine (IdealGas)
+2019-07-18 22:29:59.568 [JavaFX Application Thread] INFO  DebugLog - Created Chloroform (IdealGas)
+2019-07-18 22:29:59.568 [JavaFX Application Thread] INFO  DebugLog - Created Combustion products (IdealGas)
+2019-07-18 22:29:59.568 [JavaFX Application Thread] INFO  DebugLog - Created Ethane (IdealGas)
+2019-07-18 22:29:59.568 [JavaFX Application Thread] INFO  DebugLog - Created Ether (diethyl ether) (IdealGas)
+2019-07-18 22:29:59.568 [JavaFX Application Thread] INFO  DebugLog - Created Ethylene (IdealGas)
+2019-07-18 22:29:59.568 [JavaFX Application Thread] INFO  DebugLog - Created Helium (IdealGas)
+2019-07-18 22:29:59.568 [JavaFX Application Thread] INFO  DebugLog - Created Hydrogen (IdealGas)
+2019-07-18 22:29:59.569 [JavaFX Application Thread] INFO  DebugLog - Created Hydrogen Chloride (IdealGas)
+2019-07-18 22:29:59.569 [JavaFX Application Thread] INFO  DebugLog - Created Hydroxyl (IdealGas)
+2019-07-18 22:29:59.569 [JavaFX Application Thread] INFO  DebugLog - Created Methane (IdealGas)
+2019-07-18 22:29:59.569 [JavaFX Application Thread] INFO  DebugLog - Created Natural Gas (IdealGas)
+2019-07-18 22:29:59.569 [JavaFX Application Thread] INFO  DebugLog - Created Neon (IdealGas)
+2019-07-18 22:29:59.569 [JavaFX Application Thread] INFO  DebugLog - Created Nitric Oxide (IdealGas)
+2019-07-18 22:29:59.569 [JavaFX Application Thread] INFO  DebugLog - Created Nitrogen (IdealGas)
+2019-07-18 22:29:59.569 [JavaFX Application Thread] INFO  DebugLog - Created Nitrogen tetroxide (IdealGas)
+2019-07-18 22:29:59.570 [JavaFX Application Thread] INFO  DebugLog - Created Nitrous oxide (IdealGas)
+2019-07-18 22:29:59.570 [JavaFX Application Thread] INFO  DebugLog - Created Oxygen (IdealGas)
+2019-07-18 22:29:59.570 [JavaFX Application Thread] INFO  DebugLog - Created Propane (IdealGas)
+2019-07-18 22:29:59.570 [JavaFX Application Thread] INFO  DebugLog - Created Propene (propylene) (IdealGas)
+2019-07-18 22:29:59.570 [JavaFX Application Thread] INFO  DebugLog - Created Water Vapor (IdealGas)
+2019-07-18 22:29:59.570 [JavaFX Application Thread] INFO  DebugLog - Created Sulfur dioxide (Sulphur dioxide) (IdealGas)
+2019-07-18 22:29:59.570 [JavaFX Application Thread] TRACE DebugLog - Ideal gases loaded.
+2019-07-18 22:29:59.619 [JavaFX Application Thread] INFO  DebugLog - Created Steam (Steam)
+2019-07-18 22:29:59.619 [JavaFX Application Thread] TRACE DebugLog - Steam loaded.
+2019-07-18 22:30:01.076 [JavaFX Application Thread] INFO  DebugLog - Created Compressor
+2019-07-18 22:30:02.434 [JavaFX Application Thread] INFO  DebugLog - Created Turbine
+2019-07-18 22:30:04.271 [JavaFX Application Thread] INFO  DebugLog - Created Combustor
+2019-07-18 22:30:06.942 [JavaFX Application Thread] INFO  DebugLog - Created Heat Sink
+2019-07-18 22:30:08.956 [JavaFX Application Thread] TRACE DebugLog - Created Flow connection between Compressor Outlet and Combustor Inlet
+2019-07-18 22:30:14.329 [JavaFX Application Thread] TRACE DebugLog - Created Flow connection between Combustor Outlet and Turbine Inlet
+2019-07-18 22:30:24.744 [JavaFX Application Thread] TRACE DebugLog - Created Flow connection between Heat Sink Outlet and Compressor Inlet
+2019-07-18 22:30:27.101 [JavaFX Application Thread] TRACE DebugLog - Created Flow connection between Heat Sink Inlet and Turbine Outlet
+2019-07-18 22:31:09.133 [JavaFX Application Thread] TRACE DebugLog - Created Work connection between Compressor Inlet and Turbine Outlet
+2019-07-18 22:31:17.704 [JavaFX Application Thread] TRACE DebugLog - Created Heat connection between Heat Sink Outlet and Combustor Inlet
