@@ -26,7 +26,7 @@ import thermocycle.UnitsControl.UnitsType;
  */
 public final class Compressor extends Component {
     
-    public static final Attribute P_RATIO = new Attribute("Pressure Loss", "Rp", UnitsType.DIMENSIONLESS, 0.0, 1.0);
+    public static final Attribute P_RATIO = new Attribute("Pressure Ratio", "Rp", UnitsType.DIMENSIONLESS, 0.0, 1.0);
     public static final Attribute EFFICIENCY = new Attribute("Efficiency", "eta", UnitsType.DIMENSIONLESS, 0.0, 1.0);
     
     /**

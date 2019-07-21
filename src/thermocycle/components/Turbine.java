@@ -26,7 +26,7 @@ import thermocycle.UnitsControl;
  */
 public final class Turbine extends Component {
     
-    public static final Attribute P_RATIO = new Attribute("Pressure Loss", "Rp", UnitsControl.UnitsType.DIMENSIONLESS, 0.0, Double.POSITIVE_INFINITY);
+    public static final Attribute P_RATIO = new Attribute("Pressure Ratio", "Rp", UnitsControl.UnitsType.DIMENSIONLESS, 0.0, Double.POSITIVE_INFINITY);
     public static final Attribute EFFICIENCY = new Attribute("Efficiency", "eta", UnitsControl.UnitsType.DIMENSIONLESS, 0.0, 1.0);
     
     /**

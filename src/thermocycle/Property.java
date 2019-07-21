@@ -6,6 +6,7 @@
 package thermocycle;
 
 import java.io.Serializable;
+import java.util.Objects;
 import thermocycle.UnitsControl.UnitsType;
 
 /**
@@ -59,6 +60,26 @@ public class Property implements Serializable {
     @Override
     public String toString() {
         return symbol;
+    }
+    
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Property) {
+            Property p = (Property) object;
+            return name.equals(p.name) && symbol.equals(p.symbol) && type.equals(p.type) && (min == p.min) && (max == p.max);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 83 * hash + Objects.hashCode(this.name);
+        hash = 83 * hash + Objects.hashCode(this.symbol);
+        hash = 83 * hash + Objects.hashCode(this.type);
+        hash = 83 * hash + (int) (Double.doubleToLongBits(this.min) ^ (Double.doubleToLongBits(this.min) >>> 32));
+        hash = 83 * hash + (int) (Double.doubleToLongBits(this.max) ^ (Double.doubleToLongBits(this.max) >>> 32));
+        return hash;
     }
     
 }

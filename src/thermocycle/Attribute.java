@@ -6,6 +6,7 @@
 package thermocycle;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -39,6 +40,17 @@ public class Attribute implements Serializable {
             return name.equals(a.name) && symbol.equals(a.symbol) && type.equals(a.type) && (min == a.min) && (max == a.max);
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 53 * hash + Objects.hashCode(this.name);
+        hash = 53 * hash + Objects.hashCode(this.symbol);
+        hash = 53 * hash + Objects.hashCode(this.type);
+        hash = 53 * hash + (int) (Double.doubleToLongBits(this.min) ^ (Double.doubleToLongBits(this.min) >>> 32));
+        hash = 53 * hash + (int) (Double.doubleToLongBits(this.max) ^ (Double.doubleToLongBits(this.max) >>> 32));
+        return hash;
     }
     
 }

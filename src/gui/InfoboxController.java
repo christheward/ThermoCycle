@@ -9,16 +9,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.effect.Bloom;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.util.Callback;
+import thermocycle.BoundaryCondition;
 import thermocycle.BoundaryConditionAmbient;
 import thermocycle.BoundaryConditionAttribute;
 import thermocycle.BoundaryConditionHeat;
@@ -100,7 +106,9 @@ public class InfoboxController extends AnchorPane {
                             .map(bc -> (BoundaryConditionAmbient)bc)
                             .filter(bc -> bc.property.equals(p))
                             .findFirst()
-                            .ifPresent(bc -> ambientTable.getLast().ifPresent(dt -> dt.setBoundaryCondition(bc)));
+                            .ifPresent(bc -> {
+                                ambientTable.getLast().ifPresent(dt -> dt.setBoundaryCondition(bc));
+                            });
                     });
                     
                     // Add table to infobox
@@ -111,6 +119,36 @@ public class InfoboxController extends AnchorPane {
                     // Set list title
                     componentsList.setTitle("Components");
                     componentsList.addData(master.getModel().componentsReadOnly);
+                    componentsList.setCellFactory(new Callback<ListView<Component>, ListCell<Component>>() {
+                        @Override
+                        public ListCell<Component> call(ListView<Component> param) {
+                            ListCell<Component> cell = new ListCell<Component>() {
+                                @Override
+                                protected void updateItem(Component item, boolean empty) {
+                                    super.updateItem(item, empty);
+                                    if (item != null) {
+                                       setText(item.toString());
+                                    } else {
+                                       setText("");
+                                    }
+                                }
+                            };
+                            cell.hoverProperty().addListener(new ChangeListener<Boolean>() {
+                                @Override
+                                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                                    master.canvas.getComponents().filter(c -> c.component.equals(cell.getItem())).findFirst().ifPresent(c -> {
+                                        if (newValue) {
+                                            c.effectProperty().setValue(new Bloom(0.1));
+                                        }
+                                        else {
+                                            c.effectProperty().setValue(null);
+                                        }
+                                    });
+                                }
+                            });
+                            return cell;
+                        }
+                    });
                     // Add list to infobox
                     infoContainer.getChildren().add(componentsList);
                     
@@ -133,6 +171,19 @@ public class InfoboxController extends AnchorPane {
                                     }
                                 }
                             };
+                            cell.hoverProperty().addListener(new ChangeListener<Boolean>() {
+                                @Override
+                                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                                    master.canvas.getConnections().filter(c -> c.connection.equals(cell.getItem())).findFirst().ifPresent(c -> {
+                                        if (newValue) {
+                                            c.effectProperty().setValue(new Bloom(0.1));
+                                        }
+                                        else {
+                                            c.effectProperty().setValue(null);
+                                        }
+                                    });
+                                };
+                            });
                             return cell;
                         }
                     });
@@ -141,7 +192,7 @@ public class InfoboxController extends AnchorPane {
                     
                     // Creat new boundary conditions list
                     DataListController boundaryConditionsList = new DataListController(master);
-                    // SEt list title
+                    // Set list title
                     boundaryConditionsList.setTitle("Boundary Conditions");
                     boundaryConditionsList.addData(master.getModel().boundaryConditionsReadOnly);
                     // Add list to infobox
@@ -193,7 +244,7 @@ public class InfoboxController extends AnchorPane {
                     infoContainer.getChildren().add(attributeTable);
                     
                     // Add flow nodes
-                    component.flowNodes.keySet().stream().forEach(n -> {
+                    component.flowNodes.keySet().stream().sorted().forEach(n -> {
                         DataTableController flowTable = new DataTableController(master);
                         flowTable.setTitle(n);
                         // Add mass flow to table
@@ -225,7 +276,7 @@ public class InfoboxController extends AnchorPane {
                     });
                     
                     // Add work nodes
-                    component.workNodes.keySet().stream().forEach(n -> {
+                    component.workNodes.keySet().stream().sorted().forEach(n -> {
                         DataTableController workTable = new DataTableController(master);
                         workTable.setTitle(n);
                         workTable.addData(new TableDataWork(component.workNodes.get(n)));
@@ -241,7 +292,7 @@ public class InfoboxController extends AnchorPane {
                     });
                     
                     // Add heat nodes
-                    component.heatNodes.keySet().stream().forEach(n -> {
+                    component.heatNodes.keySet().stream().sorted().forEach(n -> {
                         DataTableController heatTable = new DataTableController(master);
                         heatTable.setTitle(n);
                         heatTable.addData(new TableDataHeat(component.heatNodes.get(n)));

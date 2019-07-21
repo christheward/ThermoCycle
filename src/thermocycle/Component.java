@@ -520,5 +520,12 @@ public abstract class Component implements Serializable, Reportable {
         }
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
     
 }

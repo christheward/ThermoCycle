@@ -98,19 +98,18 @@ public interface UnitsControl {
         LBPFT3("lb/ft^3",UnitsType.DENSITY,16.0185,0.0),
         
         FRACTION("-",UnitsType.DIMENSIONLESS,1.0, 0.0),
-        PERCENTAGE("%",UnitsType.DIMENSIONLESS,100.0, 0.0),
+        PERCENTAGE("%",UnitsType.DIMENSIONLESS,0.01, 0.0),
         
-        JPKGK("J/Kg.K", UnitsType.ENTROPY,1.0,0.0),
-        KJPKGK("kJ/Kg.K", UnitsType.ENTROPY,1000.0,0.0),
+        JPKGK("J/kg.K", UnitsType.ENTROPY,1.0,0.0),
+        KJPKGK("kJ/kg.K", UnitsType.ENTROPY,1000.0,0.0),
         BTUPLBF("BTU/lb.F", UnitsType.ENTROPY,4183.99999999995,0.0),
-        LBFFTPLBR("lbf.ft/lb.R",UnitsType.ENTROPY,5.380320456,0.0),
         
         KGPS("kg/s",UnitsType.FLOW_RATE,1.0,0.0),
-        KGPHR("kg/hr",UnitsType.FLOW_RATE,3600.0,0.0),
-        GPS("g/s",UnitsType.FLOW_RATE,1000.0,0.0),
-        GPHR("g/hr",UnitsType.FLOW_RATE,3600000.0,0.0),
+        KGPHR("kg/hr",UnitsType.FLOW_RATE,1/3600.0,0.0),
+        GPS("g/s",UnitsType.FLOW_RATE,0.001,0.0),
+        GPHR("g/hr",UnitsType.FLOW_RATE,0.001/3600.0,0.0),
         LBPS("lb/s",UnitsType.FLOW_RATE,0.453592,0.0),
-        LBPHR("lb/hr",UnitsType.FLOW_RATE,0.000125998,0.0),
+        LBPHR("lb/hr",UnitsType.FLOW_RATE,7936.64,0.0),
         
         M3PMOL("m^3/mol",UnitsType.MOLAR_VOLUME,1.0,0.0),
         CM3PMOL("cm^3/mol",UnitsType.MOLAR_VOLUME,0.0000001,0.0),
@@ -119,7 +118,7 @@ public interface UnitsControl {
         W("W",UnitsType.POWER,1.0,0.0),
         KW("kW",UnitsType.POWER,1000.0,0.0),
         MW("MW",UnitsType.POWER,1000000.0,0.0),
-        BTUPHR("BTU/hr",UnitsType.POWER,0.2931,0.0),
+        BTUPHR("BTU/hr",UnitsType.POWER,0.29307107,0.0),
         HP("HP",UnitsType.POWER,0.00134102,0.0),
         FTLBFPHR("ft.lbf/hr",UnitsType.POWER,0.00038,0.0),
         
@@ -133,10 +132,10 @@ public interface UnitsControl {
         LBFPFT2("lbf/ft^2",UnitsType.PRESSURE,47.8802589804,0.0),
         PSI("psi",UnitsType.PRESSURE,6894.757293178,0.0),
         
-        JPKG("J/Kg", UnitsType.SPECIFIC_ENERGY,1.0,0.0),
-        KJPKG("J/Kg", UnitsType.SPECIFIC_ENERGY,0.001,0.0),
-        BTUPLB("BTU/lb", UnitsType.SPECIFIC_ENERGY,2324.444444445,0.0),
-        CPG("calorie/g",UnitsType.SPECIFIC_ENERGY,4184.000000005,0.0),
+        JPKG("J/kg", UnitsType.SPECIFIC_ENERGY,1.0,0.0),
+        KJPKG("kJ/kg", UnitsType.SPECIFIC_ENERGY,1000.0,0.0),
+        BTUPLB("BTU/lb", UnitsType.SPECIFIC_ENERGY,2326.0,0.0),
+        CPG("calorie/g",UnitsType.SPECIFIC_ENERGY,4184.0,0.0),
         
         K("K",UnitsType.TEMPERATURE,1.0,0.0),
         C("C",UnitsType.TEMPERATURE,1.0,273.15),
@@ -156,7 +155,7 @@ public interface UnitsControl {
         /**
          * Constructor
          * @param name the name of the units.
-         * @param factor the factor to convert the units into SI units.
+         * @param factor the multiplication factor to convert the units into SI units.
          * @param offset the offset to convert the units into SI units.
          */
         private Units(String name, UnitsType type, Double factor, Double offset) {

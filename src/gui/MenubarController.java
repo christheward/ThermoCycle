@@ -156,20 +156,8 @@ public class MenubarController extends MenuBar {
                     FileHandler.loadLayout(master.canvas);
                     FileHandler.closeReadStream();
                 }
-                catch (FileNotFoundException ex) {
-                    System.err.print("error1");
-                }
-                catch (ClassNotFoundException ex) {
-                    System.err.print("error2");
-                }
-                catch (IOException ex) {
-                    System.err.print("error3");
-                }
-                catch (NoSuchFieldException ex) {
-                    System.err.print("error4");
-                }
-                catch (IllegalAccessException ex) {
-                    System.err.print("error5");
+                catch (Exception ex) {
+                    System.err.print(ex.getMessage());
                 }
                 event.consume();
             }
@@ -236,7 +224,6 @@ public class MenubarController extends MenuBar {
                 stage.close();
             }
         });
-        
         editDelete.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
