@@ -39,7 +39,7 @@ public class BoundaryConditionWork extends BoundaryCondition {
     @Override
     protected boolean match(BoundaryCondition cnd) {
         if (cnd instanceof BoundaryConditionWork) {
-            if (this.node == ((BoundaryConditionWork)cnd).node) {
+            if (this.node.equals(((BoundaryConditionWork)cnd).node)) {
                 return true;
             }
         }

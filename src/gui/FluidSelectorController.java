@@ -54,6 +54,7 @@ public class FluidSelectorController extends AnchorPane {
     public void initialize() {
         // Link fluid selector to model fluids
         fluidSelector.itemsProperty().setValue(master.getModel().fluidsReadOnly);
+        fluidSelector.disableProperty().bind(master.buildMode.not());
     }
     
     /**

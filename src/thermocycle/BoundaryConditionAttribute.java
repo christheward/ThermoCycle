@@ -41,8 +41,8 @@ public class BoundaryConditionAttribute extends BoundaryCondition {
     @Override
     protected boolean match(BoundaryCondition cnd) {
         if (cnd instanceof BoundaryConditionAttribute) {
-            if (this.component == (((BoundaryConditionAttribute) cnd).component)) {
-                if (this.attribute == (((BoundaryConditionAttribute) cnd).attribute)) {
+            if (this.component.equals(((BoundaryConditionAttribute) cnd).component)) {
+                if (this.attribute.equals(((BoundaryConditionAttribute) cnd).attribute)) {
                     return true;
                 }
             }

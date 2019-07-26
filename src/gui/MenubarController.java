@@ -6,9 +6,14 @@
 package gui;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,6 +22,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
@@ -24,6 +30,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import thermocycle.BoundaryCondition;
 import thermocycle.Cycle;
+import thermocycle.UnitsControl;
+import thermocycle.UnitsControl.UnitsSystem;
 import utilities.FileHandler;
 
 /**
@@ -42,6 +50,7 @@ public class MenubarController extends MenuBar {
     @FXML private MenuItem fileExport;
     @FXML private MenuItem fileExit;
     @FXML private MenuItem editDelete;
+    @FXML private Menu editUnits;
     @FXML private MenuItem cycleSolve;
     @FXML private MenuItem cycleClear;
     @FXML private MenuItem cyclePlot;
@@ -80,6 +89,9 @@ public class MenubarController extends MenuBar {
             throw new RuntimeException(exception);
         }
         
+        // Set menu options
+        
+        
         // Set up file chooser
         fileChooser.getExtensionFilters().add(new ExtensionFilter("ThermoCycle files (*.cyc)","*.cyc"));
         fileChooser.getExtensionFilters().add(new ExtensionFilter("All files (*.*)","*.*"));
@@ -95,21 +107,46 @@ public class MenubarController extends MenuBar {
         buildMenuHandlers();
         
         // Setup bindings
-        fileClose.disableProperty().bind(master.modelAbsent);
-        fileSave.disableProperty().bind(master.modelAbsent);
-        fileSaveas.disableProperty().bind(master.modelAbsent);
-        editDelete.disableProperty().bind(master.modelAbsent);
-        cycleSolve.disableProperty().bind(master.modelAbsent);
-        cycleClear.disableProperty().bind(master.modelAbsent);
-        cyclePlot.disableProperty().bind(master.modelAbsent);
-        cycleChart.disableProperty().bind(master.modelAbsent);
-        cycleReport.disableProperty().bind(master.modelAbsent);
-        cycleNodeVisibility.disableProperty().bind(master.modelAbsent);
+        fileClose.disableProperty().bind(master.modelReadOnly.isNull());
+        fileSave.disableProperty().bind(master.modelReadOnly.isNull());
+        fileSaveas.disableProperty().bind(master.modelReadOnly.isNull());
+        editDelete.disableProperty().bind(master.modelReadOnly.isNull());
+        editUnits.disableProperty().bind(master.modelReadOnly.isNull());
+        cycleSolve.disableProperty().bind(master.modelReadOnly.isNull());
+        cycleClear.disableProperty().bind(master.modelReadOnly.isNull());
+        cyclePlot.disableProperty().bind(master.modelReadOnly.isNull());
+        cycleChart.disableProperty().bind(master.modelReadOnly.isNull());
+        cycleReport.disableProperty().bind(master.modelReadOnly.isNull());
+        cycleNodeVisibility.disableProperty().bind(master.modelReadOnly.isNull());
         master.nodeVisibility.bindBidirectional(cycleNodeVisibility.selectedProperty());
-        cycleNameVisibility.disableProperty().bind(master.modelAbsent);
+        cycleNameVisibility.disableProperty().bind(master.modelReadOnly.isNull());
         master.nameVisibility.bindBidirectional(cycleNameVisibility.selectedProperty());
-        cycleToolboxLock.disableProperty().bind(master.modelAbsent);
+        cycleToolboxLock.disableProperty().bind(master.modelReadOnly.isNull());
         master.toolboxLock.bindBidirectional(cycleToolboxLock.selectedProperty());
+        
+        // Add items to units menu
+        editUnits.getItems().addAll(Arrays.asList(UnitsControl.UnitsSystem.values()).stream().sorted().map(us -> new CheckMenuItem(us.name)).collect(Collectors.toList()));
+        // Add listener to units system
+        master.unitsSystem.addListener(new ChangeListener<UnitsSystem>() {
+            @Override
+            public void changed(ObservableValue<? extends UnitsSystem> observable, UnitsSystem oldValue, UnitsSystem newValue) {
+                editUnits.getItems().stream().filter(us -> us instanceof CheckMenuItem).map(us -> (CheckMenuItem)us).forEach(us -> us.setSelected(us.getText().equals(newValue.name)));
+            }
+        });
+        // Set the units system
+        master.unitsSystem.setValue(UnitsSystem.SI);
+        // Add listener to each units menu item
+        editUnits.getItems().stream().filter(us -> us instanceof CheckMenuItem).map(us -> (CheckMenuItem)us).forEach(us -> us.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    if (!master.unitsSystem.equals(us.getText())) {
+                        Arrays.asList(UnitsSystem.values()).stream().filter(u -> u.name.equals(us.getText())).findFirst().ifPresent(u -> master.unitsSystem.setValue(u));
+                    }
+                }
+            }
+        }));
+        
     }
     
     /**
@@ -120,7 +157,7 @@ public class MenubarController extends MenuBar {
             @Override
             public void handle(Event event) {
                 // If model already exisits, check what to do with the current model.
-                if (!master.modelAbsent.getValue()) {
+                if (master.modelReadOnly.isNotNull().getValue()) {
                     // Do something
                     
                     Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -171,8 +208,12 @@ public class MenubarController extends MenuBar {
                 }
                 try {
                     FileHandler.openWriteStream(file);
+                    System.out.print("Saving model...");
                     FileHandler.saveModel(master.getModel());
+                    System.out.println("Done");
+                    System.out.print("Saving layout...");
                     FileHandler.saveLayout(master.canvas);
+                    System.out.println("Done");
                     FileHandler.closeWriteStream();
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -231,6 +272,14 @@ public class MenubarController extends MenuBar {
                 event.consume();
             }
         });
+        editUnits.getItems().stream().forEach(us -> {
+            us.setOnAction(new EventHandler() {
+                @Override
+                public void handle(Event event) {
+                    Arrays.asList(UnitsControl.UnitsSystem.values()).stream().filter(u -> u.name.equals(us.getText())).findFirst().ifPresent(u -> master.unitsSystem.setValue(u));
+                }
+            });
+        });
         cycleSolve.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
@@ -260,6 +309,7 @@ public class MenubarController extends MenuBar {
         cycleReport.setOnAction(new EventHandler() {
             @Override
             public void handle(Event event) {
+                master.getModel().report();
                 event.consume();
             }
         });

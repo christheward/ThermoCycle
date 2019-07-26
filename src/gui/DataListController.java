@@ -10,6 +10,8 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -62,7 +64,17 @@ public class DataListController extends AnchorPane {
         
         // Bind list properties
         dataList.prefHeightProperty().bind(listSize.multiply(cellHeight));
-        dataContainer.expandedProperty().bind(listSize.isNotEqualTo(0));
+        disableProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(newValue) {
+                    dataContainer.expandedProperty().setValue(false);
+                }
+                else {
+                    dataContainer.expandedProperty().setValue(false);
+                }
+            }
+        });
         dataContainer.disableProperty().bind(listSize.isEqualTo(0));
         
     }

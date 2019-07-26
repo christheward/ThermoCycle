@@ -552,9 +552,7 @@ public class Cycle extends Observable implements Serializable, Reportable {
      * @param boundaryCondition The boundary condition to remove.
      */
     public void removeBoundaryCondition(BoundaryCondition boundaryCondition) {
-        if (boundaryConditions.removeIf(bc -> bc.match(boundaryCondition))) {
-            logger.info("Exisitng boundary condition removed.");
-        };
+        if (boundaryConditions.removeIf(bc -> bc.match(boundaryCondition)));
     }
 
     /**
@@ -620,19 +618,6 @@ public class Cycle extends Observable implements Serializable, Reportable {
             c.clear();
         });
     }
-
-    /**
-     * Sets the ambient pressure and temperature
-     *
-     * @param pressure The ambient pressure
-     * @param temperature The ambient temperature
-     */
-    /**
-    public void setAmbient(double pressure, double temperature) {
-        ambient.setProperty(Fluid.PRESSURE, pressure);
-        ambient.setProperty(Fluid.TEMPERATURE, temperature);
-    }
-    */
     
     /**
      * Set's an ambient property
@@ -1113,7 +1098,7 @@ public class Cycle extends Observable implements Serializable, Reportable {
     /**
      * Generates a report after solving.
      */
-    public void report() {
+    public String report() {
         PrintWriter out = null;
         try {
             //FileOutputStream fos = new FileOutputStream("Report.txt");
@@ -1121,12 +1106,17 @@ public class Cycle extends Observable implements Serializable, Reportable {
             //OutputStreamWriter osw = new OutputStreamWriter(baos, "UTF-16");
             //out = new PrintWriter(osw);
             //out.write(ReportBuilder.generateReport(getReportData()).toString());
+            String report = ReportBuilder.generateReport(getReportData());
             out = new PrintWriter("Report.txt");
-            out.write(ReportBuilder.generateReport(getReportData()));
+            out.write(report);
+            out.close();
+            return report;
         } catch (FileNotFoundException ex) {
             logger.error(ex);
-        } finally {
             out.close();
+            return ex.getMessage();
+        } finally {
+            
         }
     }
 

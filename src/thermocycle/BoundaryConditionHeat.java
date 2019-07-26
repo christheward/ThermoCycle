@@ -39,7 +39,7 @@ public class BoundaryConditionHeat extends BoundaryCondition {
     @Override
     protected boolean match(BoundaryCondition cnd) {
         if (cnd instanceof BoundaryConditionHeat) {
-            if (this.node == ((BoundaryConditionHeat)cnd).node) {
+            if (this.node.equals(((BoundaryConditionHeat)cnd).node)) {
                 return true;
             }
         }

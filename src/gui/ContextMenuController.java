@@ -60,9 +60,8 @@ public class ContextMenuController extends ContextMenu {
         
         // Setup bindings
         master.nodeVisibility.bindBidirectional(nodeVisibility.selectedProperty());
-        solve.disableProperty().bind(master.modelAbsent);
-        report.disableProperty().bind(master.modelAbsent);
-        
+        solve.disableProperty().bind(master.modelReadOnly.isNull());
+        report.disableProperty().bind(master.modelReadOnly.isNull());
     }
     
     /**

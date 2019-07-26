@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,6 +24,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.input.ClipboardContent;
@@ -57,7 +59,7 @@ public final class CanvasController extends AnchorPane {
     private final ContextMenuController contextMenu;
     
     // Copy and paste
-    protected final ClipboardContent canvasClipboard;
+    protected final Set<ComponentController> canvasClipboard;
     
     // Event handlers
     protected EventHandler<DragEvent> componentDraggedOverCanvas;
@@ -90,6 +92,9 @@ public final class CanvasController extends AnchorPane {
         // Create context menu
         contextMenu = new ContextMenuController(master);
         
+        // Create clipboard
+        canvasClipboard = new HashSet();
+        
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Canvas.fxml"));
         fxmlLoader.setRoot(this);
@@ -99,9 +104,6 @@ public final class CanvasController extends AnchorPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-        
-        // Set up clipboard
-        canvasClipboard = new ClipboardContent();
         
     }
     
@@ -144,9 +146,6 @@ public final class CanvasController extends AnchorPane {
             }
         });
         
-        // Setup bindings
-        draw.disableProperty().bind(master.modelAbsent);
-        
         // Setup drag handlers
         buildDragHandlers();
         
@@ -172,7 +171,7 @@ public final class CanvasController extends AnchorPane {
         canvas.getChildren().add(lassoo);
         
         // If model changed then clear canvas.
-        master.modelProperty().addListener(new ChangeListener<Cycle>() {
+        master.modelReadOnly.addListener(new ChangeListener<Cycle>() {
             @Override
             public void changed(ObservableValue<? extends Cycle> observable, Cycle oldValue, Cycle newValue) {
                 CanvasController.this.clearCanvas();
@@ -194,7 +193,10 @@ public final class CanvasController extends AnchorPane {
                 }
                 else if (event.getButton().equals(MouseButton.PRIMARY)) {
                     contextMenu.hide();
-                    master.setFocus(CanvasController.this);
+                    if (!event.isControlDown()) {
+                        canvasClipboard.clear();
+                        master.setFocus(CanvasController.this);
+                    }
                 }
                 event.consume();
             }
@@ -225,7 +227,8 @@ public final class CanvasController extends AnchorPane {
                 //setMouseTransparent(false);
                 
                 // Pin upper left corner of lassoo
-                lassoo.DragFrom(event.getX(), event.getY());
+                //lassoo.DragFrom(event.getX(), event.getY());
+                lassoo.dragFrom(event.getSceneX(), event.getSceneY());
                 
                 // Show lassoo
                 lassoo.setVisible(true);
@@ -262,7 +265,9 @@ public final class CanvasController extends AnchorPane {
                     }
                 }
                 else if (event.getDragboard().getContentTypes().contains(SELECT)) {
-                    lassoo.DragTo(event.getSceneX(), event.getSceneY());
+                    //lassoo.DragTo(event.getSceneX(), event.getSceneY());
+                    lassoo.dragTo(event.getSceneX(), event.getSceneY());
+                    
                 }
                 
                 // Consume the event
@@ -350,7 +355,13 @@ public final class CanvasController extends AnchorPane {
                 else if (event.getDragboard().getContentTypes().contains(SELECT)) {
                     
                     // Get all elements in the lassoo
-                    getComponents().filter(c -> lassoo.contains(lassoo.sceneToLocal(c.localToScene(c.centerInLocal.getValue()))));
+                    getComponents().forEach(c -> {
+                        Bounds bounds = lassoo.getBoundsInLocal();
+                        Point2D point = lassoo.sceneToLocal(c.localToScene(c.centerInLocal.getValue()));
+                        if (bounds.contains(point)) {
+                            canvasClipboard.add(c);
+                        }
+                    });
                     
                     // Hide selection tool
                     lassoo.setVisible(false);
@@ -465,9 +476,11 @@ public final class CanvasController extends AnchorPane {
     protected void remove(Node node) {
         if (node instanceof ComponentController) {
             ComponentController icon = (ComponentController)node;
+            // Remove component from model
             master.getModel().removeComponent(icon.component);
+            // Remove icon from canvas
             canvas.getChildren().remove(icon);
-            // remove any connections that were deleted from the model as part of this operration
+            // Remove any connections that were deleted from the model as part of this operration
             canvas.getChildren().removeAll(getConnections().filter(c -> !(master.getModel().connectionsReadOnly.contains(c.connection))).collect(Collectors.toSet()));
         }
         else if (node instanceof ConnectionController) {

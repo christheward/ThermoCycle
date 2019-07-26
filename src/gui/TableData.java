@@ -57,7 +57,7 @@ public abstract class TableData {
         units = new ReadOnlyObjectWrapper();
         
         // Setup binding
-        this.value.bind(new ObjectBinding<Number>() {
+        value.bind(new ObjectBinding<Number>() {
             {
                 bind(boundaryCondition, units);
             }

@@ -39,7 +39,7 @@ public class BoundaryConditionMass extends BoundaryCondition {
     @Override
     protected boolean match(BoundaryCondition cnd) {
         if (cnd instanceof BoundaryConditionMass) {
-            if (this.node == ((BoundaryConditionMass)cnd).node) {
+            if (this.node.equals(((BoundaryConditionMass)cnd).node)) {
                 return true;
             }
         }

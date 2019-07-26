@@ -46,7 +46,8 @@ public interface UnitsControl {
      */
     public enum UnitsSystem {
         SI("SI", Units.KGPM3, Units.FRACTION, Units.JPKGK, Units.KGPS, Units.M3PMOL, Units.W, Units.PA, Units.JPKG, Units.K, Units.M3PKG),
-        IMPERIAL("Imperial", Units.LBPFT3, Units.FRACTION, Units.BTUPLBF, Units.LBPHR, Units.FT3PLB, Units.BTUPHR, Units.PSI, Units.BTUPLB, Units.F, Units.FT3PLB);
+        IMPERIAL("Imperial", Units.LBPFT3, Units.FRACTION, Units.BTUPLBF, Units.LBPHR, Units.FT3PLB, Units.BTUPHR, Units.PSI, Units.BTUPLB, Units.F, Units.FT3PLB),
+        ENGINEERING("Engineering", Units.KGPM3, Units.FRACTION, Units.KJPKGK, Units.KGPS, Units.M3PKMOL, Units.KW, Units.BAR, Units.KJPKG, Units.K, Units.M3PKG);
         
         /**
          * Name of the units system.
@@ -112,6 +113,7 @@ public interface UnitsControl {
         LBPHR("lb/hr",UnitsType.FLOW_RATE,7936.64,0.0),
         
         M3PMOL("m^3/mol",UnitsType.MOLAR_VOLUME,1.0,0.0),
+        M3PKMOL("m^3/kmol",UnitsType.MOLAR_VOLUME,1000.0,0.0),
         CM3PMOL("cm^3/mol",UnitsType.MOLAR_VOLUME,0.0000001,0.0),
         FT3PMOL("ft^3/mol",UnitsType.MOLAR_VOLUME,0.0283168,0.0),
         

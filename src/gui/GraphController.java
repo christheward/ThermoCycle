@@ -8,6 +8,7 @@ package gui;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.OptionalDouble;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -96,18 +97,19 @@ public class GraphController extends VBox {
         // Clear existing data
         dataset.clear();
         // Check model
-        if (master.modelAbsent.not().get()) {
+        if (master.modelReadOnly.isNotNull().get()) {
             master.getModel().componentsReadOnly.forEach(c -> {
                 // Get component data
                 List<List<FlowNode>> componentData = master.getModel().plotData(c);
                 componentData.forEach(path -> {
                     // Create new series
                     XYChart.Series series = new XYChart.Series();
+                    series.setName(master.getModel().getName(c));
                     path.forEach(n -> {
-                        //OptionalDouble x = master.getModel().getProperty(n, xproperty.getSelectionModel().getSelectedItem());
-                        //OptionalDouble y = master.getModel().getProperty(n, yproperty.getSelectionModel().getSelectedItem());
-                        //series.getData().add(new XYChart.Data(x.orElse(Double.NaN), y.orElse(Double.NaN)));
-                        //series.setName(c.getClass().getName());
+                        OptionalDouble x = n.getState(xproperty.getSelectionModel().getSelectedItem());
+                        OptionalDouble y = n.getState(yproperty.getSelectionModel().getSelectedItem());
+                        series.getData().add(new XYChart.Data(x.orElse(Double.NaN), y.orElse(Double.NaN)));
+                        System.out.println(x + " ," + y);
                     });
                     // Add series to dataset
                     dataset.add(series);

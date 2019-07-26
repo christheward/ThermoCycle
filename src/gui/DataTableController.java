@@ -32,6 +32,8 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -96,12 +98,14 @@ public class DataTableController extends AnchorPane {
         // Set cell height
         dataTable.fixedCellSizeProperty().bind(cellHeight);
         dataTable.columnResizePolicyProperty().setValue(TableView.CONSTRAINED_RESIZE_POLICY);
+        dataTable.editableProperty().bind(master.buildMode);
         
         // Link table to data
         dataTable.setItems(data);
         
         // Set up data formatting for name column
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        nameColumn.getStyleClass().add("table-align");
         
         // Set up data formatting for value column
         valueColumn.setCellValueFactory(cellData -> cellData.getValue().valueProperty());
@@ -109,6 +113,7 @@ public class DataTableController extends AnchorPane {
             ValueCell c = new ValueCell();
             return c;
         });
+        valueColumn.getStyleClass().add("table-align");
         
         // Set up data formatting for units column
         unitsColumn.setCellValueFactory(cellData -> cellData.getValue().unitsProperty());
@@ -116,14 +121,17 @@ public class DataTableController extends AnchorPane {
             UnitsCell c = new UnitsCell();
             return c;
         });
+        unitsColumn.getStyleClass().add("table-align");
         
         // Set up data formatting for set column
         setColumn.setCellValueFactory(cellData -> cellData.getValue().boundaryConditionProperty());
         setColumn.setCellFactory(column -> {
             return new ClearCell();
         });
+        setColumn.getStyleClass().add("table-align");
         
         // Scale height of data table with number of entries.
+        // This can only be called once the table skin is defined, which is done as the table is added to the scene.
         dataTable.skinProperty().addListener(new ChangeListener<Skin>() {
             @Override
             public void changed(ObservableValue<? extends Skin> observable, Skin oldValue, Skin newValue) {
@@ -136,10 +144,6 @@ public class DataTableController extends AnchorPane {
                         return dataTable.itemsProperty().getValue().size() * dataTable.fixedCellSizeProperty().getValue() + ((Pane) dataTable.lookup("TableHeaderRow")).heightProperty().getValue() + 2;
                     }
                 });
-                
-                //((ScrollBar) dataTable.lookup(".scroll-bar:hotizontal")).setDisable(true);
-                //((ScrollBar) dataTable.lookup(".scroll-bar:vertical")).setDisable(true);
-                //dataTable.applyCss();
                 dataTable.layout();
                 
                 // Remove original listener now that the height has been bound.
@@ -150,14 +154,19 @@ public class DataTableController extends AnchorPane {
         disableProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) {
-                    dataContainer.expandedProperty().setValue(false);
-                }
-                else {
-                    dataContainer.expandedProperty().setValue(false);
-                }
+                dataContainer.expandedProperty().setValue(false);
             }
         });
+        
+        master.buildMode.addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                System.out.println(newValue);
+                setColumn.visibleProperty().setValue(newValue);
+                dataTable.layout();
+            }
+        });
+        
         
         dataTable.setRowFactory(tv -> {
             TableRow<TableData> row = new TableRow();
@@ -410,8 +419,10 @@ public class DataTableController extends AnchorPane {
             
             // Initilaise button.
             button = new Button();
-            button.setText("X");
-            //button.setMaxHeight(cellHeight.doubleValue()); // Doesn't appear to work
+            ImageView i = new ImageView(new Image(getClass().getResourceAsStream("/resources/images/ic_btn_delete.png")));
+            i.setPreserveRatio(true);
+            i.setFitHeight(20);
+            button.setGraphic(i);
             
             //setGraphicTextGap(0.0);
             //button.prefHeightProperty().bind(cellHeight);

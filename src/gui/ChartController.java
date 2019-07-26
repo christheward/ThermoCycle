@@ -64,7 +64,7 @@ public class ChartController extends VBox {
     
     protected void getData() {
         dataset.clear();
-        if (master.modelAbsent.not().get()) {
+        if (master.modelReadOnly.isNotNull().get()) {
             master.getModel().componentsReadOnly.stream().forEach(c -> {
                 System.out.println(c.exergyLoss());
                 dataset.add(new Data(c.getClass().getName(), c.exergyLoss()));

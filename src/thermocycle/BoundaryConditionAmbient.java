@@ -41,8 +41,8 @@ public class BoundaryConditionAmbient extends BoundaryCondition {
     @Override
     protected boolean match(BoundaryCondition cnd) {
         if (cnd instanceof BoundaryConditionAmbient) {
-            if (this.ambient == ((BoundaryConditionAmbient) cnd).ambient) {
-                if (this.property == ((BoundaryConditionAmbient) cnd).property)
+            if (this.ambient.equals(((BoundaryConditionAmbient) cnd).ambient)) {
+                if (this.property.equals(((BoundaryConditionAmbient) cnd).property))
                     return true;
             }
         }

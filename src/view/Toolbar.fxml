@@ -1,71 +1,137 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" type="AnchorPane" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox>
+      <HBox fx:id="toolbox" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/ic_btn_settings.png" />
-               </image></ImageView>
-            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/ic_btn_rotate_left.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="40.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/ic_btn_rotate_right.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="70.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/ic_btn_autorenew.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="100.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/ic_build.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="130.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/ic_btn_undo.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="160.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/ic_btn_redo.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="190.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/ic_btn_show_chart.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="220.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/ic_btn_pie_chart.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="250.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/ic_btn_assessment.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="280.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/ic_btn_info.png" />
-               </image>
-            </ImageView>
+            <Button fx:id="btnRotateCCW" focusTraversable="false" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/images/ic_btn_rotate_left.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnRotateCW" focusTraversable="false" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/images/ic_btn_rotate_right.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button focusTraversable="false" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/images/ic_btn_autorenew.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button focusTraversable="false" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fx:id="btnDelete" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/images/ic_btn_delete.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnUndo" focusTraversable="false" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/images/ic_btn_undo.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnRedo" focusTraversable="false" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/images/ic_btn_redo.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnGraph" focusTraversable="false" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/images/ic_btn_show_chart.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button focusTraversable="false" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/images/ic_btn_pie_chart.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button focusTraversable="false" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/images/ic_btn_assessment.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button focusTraversable="false" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/images/ic_btn_info.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Separator orientation="VERTICAL" />
+            <HBox fx:id="btn_tgl">
+               <children>
+                  <ToggleButton fx:id="btnTglBuild" focusTraversable="false" mnemonicParsing="false" text="Build">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/images/ic_build.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </ToggleButton>
+                  <ToggleButton fx:id="btnTglAssess" focusTraversable="false" mnemonicParsing="false" text="Assess">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/images/ic_btn_assessment.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </ToggleButton>
+               </children>
+            </HBox>
+            <Spinner />
          </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
       </HBox>
    </children>
-</AnchorPane>
+</fx:root>

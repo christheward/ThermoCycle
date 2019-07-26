@@ -6,11 +6,12 @@
 package gui;
 
 import java.io.IOException;
-import java.util.OptionalDouble;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -35,6 +36,7 @@ public class MasterSceneController extends VBox {
     
     // GUI elements
     protected MenubarController menubar;
+    protected ToolbarController toolbar;
     protected CanvasController canvas;
     protected ConsoleController console;
     protected InfoboxController infobox;
@@ -43,11 +45,10 @@ public class MasterSceneController extends VBox {
     
     // Properties
     private final ReadOnlyObjectWrapper<Cycle> model;
-    public final ReadOnlyObjectProperty<Cycle> modelReadOnly;
-    private final ReadOnlyObjectWrapper<UnitsSystem> unitsSystem;
-    public final ReadOnlyObjectProperty<UnitsSystem> unitsSystemReadOnly;
+    protected final ReadOnlyObjectProperty<Cycle> modelReadOnly;
+    protected final ObjectProperty<UnitsSystem> unitsSystem;
+    protected final BooleanProperty buildMode;
     
-    protected final BooleanProperty modelAbsent;
     protected final BooleanProperty nodeVisibility;
     protected final BooleanProperty nameVisibility;
     protected final BooleanProperty toolboxLock;
@@ -62,15 +63,14 @@ public class MasterSceneController extends VBox {
         // Create properties and bindings
         model = new ReadOnlyObjectWrapper();
         modelReadOnly = model.getReadOnlyProperty();
-        unitsSystem = new ReadOnlyObjectWrapper();
-        unitsSystemReadOnly = unitsSystem.getReadOnlyProperty();
+        unitsSystem = new SimpleObjectProperty();
         
-        modelAbsent = new SimpleBooleanProperty(true);
-        nodeVisibility = new SimpleBooleanProperty(false);
+        nodeVisibility = new SimpleBooleanProperty(true);
         nameVisibility = new SimpleBooleanProperty(true);
         toolboxLock = new SimpleBooleanProperty(false);
         focus = new ReadOnlyObjectWrapper();
         focusAbsent = new SimpleBooleanProperty(true);
+        buildMode = new SimpleBooleanProperty(true);
         
         // Load FXML
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/MasterScene.fxml"));
@@ -89,19 +89,18 @@ public class MasterSceneController extends VBox {
      */
     public void initialize() {
         
-        // Set unit system
-        unitsSystem.setValue(UnitsSystem.SI);
-        
         // Set up menubar
         menubar = new MenubarController(this);
         vbox.getChildren().add(0, menubar);
         
         // Set up toolbar
-        // Not implemented yet
+        toolbar = new ToolbarController(this);
+        vbox.getChildren().add(1, toolbar);
+        toolbar.disableProperty().bind(modelReadOnly.isNull());
         
         // Set up canvas
         canvas = new CanvasController(this);
-        canvas.disableProperty().bind(modelAbsent);
+        canvas.disableProperty().bind(modelReadOnly.isNull());
         splitpane.getItems().add(canvas);
         
         // Set up console
@@ -113,11 +112,10 @@ public class MasterSceneController extends VBox {
         
         // Setup infobox
         infobox = new InfoboxController(this);
-        infobox.disableProperty().bind(modelAbsent);
+        infobox.disableProperty().bind(modelReadOnly.isNull());
         hbox.getChildren().add(infobox);
         
         // Setup bindings
-        modelAbsent.bind(model.isNull());
         focusAbsent.bind(focus.isNull());
         
     }
@@ -166,9 +164,11 @@ public class MasterSceneController extends VBox {
      * A read only object property wrapping the model for binding.
      * @return the object property wrapping the model.
      */
+    /**
     protected ReadOnlyObjectProperty<Cycle> modelProperty() {
         return model.getReadOnlyProperty();
     }
+    */
     
     /**
      * Open a new window with a graph connected to a model
@@ -197,11 +197,12 @@ public class MasterSceneController extends VBox {
      * @param value The optional double to print.
      * @return Returns a string to print.
      */
+    /**
     public static String displayOptionalDouble(OptionalDouble value) {
         if (value.isPresent()) {
             return String.valueOf(value.getAsDouble());
         }
         return "";
     }
-    
+    */
 }

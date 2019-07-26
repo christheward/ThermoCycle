@@ -19,6 +19,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.ClipboardContent;
@@ -53,7 +54,6 @@ public final class ComponentController extends AnchorPane {
     
     // Properties
     protected ObjectProperty<Point2D> centerInLocal;
-    private ObjectProperty<Point2D> centerInParent;
     
     // Model variables
     protected Component component;
@@ -88,6 +88,7 @@ public final class ComponentController extends AnchorPane {
             buildDragHandlersForCanvas();
             buildClickHandlersForCanvas();
             node_grid.visibleProperty().bind(this.master.nodeVisibility);
+            name.visibleProperty().bind(this.master.nameVisibility);
         }
         else {
             // Toolbox component handlers
@@ -128,9 +129,25 @@ public final class ComponentController extends AnchorPane {
                 // Set focus to component if the single primary click
                 if (event.getButton().equals(MouseButton.PRIMARY)) {
                     if (event.getClickCount() == 1) {
-                        master.setFocus(ComponentController.this);
+                        if (!event.isControlDown()) {
+                            master.canvas.canvasClipboard.clear();
+                            master.setFocus(ComponentController.this);
+                        }
+                        master.canvas.canvasClipboard.add(ComponentController.this);
                     }
-                    
+                }
+                else if (event.getButton().equals(MouseButton.SECONDARY)) {
+                    // Create context menu
+                    MenuItem mi = new MenuItem("Delete");
+                    mi.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            master.canvas.remove(ComponentController.this);
+                        }
+                    });
+                    ContextMenu contextMenu = new ContextMenu();
+                    contextMenu.getItems().add(mi);
+                    contextMenu.show(ComponentController.this, event.getScreenX(), event.getScreenY());
                 }
                 
                 // Consume event to stop it bubbling
@@ -348,6 +365,20 @@ public final class ComponentController extends AnchorPane {
     protected final void relocateToPointInScene(Point2D scenePoint) {
         Point2D parentPoint = getParent().sceneToLocal(scenePoint);
         this.relocate((int) (parentPoint.getX() - (centerInLocal.getValue().getX())), (int) (parentPoint.getY() - centerInLocal.getValue().getY()));
+    }
+    
+    /**
+     * Rotates the icon 90 degrees counter-clockwise;
+     */
+    public void rotateCCW() {
+        icon.rotateProperty().setValue(icon.rotateProperty().getValue() - 90.0);
+    }
+    
+    /**
+     * Rotates the icon 90 degrees clockwise.
+     */
+    public void rotateCW() {
+        icon.rotateProperty().setValue(icon.rotateProperty().getValue() + 90.0);
     }
     
     /**

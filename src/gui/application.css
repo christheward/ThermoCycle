@@ -8,56 +8,6 @@ and open the template in the editor.
     Author     : Chris
 */
 
-.chart-series-line {
-    -fx-stroke-width: 2px;;
-    -fx-stroke: blue;
-    -fx-effect: null;
-}
-.chart-line-symbol { 
-    -fx-background-color: transparent, transparent; 
-}
-.axis-tick-mark {
-    -fx-stroke: #637040;
-    -fx-stroke-width: 3; 
-}
-.axis-minor-tick-mark {
-    -fx-stroke: #859656;
-}
-.chart-plot-background {
-    -fx-background-color: #e2ecfe;
-}
-
-.path-heat {
-    -fx-stroke-width: 5;
-    -fx-stroke: red;
-}
-.path-heat:hover {
-    -fx-effect: dropshadow(gaussian,red,5,0.5,0,0)
-}
-.path-heat:focus {
-    -fx-effect: dropshadow(gaussian,black,5,0.5,0,0)
-}
-.path-work {
-    -fx-stroke-width: 5;
-    -fx-stroke: yellow;
-}
-.path-work:hover {
-    -fx-effect: dropshadow(gaussian,yellow,5,0.5,0,0)
-}
-.path-work:focus {
-    -fx-effect: dropshadow(gaussian,black,5,0.5,0,0)
-}
-.path-flow {
-    -fx-stroke-width: 5;
-    -fx-stroke: lightskyblue;
-}
-.path-flow:hover {
-    -fx-effect: dropshadow(gaussian,lightskyblue,5,0.5,0,0)
-}
-.path-flow:focus {
-    -fx-effect: dropshadow(gaussian,black,5,0.5,0,0)
-}
-
 
 .icon {
     -fx-background-radius: 10;
@@ -133,6 +83,37 @@ and open the template in the editor.
     -fx-fill: grey;
 }
 
+.path-heat {
+    -fx-stroke-width: 5;
+    -fx-stroke: red;
+}
+.path-heat:hover {
+    -fx-effect: dropshadow(gaussian,red,5,0.5,0,0)
+}
+.path-heat:focus {
+    -fx-effect: dropshadow(gaussian,black,5,0.5,0,0)
+}
+.path-work {
+    -fx-stroke-width: 5;
+    -fx-stroke: yellow;
+}
+.path-work:hover {
+    -fx-effect: dropshadow(gaussian,yellow,5,0.5,0,0)
+}
+.path-work:focus {
+    -fx-effect: dropshadow(gaussian,black,5,0.5,0,0)
+}
+.path-flow {
+    -fx-stroke-width: 5;
+    -fx-stroke: lightskyblue;
+}
+.path-flow:hover {
+    -fx-effect: dropshadow(gaussian,lightskyblue,5,0.5,0,0)
+}
+.path-flow:focus {
+    -fx-effect: dropshadow(gaussian,black,5,0.5,0,0)
+}
+
 .console{
     -fx-background-color: #fff, #fff;
 }
@@ -150,8 +131,40 @@ and open the template in the editor.
     -fx-background-color: white;
 }
 
+.toggle-left {
+    -fx-border-radius: 10 0 0 10;
+    -fx-background-radius: 10 0 0 10;
+}
+
+.toggle-right {
+    -fx-border-radius: 0 10 10 0;
+    -fx-background-radius: 0 10 10 0;
+}
 
 .button-delete {
     -fx-background-image: url("/images/ic_btn_delete.png");
     -fx-background-size: cover;
+}
+
+.table-align { 
+  -fx-alignment: center-left; 
+} 
+
+.chart-series-line {
+    -fx-stroke-width: 2px;;
+    -fx-stroke: blue;
+    -fx-effect: null;
+}
+.chart-line-symbol { 
+    -fx-background-color: transparent, transparent; 
+}
+.axis-tick-mark {
+    -fx-stroke: #637040;
+    -fx-stroke-width: 3; 
+}
+.axis-minor-tick-mark {
+    -fx-stroke: #859656;
+}
+.chart-plot-background {
+    -fx-background-color: #e2ecfe;
 }

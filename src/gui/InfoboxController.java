@@ -9,22 +9,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.effect.Bloom;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.util.Callback;
-import thermocycle.BoundaryCondition;
 import thermocycle.BoundaryConditionAmbient;
 import thermocycle.BoundaryConditionAttribute;
 import thermocycle.BoundaryConditionHeat;
@@ -81,9 +76,6 @@ public class InfoboxController extends AnchorPane {
 			return o1.toString().compareTo(o2.toString());
 		}
 	};
-        
-        // Bind disabled property
-        disableProperty().bind(master.modelAbsent);
         
         // Bind infobox controller to focus property
         master.focusProperty().addListener(new ChangeListener<Node>() {

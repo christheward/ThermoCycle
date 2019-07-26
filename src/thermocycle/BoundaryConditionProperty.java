@@ -41,9 +41,10 @@ public class BoundaryConditionProperty extends BoundaryCondition {
     @Override
     protected boolean match(BoundaryCondition cnd) {
         if (cnd instanceof BoundaryConditionProperty) {
-            if (this.node == ((BoundaryConditionProperty) cnd).node) {
-                if (this.property == ((BoundaryConditionProperty) cnd).property)
+            if (this.node.equals(((BoundaryConditionProperty) cnd).node)) {
+                if (this.property.equals(((BoundaryConditionProperty) cnd).property)) {
                     return true;
+                }
             }
         }
         return false;
